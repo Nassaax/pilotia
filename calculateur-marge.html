@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur de marge et seuil de rentabilité — Pilotis</title>
+<meta name="description" content="Calculez votre marge par produit, plat ou chantier et votre seuil de rentabilité — outil gratuit pour restaurants, artisans et commerces en Belgique.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pilotis</a>
+    <ul class="nav-links">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Indépendants</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="outils.html">Outils</a></li>
+      <li><a href="ressources.html">Ressources</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Outil — Pilotage financier</div>
+    <h1>Calculateur de marge &amp; seuil de rentabilité</h1>
+    <p class="lead">Un plat, une prestation ou un chantier à la fois : calculez votre marge réelle et le nombre de ventes nécessaires pour couvrir vos frais fixes du mois.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>1. Marge sur un produit / une prestation</h3>
+        <form onsubmit="return false">
+          <div>
+            <label for="prixVente">Prix de vente (€, hors ou TVA comprise selon votre usage)</label>
+            <input type="number" id="prixVente" min="0" step="0.01" value="18">
+          </div>
+          <div>
+            <label for="coutRevient">Coût de revient direct (matière, sous-traitance...) (€)</label>
+            <input type="number" id="coutRevient" min="0" step="0.01" value="6">
+          </div>
+          <button class="btn btn-primary" onclick="calculerMarge()" style="justify-self:start">Calculer la marge →</button>
+        </form>
+        <div id="resultatMarge" style="margin-top:18px">
+          <p style="font-size:26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700" id="margeEuro">—</p>
+          <p id="margePct" style="color:var(--ink-soft)"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2. Seuil de rentabilité mensuel</h3>
+        <form onsubmit="return false">
+          <div>
+            <label for="fraisFixes">Frais fixes mensuels (loyer, salaires, assurances...) (€)</label>
+            <input type="number" id="fraisFixes" min="0" step="10" value="4500">
+          </div>
+          <div>
+            <label for="margeUnitaire">Marge par vente (€ — reprend le résultat ci-dessus)</label>
+            <input type="number" id="margeUnitaire" min="0" step="0.01" value="12">
+          </div>
+          <button class="btn btn-primary" onclick="calculerSeuil()" style="justify-self:start">Calculer le seuil →</button>
+        </form>
+        <div id="resultatSeuil" style="margin-top:18px">
+          <p style="font-size:26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700" id="seuilVentes">—</p>
+          <p id="seuilDetail" style="color:var(--ink-soft)"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      Cet outil donne une estimation simplifiée. Pour un restaurant, pensez à intégrer les pertes matière et la casse dans le coût de revient. Pour un chantier, intégrez la main d'œuvre et le matériel loué. Le diagnostic Pilotis permet d'aller plus loin en construisant votre tableau de marge complet, produit par produit.
+    </div>
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Vos marges sont trop justes ?</h2>
+    <p style="color:#fff;opacity:.9">On identifie ensemble ce qui grignote votre rentabilité.</p>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <strong>Pilotis</strong> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="statistiques.html">Statistiques</a></li>
+      <li><a href="conseils.html">Conseils</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+function calculerMarge(){
+  var pv = parseFloat(document.getElementById('prixVente').value) || 0;
+  var cr = parseFloat(document.getElementById('coutRevient').value) || 0;
+  var margeEuro = pv - cr;
+  var margePct = pv > 0 ? (margeEuro / pv) * 100 : 0;
+  document.getElementById('margeEuro').textContent = margeEuro.toLocaleString('fr-BE',{style:'currency',currency:'EUR'}) + ' de marge';
+  document.getElementById('margePct').textContent = 'Soit un taux de marge de ' + margePct.toFixed(1) + ' % du prix de vente.';
+  document.getElementById('margeUnitaire').value = margeEuro.toFixed(2);
+}
+
+function calculerSeuil(){
+  var ff = parseFloat(document.getElementById('fraisFixes').value) || 0;
+  var mu = parseFloat(document.getElementById('margeUnitaire').value) || 0;
+  if (mu <= 0){
+    document.getElementById('seuilVentes').textContent = 'Marge par vente invalide';
+    document.getElementById('seuilDetail').textContent = 'Calculez d\'abord une marge positive dans la section 1, ou saisissez-la directement.';
+    return;
+  }
+  var seuil = ff / mu;
+  document.getElementById('seuilVentes').textContent = Math.ceil(seuil) + ' ventes / mois';
+  document.getElementById('seuilDetail').textContent = 'Nombre de ventes nécessaires pour couvrir vos frais fixes mensuels de ' + ff.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ', soit environ ' + Math.ceil(seuil/26) + ' ventes par jour ouvré (base 26 jours/mois).';
+}
+
+calculerMarge();
+calculerSeuil();
+</script>
+
+</body>
+</html>

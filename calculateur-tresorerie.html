@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prévisionnel de trésorerie sur 12 mois — Pilotis</title>
+<meta name="description" content="Visualisez votre trésorerie mois par mois sur 12 mois et repérez les mois à risque avant qu'ils n'arrivent.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pilotis</a>
+    <ul class="nav-links">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Indépendants</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="outils.html">Outils</a></li>
+      <li><a href="ressources.html">Ressources</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Outil — Trésorerie</div>
+    <h1>Votre trésorerie, mois par mois.</h1>
+    <p class="lead">Renseignez vos encaissements et décaissements prévus pour chaque mois. Les mois où votre solde passerait sous zéro sont mis en évidence.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="card">
+      <label for="soldeInitial" style="display:inline-block;margin-right:10px">Trésorerie de départ (€)</label>
+      <input type="number" id="soldeInitial" value="3000" style="width:140px;display:inline-block" oninput="calculer()">
+
+      <div style="overflow-x:auto;margin-top:20px">
+        <table id="tresorerieTable">
+          <thead>
+            <tr>
+              <th>Mois</th>
+              <th>Encaissements (€)</th>
+              <th>Décaissements (€)</th>
+              <th>Solde fin de mois</th>
+            </tr>
+          </thead>
+          <tbody id="tresorerieBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>Visualisation</h3>
+      <div id="chart" style="display:flex;align-items:flex-end;gap:6px;height:160px;margin-top:16px;border-bottom:1px solid var(--line);padding-bottom:4px"></div>
+      <div id="chartLabels" style="display:flex;gap:6px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;color:var(--ink-soft);margin-top:6px"></div>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      Cet outil est une aide à la visualisation, pas un outil comptable. Pensez à inclure vos cotisations sociales trimestrielles (voir le <a href="calculateur-cotisations-independant.html">calculateur de cotisations</a>), votre TVA à reverser si applicable, et vos charges saisonnières (13ᵉ mois, primes, périodes creuses).
+    </div>
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Un mois dans le rouge ? Anticipons-le ensemble.</h2>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <strong>Pilotis</strong> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="statistiques.html">Statistiques</a></li>
+      <li><a href="conseils.html">Conseils</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+var mois = ["Jan","Fév","Mar","Avr","Mai","Juin","Juil","Août","Sep","Oct","Nov","Déc"];
+var defautEnc = [4000,4200,3900,4500,4300,3800,3000,2800,4600,4700,4900,5200];
+var defautDec = [3800,3800,3800,3800,5200,3800,3800,3800,3800,3800,5200,4200];
+
+function buildTable(){
+  var body = "";
+  for (var i = 0; i < 12; i++){
+    body += '<tr>' +
+      '<td>' + mois[i] + '</td>' +
+      '<td><input type="number" id="enc' + i + '" value="' + defautEnc[i] + '" oninput="calculer()" style="width:100px"></td>' +
+      '<td><input type="number" id="dec' + i + '" value="' + defautDec[i] + '" oninput="calculer()" style="width:100px"></td>' +
+      '<td id="solde' + i + '" style="font-family:\'Helvetica Neue\',Arial,sans-serif;font-weight:700"></td>' +
+      '</tr>';
+  }
+  document.getElementById('tresorerieBody').innerHTML = body;
+}
+
+function calculer(){
+  var solde = parseFloat(document.getElementById('soldeInitial').value) || 0;
+  var soldes = [];
+  for (var i = 0; i < 12; i++){
+    var enc = parseFloat(document.getElementById('enc' + i).value) || 0;
+    var dec = parseFloat(document.getElementById('dec' + i).value) || 0;
+    solde = solde + enc - dec;
+    soldes.push(solde);
+    var cell = document.getElementById('solde' + i);
+    cell.textContent = solde.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+    cell.style.color = solde < 0 ? '#a4432f' : 'var(--accent)';
+  }
+
+  var max = Math.max.apply(null, soldes.map(Math.abs).concat([1]));
+  var chart = "", labels = "";
+  soldes.forEach(function(s, i){
+    var pct = Math.max(4, Math.round(Math.abs(s) / max * 100));
+    var color = s < 0 ? '#a4432f' : 'var(--accent)';
+    chart += '<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">' +
+      '<div title="' + mois[i] + ': ' + Math.round(s) + '€" style="background:' + color + ';height:' + pct + '%;border-radius:3px 3px 0 0"></div></div>';
+    labels += '<div style="flex:1;text-align:center">' + mois[i] + '</div>';
+  });
+  document.getElementById('chart').innerHTML = chart;
+  document.getElementById('chartLabels').innerHTML = labels;
+}
+
+buildTable();
+calculer();
+</script>
+
+</body>
+</html>

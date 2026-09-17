@@ -1,0 +1,96 @@
+/* Pilotis — direction visuelle provisoire (à affiner une fois le concept validé) */
+
+:root{
+  --ink:#1b2320;
+  --ink-soft:#4a534f;
+  --paper:#f7f5f0;
+  --paper-alt:#efece3;
+  --line:#dcd7cb;
+  --accent:#2f4a3e;
+  --accent-soft:#e7ede9;
+  --gold:#a9834d;
+  --radius:10px;
+  --max:1120px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Iowan Old Style","Georgia",serif;
+  line-height:1.6;
+}
+h1,h2,h3,h4{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-weight:600;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+  margin:0 0 .5em;
+}
+p{margin:0 0 1em}
+a{color:var(--accent)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* Header */
+.site-header{border-bottom:1px solid var(--line);background:var(--paper)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;font-family:"Helvetica Neue",Arial,sans-serif}
+.brand{font-size:20px;font-weight:700;letter-spacing:.02em;text-decoration:none;color:var(--ink)}
+.nav-links{list-style:none;display:flex;gap:22px;margin:0;padding:0;flex-wrap:wrap}
+.nav-links a{text-decoration:none;color:var(--ink-soft);font-size:15px}
+.nav-links a.active,.nav-links a:hover{color:var(--accent)}
+.nav-cta{background:var(--accent);color:#fff !important;padding:9px 16px;border-radius:999px}
+.nav-toggle{display:none}
+
+/* Hero */
+.hero{padding:80px 0 64px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:"Helvetica Neue",Arial,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--gold);margin-bottom:14px}
+.hero h1{font-size:clamp(30px,4.2vw,46px);max-width:16ch}
+.lead{font-size:19px;color:var(--ink-soft);max-width:56ch}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+.btn{font-family:"Helvetica Neue",Arial,sans-serif;display:inline-block;padding:13px 22px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:600}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-secondary{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+/* Sections & cards */
+section{padding:60px 0}
+.section-title{font-size:clamp(24px,3vw,32px)}
+.grid{display:grid;gap:24px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.card h3{font-size:19px}
+.pill{display:inline-block;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.08em;background:var(--accent-soft);color:var(--accent);padding:5px 12px;border-radius:999px;margin-bottom:10px}
+
+.path-cards{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.path-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:36px}
+.path-card h3{font-size:22px}
+.path-card .btn{margin-top:18px}
+
+.step{display:flex;gap:18px;align-items:flex-start;margin-bottom:28px}
+.step-num{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--gold);font-size:20px;flex:none}
+
+.faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.faq summary{cursor:pointer;font-family:"Helvetica Neue",Arial,sans-serif;font-weight:600}
+
+table{width:100%;border-collapse:collapse;margin:18px 0}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}
+th{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+
+form{display:grid;gap:14px;max-width:520px}
+label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;font-weight:600}
+input,select,textarea{font-family:inherit;font-size:15px;padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:#fff}
+
+.banner{background:var(--accent);color:#fff;padding:48px 0;text-align:center}
+.banner .btn-primary{background:#fff;color:var(--accent)}
+
+.site-footer{border-top:1px solid var(--line);padding:40px 0;font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:var(--ink-soft)}
+.footer-links{list-style:none;display:flex;gap:18px;flex-wrap:wrap;padding:0;margin:12px 0 0}
+.footer-links a{color:var(--ink-soft)}
+
+.note{background:var(--paper-alt);border:1px dashed var(--gold);border-radius:var(--radius);padding:16px 20px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:var(--ink-soft)}
+
+@media (max-width:760px){
+  .nav-links{display:none}
+}

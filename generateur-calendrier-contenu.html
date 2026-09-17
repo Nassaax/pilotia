@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de calendrier de contenu réseaux sociaux — Pilotis</title>
+<meta name="description" content="Générez un calendrier de publication sur 4 semaines adapté à votre secteur : restaurant, bâtiment, commerce ou indépendant.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pilotis</a>
+    <ul class="nav-links">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Indépendants</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="outils.html">Outils</a></li>
+      <li><a href="ressources.html">Ressources</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Outil — Marketing digital</div>
+    <h1>Votre calendrier de contenu, généré en 10 secondes.</h1>
+    <p class="lead">Choisissez votre secteur et votre rythme de publication : vous obtenez 4 semaines de thèmes de posts prêts à décliner en photo, vidéo ou texte.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="card" style="max-width:640px">
+      <form onsubmit="return false">
+        <div>
+          <label for="secteur">Votre secteur</label>
+          <select id="secteur" onchange="generer()">
+            <option value="restaurant">Restauration</option>
+            <option value="batiment">Bâtiment &amp; artisanat</option>
+            <option value="commerce">Commerce &amp; services de proximité</option>
+            <option value="independant">Indépendant / freelance</option>
+          </select>
+        </div>
+        <div>
+          <label for="frequence">Rythme de publication</label>
+          <select id="frequence" onchange="generer()">
+            <option value="1">1 publication / semaine</option>
+            <option value="2" selected>2 publications / semaine</option>
+            <option value="3">3 publications / semaine</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div id="calendrier" style="margin-top:24px"></div>
+
+    <div class="note" style="margin-top:28px">
+      Ces thèmes sont des points de départ, pas des posts prêts à l'emploi : adaptez-les avec vos propres photos et votre ton. La régularité compte plus que la perfection de chaque publication — mieux vaut 1 post simple par semaine tenu dans la durée que 3 posts ambitieux abandonnés après un mois.
+    </div>
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Envie d'aller plus loin qu'un calendrier ?</h2>
+    <p style="color:#fff;opacity:.9">On construit avec vous une vraie stratégie de visibilité, pas juste une liste d'idées.</p>
+    <a href="marketing-digital.html" class="btn btn-primary">Découvrir l'accompagnement marketing digital →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <strong>Pilotis</strong> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="statistiques.html">Statistiques</a></li>
+      <li><a href="conseils.html">Conseils</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+var themes = {
+  restaurant: [
+    "Photo d'un plat phare, en gros plan, lumière naturelle",
+    "Coulisses en cuisine pendant le coup de feu",
+    "Portrait d'un membre de l'équipe et son rôle",
+    "Avis client mis en avant (avec son accord)",
+    "Nouveauté ou plat de saison",
+    "Question aux abonnés : leur plat préféré de la carte",
+    "Annonce d'un événement ou d'une soirée à thème",
+    "Petite astuce ou anecdote sur un ingrédient local",
+    "Avant/après d'un dressage de plat",
+    "Rappel des horaires et de la réservation",
+    "Mise en avant d'un fournisseur local",
+    "Ambiance de la salle un soir de service"
+  ],
+  batiment: [
+    "Photo avant/après d'un chantier terminé",
+    "Vidéo courte d'une étape technique expliquée simplement",
+    "Portrait d'un membre de l'équipe et sa spécialité",
+    "Avis client détaillé sur un chantier récent",
+    "Conseil pratique pour les propriétaires (entretien, saison)",
+    "Coulisses d'un chantier en cours",
+    "Zoom sur un matériau ou une technique utilisée",
+    "Question aux abonnés sur un projet qu'ils envisagent",
+    "Rappel des zones d'intervention et types de chantiers",
+    "Anecdote sur une difficulté résolue sur un chantier",
+    "Présentation du matériel ou des outils utilisés",
+    "Récapitulatif des chantiers du mois (avec accord clients)"
+  ],
+  commerce: [
+    "Nouveauté ou arrivage du moment",
+    "Conseil d'usage lié à un produit",
+    "Portrait de l'équipe en boutique",
+    "Avis ou témoignage client",
+    "Coulisses de la préparation ou de la mise en rayon",
+    "Question aux abonnés sur leurs préférences",
+    "Mise en avant d'un produit local ou artisanal",
+    "Astuce ou tuto en lien avec votre activité",
+    "Rappel des horaires et de la localisation",
+    "Petite promotion ou offre limitée",
+    "Histoire derrière un produit ou un choix d'assortiment",
+    "Bilan ou remerciement en fin de mois"
+  ],
+  independant: [
+    "Un projet client terminé (avec son accord)",
+    "Les coulisses d'une journée type",
+    "Une erreur fréquente que vous aidez à éviter",
+    "Témoignage ou retour client",
+    "Une astuce utile liée à votre expertise",
+    "Question aux abonnés sur leur plus gros frein",
+    "Présentation de votre méthode ou processus de travail",
+    "Un avant/après ou une transformation concrète",
+    "Réponse à une question fréquente de prospects",
+    "Un chiffre ou une statistique de votre secteur commentée",
+    "Les coulisses de votre parcours ou de vos débuts",
+    "Un rappel de vos disponibilités ou de comment vous contacter"
+  ]
+};
+
+function generer(){
+  var secteur = document.getElementById('secteur').value;
+  var freq = parseInt(document.getElementById('frequence').value, 10);
+  var pool = themes[secteur].slice();
+  var totalPosts = freq * 4;
+  var html = '';
+
+  for (var semaine = 1; semaine <= 4; semaine++){
+    html += '<div class="card" style="margin-bottom:16px"><h3>Semaine ' + semaine + '</h3><ul style="margin:10px 0 0;padding-left:20px">';
+    for (var p = 0; p < freq; p++){
+      var idx = ((semaine - 1) * freq + p) % pool.length;
+      html += '<li style="margin-bottom:6px">' + pool[idx] + '</li>';
+    }
+    html += '</ul></div>';
+  }
+  document.getElementById('calendrier').innerHTML = html;
+}
+
+generer();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur de cotisations sociales indépendant 2026 — Pilotis</title>
+<meta name="description" content="Estimez vos cotisations sociales trimestrielles d'indépendant en Belgique selon le barème INASTI 2026.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pilotis</a>
+    <ul class="nav-links">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Indépendants</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="outils.html">Outils</a></li>
+      <li><a href="ressources.html">Ressources</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Outil — Barème INASTI 2026</div>
+    <h1>Calculateur de cotisations sociales indépendant</h1>
+    <p class="lead">Estimez vos cotisations sociales trimestrielles selon vos revenus nets imposables, sur base du barème INASTI 2026.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Vos revenus</h3>
+        <form id="calc" onsubmit="return false">
+          <div>
+            <label for="revenu">Revenu net imposable estimé (par an, en €)</label>
+            <input type="number" id="revenu" min="0" step="100" value="35000">
+          </div>
+          <div>
+            <label for="statut">Statut</label>
+            <select id="statut">
+              <option value="principal">Indépendant à titre principal</option>
+              <option value="complement">Indépendant à titre complémentaire</option>
+              <option value="debutant">Débutant (1re-3e année, cotisations provisoires)</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="calculer()" style="justify-self:start">Calculer →</button>
+        </form>
+      </div>
+      <div class="card" id="resultat">
+        <h3>Estimation</h3>
+        <p id="out-trimestre" style="font-size:32px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;margin:8px 0">—</p>
+        <p id="out-detail" style="color:var(--ink-soft)">Renseignez vos revenus et cliquez sur Calculer.</p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      <strong>Barème utilisé (2026) :</strong> 20,5 % sur la tranche de revenu net imposable jusqu'à 75 024,54 €, puis 14,16 % entre 75 024,54 € et 110 562,42 €, exonération au-delà. Cotisation trimestrielle minimale : 917,58 € (titre principal). Cotisation trimestrielle maximale : 5 258,69 €. Exonération totale si le revenu annuel est inférieur à 1 922,16 €.
+      <br><br>
+      Ceci est une estimation simplifiée à but pédagogique — le calcul réel dépend aussi des frais de gestion de votre caisse d'assurances sociales et de votre situation exacte (début d'activité, cumul d'activités, régularisations). Vérifiez toujours avec votre caisse d'assurances sociales avant de budgétiser.
+    </div>
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Envie d'aller plus loin que le calcul ?</h2>
+    <p style="color:#fff;opacity:.9">On construit avec vous un prévisionnel complet, pas seulement vos cotisations.</p>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <strong>Pilotis</strong> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="statistiques.html">Statistiques</a></li>
+      <li><a href="conseils.html">Conseils</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+function calculer(){
+  var revenu = parseFloat(document.getElementById('revenu').value) || 0;
+  var statut = document.getElementById('statut').value;
+
+  var seuil1 = 75024.54, seuil2 = 110562.42;
+  var taux1 = 0.205, taux2 = 0.1416;
+  var minTrim = 917.58, maxTrim = 5258.69;
+  var exoSeuil = 1922.16;
+
+  var cotisationAnnuelle = 0;
+  if (revenu <= exoSeuil){
+    cotisationAnnuelle = 0;
+  } else if (revenu <= seuil1){
+    cotisationAnnuelle = revenu * taux1;
+  } else if (revenu <= seuil2){
+    cotisationAnnuelle = seuil1 * taux1 + (revenu - seuil1) * taux2;
+  } else {
+    cotisationAnnuelle = seuil1 * taux1 + (seuil2 - seuil1) * taux2;
+  }
+
+  var cotisationTrim = cotisationAnnuelle / 4;
+
+  if (statut === 'principal' && revenu > exoSeuil){
+    cotisationTrim = Math.max(cotisationTrim, minTrim);
+  }
+  if (statut === 'complement'){
+    cotisationTrim = cotisationTrim; // pas de minimum "principal" applicable
+  }
+  cotisationTrim = Math.min(cotisationTrim, maxTrim);
+
+  var detail = '';
+  if (statut === 'debutant'){
+    detail = 'En tant que débutant, vos cotisations des 3 premières années sont provisoires (souvent calculées sur une base forfaitaire) puis régularisées une fois vos revenus réels connus par l\'administration fiscale, généralement 2 à 3 ans plus tard. Prévoyez cette régularisation dans votre trésorerie.';
+  } else if (statut === 'complement'){
+    detail = 'À titre complémentaire, aucune cotisation minimale "titre principal" ne s\'applique, mais une cotisation minimale réduite existe en dessous d\'un certain seuil de revenu.';
+  } else {
+    detail = 'Cotisation trimestrielle avec minimum légal appliqué le cas échéant (indépendant à titre principal).';
+  }
+
+  document.getElementById('out-trimestre').textContent = cotisationTrim.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' / trimestre';
+  document.getElementById('out-detail').textContent = 'Soit environ ' + (cotisationTrim*4).toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' par an. ' + detail;
+}
+calculer();
+</script>
+
+</body>
+</html>

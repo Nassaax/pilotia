@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suis-je éligible à la franchise TVA 2026 ? — Pilotis</title>
+<meta name="description" content="Vérifiez votre éligibilité au régime de franchise TVA (seuil 25 000 €) pour petites entreprises en Belgique en 2026.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pilotis</a>
+    <ul class="nav-links">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Indépendants</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="outils.html">Outils</a></li>
+      <li><a href="ressources.html">Ressources</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Outil — Franchise TVA 2026</div>
+    <h1>Suis-je éligible à la franchise de TVA ?</h1>
+    <p class="lead">En Belgique, une petite entreprise dont le chiffre d'affaires annuel ne dépasse pas 25 000 € peut choisir de ne pas facturer la TVA. Vérifiez rapidement où vous en êtes.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Votre chiffre d'affaires</h3>
+        <form onsubmit="return false">
+          <div>
+            <label for="ca">Chiffre d'affaires annuel estimé, hors TVA (€)</label>
+            <input type="number" id="ca" min="0" step="100" value="21000">
+          </div>
+          <button class="btn btn-primary" onclick="verifier()" style="justify-self:start">Vérifier →</button>
+        </form>
+      </div>
+      <div class="card" id="resultatFranchise">
+        <h3>Résultat</h3>
+        <p id="out-statut" style="font-size:22px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700">—</p>
+        <p id="out-marge-restante" style="color:var(--ink-soft)"></p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      <strong>À savoir (2026) :</strong> le seuil national de franchise est de 25 000 € de chiffre d'affaires annuel. Depuis le 1ᵉʳ janvier 2025, la tolérance de dépassement de 10 % a été supprimée : au premier euro au-delà du seuil, vous basculez au régime TVA normal. La franchise signifie que vous ne facturez pas la TVA à vos clients, mais vous ne pouvez pas non plus la récupérer sur vos achats professionnels. Ce régime n'est pas toujours avantageux, notamment si vos clients sont eux-mêmes assujettis à la TVA (ils récupèrent la TVA, donc votre prix TTC n'a pas d'impact pour eux) ou si vous avez beaucoup d'investissements avec TVA à récupérer.
+    </div>
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Franchise ou régime normal : lequel choisir ?</h2>
+    <p style="color:#fff;opacity:.9">On regarde ensemble ce qui est le plus avantageux pour votre activité.</p>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <strong>Pilotis</strong> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="statistiques.html">Statistiques</a></li>
+      <li><a href="conseils.html">Conseils</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+function verifier(){
+  var ca = parseFloat(document.getElementById('ca').value) || 0;
+  var seuil = 25000;
+  var statutEl = document.getElementById('out-statut');
+  var margeEl = document.getElementById('out-marge-restante');
+
+  if (ca <= seuil){
+    statutEl.textContent = '✓ Éligible à la franchise TVA';
+    statutEl.style.color = 'var(--accent)';
+    var reste = seuil - ca;
+    margeEl.textContent = 'Il vous reste ' + reste.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' de chiffre d\'affaires avant de dépasser le seuil de 25 000 €. Attention : depuis 2025, le premier euro de dépassement fait basculer au régime TVA normal, sans tolérance.';
+  } else {
+    statutEl.textContent = '✗ Non éligible — régime TVA normal';
+    statutEl.style.color = '#a4432f';
+    margeEl.textContent = 'Votre chiffre d\'affaires dépasse le seuil de 25 000 €. Vous devez facturer la TVA à vos clients et faire vos déclarations périodiques — mais vous pouvez aussi récupérer la TVA sur vos achats professionnels.';
+  }
+}
+verifier();
+</script>
+
+</body>
+</html>

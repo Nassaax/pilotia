@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur du coût réel d'un salarié 2026 — Pilotis</title>
+<meta name="description" content="Estimez le coût réel annuel d'un salarié en Belgique (cotisations patronales, pécule de vacances, prime de fin d'année) en 2026.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pilotis</a>
+    <ul class="nav-links">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Indépendants</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="outils.html">Outils</a></li>
+      <li><a href="ressources.html">Ressources</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Outil — Gestion du personnel, 2026</div>
+    <h1>Combien coûte réellement un salarié ?</h1>
+    <p class="lead">Le salaire brut n'est qu'une partie de la facture. Estimez le coût annuel complet pour votre entreprise (cotisations patronales, pécule de vacances, prime de fin d'année).</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Le poste</h3>
+        <form onsubmit="return false">
+          <div>
+            <label for="brutMensuel">Salaire brut mensuel (€)</label>
+            <input type="number" id="brutMensuel" min="0" step="50" value="2800">
+          </div>
+          <div>
+            <label for="typeContrat">Type de contrat</label>
+            <select id="typeContrat">
+              <option value="employe">Employé</option>
+              <option value="ouvrier">Ouvrier</option>
+            </select>
+          </div>
+          <div>
+            <label for="premierEngagement">S'agit-il de votre premier engagement ?</label>
+            <select id="premierEngagement">
+              <option value="non">Non</option>
+              <option value="oui">Oui — réduction "premier engagement" applicable</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="calculerCout()" style="justify-self:start">Estimer le coût →</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Coût annuel estimé</h3>
+        <p id="out-cout" style="font-size:30px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;margin:8px 0">—</p>
+        <p id="out-detail" style="color:var(--ink-soft)"></p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      <strong>Méthode (2026) :</strong> cotisations patronales de base estimées à 25 % du brut pour un employé, environ 30-35 % pour un ouvrier (le pécule de vacances des ouvriers est géré différemment, via une caisse de vacances). Le coût annuel intègre une estimation de 13,92 mois de rémunération (12 mois + double pécule de vacances + prime de fin d'année), avant réductions éventuelles. La réduction "premier engagement" (2 000 €/trimestre à partir d'avril 2026, illimitée dans le temps pour le 1ᵉʳ travailleur) est appliquée si sélectionnée.
+      <br><br>
+      Ceci reste une estimation générale à but pédagogique : le coût réel dépend de votre commission paritaire, des réductions structurelles et sectorielles applicables, et des avantages extra-légaux (assurance groupe, chèques-repas, voiture...). Un secrétariat social vous donnera un chiffre exact.
+    </div>
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Recruter sans plomber votre trésorerie</h2>
+    <p style="color:#fff;opacity:.9">On vous aide à savoir si le poste est vraiment finançable avant de vous engager.</p>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <strong>Pilotis</strong> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="statistiques.html">Statistiques</a></li>
+      <li><a href="conseils.html">Conseils</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+function calculerCout(){
+  var brut = parseFloat(document.getElementById('brutMensuel').value) || 0;
+  var type = document.getElementById('typeContrat').value;
+  var premier = document.getElementById('premierEngagement').value === 'oui';
+
+  var tauxPatronal = type === 'ouvrier' ? 0.32 : 0.25;
+  var moisEquivalent = 13.92; // 12 mois + double pécule + prime fin d'année, approximation
+
+  var masseBrute = brut * moisEquivalent;
+  var chargesPatronales = masseBrute * tauxPatronal;
+  var coutAnnuel = masseBrute + chargesPatronales;
+
+  var reductionAnnuelle = 0;
+  if (premier){
+    reductionAnnuelle = 2000 * 4; // 2000€/trimestre, approximation à l'année pleine
+    coutAnnuel = Math.max(0, coutAnnuel - reductionAnnuelle);
+  }
+
+  document.getElementById('out-cout').textContent = coutAnnuel.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' / an';
+
+  var detail = 'Soit environ ' + (coutAnnuel/12).toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' par mois, pour un salaire brut de ' + brut.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + '.';
+  if (premier){
+    detail += ' Réduction "premier engagement" déjà déduite (environ ' + reductionAnnuelle.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + '/an).';
+  }
+  document.getElementById('out-detail').textContent = detail;
+}
+calculerCout();
+</script>
+
+</body>
+</html>

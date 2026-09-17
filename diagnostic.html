@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnostic express gratuit — Pilotis</title>
+<meta name="description" content="8 questions pour situer votre entreprise sur la gestion financière, le personnel, le marketing digital et la trésorerie — résultat immédiat.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pilotis</a>
+    <ul class="nav-links">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Indépendants</a></li>
+      <li><a href="diagnostic.html" class="active">Diagnostic</a></li>
+      <li><a href="outils.html">Outils</a></li>
+      <li><a href="ressources.html">Ressources</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Diagnostic express — 3 minutes</div>
+    <h1>Où en est vraiment votre entreprise ?</h1>
+    <p class="lead">8 questions, 4 thèmes (finances, personnel, marketing digital, trésorerie). Répondez honnêtement — le résultat n'est visible que par vous.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div id="quiz" class="card" style="max-width:720px">
+      <div id="question-block"></div>
+      <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center">
+        <span id="progress" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;color:var(--ink-soft)"></span>
+        <div>
+          <button class="btn btn-secondary" id="btnPrev" onclick="prev()">← Précédent</button>
+          <button class="btn btn-primary" id="btnNext" onclick="next()">Suivant →</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="result" class="card" style="max-width:720px;display:none">
+      <div class="pill" id="result-pill">Résultat</div>
+      <h2 id="result-title" style="font-size:26px"></h2>
+      <p id="result-text"></p>
+      <div id="result-breakdown" style="margin:20px 0"></div>
+      <a href="contact.html" class="btn btn-primary" id="result-cta">Réserver mon appel découverte →</a>
+      <button class="btn btn-secondary" onclick="restart()" style="margin-left:10px">Refaire le diagnostic</button>
+    </div>
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Le diagnostic express donne une direction. L'appel donne un plan.</h2>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <strong>Pilotis</strong> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="statistiques.html">Statistiques</a></li>
+      <li><a href="conseils.html">Conseils</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+var questions = [
+  {
+    theme: "Finances",
+    q: "Connaissez-vous votre marge exacte sur vos 3 principaux produits/services ?",
+    options: [
+      {label:"Oui, chiffrée précisément", score:2},
+      {label:"Approximativement", score:1},
+      {label:"Non, pas vraiment", score:0}
+    ]
+  },
+  {
+    theme: "Finances",
+    q: "Avez-vous une réserve de trésorerie couvrant au moins 1 mois de charges fixes ?",
+    options: [
+      {label:"Oui, largement", score:2},
+      {label:"Un peu, mais juste", score:1},
+      {label:"Non, aucune réserve", score:0}
+    ]
+  },
+  {
+    theme: "Personnel & organisation",
+    q: "Le turnover de votre personnel (si vous en avez) vous semble-t-il...",
+    options: [
+      {label:"Faible / non concerné", score:2},
+      {label:"Modéré, gérable", score:1},
+      {label:"Élevé, ça coûte cher", score:0}
+    ]
+  },
+  {
+    theme: "Personnel & organisation",
+    q: "Les rôles et responsabilités de chacun sont-ils clairs dans votre structure ?",
+    options: [
+      {label:"Oui, tout est clair", score:2},
+      {label:"En partie", score:1},
+      {label:"Non, ça se chevauche souvent", score:0}
+    ]
+  },
+  {
+    theme: "Marketing digital",
+    q: "Publiez-vous du contenu sur les réseaux sociaux de façon régulière ?",
+    options: [
+      {label:"Oui, au moins 1x/semaine", score:2},
+      {label:"De temps en temps", score:1},
+      {label:"Jamais ou presque", score:0}
+    ]
+  },
+  {
+    theme: "Marketing digital",
+    q: "Votre fiche Google Business est-elle à jour avec des avis récents ?",
+    options: [
+      {label:"Oui, très active", score:2},
+      {label:"Existe mais peu suivie", score:1},
+      {label:"N'existe pas / inconnue", score:0}
+    ]
+  },
+  {
+    theme: "Trésorerie & résilience",
+    q: "Savez-vous combien de ventes/jour sont nécessaires pour couvrir vos frais fixes ?",
+    options: [
+      {label:"Oui, je le sais précisément", score:2},
+      {label:"J'ai une vague idée", score:1},
+      {label:"Non, aucune idée", score:0}
+    ]
+  },
+  {
+    theme: "Trésorerie & résilience",
+    q: "Avez-vous un tableau de bord (même simple) suivi chaque mois ?",
+    options: [
+      {label:"Oui, à jour", score:2},
+      {label:"J'ai essayé, pas tenu à jour", score:1},
+      {label:"Non", score:0}
+    ]
+  }
+];
+
+var current = 0;
+var answers = new Array(questions.length).fill(null);
+
+function render(){
+  var q = questions[current];
+  var html = '<div class="pill">' + q.theme + '</div><h3 style="font-size:20px;margin-bottom:16px">' + q.q + '</h3>';
+  q.options.forEach(function(opt, i){
+    var checked = answers[current] === i ? 'checked' : '';
+    html += '<label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:15px">' +
+      '<input type="radio" name="opt" value="' + i + '" ' + checked + ' onchange="select(' + i + ')"> ' + opt.label +
+      '</label>';
+  });
+  document.getElementById('question-block').innerHTML = html;
+  document.getElementById('progress').textContent = 'Question ' + (current+1) + ' / ' + questions.length;
+  document.getElementById('btnPrev').style.visibility = current === 0 ? 'hidden' : 'visible';
+  document.getElementById('btnNext').textContent = current === questions.length - 1 ? 'Voir mon résultat →' : 'Suivant →';
+}
+
+function select(i){
+  answers[current] = i;
+}
+
+function next(){
+  if (answers[current] === null){
+    alert('Choisissez une réponse pour continuer.');
+    return;
+  }
+  if (current < questions.length - 1){
+    current++;
+    render();
+  } else {
+    showResult();
+  }
+}
+
+function prev(){
+  if (current > 0){
+    current--;
+    render();
+  }
+}
+
+function restart(){
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  document.getElementById('quiz').style.display = 'block';
+  document.getElementById('result').style.display = 'none';
+  render();
+}
+
+function showResult(){
+  var total = 0;
+  var themes = {};
+  questions.forEach(function(q, i){
+    var s = q.options[answers[i]].score;
+    total += s;
+    themes[q.theme] = (themes[q.theme] || 0) + s;
+  });
+
+  document.getElementById('quiz').style.display = 'none';
+  var resultEl = document.getElementById('result');
+  resultEl.style.display = 'block';
+
+  var title, text, pill;
+  if (total >= 13){
+    pill = 'Fondations solides';
+    title = 'Vous êtes déjà bien structuré(e) — ' + total + '/16';
+    text = 'Votre entreprise a de bonnes bases. Un accompagnement ponctuel peut vous aider à passer un cap précis (recrutement, nouvelle offre, trésorerie plus ambitieuse) plutôt qu\'un suivi complet.';
+  } else if (total >= 8){
+    pill = 'Des failles ciblées';
+    title = 'Des bases correctes, mais des angles morts — ' + total + '/16';
+    text = 'Certains piliers tiennent bien, d\'autres méritent une remise à plat. Le diagnostic complet permettra de prioriser les 2-3 actions qui auront le plus d\'impact rapidement.';
+  } else {
+    pill = 'Risque élevé';
+    title = 'Plusieurs signaux d\'alerte — ' + total + '/16';
+    text = 'Votre score indique des fragilités sur plusieurs piliers à la fois — c\'est exactement le profil sur lequel un accompagnement structuré fait le plus de différence, avant que ça ne devienne urgent.';
+  }
+
+  document.getElementById('result-pill').textContent = pill;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-text').textContent = text;
+
+  var breakdown = '';
+  Object.keys(themes).forEach(function(theme){
+    var score = themes[theme];
+    var pct = Math.round(score / 4 * 100);
+    breakdown += '<div style="margin-bottom:10px">' +
+      '<div style="display:flex;justify-content:space-between;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;margin-bottom:4px"><span>' + theme + '</span><span>' + score + '/4</span></div>' +
+      '<div style="background:var(--paper-alt);border-radius:999px;height:8px;overflow:hidden"><div style="background:var(--accent);height:100%;width:' + pct + '%"></div></div>' +
+      '</div>';
+  });
+  document.getElementById('result-breakdown').innerHTML = breakdown;
+}
+
+render();
+</script>
+
+</body>
+</html>
