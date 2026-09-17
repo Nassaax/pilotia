@@ -49,3 +49,113 @@
 
   els.forEach(function (el) { observer.observe(el); });
 })();
+
+/* Menu mobile (hamburger) + menu déroulant "Découvrir" — navigation de base,
+   ne dépend pas de prefers-reduced-motion (ce n'est pas une animation décorative). */
+(function () {
+  "use strict";
+
+  var toggle = document.getElementById("navToggle");
+  var navLinks = document.getElementById("navLinks");
+
+  if (toggle && navLinks) {
+    toggle.addEventListener("click", function () {
+      var open = navLinks.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+
+  var dropdowns = document.querySelectorAll(".dropdown");
+
+  dropdowns.forEach(function (dropdown) {
+    var trigger = dropdown.querySelector(".dropdown-trigger");
+    if (!trigger) return;
+
+    trigger.addEventListener("click", function () {
+      var open = dropdown.classList.toggle("is-open");
+      trigger.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    dropdowns.forEach(function (dropdown) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove("is-open");
+        var trigger = dropdown.querySelector(".dropdown-trigger");
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    dropdowns.forEach(function (dropdown) {
+      dropdown.classList.remove("is-open");
+      var trigger = dropdown.querySelector(".dropdown-trigger");
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+    });
+    if (navLinks && navLinks.classList.contains("is-open")) {
+      navLinks.classList.remove("is-open");
+      if (toggle) toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+})();
+
+/* Compteur animé sur les chiffres clés (statistiques.html) — désactivé sous
+   prefers-reduced-motion : le chiffre final s'affiche directement, sans étape intermédiaire. */
+(function () {
+  "use strict";
+
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var nums = document.querySelectorAll(".stat-number[data-count]");
+  if (!nums.length) return;
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    return; // le texte statique déjà présent dans le HTML reste affiché tel quel
+  }
+
+  function format(value, decimals) {
+    return value.toLocaleString("fr-BE", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+  }
+
+  function animate(el) {
+    var target = parseFloat(el.getAttribute("data-count"));
+    var decimals = el.getAttribute("data-count-decimals") ? parseInt(el.getAttribute("data-count-decimals"), 10) : 0;
+    var prefix = el.getAttribute("data-count-prefix") || "";
+    var suffix = el.getAttribute("data-count-suffix") || "";
+    var duration = 1200;
+    var start = null;
+
+    function step(timestamp) {
+      if (start === null) start = timestamp;
+      var progress = Math.min((timestamp - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      var current = target * eased;
+      el.textContent = prefix + format(current, decimals) + suffix;
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = prefix + format(target, decimals) + suffix;
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animate(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
+
+  nums.forEach(function (el) { observer.observe(el); });
+})();
