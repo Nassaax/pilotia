@@ -160,12 +160,16 @@ th{font-family:var(--font-body);font-size:13px;text-transform:uppercase;letter-s
 
 form{display:grid;gap:14px;max-width:520px}
 label{font-family:var(--font-body);font-size:14px;font-weight:600;display:block;margin-bottom:6px}
-input,select,textarea{
+input:not([type="radio"]):not([type="checkbox"]),select,textarea{
   font-family:var(--font-body);font-size:15px;padding:12px 14px;min-height:44px;
   border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);
   transition:border-color .18s ease,box-shadow .18s ease;
 }
-input:hover,select:hover,textarea:hover{border-color:var(--accent)}
+input:not([type="radio"]):not([type="checkbox"]):hover,select:hover,textarea:hover{border-color:var(--accent)}
+input[type="radio"],input[type="checkbox"]{
+  width:20px;height:20px;min-height:0;flex:none;
+  accent-color:var(--accent);cursor:pointer;margin:0;
+}
 
 .banner{background:var(--ink);color:#fff;padding:56px 0;text-align:center}
 .banner h2{color:#fff}
@@ -189,11 +193,26 @@ input:hover,select:hover,textarea:hover{border-color:var(--accent)}
 .card-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .path-card .card-icon{background:var(--gold-soft);color:var(--gold)}
 
-/* Scroll reveal (progressive enhancement — voir animations.js) */
-.reveal{opacity:0;transform:translateY(14px);transition:opacity .45s ease-out,transform .45s ease-out}
-.reveal.is-visible{opacity:1;transform:translateY(0)}
+/* Scroll reveal (progressive enhancement — voir animations.js).
+   Le gate ".js" est posé par un script synchrone dans <head>, avant le premier rendu :
+   sans JS ou sous prefers-reduced-motion, ce sélecteur ne s'applique jamais et le
+   contenu reste visible normalement — pas de flash, pas de dépendance dure au JS. */
+.js .card,.js .path-card,.js .step,.js .faq details,
+.js .hero .eyebrow,.js .hero h1,.js .hero .lead,.js .hero .btn-row,
+.js section .section-title{
+  opacity:0;transform:translateY(14px);transition:opacity .45s ease-out,transform .45s ease-out;
+}
+.js .card.is-visible,.js .path-card.is-visible,.js .step.is-visible,.js .faq details.is-visible,
+.js .hero .eyebrow.is-visible,.js .hero h1.is-visible,.js .hero .lead.is-visible,.js .hero .btn-row.is-visible,
+.js section .section-title.is-visible{
+  opacity:1;transform:translateY(0);
+}
 @media (prefers-reduced-motion: reduce){
-  .reveal{opacity:1;transform:none;transition:none}
+  .js .card,.js .path-card,.js .step,.js .faq details,
+  .js .hero .eyebrow,.js .hero h1,.js .hero .lead,.js .hero .btn-row,
+  .js section .section-title{
+    opacity:1;transform:none;transition:none;
+  }
 }
 
 @media (max-width:600px){

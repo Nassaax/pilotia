@@ -1,6 +1,9 @@
 /* Pilotis — animations légères (scroll reveal), sans dépendance.
    Basé sur les recommandations ui-ux-pro-max : opacity 0→1, y:12px, ~350ms ease-out,
-   déclenché à l'entrée dans le viewport, désactivé sous prefers-reduced-motion. */
+   déclenché à l'entrée dans le viewport, désactivé sous prefers-reduced-motion.
+   L'état initial "caché" est posé par le script synchrone dans <head> (classe .js sur
+   <html>, voir style.css) — pas ici — pour éviter un flash de contenu visible puis
+   soudain masqué le temps que ce script (chargé en defer) s'exécute. */
 (function () {
   "use strict";
 
@@ -29,7 +32,6 @@
   }
 
   els.forEach(function (el) {
-    el.classList.add("reveal");
     el.style.transitionDelay = delayFor(el) + "ms";
   });
 
