@@ -15,7 +15,6 @@
 
   var selectors = [
     ".card", ".path-card", ".step", ".faq details",
-    ".hero .eyebrow", ".hero h1", ".hero .lead", ".hero .btn-row",
     "section .section-title"
   ];
   var els = document.querySelectorAll(selectors.join(","));
