@@ -14,6 +14,11 @@
   <url><loc>https://pilotia.vercel.app/calculateur-cout-salarie.html</loc><priority>0.7</priority></url>
   <url><loc>https://pilotia.vercel.app/generateur-calendrier-contenu.html</loc><priority>0.7</priority></url>
   <url><loc>https://pilotia.vercel.app/marketing-digital.html</loc><priority>0.85</priority></url>
+  <url><loc>https://pilotia.vercel.app/coaching-restaurant.html</loc><priority>0.75</priority></url>
+  <url><loc>https://pilotia.vercel.app/coaching-boulangerie.html</loc><priority>0.75</priority></url>
+  <url><loc>https://pilotia.vercel.app/coaching-coiffeur.html</loc><priority>0.75</priority></url>
+  <url><loc>https://pilotia.vercel.app/coaching-esthetique.html</loc><priority>0.75</priority></url>
+  <url><loc>https://pilotia.vercel.app/coaching-agent-immobilier.html</loc><priority>0.75</priority></url>
   <url><loc>https://pilotia.vercel.app/statistiques.html</loc><priority>0.65</priority></url>
   <url><loc>https://pilotia.vercel.app/methode.html</loc><priority>0.6</priority></url>
   <url><loc>https://pilotia.vercel.app/conseils.html</loc><priority>0.6</priority></url>
