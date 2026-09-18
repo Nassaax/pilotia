@@ -72,10 +72,11 @@ Légal & technique
 - Seuil de franchise TVA 2026 : 25 000 € de chiffre d'affaires annuel, sans tolérance de dépassement depuis 2025.
 - Cotisations patronales ONSS 2026 : ~25 % du brut (employés), ~30-35 % (ouvriers) ; réduction "premier engagement" 2 000 €/trimestre à partir d'avril 2026.
 - Statistiques PME/faillites Belgique (SPF Économie, Statbel, UCM, GraydonCreditsafe) — voir sources dans `statistiques.html`.
+- Bio du fondateur (`a-propos.html`) : Nasser Yasini, bachelier en comptabilité, expérience en fiduciaire, gestion des salaires et immobilier — pas de titre de comptable agréé revendiqué.
+- Témoignages clients (`index.html` contient 5 vrais retours clients, attribués par prénom et métier : Sylvain coiffeur, Sarah esthéticienne, Gabriel boulanger, Farah agent immobilier, Lucas restaurateur).
 
 **Placeholder, à compléter avant mise en ligne :**
-- Bio et crédibilité réelles du/des coach(s) (`a-propos.html` contient un template avec [placeholders] — ne pas publier avec des informations inventées, et surtout ne jamais laisser entendre un titre de comptable agréé qui n'est pas détenu)
-- Témoignages clients (`index.html` contient 5 vrais retours clients, attribués par prénom et métier : Sylvain coiffeur, Sarah esthéticienne, Gabriel boulanger, Farah agent immobilier, Lucas restaurateur)
+- Photo du fondateur sur `a-propos.html` (le champ a été retiré en attendant une vraie photo professionnelle — à réintégrer quand elle sera disponible)
 - Documents téléchargeables eux-mêmes — PDF/Excel (`ressources.html` ne fait que lister les titres, les liens pointent vers `contact.html`)
 - Grille tarifaire (`offres.html`) : chiffres indicatifs de démarrage (490 €, 390 €/mois, 390 € formule lancement) à valider selon votre positionnement réel
 - Widget de prise de rendez-vous réel (Cal.com ou équivalent) et backend du formulaire de contact
