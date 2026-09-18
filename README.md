@@ -74,12 +74,13 @@ Légal & technique
 - Statistiques PME/faillites Belgique (SPF Économie, Statbel, UCM, GraydonCreditsafe) — voir sources dans `statistiques.html`.
 - Bio du fondateur (`a-propos.html`) : Nasser Yasini, bachelier en comptabilité, expérience en fiduciaire, gestion des salaires et immobilier — pas de titre de comptable agréé revendiqué.
 - Témoignages clients (`index.html` contient 5 vrais retours clients, attribués par prénom et métier : Sylvain coiffeur, Sarah esthéticienne, Gabriel boulanger, Farah agent immobilier, Lucas restaurateur).
+- Réservation d'appel : `contact.html` renvoie vers le vrai lien Cal.com (https://cal.com/pilotia/call), créneaux de 15 minutes.
 
 **Placeholder, à compléter avant mise en ligne :**
 - Photo du fondateur sur `a-propos.html` (le champ a été retiré en attendant une vraie photo professionnelle — à réintégrer quand elle sera disponible)
 - Documents téléchargeables eux-mêmes — PDF/Excel (`ressources.html` ne fait que lister les titres, les liens pointent vers `contact.html`)
 - Grille tarifaire (`offres.html`) : chiffres indicatifs de démarrage (490 €, 390 €/mois, 390 € formule lancement) à valider selon votre positionnement réel
-- Widget de prise de rendez-vous réel (Cal.com ou équivalent) et backend du formulaire de contact
+- Backend du formulaire de contact (envoi d'email) — le lien Cal.com est déjà branché, il ne reste que le formulaire libre
 - Mentions légales, CGV, politique de confidentialité — dénomination légale, numéro d'entreprise, hébergeur
 - Logo et identité visuelle définitive (le CSS actuel est une direction provisoire, pas le design final)
 - Domaine réel : `robots.txt`, `sitemap.xml` et les balises `og:url` utilisent `pilotia.vercel.app` en placeholder
