@@ -75,7 +75,7 @@ Légal & technique
 
 **Placeholder, à compléter avant mise en ligne :**
 - Bio et crédibilité réelles du/des coach(s) (`a-propos.html` contient un template avec [placeholders] — ne pas publier avec des informations inventées, et surtout ne jamais laisser entendre un titre de comptable agréé qui n'est pas détenu)
-- Témoignages clients (`index.html` contient 3 exemples explicitement marqués "exemple illustratif" — à remplacer par de vrais retours dès les premiers accompagnements)
+- Témoignages clients (`index.html` contient 5 vrais retours clients — attribution anonymisée en "Client Pilotia" faute de prénoms/secteurs communiqués ; à personnaliser si le client donne son accord pour être nommé)
 - Documents téléchargeables eux-mêmes — PDF/Excel (`ressources.html` ne fait que lister les titres, les liens pointent vers `contact.html`)
 - Grille tarifaire (`offres.html`) : chiffres indicatifs de démarrage (490 €, 390 €/mois, 390 € formule lancement) à valider selon votre positionnement réel
 - Widget de prise de rendez-vous réel (Cal.com ou équivalent) et backend du formulaire de contact
