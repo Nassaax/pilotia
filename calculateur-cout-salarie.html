@@ -14,6 +14,12 @@
 <meta name="twitter:title" content="Calculateur du coût réel d'un salarié 2026 — Pilotia">
 <meta name="twitter:description" content="Estimez le coût réel annuel d'un salarié en Belgique (cotisations patronales, pécule de vacances, prime de fin d'année) en 2026.">
 <meta name="twitter:image" content="https://pilotis-nassaaxs-projects.vercel.app/og-image.png">
+<script>
+try{
+  var __t = localStorage.getItem('pilotia-theme');
+  if (__t === 'dark' || __t === 'light') document.documentElement.setAttribute('data-theme', __t);
+}catch(e){}
+</script>
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -25,10 +31,8 @@
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <picture>
-        <source srcset="logo-header-dark.png" media="(prefers-color-scheme: dark)">
-        <img src="logo-header-light.png" alt="Pilotia" class="brand-logo">
-      </picture>
+      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark">
     </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
@@ -49,6 +53,13 @@
           <li><a href="conseils.html">Conseils</a></li>
           <li><a href="a-propos.html">À propos</a></li>
         </ul>
+      </li>
+      <li class="nav-theme-li">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Passer en mode sombre" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2.5" x2="12" y2="5.5"/><line x1="12" y1="18.5" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5.5" y2="12"/><line x1="18.5" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke-linejoin="round"/></svg>
+          <span class="theme-toggle-label">Mode sombre</span>
+        </button>
       </li>
       <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
     </ul>
@@ -115,10 +126,8 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <picture>
-      <source srcset="logo-header-dark.png" media="(prefers-color-scheme: dark)">
-      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo" style="height:22px;vertical-align:middle;margin-right:6px">
-    </picture> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light" style="height:22px;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark" style="height:22px;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
     <ul class="footer-links">
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Confidentialité</a></li>
