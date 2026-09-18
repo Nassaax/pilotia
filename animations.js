@@ -1,4 +1,4 @@
-/* Pilotis — animations légères (scroll reveal), sans dépendance.
+/* Pilotia — animations légères (scroll reveal), sans dépendance.
    Basé sur les recommandations ui-ux-pro-max : opacity 0→1, y:12px, ~350ms ease-out,
    déclenché à l'entrée dans le viewport, désactivé sous prefers-reduced-motion.
    L'état initial "caché" est posé par le script synchrone dans <head> (classe .js sur

@@ -1,6 +1,6 @@
-# Pilotis — coaching business, marketing digital et aide simple aux indépendants
+# Pilotia — coaching business, marketing digital et aide simple aux indépendants
 
-Site vitrine pour un service de coaching destiné aux petites entreprises belges (restaurants, entreprises du bâtiment, commerces...) et aux futurs indépendants. Positionnement : premium, épuré, orienté confiance ("pilotis" = les fondations qui portent une construction).
+Site vitrine pour un service de coaching destiné aux petites entreprises belges (restaurants, entreprises du bâtiment, commerces...) et aux futurs indépendants. Positionnement : premium, épuré, orienté confiance ("Pilotia" = piloter son entreprise, garder le cap et les commandes).
 
 Ce dépôt contient une **structure complète de site** (25 pages, contenu réel, 6 outils interactifs, direction visuelle provisoire) à valider avant d'investir dans le design final.
 
@@ -17,11 +17,11 @@ En conséquence, ont été **retirés** du site (voir historique git) :
 - Le simulateur de trésorerie prévisionnelle sur 12 mois — "le plan prévisionnel n'est pas pour moi" (demande explicite).
 - Le "modèle de plan financier prévisionnel" téléchargeable — remplacé par une simple checklist des charges à prévoir.
 
-Une section **"Ce que Pilotis n'est pas"** a été ajoutée à `a-propos.html`, et les pages restantes ont été relues pour retirer tout vocabulaire d'"analyse financière approfondie" au profit de formulations simples ("comprendre ses chiffres", "repérer ce qui coûte cher"). Les outils de calcul conservés (cotisations INASTI, franchise TVA, marge, coût d'un salarié) appliquent des barèmes publics de façon mécanique — comme le font de nombreux simulateurs grand public — et rappellent chacun que ce n'est pas un conseil comptable ou fiscal personnalisé.
+Une section **"Ce que Pilotia n'est pas"** a été ajoutée à `a-propos.html`, et les pages restantes ont été relues pour retirer tout vocabulaire d'"analyse financière approfondie" au profit de formulations simples ("comprendre ses chiffres", "repérer ce qui coûte cher"). Les outils de calcul conservés (cotisations INASTI, franchise TVA, marge, coût d'un salarié) appliquent des barèmes publics de façon mécanique — comme le font de nombreux simulateurs grand public — et rappellent chacun que ce n'est pas un conseil comptable ou fiscal personnalisé.
 
 ## Décisions déjà prises
 
-- **Nom de marque :** Pilotis
+- **Nom de marque :** Pilotia
 - **Marché cible :** Belgique (législation, fiscalité et cotisations sociales belges — à titre informatif uniquement)
 - **Deux parcours, à égalité :**
   - Entreprises déjà en activité (`entreprises.html`) — diagnostic simple, gestion du personnel, marges, marketing digital
@@ -40,7 +40,7 @@ Cœur du site
   offres.html              Tarifs et formules (grille indicative chiffrée, incl. marketing digital)
   ressources.html          Bibliothèque de documents gratuits (lead magnets)
   outils.html               Hub des 6 outils interactifs
-  a-propos.html              Positionnement, valeurs, bio (template), section "ce que Pilotis n'est pas"
+  a-propos.html              Positionnement, valeurs, bio (template), section "ce que Pilotia n'est pas"
   statistiques.html           Chiffres clés PME/indépendants Belgique (sourcés)
   contact.html                  Prise de rendez-vous + formulaire
 
@@ -81,7 +81,7 @@ Légal & technique
 - Widget de prise de rendez-vous réel (Cal.com ou équivalent) et backend du formulaire de contact
 - Mentions légales, CGV, politique de confidentialité — dénomination légale, numéro d'entreprise, hébergeur
 - Logo et identité visuelle définitive (le CSS actuel est une direction provisoire, pas le design final)
-- Domaine réel : `robots.txt`, `sitemap.xml` et les balises `og:url` utilisent `pilotis.vercel.app` en placeholder
+- Domaine réel : `robots.txt`, `sitemap.xml` et les balises `og:url` utilisent `pilotia.vercel.app` en placeholder
 
 ## Prochaines étapes suggérées
 
