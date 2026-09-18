@@ -24,7 +24,12 @@
 
 <header class="site-header">
   <div class="nav-inner">
-    <a href="index.html" class="brand">Pilotia</a>
+    <a href="index.html" class="brand">
+      <picture>
+        <source srcset="logo-header-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="logo-header-light.png" alt="Pilotia" class="brand-logo">
+      </picture>
+    </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
     </button>
@@ -102,7 +107,10 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <strong>Pilotia</strong> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <picture>
+      <source srcset="logo-header-dark.png" media="(prefers-color-scheme: dark)">
+      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo" style="height:22px;vertical-align:middle;margin-right:6px">
+    </picture> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
     <ul class="footer-links">
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Confidentialité</a></li>

@@ -75,7 +75,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* Header */
 .site-header{border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:20;backdrop-filter:blur(6px)}
 .nav-inner{max-width:var(--max);margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;font-family:var(--font-body)}
-.brand{font-family:var(--font-display);font-size:21px;letter-spacing:.01em;text-decoration:none;color:var(--ink)}
+.brand{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink)}
+.brand-logo{height:32px;width:auto;display:block}
 .nav-links{list-style:none;display:flex;align-items:center;gap:22px;margin:0;padding:0}
 .nav-links a{text-decoration:none;color:var(--ink-soft);font-size:15px;font-weight:500;transition:color .18s ease}
 .nav-links a.active,.nav-links a:hover{color:var(--accent)}
