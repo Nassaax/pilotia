@@ -194,7 +194,7 @@ function render(){
   q.options.forEach(function(opt, i){
     var checked = answers[current] === i ? 'checked' : '';
     html += '<label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:15px">' +
-      '<input type="radio" name="opt" value="' + i + '" ' + checked + ' onchange="select(' + i + ')"> ' + opt.label +
+      '<input type="radio" name="opt" value="' + i + '" ' + checked + ' onchange="chooseAnswer(' + i + ')"> ' + opt.label +
       '</label>';
   });
   document.getElementById('question-block').innerHTML = html;
@@ -203,7 +203,7 @@ function render(){
   document.getElementById('btnNext').textContent = current === questions.length - 1 ? 'Voir mon résultat →' : 'Suivant →';
 }
 
-function select(i){
+function chooseAnswer(i){
   answers[current] = i;
 }
 

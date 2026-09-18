@@ -145,11 +145,8 @@ function calculer(){
 
   var cotisationTrim = cotisationAnnuelle / 4;
 
-  if (statut === 'principal' && revenu > exoSeuil){
+  if ((statut === 'principal' || statut === 'debutant') && revenu > exoSeuil){
     cotisationTrim = Math.max(cotisationTrim, minTrim);
-  }
-  if (statut === 'complement'){
-    cotisationTrim = cotisationTrim; // pas de minimum "principal" applicable
   }
   cotisationTrim = Math.min(cotisationTrim, maxTrim);
 
