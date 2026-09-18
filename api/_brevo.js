@@ -27,9 +27,11 @@ async function upsertContact({ email, attributes }) {
     throw new Error("BREVO_API_KEY manquante — voir api/_brevo.js pour la configuration requise.");
   }
 
-  const listIds = process.env.BREVO_LIST_ID
-    ? [parseInt(process.env.BREVO_LIST_ID, 10)]
-    : undefined;
+  // BREVO_LIST_ID est optionnelle et parfois mal renseignée (URL entière collée au
+  // lieu du seul numéro, espace, etc.) — un parseInt raté ne doit jamais faire
+  // échouer toute la capture de contact, juste être ignoré silencieusement.
+  const parsedListId = process.env.BREVO_LIST_ID ? parseInt(process.env.BREVO_LIST_ID, 10) : NaN;
+  const listIds = Number.isInteger(parsedListId) ? [parsedListId] : undefined;
 
   const res = await fetch(`${BREVO_API_BASE}/contacts`, {
     method: "POST",
