@@ -75,6 +75,7 @@ Légal & technique
 - Bio du fondateur (`a-propos.html`) : Nasser Yasini, bachelier en comptabilité, expérience en fiduciaire, gestion des salaires et immobilier — pas de titre de comptable agréé revendiqué.
 - Témoignages clients (`index.html` contient 5 vrais retours clients, attribués par prénom et métier : Sylvain coiffeur, Sarah esthéticienne, Gabriel boulanger, Farah agent immobilier, Lucas restaurateur).
 - Réservation d'appel : `contact.html` renvoie vers le vrai lien Cal.com (https://cal.com/pilotia/call), créneaux de 15 minutes.
+- Logo réel (fourni par le client) : favicon/apple-touch-icon (`favicon-32.png`, `icon-192.png`, `apple-touch-icon.png`), image de partage réseaux sociaux (`og-image.png`, balises og:image/twitter:image sur 21 des 25 pages) et en-tête du PDF de lancement l'utilisent désormais. Le header/footer du site gardent le nom en texte (police du design system) plutôt que le logo en image, pour rester lisibles automatiquement en mode sombre — dites-le si vous préférez y intégrer l'image malgré tout.
 
 **Placeholder, à compléter avant mise en ligne :**
 - Photo du fondateur sur `a-propos.html` (le champ a été retiré en attendant une vraie photo professionnelle — à réintégrer quand elle sera disponible)
@@ -82,8 +83,7 @@ Légal & technique
 - Grille tarifaire (`offres.html`) : chiffres indicatifs de démarrage (490 €, 390 €/mois, 390 € formule lancement) à valider selon votre positionnement réel
 - Backend du formulaire de contact (envoi d'email) — le lien Cal.com est déjà branché, il ne reste que le formulaire libre
 - Mentions légales, CGV, politique de confidentialité — dénomination légale, numéro d'entreprise, hébergeur
-- Logo et identité visuelle définitive (le CSS actuel est une direction provisoire, pas le design final)
-- Domaine réel : `robots.txt`, `sitemap.xml` et les balises `og:url` utilisent `pilotia.vercel.app` en placeholder
+- Domaine réel : `robots.txt`, `sitemap.xml` et les balises `og:url`/`og:image` utilisent `pilotis-nassaaxs-projects.vercel.app` en placeholder — à mettre à jour une fois `pilotia.be` (ou équivalent) actif
 
 ## Prochaines étapes suggérées
 
