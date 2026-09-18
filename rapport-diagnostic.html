@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapport diagnostic détaillé — Pilotia</title>
+<meta name="description" content="Votre rapport diagnostic personnalisé, généré à partir de vos réponses : synthèse, points de vigilance et plan d'action priorisé en PDF.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rapport diagnostic détaillé — Pilotia">
+<meta property="og:description" content="Votre rapport diagnostic personnalisé, généré à partir de vos réponses : synthèse, points de vigilance et plan d'action priorisé en PDF.">
+<meta property="og:image" content="https://pilotis-nassaaxs-projects.vercel.app/og-image.png">
+<meta property="og:url" content="https://pilotis-nassaaxs-projects.vercel.app/rapport-diagnostic.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rapport diagnostic détaillé — Pilotia">
+<meta name="twitter:description" content="Votre rapport diagnostic personnalisé, généré à partir de vos réponses : synthèse, points de vigilance et plan d'action priorisé en PDF.">
+<meta name="twitter:image" content="https://pilotis-nassaaxs-projects.vercel.app/og-image.png">
+<script>
+try{
+  var __t = localStorage.getItem('pilotia-theme');
+  if (__t === 'dark' || __t === 'light') document.documentElement.setAttribute('data-theme', __t);
+}catch(e){}
+</script>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark">
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Devenir indépendant</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li class="dropdown">
+        <button type="button" class="dropdown-trigger" aria-expanded="false" aria-haspopup="true">Découvrir <span class="dropdown-caret" aria-hidden="true">▾</span></button>
+        <ul class="dropdown-menu">
+          <li><a href="outils.html">Outils</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="methode.html">Méthode</a></li>
+          <li><a href="statistiques.html">Statistiques</a></li>
+          <li><a href="conseils.html">Conseils</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+      </li>
+      <li class="nav-theme-li">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Passer en mode sombre" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2.5" x2="12" y2="5.5"/><line x1="12" y1="18.5" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5.5" y2="12"/><line x1="18.5" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke-linejoin="round"/></svg>
+          <span class="theme-toggle-label">Mode sombre</span>
+        </button>
+      </li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Rapport détaillé — 19 €</div>
+    <h1>Votre plan d'action, écrit noir sur blanc.</h1>
+    <p class="lead">On reprend vos réponses au diagnostic express, on les développe avec quelques questions en plus, et on vous génère un rapport PDF personnalisé : synthèse, points de vigilance par thème, et 3 à 5 recommandations concrètes et priorisées.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+
+    <div id="no-diagnostic" class="card" style="display:none;max-width:640px">
+      <h3>Commencez par le diagnostic gratuit</h3>
+      <p>Le rapport détaillé se construit à partir de vos réponses au diagnostic express (3 minutes). Faites-le d'abord, puis revenez ici.</p>
+      <a href="diagnostic.html" class="btn btn-primary">Faire le diagnostic express →</a>
+    </div>
+
+    <div id="report-flow" style="display:none">
+      <div class="grid grid-2" style="align-items:start">
+        <div class="card" id="recap-card">
+          <div class="pill" id="recap-pill">Votre score</div>
+          <h3 id="recap-title"></h3>
+          <p style="color:var(--ink-soft)">Ces réponses serviront de base au rapport. Complétez juste quelques informations pour qu'il colle à votre réalité.</p>
+        </div>
+
+        <div class="card">
+          <div class="note" style="margin-bottom:18px">
+            <strong>Version test :</strong> le paiement en ligne n'est pas encore activé — le rapport est généré gratuitement pendant la phase de lancement. Tarif normal une fois le paiement activé : 19 €.
+          </div>
+          <form id="report-form" onsubmit="return false">
+            <div>
+              <label for="secteur">Votre secteur d'activité</label>
+              <input type="text" id="secteur" placeholder="Ex : restaurant, plomberie, coiffure, freelance marketing..." required>
+            </div>
+            <div>
+              <label for="taille">Taille de l'équipe</label>
+              <select id="taille">
+                <option value="seul(e)">Seul(e), pas d'employé</option>
+                <option value="1-2 personnes">1 à 2 personnes</option>
+                <option value="3-5 personnes">3 à 5 personnes</option>
+                <option value="6+ personnes">6 personnes ou plus</option>
+              </select>
+            </div>
+            <div>
+              <label for="difficulte">Votre plus grande difficulté en ce moment</label>
+              <textarea id="difficulte" rows="4" placeholder="Décrivez en quelques phrases — plus c'est précis, plus le rapport sera utile." required></textarea>
+            </div>
+            <div>
+              <label for="prenom">Prénom</label>
+              <input type="text" id="prenom" required>
+            </div>
+            <div>
+              <label for="email">Email (pour recevoir le rapport)</label>
+              <input type="email" id="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="report-submit" style="justify-self:start">Générer mon rapport détaillé →</button>
+            <p id="report-msg" aria-live="polite" style="color:var(--ink-soft);font-size:14px"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Besoin d'aller encore plus loin ?</h2>
+    <p style="color:#fff;opacity:.9">Le rapport donne un plan. L'accompagnement le met en œuvre avec vous.</p>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light" style="height:22px;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark" style="height:22px;vertical-align:middle;margin-right:6px">
+     — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var raw = null;
+  try { raw = localStorage.getItem('pilotia-diagnostic'); } catch(e){}
+  var data = null;
+  try { data = raw ? JSON.parse(raw) : null; } catch(e){}
+
+  if (!data){
+    document.getElementById('no-diagnostic').style.display = 'block';
+    return;
+  }
+  document.getElementById('report-flow').style.display = 'block';
+  document.getElementById('recap-pill').textContent = data.pill + ' — ' + data.total + '/16';
+  document.getElementById('recap-title').textContent = 'Diagnostic express complété';
+
+  var form = document.getElementById('report-form');
+  var submitBtn = document.getElementById('report-submit');
+  var msg = document.getElementById('report-msg');
+
+  form.addEventListener('submit', function(){
+    var payload = {
+      diagnostic: data,
+      secteur: document.getElementById('secteur').value.trim(),
+      taille: document.getElementById('taille').value,
+      difficulte: document.getElementById('difficulte').value.trim(),
+      prenom: document.getElementById('prenom').value.trim(),
+      email: document.getElementById('email').value.trim()
+    };
+
+    if (!payload.secteur || !payload.difficulte || !payload.prenom || !payload.email){
+      msg.textContent = 'Merci de compléter tous les champs.';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Génération en cours (15-20 secondes)...';
+    msg.textContent = '';
+
+    fetch('/api/generate-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(r){
+      var contentType = r.headers.get('content-type') || '';
+      if (r.ok && contentType.indexOf('application/pdf') !== -1){
+        return r.blob().then(function(blob){
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'pilotia-rapport-diagnostic.pdf';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+          msg.textContent = 'Votre rapport a été téléchargé — un exemplaire vous a aussi été envoyé par email si notre service d\'envoi est configuré.';
+        });
+      }
+      return r.json().catch(function(){ return {}; }).then(function(data){
+        throw new Error((data && data.error) || 'Une erreur est survenue.');
+      });
+    }).catch(function(err){
+      msg.textContent = err.message || 'Une erreur est survenue, réessayez.';
+    }).finally(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Générer mon rapport détaillé →';
+    });
+  });
+})();
+</script>
+
+<script src="animations.js" defer></script>
+</body>
+</html>

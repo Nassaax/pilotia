@@ -92,7 +92,13 @@ try{
       <div class="card">
         <h3>Les étapes pour devenir indépendant en Belgique</h3>
         <p>Le guide complet en 10 étapes, dans l'ordre : statut, BCE, caisse d'assurances sociales, mutuelle, TVA, assurances et trésorerie de départ.</p>
-        <a href="downloads/pilotia-etapes-devenir-independant-belgique.pdf" class="btn btn-secondary" download>Télécharger (PDF) →</a>
+        <form class="gated-download" data-resource="guide-independant-pdf" data-file="downloads/pilotia-etapes-devenir-independant-belgique.pdf" onsubmit="return false">
+          <div class="gated-download-row">
+            <input type="email" placeholder="Votre email" required aria-label="Votre email">
+            <button type="submit" class="btn btn-secondary">Recevoir le PDF →</button>
+          </div>
+          <p class="gated-download-msg" aria-live="polite"></p>
+        </form>
       </div>
       <div class="card">
         <h3>Plan marketing digital des 4 premières semaines</h3>

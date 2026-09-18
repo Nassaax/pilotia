@@ -275,6 +275,13 @@ input[type="radio"],input[type="checkbox"]{
   accent-color:var(--accent);cursor:pointer;margin:0;
 }
 
+/* Formulaires de téléchargement protégés par email (ressources.html, outils.html) */
+.gated-download{max-width:none;gap:8px;margin-top:16px}
+.gated-download-row{display:flex;gap:8px;flex-wrap:wrap}
+.gated-download-row input[type="email"]{flex:1 1 180px;min-width:0}
+.gated-download-row button{flex:none}
+.gated-download-msg{font-family:var(--font-body);font-size:13px;color:var(--ink-soft);margin:0;min-height:1.2em}
+
 .banner{background:var(--ink-fixed);color:#fff;padding:56px 0;text-align:center}
 .banner h2{color:#fff}
 .banner .btn-primary{background:#fff;color:var(--ink-fixed)}

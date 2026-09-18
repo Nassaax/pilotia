@@ -94,10 +94,17 @@ try{
         <h3>Éligibilité franchise TVA</h3>
         <p>Vérifiez si votre chiffre d'affaires reste sous le seuil de 25 000 € en 2026.</p>
       </a>
-      <a href="downloads/pilotia-etapes-devenir-independant-belgique.pdf" class="card" style="text-decoration:none;color:inherit;display:block" download>
-        <h3>Guide PDF — Les étapes pour devenir indépendant →</h3>
+      <div class="card">
+        <h3>Guide PDF — Les étapes pour devenir indépendant</h3>
         <p>Le guide complet en 10 étapes, dans l'ordre : statut, BCE, caisse d'assurances sociales, mutuelle, TVA, assurances et trésorerie de départ.</p>
-      </a>
+        <form class="gated-download" data-resource="guide-independant-pdf" data-file="downloads/pilotia-etapes-devenir-independant-belgique.pdf" onsubmit="return false">
+          <div class="gated-download-row">
+            <input type="email" placeholder="Votre email" required aria-label="Votre email">
+            <button type="submit" class="btn btn-secondary">Recevoir le PDF →</button>
+          </div>
+          <p class="gated-download-msg" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
 
     <h2 class="section-title" style="font-size:22px;margin:32px 0 16px">Pour les entreprises</h2>

@@ -92,8 +92,16 @@ try{
       <h2 id="result-title" style="font-size:26px"></h2>
       <p id="result-text"></p>
       <div id="result-breakdown" style="margin:20px 0"></div>
-      <a href="contact.html" class="btn btn-primary" id="result-cta">Réserver mon appel découverte →</a>
-      <button class="btn btn-secondary" onclick="restart()" style="margin-left:10px">Refaire le diagnostic</button>
+      <div class="btn-row">
+        <a href="contact.html" class="btn btn-primary" id="result-cta">Réserver mon appel découverte →</a>
+        <button class="btn btn-secondary" onclick="restart()">Refaire le diagnostic</button>
+      </div>
+      <div class="card" style="margin-top:24px;border-color:var(--gold);background:var(--gold-soft)">
+        <div class="pill" style="background:var(--card)">Pour aller plus loin</div>
+        <h3>Envie d'un plan d'action écrit, propre à votre situation ?</h3>
+        <p>Le rapport détaillé reprend vos réponses et les développe en recommandations concrètes et priorisées, en PDF — généré spécialement pour vous.</p>
+        <a href="rapport-diagnostic.html" class="btn btn-primary" id="result-report-cta">Obtenir mon rapport détaillé (19 €) →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -275,6 +283,19 @@ function showResult(){
   document.getElementById('result-pill').textContent = pill;
   document.getElementById('result-title').textContent = title;
   document.getElementById('result-text').textContent = text;
+
+  // Sauvegarde des réponses pour le rapport détaillé payant (rapport-diagnostic.html) —
+  // évite de refaire remplir le quiz sur l'autre page.
+  try {
+    localStorage.setItem('pilotia-diagnostic', JSON.stringify({
+      total: total,
+      pill: pill,
+      themes: themes,
+      reponses: questions.map(function(q, i){
+        return { theme: q.theme, question: q.q, reponse: q.options[answers[i]].label };
+      })
+    }));
+  } catch (e) {}
 
   var breakdown = '';
   Object.keys(themes).forEach(function(theme){

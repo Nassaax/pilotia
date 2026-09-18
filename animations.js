@@ -144,6 +144,65 @@
   });
 })();
 
+/* Téléchargements protégés par email (ressources.html, outils.html) — capture
+   l'email via /api/subscribe (Brevo) puis déclenche le téléchargement réel
+   du fichier. Un email déjà connu n'est jamais bloqué (upsert côté serveur). */
+(function () {
+  "use strict";
+
+  var forms = document.querySelectorAll(".gated-download");
+  if (!forms.length) return;
+
+  forms.forEach(function (form) {
+    var msg = form.querySelector(".gated-download-msg");
+    var input = form.querySelector('input[type="email"]');
+    var button = form.querySelector("button");
+    var defaultLabel = button.textContent;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = input.value.trim();
+      if (!email) return;
+
+      button.disabled = true;
+      button.textContent = "Envoi...";
+      msg.textContent = "";
+
+      fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, resource: form.getAttribute("data-resource") }),
+      })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (data) {
+            return { ok: r.ok, data: data };
+          });
+        })
+        .then(function (result) {
+          if (result.ok && result.data && result.data.ok) {
+            var a = document.createElement("a");
+            a.href = form.getAttribute("data-file");
+            a.download = "";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            msg.textContent = "Merci ! Le téléchargement démarre.";
+            input.value = "";
+          } else {
+            msg.textContent = (result.data && result.data.error) || "Une erreur est survenue, réessayez.";
+          }
+        })
+        .catch(function () {
+          msg.textContent = "Une erreur est survenue, réessayez.";
+        })
+        .finally(function () {
+          button.disabled = false;
+          button.textContent = defaultLabel;
+        });
+    });
+  });
+})();
+
 /* Compteur animé sur les chiffres clés (statistiques.html) — désactivé sous
    prefers-reduced-motion : le chiffre final s'affiche directement, sans étape intermédiaire. */
 (function () {
