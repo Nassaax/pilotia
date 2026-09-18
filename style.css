@@ -189,6 +189,12 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
   padding:6px 13px;border-radius:999px;margin-bottom:10px;
 }
 
+/* Trois piliers en triangle (page d'accueil) */
+.triangle-grid{display:flex;flex-direction:column;align-items:center;gap:24px;margin-top:32px}
+.triangle-card{max-width:380px;width:100%}
+.triangle-base{display:flex;gap:24px;width:100%;justify-content:center;flex-wrap:wrap}
+.triangle-base .triangle-card{flex:1 1 300px}
+
 .path-cards{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .path-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow-sm);transition:box-shadow .2s ease,transform .2s ease}
 .path-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
