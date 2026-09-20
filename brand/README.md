@@ -44,11 +44,10 @@ toucher au dessin :
 | `--cheveux` | cheveux **et** barbe |
 | `--marine` / `--marine-fonce` | veste et revers |
 | `--fond` | disque de fond |
-
-Il n'y a plus de groupe `lunettes` : le modèle n'en porte pas.
 | `--bronze` | anneau et pochette |
 
 Pour **enlever la barbe** : supprimer le groupe `<g id="barbe">` en entier.
+Il n'y a pas de groupe `lunettes` : le modèle n'en porte pas.
 
 Après toute modification, régénérer la version transparente et les PNG — la
 version transparente est dérivée de la source, elle ne se met pas à jour seule.
