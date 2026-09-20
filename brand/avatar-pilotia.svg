@@ -1,24 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-labelledby="titre desc">
 <title id="titre">Avatar Pilotia</title>
-<desc id="desc">Illustration d'un conseiller souriant, en costume bleu marine, chemise blanche et cravate bleue, sur fond bleu clair cerclé de bronze.</desc>
+<desc id="desc">Illustration d'un homme souriant en t-shirt bleu marine, sur fond bleu clair cerclé de bronze.</desc>
 
 <!-- ===================================================================
      AVATAR PILOTIA — portrait rond
 
      Style : proportions cartoon (tête volontairement grosse, cou très
      court), cheveux courts avec du volume sur le dessus, tempes
-     dégagées et barbe courte fournie.
+     dégagées, visage glabre et t-shirt col rond.
 
      Palette alignée sur style.css :
-       marine   #1B2A41   veste
-       bleu     #0369A1   cravate
+       marine   #1B2A41   t-shirt
        bronze   #876231   anneau
 
      PERSONNALISATION — tout se règle dans le bloc « style » ci-dessous :
        « peau »        teint
        « peau-ombre »  ombre du cou et du nez, un cran plus sombre
-       « cheveux »     cheveux et barbe
-     Pour RETIRER LA BARBE : effacer le groupe « barbe ».
+       « cheveux »     cheveux et sourcils
      =================================================================== -->
 <style>
   :root, svg {
@@ -27,9 +25,7 @@
     --cheveux:     #1B1410;
     --marine:      #1B2A41;
     --marine-fonce:#132033;
-    --bleu:        #0369A1;
     --bronze:      #876231;
-    --chemise:     #FFFFFF;
     --fond:        #DCE9F2;
     --trait:       #0F172A;
   }
@@ -48,7 +44,7 @@
   <path d="M 178 232 L 178 300 L 222 300 L 222 232 Z" fill="var(--peau)"/>
   <path d="M 178 232 L 178 254 C 192 270 208 270 222 254 L 222 232 Z" fill="var(--peau-ombre)"/>
 
-  <!-- Veste -->
+  <!-- T-shirt -->
   <path d="M 200 264
            C 158 264 112 278 86 306
            C 60 334 48 392 42 420
@@ -57,15 +53,12 @@
            C 288 278 242 264 200 264 Z"
         fill="var(--marine)"/>
 
-  <!-- Chemise : triangle inversé entre les revers. -->
-  <path d="M 176 262 L 200 344 L 224 262 Z" fill="var(--chemise)"/>
-  <!-- Revers, angles hauts en retrait de la ligne d'épaule. -->
-  <path d="M 176 262 L 200 344 L 156 302 L 152 278 Z" fill="var(--marine-fonce)"/>
-  <path d="M 224 262 L 200 344 L 244 302 L 248 278 Z" fill="var(--marine-fonce)"/>
-
-  <!-- Cravate : le nœud puis le pan, en bleu accent. -->
-  <path d="M 190 264 L 210 264 L 215 284 L 200 296 L 185 284 Z" fill="var(--bleu)"/>
-  <path d="M 189 296 L 211 296 L 216 372 L 200 392 L 184 372 Z" fill="var(--bleu)"/>
+  <!-- Encolure : le cou reste visible à travers le col rond. Dessinée APRÈS
+       le t-shirt, sinon celui-ci la recouvrirait. -->
+  <path d="M 174 262 C 179 292 221 292 226 262 L 226 232 L 174 232 Z" fill="var(--peau)"/>
+  <!-- Bord-côte du col, un cran plus sombre que le corps du t-shirt. -->
+  <path d="M 174 262 C 179 292 221 292 226 262" fill="none"
+        stroke="var(--marine-fonce)" stroke-width="9" stroke-linecap="round"/>
 
   <!-- ·········· Tête ·········· -->
   <ellipse cx="116" cy="166" rx="14" ry="21" fill="var(--peau)"/>
@@ -78,23 +71,6 @@
            C 134 234 116 198 116 150
            C 116 94 152 62 200 62 Z"
         fill="var(--peau)"/>
-
-  <!-- BARBE — courte, dessine la mâchoire sans manger le visage. -->
-  <g id="barbe">
-    <!-- Barbe resserrée : trop large, elle dévorait les joues et assombrissait
-         tout le bas du visage. -->
-    <path d="M 128 178
-             C 128 210 142 236 164 246
-             C 178 253 222 253 236 246
-             C 258 236 272 210 272 178
-             C 268 198 260 208 254 214
-             C 246 222 242 234 234 240
-             C 223 247 177 247 166 240
-             C 158 234 154 222 146 214
-             C 140 208 132 198 128 178 Z"
-          fill="var(--cheveux)" opacity=".88"/>
-    <path d="M 178 206 C 188 200 212 200 222 206 C 212 204 188 204 178 206 Z" fill="var(--peau)"/>
-  </g>
 
   <!-- CHEVEUX — du volume sur le dessus et une naissance haute : sans front
        dégagé, la coiffure fait casque et mange le visage. -->

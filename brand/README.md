@@ -4,12 +4,12 @@ Avatar et illustrations dessinés en vectoriel, aux couleurs exactes du site.
 Aucune licence à respecter, aucune attribution : ce sont des fichiers faits sur
 mesure pour Pilotia.
 
-## Avatar — version 3, d'après photo
+## Avatar — version 4
 
-> Les deux premières versions ont été écartées : la première sans référence,
-> la seconde avec des lunettes que le modèle ne porte pas. Celle-ci est
-> dessinée d'après une photo fournie : pas de lunettes, cheveux courts avec
-> du volume, barbe courte fournie, teint plus clair.
+> Historique des écarts : v1 sans référence, v2 avec des lunettes que le
+> modèle ne porte pas, v3 d'après photo mais en costume-cravate et barbue.
+> La version actuelle est glabre et en t-shirt col rond, à la demande du
+> client.
 
 ## Avatar — les fichiers
 
@@ -41,13 +41,13 @@ toucher au dessin :
 |---|---|
 | `--peau` | teint |
 | `--peau-ombre` | ombre sous la mâchoire — garder un cran plus sombre que `--peau` |
-| `--cheveux` | cheveux **et** barbe |
-| `--marine` / `--marine-fonce` | veste et revers |
+| `--cheveux` | cheveux **et** sourcils |
+| `--marine` / `--marine-fonce` | t-shirt et bord-côte du col |
 | `--fond` | disque de fond |
 | `--bronze` | anneau et pochette |
 
-Pour **enlever la barbe** : supprimer le groupe `<g id="barbe">` en entier.
-Il n'y a pas de groupe `lunettes` : le modèle n'en porte pas.
+Il n'y a ni groupe `barbe` ni groupe `lunettes` : le personnage est glabre et
+sans lunettes.
 
 Après toute modification, régénérer la version transparente et les PNG — la
 version transparente est dérivée de la source, elle ne se met pas à jour seule.
