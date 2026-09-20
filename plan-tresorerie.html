@@ -145,7 +145,7 @@
     <h2 style="margin-top:38px">4. Ce qui rentre et ce qui sort</h2>
     <p class="treso-aide" style="max-width:70ch">Modifiez, ajoutez ou supprimez des lignes : tout se recalcule immédiatement. Le <strong>décalage</strong> indique à partir de quel mois la ligne s'applique — 0 pour le premier mois projeté, 1 pour le suivant, et ainsi de suite.</p>
 
-    <div class="grid grid-2" style="margin-top:20px;align-items:start">
+    <div class="treso-colonnes">
       <div class="card">
         <h3 class="treso-titre-in">Encaissements</h3>
         <div class="treso-entetes"><span>Libellé</span><span>Montant</span><span>Fréquence</span><span>Décal.</span><span></span></div>
@@ -160,6 +160,27 @@
       </div>
     </div>
 
+    <!-- Factures engagées -->
+    <h2 style="margin-top:38px">5. Factures en attente</h2>
+    <p class="treso-aide" style="max-width:70ch">Les factures déjà émises ou reçues, mais pas encore passées en banque. C'est ce qui sépare une projection vague d'une projection juste : une grosse facture client qui tombe le 12 du mois prochain déplace votre point bas. Chaque facture compte dans le mois de son échéance, et disparaît du calcul dès que vous la cochez « réglée ».</p>
+
+    <div class="treso-colonnes">
+      <div class="card">
+        <h3 class="treso-titre-in">À encaisser</h3>
+        <p class="treso-total" id="total-in">—</p>
+        <div class="treso-entetes treso-entetes-f"><span>Client</span><span>Montant</span><span>Échéance</span><span>État</span><span></span></div>
+        <div id="factures-in"></div>
+        <button type="button" class="btn btn-secondary treso-ajout" data-fajout="in">+ Ajouter une facture client</button>
+      </div>
+      <div class="card">
+        <h3 class="treso-titre-out">À payer</h3>
+        <p class="treso-total" id="total-out">—</p>
+        <div class="treso-entetes treso-entetes-f"><span>Fournisseur</span><span>Montant</span><span>Échéance</span><span>État</span><span></span></div>
+        <div id="factures-out"></div>
+        <button type="button" class="btn btn-secondary treso-ajout" data-fajout="out">+ Ajouter une facture fournisseur</button>
+      </div>
+    </div>
+
     <div class="note" style="margin-top:22px">
       <strong>Pensé pour le rythme belge.</strong> Les cotisations sociales et la TVA sont pré-remplies en <em>fréquence trimestrielle</em> : ce sont elles qui creusent les trous que personne n'avait vus venir. Ajustez les montants avec
       <a href="calculateur-cotisations-independant.html">le calculateur de cotisations</a> et
@@ -167,7 +188,7 @@
     </div>
 
     <!-- Sauvegarde -->
-    <h2 style="margin-top:38px">5. Garder votre plan</h2>
+    <h2 style="margin-top:38px">6. Garder votre plan</h2>
     <div class="card">
       <p><strong>Vos chiffres ne quittent jamais votre appareil.</strong> Tout est calculé dans votre navigateur et enregistré localement : rien n'est envoyé à Pilotia, et personne d'autre que vous n'y a accès.</p>
       <p>La contrepartie : cet enregistrement est propre à ce navigateur. Il disparaît si vous videz vos données de navigation, et ne suit pas sur un autre appareil. <strong>Exportez votre plan</strong> pour le conserver ou le reprendre ailleurs.</p>

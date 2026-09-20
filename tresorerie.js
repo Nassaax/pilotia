@@ -16,7 +16,7 @@
   if (!racine) return;
 
   var CLE = "pilotia-tresorerie";
-  var VERSION = 1;
+  var VERSION = 2;
 
   // Catégories pré-remplies au rythme belge : les cotisations sociales et la
   // TVA tombent par trimestre, et c'est précisément ce qui crée les trous de
@@ -38,6 +38,10 @@
       { id: 8, sens: "out", categorie: "Cotisations sociales", montant: 1700, frequence: "trimestriel", decalage: 0 },
       { id: 9, sens: "out", categorie: "TVA à reverser", montant: 2400, frequence: "trimestriel", decalage: 0 },
     ],
+    // Factures déjà engagées mais pas encore passées en banque. C'est ce qui
+    // sépare une projection vague d'une projection juste : une grosse facture
+    // client qui tombe le 12 du mois suivant déplace le point bas.
+    factures: [],
   };
 
   var MOIS_COURTS = ["janv.", "févr.", "mars", "avr.", "mai", "juin",
@@ -56,7 +60,15 @@
     if (brut) {
       try {
         var d = JSON.parse(brut);
-        if (d && d.version === VERSION && Array.isArray(d.lignes)) return d;
+        if (d && Array.isArray(d.lignes)) {
+          // Migration douce : un plan enregistré avant l'ajout des factures
+          // reste valable, on lui ajoute simplement le champ manquant.
+          if (d.version === 1) { d.factures = []; d.version = 2; }
+          if (d.version === VERSION) {
+            if (!Array.isArray(d.factures)) d.factures = [];
+            return d;
+          }
+        }
       } catch (e) {}
     }
     var neuf = JSON.parse(JSON.stringify(MODELE));
@@ -84,6 +96,17 @@
     }
   }
 
+  // Rang du mois projeté dans lequel tombe une date (0 = premier mois).
+  // Renvoie null si la date est absente ou illisible, un nombre négatif si
+  // elle est antérieure au début de la projection.
+  function indexDuMois(iso, an, mo) {
+    if (!iso) return null;
+    var p = String(iso).split("-");
+    var a = parseInt(p[0], 10), m = parseInt(p[1], 10);
+    if (!a || !m) return null;
+    return (a - an) * 12 + (m - 1 - mo);
+  }
+
   function calculer() {
     var parts = (etat.moisDepart || "").split("-");
     var an = parseInt(parts[0], 10) || new Date().getFullYear();
@@ -100,6 +123,20 @@
         if (l.sens === "in") entrees += m; else sorties += m;
         var cle = l.sens + "|" + l.categorie;
         detail[cle] = (detail[cle] || 0) + m;
+      });
+
+      // Factures engagées : elles comptent dans le mois de leur échéance, et
+      // seulement tant qu'elles ne sont pas réglées. Une échéance déjà passée
+      // est rattachée au premier mois projeté : l'argent n'est toujours pas là.
+      etat.factures.forEach(function (fa) {
+        if (fa.regle) return;
+        var idx = indexDuMois(fa.echeance, an, mo);
+        if (idx === null) return;
+        if (idx < 0) idx = 0;
+        if (idx !== i) return;
+        if (fa.sens === "in") entrees += fa.montant; else sorties += fa.montant;
+        var c = fa.sens + "|" + (fa.sens === "in" ? "Factures à encaisser" : "Factures à payer");
+        detail[c] = (detail[c] || 0) + fa.montant;
       });
       var debut = solde;
       solde = debut + entrees - sorties;
@@ -162,6 +199,7 @@
     dessinerBarres(mois);
     remplirTableau(mois);
     rendreLignes();
+    rendreFactures();
     sauver();
   }
 
@@ -278,6 +316,16 @@
     etat.lignes.forEach(function (l) {
       if (cats[l.sens].indexOf(l.categorie) === -1) cats[l.sens].push(l.categorie);
     });
+    // Les factures engagées créent leurs propres catégories. Sans ce second
+    // passage, leur montant gonflait le total sans qu'aucune ligne du détail
+    // n'explique d'où il venait.
+    mois.forEach(function (m) {
+      Object.keys(m.detail).forEach(function (k) {
+        var i = k.indexOf("|");
+        var sens = k.slice(0, i), cat = k.slice(i + 1);
+        if (cats[sens] && cats[sens].indexOf(cat) === -1) cats[sens].push(cat);
+      });
+    });
 
     var h = ['<thead><tr><th scope="col">Catégorie</th>'];
     mois.forEach(function (m) {
@@ -352,9 +400,63 @@
     return '<option value="' + v + '"' + (v === courant ? " selected" : "") + ">" + libelle + "</option>";
   }
 
+
+  // ───────────────────────────────────────────────── factures engagées
+
+  function rendreFactures() {
+    var parts = (etat.moisDepart || "").split("-");
+    var an = parseInt(parts[0], 10), mo = (parseInt(parts[1], 10) || 1) - 1;
+
+    ["in", "out"].forEach(function (sens) {
+      var hote = document.getElementById(sens === "in" ? "factures-in" : "factures-out");
+      var liste = etat.factures.filter(function (fa) { return fa.sens === sens; });
+      if (!liste.length) {
+        hote.innerHTML = '<p class="treso-vide">Aucune facture en attente.</p>';
+      } else {
+        // Les plus proches d'abord : c'est l'ordre dans lequel on s'en soucie.
+        liste.sort(function (a, b) { return String(a.echeance).localeCompare(String(b.echeance)); });
+        hote.innerHTML = liste.map(function (fa) {
+          var idx = indexDuMois(fa.echeance, an, mo);
+          var enRetard = !fa.regle && idx !== null && idx < 0;
+          var horsHorizon = !fa.regle && idx !== null && idx >= etat.horizon;
+          var alerte = "";
+          if (enRetard) alerte = '<span class="treso-alerte">échéance dépassée — comptée sur le 1er mois</span>';
+          else if (horsHorizon) alerte = '<span class="treso-hors">au-delà de l\'horizon choisi</span>';
+          return '<div class="treso-facture' + (fa.regle ? " treso-facture-reglee" : "") + '" data-fid="' + fa.id + '">' +
+            '<input type="text" value="' + echapper(fa.libelle) + '" data-fchamp="libelle" aria-label="Nom du client ou du fournisseur">' +
+            '<input type="number" value="' + fa.montant + '" min="0" step="10" data-fchamp="montant" aria-label="Montant en euros">' +
+            '<input type="date" value="' + echapper(fa.echeance || "") + '" data-fchamp="echeance" aria-label="Date d\'échéance">' +
+            '<label class="treso-regle"><input type="checkbox" data-fchamp="regle"' + (fa.regle ? " checked" : "") +
+              '> <span>Réglée</span></label>' +
+            '<button type="button" class="treso-suppr" data-fsuppr="' + fa.id + '" aria-label="Supprimer la facture ' +
+              echapper(fa.libelle) + '">×</button>' +
+            (alerte ? '<p class="treso-facture-note">' + alerte + "</p>" : "") +
+          "</div>";
+        }).join("");
+      }
+
+      var total = liste.reduce(function (s, fa) { return s + (fa.regle ? 0 : fa.montant); }, 0);
+      var nb = liste.filter(function (fa) { return !fa.regle; }).length;
+      var resume = document.getElementById(sens === "in" ? "total-in" : "total-out");
+      resume.textContent = nb === 0 ? "Rien en attente"
+        : nb + (nb > 1 ? " factures" : " facture") + " — " + euros(total);
+    });
+  }
+
   // ───────────────────────────────────────────────── évènements
 
   racine.addEventListener("input", function (e) {
+    var fchamp = e.target.getAttribute("data-fchamp");
+    if (fchamp) {
+      var bf = e.target.closest(".treso-facture");
+      var fa = etat.factures.find(function (x) { return x.id === parseInt(bf.getAttribute("data-fid"), 10); });
+      if (!fa) return;
+      if (fchamp === "montant") fa.montant = Math.max(0, parseFloat(e.target.value) || 0);
+      else if (fchamp === "regle") fa.regle = e.target.checked;
+      else fa[fchamp] = e.target.value;
+      rendreSansLignes();
+      return;
+    }
     var champ = e.target.getAttribute("data-champ");
     if (champ) {
       var bloc = e.target.closest(".treso-ligne");
@@ -377,9 +479,36 @@
     if (e.target.id === "p-horizon") { etat.horizon = parseInt(e.target.value, 10); rendre(); }
     if (e.target.id === "p-mois") { etat.moisDepart = e.target.value; rendre(); }
     if (e.target.getAttribute("data-champ") === "frequence") rendre();
+    var fc = e.target.getAttribute("data-fchamp");
+    // Une case cochée ou une date choisie changent l'état affiché de la
+    // facture (grisée, alerte de retard) : il faut redessiner les listes.
+    if (fc === "regle" || fc === "echeance") rendre();
   });
 
   racine.addEventListener("click", function (e) {
+    var fsuppr = e.target.getAttribute("data-fsuppr");
+    if (fsuppr) {
+      etat.factures = etat.factures.filter(function (fa) { return fa.id !== parseInt(fsuppr, 10); });
+      rendre();
+      return;
+    }
+    var fajout = e.target.getAttribute("data-fajout");
+    if (fajout) {
+      var d = new Date();
+      d.setMonth(d.getMonth() + 1);
+      etat.factures.push({
+        id: prochainId++, sens: fajout,
+        libelle: fajout === "in" ? "Nouveau client" : "Nouveau fournisseur",
+        montant: 0,
+        echeance: d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()),
+        regle: false,
+      });
+      rendre();
+      var h = document.getElementById(fajout === "in" ? "factures-in" : "factures-out");
+      var ch = h.querySelectorAll('input[data-fchamp="libelle"]');
+      if (ch.length) { ch[ch.length - 1].focus(); ch[ch.length - 1].select(); }
+      return;
+    }
     var suppr = e.target.getAttribute("data-suppr");
     if (suppr) {
       etat.lignes = etat.lignes.filter(function (l) { return l.id !== parseInt(suppr, 10); });
@@ -412,7 +541,18 @@
     dessinerCourbe(mois, bas);
     dessinerBarres(mois);
     remplirTableau(mois);
+    majTotauxFactures();
     sauver();
+  }
+
+  function majTotauxFactures() {
+    ["in", "out"].forEach(function (sens) {
+      var liste = etat.factures.filter(function (fa) { return fa.sens === sens && !fa.regle; });
+      var total = liste.reduce(function (s, fa) { return s + fa.montant; }, 0);
+      var el = document.getElementById(sens === "in" ? "total-in" : "total-out");
+      if (el) el.textContent = liste.length === 0 ? "Rien en attente"
+        : liste.length + (liste.length > 1 ? " factures" : " facture") + " — " + euros(total);
+    });
   }
 
   // ───────────────────────────────────────────────── sauvegarde
