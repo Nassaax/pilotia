@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-labelledby="titre desc">
+<title id="titre">Avatar Pilotia — fond transparent</title>
+<desc id="desc">Illustration plate d'un coach d'entreprise souriant, en veste bleu marine et chemise blanche, sur fond transparent.</desc>
+
+<!-- ===================================================================
+     AVATAR PILOTIA — version « fond transparent »
+
+     Sans disque ni anneau : à poser sur n'importe quel fond (Canva, story,
+     bandeau). Les épaules sont volontairement coupées par le bord du cadre.
+
+     Palette identique au site (style.css) :
+       marine   #0F172A   veste
+       bleu     #0369A1   accent, col
+       bronze   #876231   cercle, détails
+
+     PERSONNALISATION — tout se règle ici, aucune autre retouche nécessaire :
+       « peau »        teint
+       « peau-ombre »  ombre du cou (toujours un cran plus sombre que la peau)
+       « cheveux »     cheveux et barbe
+     Pour SUPPRIMER LA BARBE : effacer le groupe marqué « BARBE » plus bas.
+     =================================================================== -->
+<style>
+  :root, svg {
+    --peau:        #A9714B;
+    --peau-ombre:  #8D5B3B;
+    --cheveux:     #1E1712;
+    --marine:      #1B2A41;
+    --marine-fonce:#132033;
+    --bleu:        #0369A1;
+    --bronze:      #876231;
+    --chemise:     #FFFFFF;
+    --fond:        #DCE9F2;
+    --trait:       #0F172A;
+  }
+</style>
+
+<!-- ·········· Fond ·········· -->
+
+<!-- Tout le personnage est détouré par le disque, pour que les épaules
+     s'arrêtent net sur le bord au lieu de déborder. -->
+<g>
+
+  <!-- ·········· Buste ·········· -->
+  <!-- Cou court, que le col vient couvrir presque aussitôt : sinon la tête
+       paraît posée sur une colonne. Il descend plus bas que le col et se
+       retrouve masqué par la veste, ce qui évite toute couture visible. -->
+  <path d="M 178 240 L 178 310 L 222 310 L 222 240 Z" fill="var(--peau)"/>
+  <!-- Ombre de la mâchoire sur le cou : c'est elle qui donne le relief. -->
+  <path d="M 178 240 L 178 264 C 192 278 208 278 222 264 L 222 240 Z" fill="var(--peau-ombre)"/>
+
+  <!-- Veste : épaules larges qui partent haut, juste sous le menton. -->
+  <path d="M 200 270
+           C 164 270 124 282 100 303
+           C 76 324 62 366 56 414
+           L 344 414
+           C 338 366 324 324 300 303
+           C 276 282 236 270 200 270 Z"
+        fill="var(--marine)"/>
+
+  <!-- Chemise : simple triangle inversé, c'est ce qui lit le mieux en style plat. -->
+  <path d="M 178 268 L 200 340 L 222 268 Z" fill="var(--chemise)"/>
+  <!-- Revers : quadrilatères posés de part et d'autre du V. Leurs angles hauts
+       restent en retrait de la ligne d'épaule, sinon ils forment un bourrelet
+       qui déborde de la silhouette. -->
+  <path d="M 178 268 L 200 340 L 162 304 L 158 282 Z" fill="var(--marine-fonce)"/>
+  <path d="M 222 268 L 200 340 L 238 304 L 242 282 Z" fill="var(--marine-fonce)"/>
+  <!-- Pochette bronze : rappelle le cercle, discrète pour ne pas bruiter
+       l'image une fois réduite en photo de profil. -->
+  <path d="M 258 328 L 284 322 L 286 331 L 260 337 Z" fill="var(--bronze)"/>
+
+  <!-- ·········· Tête ·········· -->
+  <!-- Oreilles avant le visage, pour qu'elles passent dessous. -->
+  <ellipse cx="130" cy="182" rx="13" ry="19" fill="var(--peau)"/>
+  <ellipse cx="270" cy="182" rx="13" ry="19" fill="var(--peau)"/>
+
+  <!-- Visage : ovale à mâchoire légèrement carrée. -->
+  <path d="M 200 82
+           C 244 82 268 110 268 158
+           C 268 200 252 240 228 254
+           C 216 261 184 261 172 254
+           C 148 240 132 200 132 158
+           C 132 110 156 82 200 82 Z"
+        fill="var(--peau)"/>
+
+  <!-- BARBE — supprimer ce groupe entier pour un visage glabre. -->
+  <g id="barbe">
+    <path d="M 137 170
+             C 137 214 150 242 172 254
+             C 184 261 216 261 228 254
+             C 250 242 263 214 263 170
+             C 260 196 250 208 244 214
+             C 236 222 232 236 224 242
+             C 214 249 186 249 176 242
+             C 168 236 164 222 156 214
+             C 150 208 140 196 137 170 Z"
+          fill="var(--cheveux)" opacity=".92"/>
+    <!-- Lèvre supérieure dégagée, sinon la moustache mange la bouche. -->
+    <path d="M 178 212 C 188 206 212 206 222 212 C 212 210 188 210 178 212 Z" fill="var(--peau)"/>
+  </g>
+
+  <!-- Cheveux : coupe courte, front dégagé, tempes nettes. -->
+  <path d="M 132 162
+           C 128 112 156 78 200 78
+           C 244 78 272 112 268 162
+           C 264 146 258 134 250 128
+           C 240 120 224 116 200 116
+           C 176 116 160 120 150 128
+           C 142 134 136 146 132 162 Z"
+        fill="var(--cheveux)"/>
+
+  <!-- ·········· Visage ·········· -->
+  <!-- Sourcils, légèrement relevés vers l'extérieur : expression ouverte. -->
+  <path d="M 158 152 C 166 144 184 144 192 150" fill="none" stroke="var(--cheveux)"
+        stroke-width="7" stroke-linecap="round"/>
+  <path d="M 242 152 C 234 144 216 144 208 150" fill="none" stroke="var(--cheveux)"
+        stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Yeux -->
+  <ellipse cx="173" cy="172" rx="8" ry="9" fill="var(--trait)"/>
+  <ellipse cx="227" cy="172" rx="8" ry="9" fill="var(--trait)"/>
+  <!-- Reflet : sans lui le regard paraît éteint. -->
+  <circle cx="176" cy="169" r="2.6" fill="#FFFFFF"/>
+  <circle cx="230" cy="169" r="2.6" fill="#FFFFFF"/>
+
+  <!-- Nez : court et épais, il doit rester lisible une fois l'image réduite. -->
+  <path d="M 201 182 L 201 195 C 201 199 206 201 210 199" fill="none"
+        stroke="var(--peau-ombre)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Sourire ouvert, dents visibles : c'est ce qui rend l'avatar chaleureux. -->
+  <path d="M 176 214 C 188 212 212 212 224 214
+           C 222 232 212 240 200 240
+           C 188 240 178 232 176 214 Z" fill="#5C2E2E"/>
+  <path d="M 179 215 C 190 213 210 213 221 215
+           C 220 221 213 224 200 224
+           C 187 224 180 221 179 215 Z" fill="#FFFFFF"/>
+</g>
+</svg>
