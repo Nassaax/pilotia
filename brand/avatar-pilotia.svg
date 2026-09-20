@@ -1,27 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-labelledby="titre desc">
 <title id="titre">Avatar Pilotia</title>
-<desc id="desc">Illustration plate d'un coach d'entreprise souriant, en veste bleu marine et chemise blanche, sur fond bleu clair cerclé de bronze.</desc>
+<desc id="desc">Illustration d'un conseiller souriant à lunettes, en costume bleu marine, chemise blanche et cravate bleue, sur fond bleu clair cerclé de bronze.</desc>
 
 <!-- ===================================================================
-     AVATAR PILOTIA — version « portrait rond »
+     AVATAR PILOTIA — portrait rond
 
-     Palette identique au site (style.css) :
-       marine   #0F172A   veste
-       bleu     #0369A1   accent, col
-       bronze   #876231   cercle, détails
-       fond     #DCE9F2   disque de fond
+     Style : proportions cartoon (tête volontairement grosse, cou très
+     court), lunettes à monture épaisse, cheveux avec du volume et des
+     tempes dégagées.
 
-     PERSONNALISATION — tout se règle ici, aucune autre retouche nécessaire :
+     Palette alignée sur style.css :
+       marine   #1B2A41   veste
+       bleu     #0369A1   cravate
+       bronze   #876231   anneau
+
+     PERSONNALISATION — tout se règle dans le bloc « style » ci-dessous :
        « peau »        teint
-       « peau-ombre »  ombre du cou (toujours un cran plus sombre que la peau)
+       « peau-ombre »  ombre du cou et du nez, un cran plus sombre
        « cheveux »     cheveux et barbe
-     Pour SUPPRIMER LA BARBE : effacer le groupe marqué « BARBE » plus bas.
+       « monture »     couleur des lunettes
+     Pour RETIRER LES LUNETTES : effacer le groupe « lunettes ».
+     Pour RETIRER LA BARBE : effacer le groupe « barbe ».
      =================================================================== -->
 <style>
   :root, svg {
-    --peau:        #A9714B;
-    --peau-ombre:  #8D5B3B;
-    --cheveux:     #1E1712;
+    --peau:        #C88E62;
+    --peau-ombre:  #AB7448;
+    --cheveux:     #1B1410;
+    --monture:     #241C16;
     --marine:      #1B2A41;
     --marine-fonce:#132033;
     --bleu:        #0369A1;
@@ -36,103 +42,113 @@
 <circle cx="200" cy="200" r="196" fill="var(--fond)"/>
 <circle cx="200" cy="200" r="190" fill="none" stroke="var(--bronze)" stroke-width="5"/>
 
-<!-- Tout le personnage est détouré par le disque, pour que les épaules
-     s'arrêtent net sur le bord au lieu de déborder. -->
 <clipPath id="disque"><circle cx="200" cy="200" r="187.5"/></clipPath>
 <g clip-path="url(#disque)">
 
   <!-- ·········· Buste ·········· -->
-  <!-- Cou court, que le col vient couvrir presque aussitôt : sinon la tête
-       paraît posée sur une colonne. Il descend plus bas que le col et se
-       retrouve masqué par la veste, ce qui évite toute couture visible. -->
-  <path d="M 178 240 L 178 310 L 222 310 L 222 240 Z" fill="var(--peau)"/>
-  <!-- Ombre de la mâchoire sur le cou : c'est elle qui donne le relief. -->
-  <path d="M 178 240 L 178 264 C 192 278 208 278 222 264 L 222 240 Z" fill="var(--peau-ombre)"/>
+  <!-- Cou très court, presque entièrement masqué par le col : c'est ce qui
+       donne la silhouette cartoon plutôt qu'un portrait réaliste. -->
+  <path d="M 178 232 L 178 300 L 222 300 L 222 232 Z" fill="var(--peau)"/>
+  <path d="M 178 232 L 178 254 C 192 270 208 270 222 254 L 222 232 Z" fill="var(--peau-ombre)"/>
 
-  <!-- Veste : épaules larges qui partent haut, juste sous le menton. -->
-  <path d="M 200 270
-           C 164 270 124 282 100 303
-           C 76 324 62 366 56 414
-           L 344 414
-           C 338 366 324 324 300 303
-           C 276 282 236 270 200 270 Z"
+  <!-- Veste -->
+  <path d="M 200 264
+           C 158 264 112 278 86 306
+           C 60 334 48 392 42 420
+           L 358 420
+           C 352 392 340 334 314 306
+           C 288 278 242 264 200 264 Z"
         fill="var(--marine)"/>
 
-  <!-- Chemise : simple triangle inversé, c'est ce qui lit le mieux en style plat. -->
-  <path d="M 178 268 L 200 340 L 222 268 Z" fill="var(--chemise)"/>
-  <!-- Revers : quadrilatères posés de part et d'autre du V. Leurs angles hauts
-       restent en retrait de la ligne d'épaule, sinon ils forment un bourrelet
-       qui déborde de la silhouette. -->
-  <path d="M 178 268 L 200 340 L 162 304 L 158 282 Z" fill="var(--marine-fonce)"/>
-  <path d="M 222 268 L 200 340 L 238 304 L 242 282 Z" fill="var(--marine-fonce)"/>
-  <!-- Pochette bronze : rappelle le cercle, discrète pour ne pas bruiter
-       l'image une fois réduite en photo de profil. -->
-  <path d="M 258 328 L 284 322 L 286 331 L 260 337 Z" fill="var(--bronze)"/>
+  <!-- Chemise : triangle inversé entre les revers. -->
+  <path d="M 176 262 L 200 344 L 224 262 Z" fill="var(--chemise)"/>
+  <!-- Revers, angles hauts en retrait de la ligne d'épaule. -->
+  <path d="M 176 262 L 200 344 L 156 302 L 152 278 Z" fill="var(--marine-fonce)"/>
+  <path d="M 224 262 L 200 344 L 244 302 L 248 278 Z" fill="var(--marine-fonce)"/>
+
+  <!-- Cravate : le nœud puis le pan, en bleu accent. -->
+  <path d="M 190 264 L 210 264 L 215 284 L 200 296 L 185 284 Z" fill="var(--bleu)"/>
+  <path d="M 189 296 L 211 296 L 216 372 L 200 392 L 184 372 Z" fill="var(--bleu)"/>
 
   <!-- ·········· Tête ·········· -->
-  <!-- Oreilles avant le visage, pour qu'elles passent dessous. -->
-  <ellipse cx="130" cy="182" rx="13" ry="19" fill="var(--peau)"/>
-  <ellipse cx="270" cy="182" rx="13" ry="19" fill="var(--peau)"/>
+  <ellipse cx="116" cy="166" rx="14" ry="21" fill="var(--peau)"/>
+  <ellipse cx="284" cy="166" rx="14" ry="21" fill="var(--peau)"/>
 
-  <!-- Visage : ovale à mâchoire légèrement carrée. -->
-  <path d="M 200 82
-           C 244 82 268 110 268 158
-           C 268 200 252 240 228 254
-           C 216 261 184 261 172 254
-           C 148 240 132 200 132 158
-           C 132 110 156 82 200 82 Z"
+  <path d="M 200 62
+           C 248 62 284 94 284 150
+           C 284 198 266 234 238 246
+           C 224 253 176 253 162 246
+           C 134 234 116 198 116 150
+           C 116 94 152 62 200 62 Z"
         fill="var(--peau)"/>
 
-  <!-- BARBE — supprimer ce groupe entier pour un visage glabre. -->
+  <!-- BARBE — courte, dessine la mâchoire sans manger le visage. -->
   <g id="barbe">
-    <path d="M 137 170
-             C 137 214 150 242 172 254
-             C 184 261 216 261 228 254
-             C 250 242 263 214 263 170
-             C 260 196 250 208 244 214
-             C 236 222 232 236 224 242
-             C 214 249 186 249 176 242
-             C 168 236 164 222 156 214
-             C 150 208 140 196 137 170 Z"
-          fill="var(--cheveux)" opacity=".92"/>
-    <!-- Lèvre supérieure dégagée, sinon la moustache mange la bouche. -->
-    <path d="M 178 212 C 188 206 212 206 222 212 C 212 210 188 210 178 212 Z" fill="var(--peau)"/>
+    <!-- Barbe resserrée : trop large, elle dévorait les joues et assombrissait
+         tout le bas du visage. -->
+    <path d="M 128 178
+             C 128 210 142 236 164 246
+             C 178 253 222 253 236 246
+             C 258 236 272 210 272 178
+             C 268 198 260 208 254 214
+             C 246 222 242 234 234 240
+             C 223 247 177 247 166 240
+             C 158 234 154 222 146 214
+             C 140 208 132 198 128 178 Z"
+          fill="var(--cheveux)" opacity=".88"/>
+    <path d="M 178 206 C 188 200 212 200 222 206 C 212 204 188 204 178 206 Z" fill="var(--peau)"/>
   </g>
 
-  <!-- Cheveux : coupe courte, front dégagé, tempes nettes. -->
-  <path d="M 132 162
-           C 128 112 156 78 200 78
-           C 244 78 272 112 268 162
-           C 264 146 258 134 250 128
-           C 240 120 224 116 200 116
-           C 176 116 160 120 150 128
-           C 142 134 136 146 132 162 Z"
+  <!-- CHEVEUX — du volume sur le dessus et une naissance haute : sans front
+       dégagé, la coiffure fait casque et mange le visage. -->
+  <path d="M 116 150
+           C 104 88 132 32 198 36
+           C 242 38 274 62 283 98
+           C 287 114 286 134 284 150
+           C 278 124 268 108 256 100
+           C 244 92 232 100 216 94
+           C 196 86 166 90 148 102
+           C 134 111 122 128 116 150 Z"
         fill="var(--cheveux)"/>
 
   <!-- ·········· Visage ·········· -->
-  <!-- Sourcils, légèrement relevés vers l'extérieur : expression ouverte. -->
-  <path d="M 158 152 C 166 144 184 144 192 150" fill="none" stroke="var(--cheveux)"
-        stroke-width="7" stroke-linecap="round"/>
-  <path d="M 242 152 C 234 144 216 144 208 150" fill="none" stroke="var(--cheveux)"
-        stroke-width="7" stroke-linecap="round"/>
+  <!-- Sourcils, franchement au-dessus de la monture : collés au bord supérieur
+       des verres, ils se confondaient avec elle. -->
+  <path d="M 150 128 C 159 119 181 119 190 126" fill="none" stroke="var(--cheveux)"
+        stroke-width="8" stroke-linecap="round"/>
+  <path d="M 250 128 C 241 119 219 119 210 126" fill="none" stroke="var(--cheveux)"
+        stroke-width="8" stroke-linecap="round"/>
 
-  <!-- Yeux -->
-  <ellipse cx="173" cy="172" rx="8" ry="9" fill="var(--trait)"/>
-  <ellipse cx="227" cy="172" rx="8" ry="9" fill="var(--trait)"/>
-  <!-- Reflet : sans lui le regard paraît éteint. -->
-  <circle cx="176" cy="169" r="2.6" fill="#FFFFFF"/>
-  <circle cx="230" cy="169" r="2.6" fill="#FFFFFF"/>
+  <!-- Yeux, dessinés avant les lunettes pour passer derrière les verres. -->
+  <ellipse cx="168" cy="166" rx="8.5" ry="9.5" fill="var(--trait)"/>
+  <ellipse cx="232" cy="166" rx="8.5" ry="9.5" fill="var(--trait)"/>
+  <circle cx="171" cy="163" r="2.8" fill="#FFFFFF"/>
+  <circle cx="235" cy="163" r="2.8" fill="#FFFFFF"/>
 
-  <!-- Nez : court et épais, il doit rester lisible une fois l'image réduite. -->
-  <path d="M 201 182 L 201 195 C 201 199 206 201 210 199" fill="none"
+  <!-- LUNETTES — la monture épaisse est l'élément le plus identifiant. -->
+  <g id="lunettes">
+    <!-- Verres : un voile très clair suffit à suggérer le verre. -->
+    <rect x="141" y="146" width="54" height="40" rx="13" fill="#FFFFFF" opacity=".16"/>
+    <rect x="205" y="146" width="54" height="40" rx="13" fill="#FFFFFF" opacity=".16"/>
+    <g fill="none" stroke="var(--monture)" stroke-width="6.5">
+      <rect x="141" y="146" width="54" height="40" rx="13"/>
+      <rect x="205" y="146" width="54" height="40" rx="13"/>
+      <path d="M 195 160 C 197 156 203 156 205 160"/>
+      <path d="M 141 159 L 123 154" stroke-linecap="round"/>
+      <path d="M 259 159 L 277 154" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Nez -->
+  <path d="M 201 180 L 201 194 C 201 198 206 200 210 198" fill="none"
         stroke="var(--peau-ombre)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- Sourire ouvert, dents visibles : c'est ce qui rend l'avatar chaleureux. -->
-  <path d="M 176 214 C 188 212 212 212 224 214
-           C 222 232 212 240 200 240
-           C 188 240 178 232 176 214 Z" fill="#5C2E2E"/>
-  <path d="M 179 215 C 190 213 210 213 221 215
-           C 220 221 213 224 200 224
-           C 187 224 180 221 179 215 Z" fill="#FFFFFF"/>
+  <!-- Sourire ouvert -->
+  <path d="M 174 208 C 187 206 213 206 226 208
+           C 224 228 213 237 200 237
+           C 187 237 176 228 174 208 Z" fill="#5C2E2E"/>
+  <path d="M 177 209 C 189 207 211 207 223 209
+           C 222 216 214 219 200 219
+           C 186 219 178 216 177 209 Z" fill="#FFFFFF"/>
 </g>
 </svg>

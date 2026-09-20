@@ -1,6 +1,6 @@
 # Pilotia
 
-> Coaching business, gestion administrative et marketing digital pour PME,
+> Accompagnement d'entreprise, gestion administrative et présence digitale pour PME,
 > commerçants et indépendants en Belgique. Accompagnement de terrain : diagnostic
 > de l'organisation, structuration commerciale, lecture des chiffres de gestion et
 > visibilité en ligne.
@@ -31,7 +31,7 @@ comme indépendant.
 - [Accueil](https://pilotis-murex.vercel.app/index.html) : positionnement, trois volets d'accompagnement, parcours possibles.
 - [Entreprises](https://pilotis-murex.vercel.app/entreprises.html) : accompagnement des PME et commerces déjà en activité.
 - [Devenir indépendant](https://pilotis-murex.vercel.app/independants.html) : étapes de lancement d'une activité indépendante en Belgique.
-- [Marketing digital](https://pilotis-murex.vercel.app/marketing-digital.html) : visibilité en ligne, réseaux sociaux, avis clients.
+- [Présence digitale](https://pilotis-murex.vercel.app/marketing-digital.html) : visibilité en ligne, réseaux sociaux, avis clients.
 - [Offres](https://pilotis-murex.vercel.app/offres.html) : formules d'accompagnement et tarifs.
 - [Méthode](https://pilotis-murex.vercel.app/methode.html) : déroulé concret d'un accompagnement.
 - [À propos](https://pilotis-murex.vercel.app/a-propos.html) : parcours et approche du fondateur.

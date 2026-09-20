@@ -7,3 +7,7 @@ node_modules/
 .agents/skills/
 .claude/skills/
 skills-lock.json
+
+# Fichier temporaire des rendus SVG
+brand/_preview.html
+brand/_theme_test.html

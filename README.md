@@ -1,4 +1,4 @@
-# Pilotia — coaching business, marketing digital et aide simple aux indépendants
+# Pilotia — accompagnement d'entreprise, présence digitale et aide simple aux indépendants
 
 Site vitrine pour un service de coaching destiné aux petites entreprises belges (restaurants, entreprises du bâtiment, commerces...) et aux futurs indépendants. Positionnement : premium, épuré, orienté confiance ("Pilotia" = piloter son entreprise, garder le cap et les commandes).
 
@@ -24,7 +24,7 @@ Une section **"Ce que Pilotia n'est pas"** a été ajoutée à `a-propos.html`, 
 - **Nom de marque :** Pilotia
 - **Marché cible :** Belgique (législation, fiscalité et cotisations sociales belges — à titre informatif uniquement)
 - **Deux parcours, à égalité :**
-  - Entreprises déjà en activité (`entreprises.html`) — diagnostic simple, gestion du personnel, marges, marketing digital
+  - Entreprises déjà en activité (`entreprises.html`) — diagnostic simple, gestion du personnel, marges, présence digitale
   - Futurs indépendants (`independants.html`) — démarches, repères financiers simples, documents de lancement
 - **Modèle économique :** freemium — ressources/documents/outils gratuits en haut de tunnel, coaching payant (diagnostic ponctuel ou suivi mensuel) en conversion, plus deux automatisations de revenu/capture ajoutées ci-dessous.
 
@@ -35,9 +35,9 @@ Cœur du site
   index.html            Accueil — aiguillage vers les 2 parcours, témoignages, 3 leviers
   entreprises.html       Parcours PME existantes
   independants.html      Parcours futurs indépendants
-  marketing-digital.html  Pilier marketing digital & réseaux sociaux (diagnostic, offre, FAQ)
+  marketing-digital.html  Pilier présence digitale & réseaux sociaux (diagnostic, offre, FAQ)
   methode.html            Méthode en 4 étapes (écouter / diagnostiquer / décider / piloter)
-  offres.html              Tarifs et formules (grille indicative chiffrée, incl. marketing digital)
+  offres.html              Tarifs et formules (grille indicative chiffrée, incl. présence digitale)
   ressources.html          Bibliothèque de documents gratuits (lead magnets)
   outils.html               Hub des 6 outils interactifs
   a-propos.html              Positionnement, valeurs, bio (template), section "ce que Pilotia n'est pas"
@@ -86,9 +86,10 @@ Légal & technique
 - **Capture d'email réelle sur les lead magnets** (`ressources.html`, `outils.html`) : le guide PDF "Les étapes pour devenir indépendant" est maintenant derrière un formulaire email → `api/subscribe.js` → contact ajouté dans Brevo, puis téléchargement immédiat. Nécessite `BREVO_API_KEY` (voir `.env.example`) ; sans elle, le formulaire répond une erreur claire au lieu de faire semblant.
 - **Rapport diagnostic détaillé payant** (`rapport-diagnostic.html`, 19 €) : reprend les réponses du diagnostic express + quelques questions complémentaires, génère un rapport PDF personnalisé via l'API Claude (`api/generate-report.js`), tente l'envoi par email (Brevo) et le propose en téléchargement immédiat dans tous les cas. **Le paiement n'est pas encore activé** (décision explicite) — la page affiche "version test, gratuit pendant le lancement" ; brancher Stripe Checkout avant l'appel à Claude quand vous serez prêt à facturer. Nécessite `ANTHROPIC_API_KEY`.
 
+- **Les 8 documents téléchargeables existent réellement** et sont générés par `scripts/documents.js` (contenu) + `scripts/generer-pdf.js` (mise en page), via `pdfkit`. Relancer avec `node scripts/documents.js` après toute correction de contenu. Répartition : fiches courtes en accès libre, guides complets derrière la capture d'email.
+
 **Placeholder, à compléter avant mise en ligne :**
-- Photo du fondateur sur `a-propos.html` (le champ a été retiré en attendant une vraie photo professionnelle — à réintégrer quand elle sera disponible)
-- La plupart des documents téléchargeables listés sur `ressources.html` restent à produire — seul "Les étapes pour devenir indépendant" existe (et est maintenant derrière la capture d'email, voir plus haut)
+- Photo ou avatar du fondateur sur `a-propos.html` — l'avatar vectoriel produit n'a pas été retenu, l'emplacement attend une vraie photo ou un avatar fourni
 - Grille tarifaire (`offres.html`) : chiffres indicatifs de démarrage (490 €, 390 €/mois, 390 € formule lancement) à valider selon votre positionnement réel
 - **`BREVO_API_KEY` et `ANTHROPIC_API_KEY`** — variables d'environnement à créer dans Vercel pour activer la capture d'email et le rapport IA (voir `.env.example`). Sans elles, ces fonctionnalités répondent une erreur claire plutôt que de planter silencieusement.
 - **Paiement du rapport diagnostic (19 €)** — le flux technique est prêt (formulaire → IA → PDF → email) mais le paiement Stripe n'est pas branché ; le rapport est actuellement généré gratuitement, avec une mention "version test" visible sur la page.
@@ -141,6 +142,20 @@ Audit réalisé le 20 septembre 2026 sur l'ensemble des 34 pages.
 6. Passer à un design final une fois le concept validé.
 8. Faire vérifier les chiffres légaux restants (INASTI, TVA, ONSS) par un professionnel avant toute communication commerciale — ce sont des estimations pédagogiques basées sur des barèmes publics, pas des avis fiscaux.
 9. Faire relire le contenu généré par `api/generate-report.js` sur quelques cas réels avant de pousser le trafic dessus — c'est un prompt système qui encadre le ton et interdit le conseil fiscal/comptable, mais une relecture humaine reste utile au lancement.
+
+## Vocabulaire retenu
+
+Décidé avec le client, appliqué sur l'ensemble du site :
+
+| Ancien terme | Terme retenu | Pourquoi |
+|---|---|---|
+| « coaching business » | **accompagnement d'entreprise** | « Coaching » sonne anglo-saxon et flou pour un indépendant belge ; « accompagnement » est le mot courant du secteur. |
+| « marketing digital » | **présence digitale** | Le contenu réel porte sur les réseaux sociaux, la fiche Google, les avis et le référencement — pas sur de l'achat média. |
+| « pilotage financier » | **gestion administrative** | Aligne la baseline sur les trois volets réellement proposés. |
+
+« Coaching commercial » est **conservé** : c'est le nom que le client donne lui-même à cette prestation, et il désigne une discipline précise.
+
+Les noms de fichiers (`coaching-*.html`, `marketing-digital.html`) n'ont **pas** été renommés : changer une URL casse les liens existants et le référencement. À faire plus tard si besoin, avec des redirections dans `vercel.json`.
 
 ## Note technique
 

@@ -4,6 +4,17 @@ Avatar et illustrations dessinés en vectoriel, aux couleurs exactes du site.
 Aucune licence à respecter, aucune attribution : ce sont des fichiers faits sur
 mesure pour Pilotia.
 
+## Avatar — NON RETENU
+
+> **Statut : écarté par le client.** Deux versions ont été produites (sans
+> lunettes, puis avec lunettes et cravate dans l'esprit d'un avatar de type
+> Bitmoji) ; aucune n'a convaincu. L'emplacement sur `a-propos.html` a été
+> retiré et attend une vraie photo, ou un avatar produit avec un outil dédié.
+>
+> Les fichiers restent ici comme point de départ si la piste est reprise.
+> Un avatar ressemblant suppose de toute façon un modèle : ni le SVG ni moi
+> ne savons à quoi ressemble la personne.
+
 ## Avatar — les fichiers
 
 | Fichier | À quoi il sert |

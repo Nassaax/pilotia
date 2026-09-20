@@ -1,0 +1,22 @@
+﻿Tableau de calcul de marge - Pilotia
+Renseignez les colonnes B a D. Les colonnes E a G se calculent seules.
+
+Produit ou prestation;Prix de vente HTVA;Cout direct (matiere/achat);Temps passe (min);Marge unitaire;Taux de marge;Marge par heure
+Exemple - plat du jour;18,00;6,50;12;=B5-C5;=SI(B5=0;"";E5/B5);=SI(D5=0;"";E5/D5*60)
+;;;;=B6-C6;=SI(B6=0;"";E6/B6);=SI(D6=0;"";E6/D6*60)
+;;;;=B7-C7;=SI(B7=0;"";E7/B7);=SI(D7=0;"";E7/D7*60)
+;;;;=B8-C8;=SI(B8=0;"";E8/B8);=SI(D8=0;"";E8/D8*60)
+;;;;=B9-C9;=SI(B9=0;"";E9/B9);=SI(D9=0;"";E9/D9*60)
+;;;;=B10-C10;=SI(B10=0;"";E10/B10);=SI(D10=0;"";E10/D10*60)
+;;;;=B11-C11;=SI(B11=0;"";E11/B11);=SI(D11=0;"";E11/D11*60)
+;;;;=B12-C12;=SI(B12=0;"";E12/B12);=SI(D12=0;"";E12/D12*60)
+;;;;=B13-C13;=SI(B13=0;"";E13/B13);=SI(D13=0;"";E13/D13*60)
+;;;;=B14-C14;=SI(B14=0;"";E14/B14);=SI(D14=0;"";E14/D14*60)
+
+Lecture :
+La marge par heure est souvent plus parlante que le taux de marge.
+Un produit a 70% de marge qui demande une heure de travail rapporte
+moins qu'un produit a 35% servi en dix minutes.
+
+Document pedagogique. Ne remplace pas une comptabilite analytique
+ni l'avis d'un comptable agree.

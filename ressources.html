@@ -46,7 +46,7 @@ try{
       <li><a href="entreprises.html">Entreprises</a></li>
       <li><a href="independants.html">Devenir indépendant</a></li>
       <li><a href="diagnostic.html">Diagnostic</a></li>
-      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="marketing-digital.html">Présence digitale</a></li>
       <li><a href="offres.html">Offres</a></li>
       <li class="dropdown">
         <button type="button" class="dropdown-trigger active" aria-expanded="false" aria-haspopup="true">Découvrir <span class="dropdown-caret" aria-hidden="true">▾</span></button>
@@ -89,12 +89,18 @@ try{
       <div class="card">
         <h3>Guide des statuts en Belgique</h3>
         <p>Présentation simple et informative des statuts existants et des démarches BCE / caisse d'assurances sociales — le choix final se fait toujours avec un comptable agréé.</p>
-        <a href="contact.html" class="btn btn-secondary">Télécharger (PDF) →</a>
+        <form class="gated-download" data-resource="guide-statuts-pdf" data-file="downloads/pilotia-guide-statuts-belgique.pdf" onsubmit="return false">
+          <div class="gated-download-row">
+            <input type="email" placeholder="Votre email" required aria-label="Votre email pour recevoir « Guide des statuts en Belgique »">
+            <button type="submit" class="btn btn-secondary">Recevoir le PDF →</button>
+          </div>
+          <p class="gated-download-msg" aria-live="polite"></p>
+        </form>
       </div>
       <div class="card">
         <h3>Checklist des charges à prévoir</h3>
         <p>La liste simple de ce qu'il faut mettre de côté chaque trimestre (cotisations sociales, TVA si applicable, assurances) pour ne pas être pris de court.</p>
-        <a href="contact.html" class="btn btn-secondary">Télécharger (PDF) →</a>
+        <a href="downloads/pilotia-checklist-charges-a-prevoir.pdf" class="btn btn-secondary" download>Télécharger (PDF) →</a>
       </div>
       <div class="card">
         <h3>Les étapes pour devenir indépendant en Belgique</h3>
@@ -108,9 +114,15 @@ try{
         </form>
       </div>
       <div class="card">
-        <h3>Plan marketing digital des 4 premières semaines</h3>
+        <h3>Plan de présence digitale des 4 premières semaines</h3>
         <p>Trame simple pour poser son positionnement et publier régulièrement sans y passer ses soirées.</p>
-        <a href="contact.html" class="btn btn-secondary">Télécharger (PDF) →</a>
+        <form class="gated-download" data-resource="plan-presence-digitale-pdf" data-file="downloads/pilotia-plan-presence-digitale.pdf" onsubmit="return false">
+          <div class="gated-download-row">
+            <input type="email" placeholder="Votre email" required aria-label="Votre email pour recevoir « Plan de présence digitale »">
+            <button type="submit" class="btn btn-secondary">Recevoir le PDF →</button>
+          </div>
+          <p class="gated-download-msg" aria-live="polite"></p>
+        </form>
         <a href="generateur-calendrier-contenu.html" class="btn btn-secondary" style="margin-left:8px">Ou générer en ligne →</a>
       </div>
     </div>
@@ -125,36 +137,42 @@ try{
       <div class="card">
         <h3>Tableau de calcul de marge</h3>
         <p>Calculez votre marge par plat, par chantier ou par prestation et identifiez ce qui rapporte vraiment.</p>
-        <a href="contact.html" class="btn btn-secondary">Télécharger (Excel) →</a>
+        <a href="downloads/pilotia-tableau-calcul-marge.csv" class="btn btn-secondary" download>Télécharger (CSV, ouvrable dans Excel) →</a>
       </div>
       <div class="card">
         <h3>Grille de diagnostic organisationnel</h3>
         <p>20 questions pour repérer les points de friction dans la gestion du personnel et les processus internes.</p>
-        <a href="contact.html" class="btn btn-secondary">Télécharger (PDF) →</a>
+        <form class="gated-download" data-resource="grille-diagnostic-pdf" data-file="downloads/pilotia-grille-diagnostic-organisationnel.pdf" onsubmit="return false">
+          <div class="gated-download-row">
+            <input type="email" placeholder="Votre email" required aria-label="Votre email pour recevoir « Grille de diagnostic organisationnel »">
+            <button type="submit" class="btn btn-secondary">Recevoir le PDF →</button>
+          </div>
+          <p class="gated-download-msg" aria-live="polite"></p>
+        </form>
       </div>
       <div class="card">
         <h3>Checklist visibilité digitale locale</h3>
         <p>Fiche Google Business, avis clients, réseaux sociaux : les bases à avoir en place pour être trouvé.</p>
-        <a href="contact.html" class="btn btn-secondary">Télécharger (PDF) →</a>
+        <a href="downloads/pilotia-checklist-visibilite-locale.pdf" class="btn btn-secondary" download>Télécharger (PDF) →</a>
         <a href="marketing-digital.html" class="btn btn-secondary" style="margin-left:8px">Voir l'accompagnement →</a>
       </div>
       <div class="card">
         <h3>Modèle de suivi mensuel simple</h3>
         <p>Un seul document à jour chaque mois pour noter chiffre d'affaires et marge d'un coup d'œil — pas un outil comptable, juste un repère visuel.</p>
-        <a href="contact.html" class="btn btn-secondary">Télécharger (Excel) →</a>
+        <a href="downloads/pilotia-modele-suivi-mensuel.pdf" class="btn btn-secondary" download>Télécharger (PDF) →</a>
       </div>
     </div>
   </div>
 </section>
 
-<p class="note wrap" style="margin:32px auto">À produire : les documents eux-mêmes (PDF/Excel) et un formulaire de capture d'email connecté à un outil d'emailing, une fois le contenu validé. Les liens "Télécharger" pointent temporairement vers la page de contact.</p>
+<p class="note wrap" style="margin:32px auto">Les fiches courtes se téléchargent directement. Les guides complets sont envoyés contre une adresse email, utilisée uniquement pour vous transmettre le document et, si vous l'acceptez, des conseils ponctuels — jamais revendue. Voir la <a href="confidentialite.html">politique de confidentialité</a>.</p>
 
 </main>
 
 <footer class="site-footer">
   <div class="wrap">
     <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
-    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Accompagnement d'entreprise, gestion administrative et présence digitale pour les indépendants et PME en Belgique.
     <ul class="footer-links">
       <li><a href="parrainage.html">Parrainage</a></li>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
