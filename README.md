@@ -88,6 +88,8 @@ Légal & technique
 
 - **Les 8 documents téléchargeables existent réellement** et sont générés par `scripts/documents.js` (contenu) + `scripts/generer-pdf.js` (mise en page), via `pdfkit`. Relancer avec `node scripts/documents.js` après toute correction de contenu. Répartition : fiches courtes en accès libre, guides complets derrière la capture d'email.
 
+- **Plan de trésorerie prévisionnel** (`plan-tresorerie.html` + `tresorerie.js`) : projection du solde mois par mois sur 3, 6 ou 12 mois, point bas anticipé, seuil de sécurité, plan mensuel détaillé, export JSON et CSV. Saisie manuelle, **aucune connexion bancaire** — l'open banking (DSP2) suppose un agrément ou un agrégateur payant. Les données restent dans le `localStorage` du visiteur : rien ne transite par le serveur, donc aucun traitement de données d'entreprise à sécuriser ni à déclarer. Cotisations sociales et TVA sont pré-remplies en fréquence **trimestrielle**, le rythme belge qui crée les creux de trésorerie.
+
 **Placeholder, à compléter avant mise en ligne :**
 - Photo ou avatar du fondateur sur `a-propos.html` — l'avatar vectoriel produit n'a pas été retenu, l'emplacement attend une vraie photo ou un avatar fourni
 - Grille tarifaire (`offres.html`) : chiffres indicatifs de démarrage (490 €, 390 €/mois, 390 € formule lancement) à valider selon votre positionnement réel

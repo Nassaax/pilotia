@@ -8,6 +8,7 @@
   <url><loc>https://pilotis-murex.vercel.app/outils.html</loc><priority>0.85</priority></url>
   <url><loc>https://pilotis-murex.vercel.app/offres.html</loc><priority>0.85</priority></url>
   <url><loc>https://pilotis-murex.vercel.app/ressources.html</loc><priority>0.85</priority></url>
+  <url><loc>https://pilotis-murex.vercel.app/plan-tresorerie.html</loc><priority>0.8</priority></url>
   <url><loc>https://pilotis-murex.vercel.app/calculateur-cotisations-independant.html</loc><priority>0.7</priority></url>
   <url><loc>https://pilotis-murex.vercel.app/calculateur-tva-franchise.html</loc><priority>0.7</priority></url>
   <url><loc>https://pilotis-murex.vercel.app/calculateur-marge.html</loc><priority>0.7</priority></url>

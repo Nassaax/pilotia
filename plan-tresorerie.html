@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de trésorerie prévisionnel — Pilotia</title>
+<meta name="description" content="Outil gratuit pour projeter la trésorerie de votre entreprise mois par mois : point bas anticipé, seuil de sécurité et plan de trésorerie exportable. Rythme belge, cotisations et TVA trimestrielles incluses.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Plan de trésorerie prévisionnel — Pilotia">
+<meta property="og:description" content="Outil gratuit pour projeter la trésorerie de votre entreprise mois par mois : point bas anticipé, seuil de sécurité et plan de trésorerie exportable. Rythme belge, cotisations et TVA trimestrielles incluses.">
+<meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<meta property="og:url" content="https://pilotis-murex.vercel.app/plan-tresorerie.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Plan de trésorerie prévisionnel — Pilotia">
+<meta name="twitter:description" content="Outil gratuit pour projeter la trésorerie de votre entreprise mois par mois : point bas anticipé, seuil de sécurité et plan de trésorerie exportable. Rythme belge, cotisations et TVA trimestrielles incluses.">
+<meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Devenir indépendant</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="marketing-digital.html">Présence digitale</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li class="dropdown">
+        <button type="button" class="dropdown-trigger active" aria-expanded="false" aria-haspopup="true">Découvrir <span class="dropdown-caret" aria-hidden="true">▾</span></button>
+        <ul class="dropdown-menu">
+          <li><a href="outils.html" class="active">Outils</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="methode.html">Méthode</a></li>
+          <li><a href="statistiques.html">Statistiques</a></li>
+          <li><a href="conseils.html">Conseils</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+      </li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="contenu">
+
+<section class="hero" style="padding:56px 0 32px">
+  <div class="wrap">
+    <div class="eyebrow">Outil gratuit — Belgique</div>
+    <h1>Votre banque montre le passé. Voici les six prochains mois.</h1>
+    <p class="lead">Votre solde d'aujourd'hui ne dit pas si vous passerez novembre. Renseignez ce qui rentre et ce qui sort, l'outil calcule votre solde mois par mois et vous indique votre <strong>point bas</strong> — le moment où la trésorerie sera la plus tendue.</p>
+  </div>
+</section>
+
+<div id="treso">
+
+<section style="padding-top:8px">
+  <div class="wrap">
+
+    <!-- Paramètres -->
+    <div class="card">
+      <h2>1. Votre point de départ</h2>
+      <div class="treso-params">
+        <div>
+          <label for="p-solde">Solde bancaire actuel (€)</label>
+          <input type="number" id="p-solde" step="100" inputmode="decimal">
+        </div>
+        <div>
+          <label for="p-mois">Premier mois projeté</label>
+          <input type="month" id="p-mois">
+        </div>
+        <div>
+          <label for="p-horizon">Horizon</label>
+          <select id="p-horizon">
+            <option value="3">3 mois</option>
+            <option value="6">6 mois</option>
+            <option value="12">12 mois</option>
+          </select>
+        </div>
+        <div>
+          <label for="p-seuil">Seuil de sécurité (€)</label>
+          <input type="number" id="p-seuil" step="500" inputmode="decimal">
+        </div>
+      </div>
+      <p class="treso-aide">Le seuil de sécurité est le matelas sous lequel vous ne voulez pas descendre. À défaut de repère, un à deux mois de charges fixes est un point de départ raisonnable.</p>
+    </div>
+
+    <!-- Indicateurs -->
+    <h2 style="margin-top:38px">2. Ce que ça donne</h2>
+    <div class="treso-kpis">
+      <div class="kpi">
+        <span class="kpi-titre">Solde de départ</span>
+        <span class="kpi-valeur" id="kpi-depart">—</span>
+        <span class="kpi-note" id="kpi-depart-note">—</span>
+      </div>
+      <div class="kpi" id="kpi-bas-carte">
+        <span class="kpi-titre">Point bas anticipé</span>
+        <span class="kpi-valeur" id="kpi-bas">—</span>
+        <span class="kpi-note" id="kpi-bas-note">—</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-titre">Solde en fin d'horizon</span>
+        <span class="kpi-valeur" id="kpi-fin">—</span>
+        <span class="kpi-note" id="kpi-fin-note">—</span>
+      </div>
+    </div>
+
+    <p class="note treso-verdict" id="treso-verdict" role="status" aria-live="polite"></p>
+
+    <!-- Graphiques -->
+    <div class="card" style="margin-top:24px">
+      <h3>Évolution du solde</h3>
+      <p class="treso-aide">Solde de fin de mois, et seuil de sécurité en pointillés. Le point rouge marque le mois le plus tendu.</p>
+      <div class="treso-graph" id="treso-courbe"></div>
+
+      <h3 style="margin-top:28px">Encaissements et décaissements</h3>
+      <p class="treso-aide">Entrées en vert au-dessus de l'axe, sorties en rouge en dessous. Échelle propre à ce graphique, indépendante de celle du solde.</p>
+      <div class="treso-graph treso-graph-bas" id="treso-barres"></div>
+    </div>
+
+    <!-- Tableau -->
+    <h2 style="margin-top:38px">3. Votre plan de trésorerie</h2>
+    <p class="treso-aide" style="max-width:70ch">Le détail mois par mois. Faites glisser horizontalement pour voir toute la période — ou exportez-le en fin de page.</p>
+    <div class="card treso-table-hote">
+      <table class="treso-table" id="treso-tableau"></table>
+    </div>
+
+    <!-- Saisie -->
+    <h2 style="margin-top:38px">4. Ce qui rentre et ce qui sort</h2>
+    <p class="treso-aide" style="max-width:70ch">Modifiez, ajoutez ou supprimez des lignes : tout se recalcule immédiatement. Le <strong>décalage</strong> indique à partir de quel mois la ligne s'applique — 0 pour le premier mois projeté, 1 pour le suivant, et ainsi de suite.</p>
+
+    <div class="grid grid-2" style="margin-top:20px;align-items:start">
+      <div class="card">
+        <h3 class="treso-titre-in">Encaissements</h3>
+        <div class="treso-entetes"><span>Libellé</span><span>Montant</span><span>Fréquence</span><span>Décal.</span><span></span></div>
+        <div id="lignes-in"></div>
+        <button type="button" class="btn btn-secondary treso-ajout" data-ajout="in">+ Ajouter un encaissement</button>
+      </div>
+      <div class="card">
+        <h3 class="treso-titre-out">Décaissements</h3>
+        <div class="treso-entetes"><span>Libellé</span><span>Montant</span><span>Fréquence</span><span>Décal.</span><span></span></div>
+        <div id="lignes-out"></div>
+        <button type="button" class="btn btn-secondary treso-ajout" data-ajout="out">+ Ajouter un décaissement</button>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:22px">
+      <strong>Pensé pour le rythme belge.</strong> Les cotisations sociales et la TVA sont pré-remplies en <em>fréquence trimestrielle</em> : ce sont elles qui creusent les trous que personne n'avait vus venir. Ajustez les montants avec
+      <a href="calculateur-cotisations-independant.html">le calculateur de cotisations</a> et
+      <a href="calculateur-tva-franchise.html">celui de la franchise TVA</a>.
+    </div>
+
+    <!-- Sauvegarde -->
+    <h2 style="margin-top:38px">5. Garder votre plan</h2>
+    <div class="card">
+      <p><strong>Vos chiffres ne quittent jamais votre appareil.</strong> Tout est calculé dans votre navigateur et enregistré localement : rien n'est envoyé à Pilotia, et personne d'autre que vous n'y a accès.</p>
+      <p>La contrepartie : cet enregistrement est propre à ce navigateur. Il disparaît si vous videz vos données de navigation, et ne suit pas sur un autre appareil. <strong>Exportez votre plan</strong> pour le conserver ou le reprendre ailleurs.</p>
+      <div class="btn-row" style="margin-top:18px">
+        <button type="button" class="btn btn-primary" id="treso-export">Exporter mon plan (.json)</button>
+        <button type="button" class="btn btn-secondary" id="treso-csv">Exporter le tableau (.csv)</button>
+        <label class="btn btn-secondary treso-import-label" for="treso-import">Réimporter un plan</label>
+        <input type="file" id="treso-import" accept="application/json,.json" class="treso-import-input">
+      </div>
+      <p id="treso-msg" role="status" aria-live="polite" style="font-family:var(--font-body);font-size:14px;margin:12px 0 0;min-height:1.3em"></p>
+      <p style="margin-top:14px"><button type="button" class="treso-lien-danger" id="treso-reset">Effacer mon plan et repartir de l'exemple</button></p>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      Cet outil donne une projection à partir des montants que vous saisissez : il ne lit aucun compte bancaire et ne devine rien. Sa justesse dépend entièrement de la vôtre. Il ne remplace ni une comptabilité, ni l'avis d'un comptable agréé sur vos décisions fiscales ou financières.
+    </div>
+
+  </div>
+</section>
+
+</div>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Votre point bas vous inquiète ?</h2>
+    <p style="color:#fff;opacity:.9">C'est exactement le genre de situation qu'un regard extérieur aide à désamorcer — avant qu'elle n'arrive.</p>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Accompagnement d'entreprise, gestion administrative et présence digitale pour les indépendants et PME en Belgique.
+    <ul class="footer-links">
+      <li><a href="parrainage.html">Parrainage</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cookies.html">Cookies</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="accessibilite.html">Accessibilité</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="animations.js" defer></script>
+<script src="tresorerie.js" defer></script>
+</body>
+</html>

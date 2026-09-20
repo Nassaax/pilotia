@@ -44,6 +44,7 @@ comme indépendant.
 
 ## Outils de calcul (gratuits, sans inscription)
 
+- [Plan de trésorerie prévisionnel](https://pilotis-murex.vercel.app/plan-tresorerie.html) : projection du solde sur 3, 6 ou 12 mois, point bas anticipé, seuil de sécurité, plan mensuel exportable. Saisie manuelle, aucune connexion bancaire, données conservées dans le navigateur du visiteur.
 - [Cotisations sociales indépendant](https://pilotis-murex.vercel.app/calculateur-cotisations-independant.html) : estimation trimestrielle sur base du barème INASTI.
 - [Coût réel d'un salarié](https://pilotis-murex.vercel.app/calculateur-cout-salarie.html) : du brut mensuel au coût employeur.
 - [Calculateur de marge](https://pilotis-murex.vercel.app/calculateur-marge.html) : marge unitaire et seuil de rentabilité.

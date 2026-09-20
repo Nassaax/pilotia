@@ -235,6 +235,88 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 .path-card h3,.path-card h2{font-size:22px;font-family:var(--font-body);font-weight:700}
 .path-card .btn{margin-top:18px}
 
+/* ─── Plan de trésorerie (plan-tresorerie.html) ─────────────────────────── */
+.treso-params{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-top:16px}
+.treso-params label{display:block;margin-bottom:6px}
+.treso-params input,.treso-params select{width:100%}
+.treso-aide{font-family:var(--font-body);font-size:14px;color:var(--ink-soft);margin:10px 0 0}
+
+.treso-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:20px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:flex;flex-direction:column;gap:4px}
+.kpi-titre{font-family:var(--font-body);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft)}
+.kpi-valeur{font-family:var(--font-body);font-size:29px;font-weight:700;color:var(--ink);line-height:1.15}
+.kpi-note{font-family:var(--font-body);font-size:13px;color:var(--ink-soft)}
+/* Le point bas change de couleur selon qu'il passe ou non sous le seuil : c'est
+   l'unique information que le solde du jour ne donne jamais. */
+.kpi-alerte .kpi-valeur{color:var(--danger)}
+.kpi-ok .kpi-valeur{color:#15803D}
+@media (prefers-color-scheme: dark){.kpi-ok .kpi-valeur{color:#4ADE80}}
+
+.treso-verdict{margin-top:20px;font-size:15px}
+.treso-verdict-vert{background:#ECFDF3;border-color:#15803D;color:#14532D}
+.treso-verdict-orange{background:var(--gold-soft);border-color:var(--gold);color:var(--ink)}
+.treso-verdict-rouge{background:#FEF2F2;border-color:var(--danger);color:#7F1D1D}
+@media (prefers-color-scheme: dark){
+  .treso-verdict-vert{background:#0D2318;color:#BBF7D0}
+  .treso-verdict-rouge{background:#2A1315;color:#FECACA}
+}
+
+.treso-graph{margin-top:14px}
+.treso-graph svg{width:100%;height:auto;display:block}
+
+/* Le tableau déborde volontairement : douze mois ne tiennent pas sur un
+   téléphone, et réduire la police le rendrait illisible. */
+.treso-table-hote{margin-top:16px;overflow-x:auto;padding:0}
+.treso-table{width:100%;min-width:640px;border-collapse:collapse;margin:0}
+.treso-table th,.treso-table td{font-family:var(--font-body);font-size:14px;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.treso-table thead th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);background:var(--paper-alt);position:sticky;top:0}
+.treso-table tbody th{text-align:left;font-weight:500;color:var(--ink)}
+.treso-num{text-align:right;font-variant-numeric:tabular-nums}
+.treso-pos{color:#15803D}
+.treso-neg{color:var(--danger)}
+@media (prefers-color-scheme: dark){.treso-pos{color:#4ADE80}}
+.treso-ligne-forte th,.treso-ligne-forte td{font-weight:700;background:var(--paper-alt)}
+.treso-ligne-fin td{font-size:15px}
+.treso-ligne-in th,.treso-ligne-out th{font-weight:600}
+.treso-sous th{padding-left:30px;color:var(--ink-soft);font-weight:400;font-size:13.5px}
+.treso-sous td{color:var(--ink-soft);font-size:13.5px}
+
+.treso-titre-in,.treso-titre-out{display:flex;align-items:center;gap:8px}
+.treso-titre-in::before,.treso-titre-out::before{content:"";width:10px;height:10px;border-radius:3px;flex:none}
+.treso-titre-in::before{background:#15803D}
+.treso-titre-out::before{background:var(--danger)}
+
+.treso-entetes,.treso-ligne{display:grid;grid-template-columns:1fr 92px 130px 62px 34px;gap:8px;align-items:center}
+.treso-entetes{font-family:var(--font-body);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin:14px 0 6px}
+.treso-ligne{margin-bottom:8px}
+.treso-ligne input,.treso-ligne select{font-size:14px;padding:9px 10px;min-height:40px}
+.treso-suppr{
+  width:34px;height:34px;flex:none;border-radius:8px;cursor:pointer;
+  border:1px solid var(--line-strong);background:var(--card);color:var(--ink-soft);
+  font-size:19px;line-height:1;padding:0;
+}
+.treso-suppr:hover{border-color:var(--danger);color:var(--danger)}
+.treso-ajout{margin-top:12px;font-size:14px}
+.treso-vide{font-family:var(--font-body);font-size:14px;color:var(--ink-soft);margin:10px 0}
+
+/* L'input file natif est illisible et instylable : on le masque et c'est son
+   <label> qui fait office de bouton. Il reste atteignable au clavier. */
+.treso-import-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.treso-import-label{cursor:pointer}
+.treso-import-input:focus-visible + .treso-import-label,
+.treso-import-label:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.treso-lien-danger{
+  background:none;border:none;padding:0;cursor:pointer;
+  font-family:var(--font-body);font-size:14px;color:var(--danger);text-decoration:underline;
+}
+
+@media (max-width:640px){
+  .treso-entetes{display:none}
+  .treso-ligne{grid-template-columns:1fr 1fr;gap:6px;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line)}
+  .treso-ligne input[data-champ="categorie"]{grid-column:1 / -1}
+  .treso-suppr{justify-self:end}
+}
+
 /* Illustrations de marque insérées en SVG dans la page (et non via <img>) :
    elles héritent ainsi des jetons de couleur et suivent le thème clair/sombre,
    ce qu'une image externe ne peut pas faire. */
