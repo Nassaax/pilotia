@@ -85,6 +85,122 @@ try{
   </div>
 </section>
 
+<section style="padding-top:8px;padding-bottom:8px">
+  <div class="wrap" style="display:flex;justify-content:center">
+    <figure class="illu">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 640 420" role="img" aria-labelledby="illu-visi-titre illu-visi-desc">
+      <title id="illu-visi-titre">Visibilité locale dans les résultats de recherche</title>
+      <desc id="illu-visi-desc">Illustration d'une page de résultats de recherche : une barre de recherche et trois établissements, dont le premier est mis en avant avec un repère de carte et une note en étoiles.</desc>
+
+      <!-- ===================================================================
+           ILLUSTRATION « VISIBILITÉ LOCALE » — Pilotia
+
+           Même principe que illu-tableau-de-bord.svg : chaque couleur s'écrit
+           `var(«jeton», repli)`. Insérée dans une page du site, l'illustration
+           suit le thème clair/sombre ; ouverte seule dans Canva, les valeurs de
+           repli prennent le relais.
+
+           Parti pris : montrer le RÉSULTAT recherché (être trouvé en premier,
+           avec de bons avis) plutôt qu'un schéma de « process SEO » en anglais.
+           C'est ce que le client vient chercher, et ça reste compréhensible
+           sans lire un seul mot.
+           =================================================================== -->
+
+      <defs>
+        <!-- Étoile à cinq branches, centrée sur l'origine : rayon externe 8,
+             rayon interne 3,4. Positionnée ensuite par <use x= y=>. -->
+        <path id="illu-visi-etoile"
+              d="M 0 -8 L 2.0 -2.75 L 7.61 -2.47 L 3.23 1.05 L 4.70 6.47
+                 L 0 3.4 L -4.70 6.47 L -3.23 1.05 L -7.61 -2.47 L -2.0 -2.75 Z"/>
+        <!-- Moitié gauche de la cinquième étoile. Un vrai <clipPath> plutôt que la
+             fonction CSS clip-path : tous les éditeurs SVG la comprennent, alors
+             que la version CSS est souvent ignorée à l'import. -->
+        <clipPath id="illu-visi-demi">
+          <rect x="233" y="180" width="8" height="20"/>
+        </clipPath>
+      </defs>
+
+      <!-- ·········· Carte ·········· -->
+      <rect x="40" y="30" width="560" height="360" rx="18"
+            fill="var(--card, #FFFFFF)" stroke="var(--line, #E2E8F0)" stroke-width="2"/>
+
+      <!-- ·········· Barre de recherche ·········· -->
+      <g>
+        <rect x="64" y="54" width="512" height="46" rx="23"
+              fill="var(--paper-alt, #EEF2F7)" stroke="var(--line, #E2E8F0)" stroke-width="1.5"/>
+        <!-- Loupe -->
+        <g stroke="var(--ink-soft, #475569)" stroke-width="3" fill="none" stroke-linecap="round">
+          <circle cx="96" cy="75" r="8"/>
+          <line x1="102" y1="81" x2="108" y2="87"/>
+        </g>
+        <!-- Requête saisie, suggérée par une barre plutôt qu'écrite : une
+             illustration qui affiche du faux texte vieillit mal. -->
+        <rect x="124" y="70" width="208" height="10" rx="5"
+              fill="var(--ink-soft, #475569)" opacity=".4"/>
+      </g>
+
+      <!-- ·········· Résultat mis en avant ·········· -->
+      <g>
+        <rect x="64" y="116" width="512" height="98" rx="12" fill="var(--accent-soft, #E1EEF6)"/>
+        <!-- Liseré bronze : marque la position gagnée sans ajouter de texte. -->
+        <rect x="64" y="116" width="6" height="98" rx="3" fill="var(--gold, #876231)"/>
+
+        <!-- Repère de carte -->
+        <g transform="translate(112 158)">
+          <path d="M 0 -14 C 6.2 -14 11 -9.2 11 -3 C 11 5 0 16 0 16
+                   C 0 16 -11 5 -11 -3 C -11 -9.2 -6.2 -14 0 -14 Z"
+                fill="var(--gold, #876231)"/>
+          <circle cx="0" cy="-3" r="4.4" fill="var(--card, #FFFFFF)"/>
+        </g>
+
+        <!-- Nom de l'établissement, puis adresse. -->
+        <rect x="146" y="136" width="188" height="14" rx="7" fill="var(--accent, #0369A1)"/>
+        <rect x="146" y="160" width="132" height="9"  rx="4.5"
+              fill="var(--ink-soft, #475569)" opacity=".45"/>
+
+        <!-- Note : quatre étoiles pleines et une demie. Une note parfaite
+             partout sonnerait faux. -->
+        <!-- xlink:href doublé avec href : les éditeurs restés au SVG 1.1 ne
+             reconnaissent que le premier, et l'étoile disparaîtrait à l'import. -->
+        <g fill="var(--gold, #876231)">
+          <use href="#illu-visi-etoile" xlink:href="#illu-visi-etoile" x="153" y="190"/>
+          <use href="#illu-visi-etoile" xlink:href="#illu-visi-etoile" x="175" y="190"/>
+          <use href="#illu-visi-etoile" xlink:href="#illu-visi-etoile" x="197" y="190"/>
+          <use href="#illu-visi-etoile" xlink:href="#illu-visi-etoile" x="219" y="190"/>
+        </g>
+        <use href="#illu-visi-etoile" xlink:href="#illu-visi-etoile" x="241" y="190"
+             fill="var(--ink-soft, #475569)" opacity=".28"/>
+        <g clip-path="url(#illu-visi-demi)">
+          <use href="#illu-visi-etoile" xlink:href="#illu-visi-etoile" x="241" y="190" fill="var(--gold, #876231)"/>
+        </g>
+        <!-- Nombre d'avis -->
+        <rect x="262" y="185" width="58" height="9" rx="4.5"
+              fill="var(--ink-soft, #475569)" opacity=".45"/>
+      </g>
+
+      <!-- ·········· Résultats suivants ·········· -->
+      <g>
+        <rect x="64" y="228" width="512" height="58" rx="12"
+              fill="none" stroke="var(--line, #E2E8F0)" stroke-width="1.5"/>
+        <circle cx="112" cy="257" r="11" fill="var(--ink-soft, #475569)" opacity=".18"/>
+        <rect x="146" y="243" width="150" height="11" rx="5.5"
+              fill="var(--ink-soft, #475569)" opacity=".42"/>
+        <rect x="146" y="263" width="98"  height="8"  rx="4"
+              fill="var(--ink-soft, #475569)" opacity=".28"/>
+
+        <rect x="64" y="298" width="512" height="58" rx="12"
+              fill="none" stroke="var(--line, #E2E8F0)" stroke-width="1.5"/>
+        <circle cx="112" cy="327" r="11" fill="var(--ink-soft, #475569)" opacity=".18"/>
+        <rect x="146" y="313" width="128" height="11" rx="5.5"
+              fill="var(--ink-soft, #475569)" opacity=".42"/>
+        <rect x="146" y="333" width="112" height="8"  rx="4"
+              fill="var(--ink-soft, #475569)" opacity=".28"/>
+      </g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <div class="eyebrow">Pourquoi ça compte</div>

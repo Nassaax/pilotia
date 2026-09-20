@@ -279,6 +279,14 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 .path-card h3,.path-card h2{font-size:22px;font-family:var(--font-body);font-weight:700}
 .path-card .btn{margin-top:18px}
 
+/* Illustrations de marque insérées en SVG dans la page (et non via <img>) :
+   elles héritent ainsi des jetons de couleur et suivent le thème clair/sombre,
+   ce qu'une image externe ne peut pas faire. */
+/* width:100% en plus de max-width : sans dimensions intrinsèques, un SVG
+   retombe sinon sur la taille par défaut de 300 px. */
+.illu{margin:0;width:100%;max-width:620px}
+.illu svg{width:100%;height:auto;display:block}
+
 /* Bloc « fondateur » : avatar + nom alignés, empilés sur petit écran. */
 .bio-head{display:flex;align-items:center;gap:18px;margin-bottom:18px;flex-wrap:wrap}
 .bio-avatar{width:104px;height:104px;border-radius:50%;flex:none;display:block}
