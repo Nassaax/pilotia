@@ -100,49 +100,6 @@
   });
 })();
 
-/* Bascule thème clair/sombre — préférence mémorisée dans localStorage, indépendante
-   de prefers-color-scheme une fois que la personne a fait un choix explicite. L'état
-   initial (avant ce script, chargé en defer) est déjà posé par le script synchrone
-   dans <head> pour éviter un flash du mauvais thème au chargement. */
-(function () {
-  "use strict";
-
-  var STORAGE_KEY = "pilotia-theme";
-  var toggle = document.getElementById("themeToggle");
-  if (!toggle) return;
-
-  function currentTheme() {
-    var explicit = document.documentElement.getAttribute("data-theme");
-    if (explicit === "dark" || explicit === "light") return explicit;
-    var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return prefersDark ? "dark" : "light";
-  }
-
-  function syncToggleA11y(theme) {
-    toggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
-    toggle.setAttribute("aria-label", theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre");
-  }
-
-  // Au chargement : seulement synchroniser aria-pressed/aria-label sur le thème
-  // effectif (explicite ou système). On n'écrit PAS dans localStorage ici — tant
-  // que la personne n'a pas cliqué, le site continue de suivre prefers-color-scheme
-  // même si celui-ci change entre deux visites.
-  syncToggleA11y(currentTheme());
-
-  function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    syncToggleA11y(theme);
-    try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
-  }
-
-  toggle.addEventListener("click", function () {
-    applyTheme(currentTheme() === "dark" ? "light" : "dark");
-    toggle.classList.remove("is-bouncing");
-    void toggle.offsetWidth; // relance l'animation si l'utilisateur clique plusieurs fois de suite
-    toggle.classList.add("is-bouncing");
-  });
-})();
-
 /* Téléchargements protégés par email (ressources.html, outils.html) — capture
    l'email via /api/subscribe (Brevo) puis déclenche le téléchargement réel
    du fichier. Un email déjà connu n'est jamais bloqué (upsert côté serveur). */

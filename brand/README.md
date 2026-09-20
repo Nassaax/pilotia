@@ -4,16 +4,12 @@ Avatar et illustrations dessinés en vectoriel, aux couleurs exactes du site.
 Aucune licence à respecter, aucune attribution : ce sont des fichiers faits sur
 mesure pour Pilotia.
 
-## Avatar — NON RETENU
+## Avatar — version 3, d'après photo
 
-> **Statut : écarté par le client.** Deux versions ont été produites (sans
-> lunettes, puis avec lunettes et cravate dans l'esprit d'un avatar de type
-> Bitmoji) ; aucune n'a convaincu. L'emplacement sur `a-propos.html` a été
-> retiré et attend une vraie photo, ou un avatar produit avec un outil dédié.
->
-> Les fichiers restent ici comme point de départ si la piste est reprise.
-> Un avatar ressemblant suppose de toute façon un modèle : ni le SVG ni moi
-> ne savons à quoi ressemble la personne.
+> Les deux premières versions ont été écartées : la première sans référence,
+> la seconde avec des lunettes que le modèle ne porte pas. Celle-ci est
+> dessinée d'après une photo fournie : pas de lunettes, cheveux courts avec
+> du volume, barbe courte fournie, teint plus clair.
 
 ## Avatar — les fichiers
 
@@ -48,6 +44,8 @@ toucher au dessin :
 | `--cheveux` | cheveux **et** barbe |
 | `--marine` / `--marine-fonce` | veste et revers |
 | `--fond` | disque de fond |
+
+Il n'y a plus de groupe `lunettes` : le modèle n'en porte pas.
 | `--bronze` | anneau et pochette |
 
 Pour **enlever la barbe** : supprimer le groupe `<g id="barbe">` en entier.

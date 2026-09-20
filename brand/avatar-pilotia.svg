@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-labelledby="titre desc">
 <title id="titre">Avatar Pilotia</title>
-<desc id="desc">Illustration d'un conseiller souriant à lunettes, en costume bleu marine, chemise blanche et cravate bleue, sur fond bleu clair cerclé de bronze.</desc>
+<desc id="desc">Illustration d'un conseiller souriant, en costume bleu marine, chemise blanche et cravate bleue, sur fond bleu clair cerclé de bronze.</desc>
 
 <!-- ===================================================================
      AVATAR PILOTIA — portrait rond
 
      Style : proportions cartoon (tête volontairement grosse, cou très
-     court), lunettes à monture épaisse, cheveux avec du volume et des
-     tempes dégagées.
+     court), cheveux courts avec du volume sur le dessus, tempes
+     dégagées et barbe courte fournie.
 
      Palette alignée sur style.css :
        marine   #1B2A41   veste
@@ -18,16 +18,13 @@
        « peau »        teint
        « peau-ombre »  ombre du cou et du nez, un cran plus sombre
        « cheveux »     cheveux et barbe
-       « monture »     couleur des lunettes
-     Pour RETIRER LES LUNETTES : effacer le groupe « lunettes ».
      Pour RETIRER LA BARBE : effacer le groupe « barbe ».
      =================================================================== -->
 <style>
   :root, svg {
-    --peau:        #C88E62;
-    --peau-ombre:  #AB7448;
+    --peau:        #D0A075;
+    --peau-ombre:  #B3835A;
     --cheveux:     #1B1410;
-    --monture:     #241C16;
     --marine:      #1B2A41;
     --marine-fonce:#132033;
     --bleu:        #0369A1;
@@ -112,32 +109,17 @@
         fill="var(--cheveux)"/>
 
   <!-- ·········· Visage ·········· -->
-  <!-- Sourcils, franchement au-dessus de la monture : collés au bord supérieur
-       des verres, ils se confondaient avec elle. -->
+  <!-- Sourcils épais et bien séparés des yeux. -->
   <path d="M 150 128 C 159 119 181 119 190 126" fill="none" stroke="var(--cheveux)"
         stroke-width="8" stroke-linecap="round"/>
   <path d="M 250 128 C 241 119 219 119 210 126" fill="none" stroke="var(--cheveux)"
         stroke-width="8" stroke-linecap="round"/>
 
-  <!-- Yeux, dessinés avant les lunettes pour passer derrière les verres. -->
-  <ellipse cx="168" cy="166" rx="8.5" ry="9.5" fill="var(--trait)"/>
-  <ellipse cx="232" cy="166" rx="8.5" ry="9.5" fill="var(--trait)"/>
+  <!-- Yeux -->
+  <ellipse cx="168" cy="166" rx="9" ry="10" fill="var(--trait)"/>
+  <ellipse cx="232" cy="166" rx="9" ry="10" fill="var(--trait)"/>
   <circle cx="171" cy="163" r="2.8" fill="#FFFFFF"/>
   <circle cx="235" cy="163" r="2.8" fill="#FFFFFF"/>
-
-  <!-- LUNETTES — la monture épaisse est l'élément le plus identifiant. -->
-  <g id="lunettes">
-    <!-- Verres : un voile très clair suffit à suggérer le verre. -->
-    <rect x="141" y="146" width="54" height="40" rx="13" fill="#FFFFFF" opacity=".16"/>
-    <rect x="205" y="146" width="54" height="40" rx="13" fill="#FFFFFF" opacity=".16"/>
-    <g fill="none" stroke="var(--monture)" stroke-width="6.5">
-      <rect x="141" y="146" width="54" height="40" rx="13"/>
-      <rect x="205" y="146" width="54" height="40" rx="13"/>
-      <path d="M 195 160 C 197 156 203 156 205 160"/>
-      <path d="M 141 159 L 123 154" stroke-linecap="round"/>
-      <path d="M 259 159 L 277 154" stroke-linecap="round"/>
-    </g>
-  </g>
 
   <!-- Nez -->
   <path d="M 201 180 L 201 194 C 201 198 206 200 210 198" fill="none"
