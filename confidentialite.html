@@ -4,15 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Politique de confidentialité — Pilotia</title>
+<meta name="description" content="Quelles données Pilotia traite, pourquoi, combien de temps et quels sont vos droits. Aucun cookie, aucun traceur, aucune revente de données.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Politique de confidentialité — Pilotia">
+<meta property="og:description" content="Quelles données Pilotia traite, pourquoi, combien de temps et quels sont vos droits. Aucun cookie, aucun traceur, aucune revente de données.">
+<meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<meta property="og:url" content="https://pilotis-murex.vercel.app/confidentialite.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Politique de confidentialité — Pilotia">
+<meta name="twitter:description" content="Quelles données Pilotia traite, pourquoi, combien de temps et quels sont vos droits. Aucun cookie, aucun traceur, aucune revente de données.">
+<meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <script>
 try{
   var __t = localStorage.getItem('pilotia-theme');
   if (__t === 'dark' || __t === 'light') document.documentElement.setAttribute('data-theme', __t);
 }catch(e){}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -21,11 +31,13 @@ try{
 </head>
 <body>
 
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light">
-      <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark">
+      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
     </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
@@ -59,28 +71,257 @@ try{
   </div>
 </header>
 
-<section class="hero" style="padding:56px 0">
-  <div class="wrap" style="max-width:70ch">
-    <h1>Politique de confidentialité</h1>
-    <p class="note">Page à rédiger avec un professionnel (ou modèle adapté RGPD) une fois les outils définitifs choisis : formulaire de contact, prise de rendez-vous, emailing pour l'envoi des ressources gratuites, éventuel outil d'analytics.</p>
-    <h2>Données collectées</h2>
-    <p>[À détailler : nom, email, informations sur l'entreprise transmises via le formulaire de contact ou lors de la réservation d'un appel]</p>
-    <h2>Finalité</h2>
-    <p>[À détailler : répondre aux demandes, envoyer les ressources demandées, éventuelle newsletter avec consentement explicite]</p>
-    <h2>Vos droits</h2>
-    <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Contact : [email à définir].</p>
+<main id="contenu">
+<section class="hero legal-page" style="padding:56px 0 24px">
+  <div class="wrap" style="max-width:74ch">
+<h1>Politique de confidentialité</h1>
+    <div class="legal-toc">
+      <strong>En résumé</strong>
+      <p style="margin:8px 0 0">
+        Ce site ne dépose <strong>aucun cookie</strong>, n&rsquo;utilise <strong>aucun outil de
+        mesure d&rsquo;audience</strong> et ne comporte <strong>aucun traceur publicitaire</strong>.
+        Vos données ne sont ni vendues, ni louées, ni transmises à des tiers à des fins
+        commerciales. Nous ne collectons que ce que vous nous envoyez volontairement via un
+        formulaire, et uniquement pour y répondre.
+      </p>
+    </div>
+
+    <p>
+      La présente politique explique quelles données personnelles sont traitées lorsque vous
+      utilisez ce site, pourquoi, sur quelle base légale, combien de temps, et quels droits vous
+      pouvez exercer. Elle est rédigée conformément aux articles 12 à 14 du
+      <strong>Règlement (UE) 2016/679 (RGPD)</strong> et à la loi belge du 30 juillet 2018.
+    </p>
+
+    <h2 id="responsable">1. Responsable du traitement</h2>
+    <p>
+      Le responsable du traitement est l&rsquo;éditeur du site, identifié à la page
+      <a href="mentions-legales.html">Mentions légales</a> :
+      <span class="legal-todo">À COMPLÉTER — nom légal, siège, numéro BCE</span>.
+    </p>
+    <p>
+      Contact pour toute question relative aux données personnelles :
+      <span class="legal-todo">À COMPLÉTER — email de contact</span>.
+    </p>
+    <p>
+      Compte tenu de la nature et du volume des traitements, Pilotia n&rsquo;est pas tenu de
+      désigner un délégué à la protection des données (article 37 RGPD) et n&rsquo;en a pas
+      désigné.
+    </p>
+
+    <h2 id="minimisation">2. Principe : ne collecter que le nécessaire</h2>
+    <p>
+      Chaque champ de formulaire de ce site a été examiné au regard du principe de minimisation
+      (article 5.1.c RGPD). Nous ne demandons ni date de naissance, ni adresse postale, ni
+      numéro de téléphone obligatoire, ni aucune donnée dont nous n&rsquo;avons pas un usage
+      immédiat et identifiable. Aucune donnée sensible au sens de l&rsquo;article 9 RGPD
+      (santé, opinions, appartenance syndicale…) n&rsquo;est collectée.
+    </p>
+
+    <h2 id="traitements">3. Traitements réalisés</h2>
+    <table>
+      <caption class="legal-updated" style="text-align:left;margin-bottom:8px">Détail des traitements, finalités, bases légales et durées de conservation.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Traitement</th>
+          <th scope="col">Données</th>
+          <th scope="col">Finalité</th>
+          <th scope="col">Base légale</th>
+          <th scope="col">Conservation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Formulaire de contact</strong></td>
+          <td>Nom, adresse email, nom de l&rsquo;entreprise (facultatif), type de profil, message</td>
+          <td>Traiter votre demande et vous répondre</td>
+          <td>Mesures précontractuelles à votre demande (art. 6.1.b)</td>
+          <td>3 ans à compter du dernier échange</td>
+        </tr>
+        <tr>
+          <td><strong>Téléchargement d&rsquo;un guide</strong></td>
+          <td>Adresse email</td>
+          <td>Vous envoyer la ressource demandée</td>
+          <td>Consentement (art. 6.1.a)</td>
+          <td>Jusqu&rsquo;au retrait du consentement, et au maximum 3 ans sans interaction</td>
+        </tr>
+        <tr>
+          <td><strong>Rapport diagnostic personnalisé</strong></td>
+          <td>Prénom, email, secteur d&rsquo;activité, taille d&rsquo;équipe, difficulté décrite, réponses au diagnostic</td>
+          <td>Générer et vous transmettre le rapport demandé</td>
+          <td>Exécution du contrat / mesures précontractuelles (art. 6.1.b)</td>
+          <td>3 ans à compter de la génération</td>
+        </tr>
+        <tr>
+          <td><strong>Journaux techniques du serveur</strong></td>
+          <td>Adresse IP, date et heure, page appelée, type de navigateur</td>
+          <td>Sécurité, détection d&rsquo;abus, diagnostic de panne</td>
+          <td>Intérêt légitime à sécuriser le service (art. 6.1.f)</td>
+          <td>Durée de rétention de l&rsquo;hébergeur (quelques jours à 30 jours)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <strong>Les calculateurs ne transmettent rien.</strong> Le calculateur de cotisations,
+      celui du coût d&rsquo;un salarié, celui de marge, celui de la franchise TVA, le générateur
+      de calendrier de contenu et le diagnostic express fonctionnent intégralement dans votre
+      navigateur. Les chiffres que vous y saisissez ne quittent jamais votre appareil et ne nous
+      parviennent pas — sauf si vous choisissez ensuite de demander un rapport détaillé.
+    </p>
+
+    <h2 id="local">4. Stockage local sur votre appareil</h2>
+    <p>
+      Le site n&rsquo;utilise aucun cookie. Il enregistre en revanche deux éléments dans le
+      stockage local (<code>localStorage</code>) de votre navigateur :
+    </p>
+    <table>
+      <thead>
+        <tr><th scope="col">Clé</th><th scope="col">Contenu</th><th scope="col">Rôle</th><th scope="col">Durée</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>pilotia-theme</code></td>
+          <td>« light » ou « dark »</td>
+          <td>Retenir le thème clair ou sombre que vous avez choisi</td>
+          <td>Jusqu&rsquo;à effacement par vos soins</td>
+        </tr>
+        <tr>
+          <td><code>pilotia-diagnostic</code></td>
+          <td>Vos réponses au diagnostic express et votre score</td>
+          <td>Reporter vos réponses sur la page de rapport sans vous faire tout ressaisir</td>
+          <td>Jusqu&rsquo;à effacement par vos soins</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Ces données restent <strong>sur votre appareil</strong> : elles ne sont pas transmises à
+      nos serveurs, ne permettent pas de vous identifier et ne servent à aucun suivi. Voir la
+      <a href="cookies.html">politique cookies</a> pour le détail et la façon de les effacer.
+    </p>
+
+    <h2 id="destinataires">5. Destinataires et sous-traitants</h2>
+    <p>
+      Vos données ne sont <strong>jamais vendues ni louées</strong>. Elles sont accessibles à
+      l&rsquo;éditeur et aux prestataires techniques strictement nécessaires au fonctionnement
+      du service, agissant comme sous-traitants au sens de l&rsquo;article 28 RGPD :
+    </p>
+    <table>
+      <thead>
+        <tr><th scope="col">Prestataire</th><th scope="col">Rôle</th><th scope="col">Lieu de traitement</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Vercel Inc.</strong></td>
+          <td>Hébergement du site et exécution des fonctions serveur</td>
+          <td>États-Unis, avec infrastructure de diffusion en Europe</td>
+        </tr>
+        <tr>
+          <td><strong>Brevo (Sendinblue SAS)</strong></td>
+          <td>Envoi des emails et gestion des contacts</td>
+          <td>Union européenne (France)</td>
+        </tr>
+        <tr>
+          <td><strong>Anthropic PBC</strong></td>
+          <td>Génération du texte du rapport diagnostic par intelligence artificielle</td>
+          <td>États-Unis</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <strong>Transferts hors Union européenne.</strong> Vercel et Anthropic sont établis aux
+      États-Unis. Les données qui leur sont transmises le sont sur la base des garanties
+      appropriées prévues au chapitre V du RGPD (clauses contractuelles types de la Commission
+      européenne et/ou certification au <em>Data Privacy Framework</em>), telles que définies
+      dans leurs accords de traitement respectifs.
+    </p>
+    <p>
+      Concrètement, seules les informations que vous saisissez dans le formulaire de rapport
+      diagnostic sont envoyées à Anthropic, le temps de rédiger le rapport. Selon la politique
+      de l&rsquo;API utilisée, ces contenus ne servent pas à entraîner de modèles.
+      <span class="legal-todo">À VÉRIFIER — confirmer ce point dans le contrat Anthropic avant la mise en service payante</span>
+    </p>
+
+    <h2 id="ia">6. Recours à l&rsquo;intelligence artificielle</h2>
+    <p>
+      Le rapport diagnostic payant est rédigé par un modèle de langage à partir des informations
+      que vous fournissez. Ce traitement est purement rédactionnel : il produit un document de
+      recommandations, <strong>sans décision automatisée produisant des effets juridiques</strong>
+      à votre égard au sens de l&rsquo;article 22 RGPD. Le contenu généré reste une analyse
+      indicative, relue et assumée par l&rsquo;éditeur, et ne remplace pas un avis professionnel.
+    </p>
+
+    <h2 id="droits">7. Vos droits</h2>
+    <p>Vous disposez à tout moment des droits suivants sur vos données :</p>
+    <ul>
+      <li><strong>Accès</strong> (art. 15) — obtenir une copie des données vous concernant ;</li>
+      <li><strong>Rectification</strong> (art. 16) — corriger une information inexacte ;</li>
+      <li><strong>Effacement</strong> (art. 17) — demander la suppression de vos données ;</li>
+      <li><strong>Limitation</strong> (art. 18) — geler temporairement un traitement contesté ;</li>
+      <li><strong>Portabilité</strong> (art. 20) — recevoir vos données dans un format réutilisable ;</li>
+      <li><strong>Opposition</strong> (art. 21) — vous opposer à un traitement fondé sur l&rsquo;intérêt légitime ;</li>
+      <li><strong>Retrait du consentement</strong> (art. 7.3) — à tout moment, sans que cela remette en cause la licéité du traitement déjà effectué.</li>
+    </ul>
+    <p>
+      Pour exercer ces droits, écrivez à
+      <span class="legal-todo">À COMPLÉTER — email de contact</span>. Nous répondons dans un
+      délai d&rsquo;un mois, prolongeable de deux mois si la demande est complexe. Une preuve
+      d&rsquo;identité peut être demandée en cas de doute raisonnable sur l&rsquo;identité du
+      demandeur.
+    </p>
+    <p>
+      Chaque email d&rsquo;information ou d&rsquo;actualité comporte en outre un lien de
+      désinscription en un clic.
+    </p>
+
+    <h2 id="reclamation">8. Réclamation auprès de l&rsquo;autorité de contrôle</h2>
+    <p>
+      Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une
+      réclamation auprès de l&rsquo;autorité belge compétente :
+    </p>
+    <p>
+      <strong>Autorité de protection des données (APD)</strong><br>
+      Rue de la Presse 35, 1000 Bruxelles<br>
+      Téléphone : +32 (0)2 274 48 00<br>
+      Courriel : <a href="mailto:contact@apd-gba.be">contact@apd-gba.be</a><br>
+      <a href="https://www.autoriteprotectiondonnees.be" target="_blank" rel="noopener">www.autoriteprotectiondonnees.be</a>
+    </p>
+    <p>
+      Vous conservez également le droit d&rsquo;exercer un recours juridictionnel.
+    </p>
+
+    <h2 id="securite">9. Sécurité</h2>
+    <p>
+      Le site est servi exclusivement en HTTPS, avec en-têtes de sécurité stricts
+      (HSTS, politique de sécurité du contenu, protection contre l&rsquo;inclusion en cadre).
+      Les clés d&rsquo;accès aux services tiers sont conservées côté serveur et ne sont jamais
+      exposées dans le navigateur. Les polices d&rsquo;écriture sont hébergées sur notre propre
+      domaine, afin qu&rsquo;aucune requête vers un tiers ne soit déclenchée à votre insu lors
+      du simple affichage d&rsquo;une page.
+    </p>
+
+    <h2 id="evolution">10. Modification de la présente politique</h2>
+    <p>
+      Cette politique peut évoluer en cas de changement des traitements ou des outils utilisés.
+      La date de dernière mise à jour figure ci-dessous. En cas de modification substantielle,
+      les personnes concernées sont informées par email lorsque leurs coordonnées sont connues.
+    </p>
+
+    <p class="legal-updated">Dernière mise à jour : 20 septembre 2026.</p>
   </div>
 </section>
+</main>
 
 <footer class="site-footer">
   <div class="wrap">
-    <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
-    <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
     <ul class="footer-links">
       <li><a href="parrainage.html">Parrainage</a></li>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cookies.html">Cookies</a></li>
       <li><a href="cgv.html">CGV</a></li>
+      <li><a href="accessibilite.html">Accessibilité</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </div>

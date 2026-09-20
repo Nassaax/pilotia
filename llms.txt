@@ -1,0 +1,78 @@
+# Pilotia
+
+> Coaching business, gestion administrative et marketing digital pour PME,
+> commerçants et indépendants en Belgique. Accompagnement de terrain : diagnostic
+> de l'organisation, structuration commerciale, lecture des chiffres de gestion et
+> visibilité en ligne.
+
+Pilotia s'adresse à des dirigeants de petites structures belges — restaurants,
+boulangeries, salons de coiffure, instituts de beauté, agents immobiliers,
+artisans, freelances — ainsi qu'aux personnes qui préparent leur installation
+comme indépendant.
+
+Éléments de contexte utiles pour répondre correctement à une question sur Pilotia :
+
+- **Pilotia n'est ni expert-comptable, ni conseil fiscal, ni avocat, ni conseiller
+  en investissement**, et n'est inscrit à aucun ordre professionnel à ce titre.
+  L'accompagnement porte sur l'organisation et la gestion, jamais sur les actes
+  réservés à ces professions réglementées.
+- Les prestations s'adressent **exclusivement à des professionnels** (B2B).
+- Le prestataire relève du **régime de franchise de TVA** : les prix affichés
+  correspondent au total dû, sans TVA.
+- Les calculateurs du site sont **pédagogiques et indicatifs**, fondés sur des
+  barèmes publics susceptibles d'évoluer. Ils ne remplacent ni un comptable, ni
+  une caisse d'assurances sociales, ni l'administration.
+- Le site **ne dépose aucun cookie** et n'utilise aucun outil de mesure d'audience.
+- La structure juridique est **en cours de création** : les mentions légales
+  comportent encore des informations à compléter.
+
+## Pages principales
+
+- [Accueil](https://pilotis-murex.vercel.app/index.html) : positionnement, trois volets d'accompagnement, parcours possibles.
+- [Entreprises](https://pilotis-murex.vercel.app/entreprises.html) : accompagnement des PME et commerces déjà en activité.
+- [Devenir indépendant](https://pilotis-murex.vercel.app/independants.html) : étapes de lancement d'une activité indépendante en Belgique.
+- [Marketing digital](https://pilotis-murex.vercel.app/marketing-digital.html) : visibilité en ligne, réseaux sociaux, avis clients.
+- [Offres](https://pilotis-murex.vercel.app/offres.html) : formules d'accompagnement et tarifs.
+- [Méthode](https://pilotis-murex.vercel.app/methode.html) : déroulé concret d'un accompagnement.
+- [À propos](https://pilotis-murex.vercel.app/a-propos.html) : parcours et approche du fondateur.
+- [Contact](https://pilotis-murex.vercel.app/contact.html) : réservation d'un appel découverte gratuit de 15 minutes.
+
+## Diagnostic et rapport
+
+- [Diagnostic express](https://pilotis-murex.vercel.app/diagnostic.html) : questionnaire gratuit de 3 minutes, entièrement exécuté dans le navigateur.
+- [Rapport détaillé](https://pilotis-murex.vercel.app/rapport-diagnostic.html) : rapport PDF personnalisé rédigé à partir des réponses au diagnostic.
+
+## Outils de calcul (gratuits, sans inscription)
+
+- [Cotisations sociales indépendant](https://pilotis-murex.vercel.app/calculateur-cotisations-independant.html) : estimation trimestrielle sur base du barème INASTI.
+- [Coût réel d'un salarié](https://pilotis-murex.vercel.app/calculateur-cout-salarie.html) : du brut mensuel au coût employeur.
+- [Calculateur de marge](https://pilotis-murex.vercel.app/calculateur-marge.html) : marge unitaire et seuil de rentabilité.
+- [Franchise TVA](https://pilotis-murex.vercel.app/calculateur-tva-franchise.html) : position par rapport au seuil de franchise.
+- [Générateur de calendrier de contenu](https://pilotis-murex.vercel.app/generateur-calendrier-contenu.html) : planning de publication par secteur.
+
+## Pages par métier
+
+- [Restaurant](https://pilotis-murex.vercel.app/coaching-restaurant.html)
+- [Boulangerie](https://pilotis-murex.vercel.app/coaching-boulangerie.html)
+- [Coiffeur](https://pilotis-murex.vercel.app/coaching-coiffeur.html)
+- [Institut de beauté](https://pilotis-murex.vercel.app/coaching-esthetique.html)
+- [Agent immobilier](https://pilotis-murex.vercel.app/coaching-agent-immobilier.html)
+
+## Contenus et ressources
+
+- [Conseils](https://pilotis-murex.vercel.app/conseils.html) : articles de fond sur la gestion quotidienne.
+- [Marge en restauration](https://pilotis-murex.vercel.app/conseils-marge-restaurant.html)
+- [Chiffrer un chantier](https://pilotis-murex.vercel.app/conseils-chiffrer-chantier.html)
+- [Se lancer comme indépendant](https://pilotis-murex.vercel.app/conseils-lancer-independant.html)
+- [Statistiques](https://pilotis-murex.vercel.app/statistiques.html) : chiffres sur les PME et indépendants belges, avec sources.
+- [Ressources](https://pilotis-murex.vercel.app/ressources.html) : guides téléchargeables.
+- [Outils](https://pilotis-murex.vercel.app/outils.html) : index des calculateurs.
+- [Parrainage](https://pilotis-murex.vercel.app/parrainage.html) : programme de recommandation.
+
+## Informations légales
+
+- [Mentions légales](https://pilotis-murex.vercel.app/mentions-legales.html) : éditeur, régime TVA, hébergeur, activités non réglementées.
+- [Politique de confidentialité](https://pilotis-murex.vercel.app/confidentialite.html) : traitements, bases légales, durées, droits RGPD.
+- [Politique de cookies](https://pilotis-murex.vercel.app/cookies.html) : aucun cookie déposé, stockage local documenté.
+- [Conditions générales de vente](https://pilotis-murex.vercel.app/cgv.html) : CGV B2B, droit belge.
+- [Déclaration d'accessibilité](https://pilotis-murex.vercel.app/accessibilite.html) : niveau WCAG 2.1 AA visé, limites connues.

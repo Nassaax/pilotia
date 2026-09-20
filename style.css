@@ -1,10 +1,10 @@
 /* Pilotia — design system: Trust & Authority + Conversion (via ui-ux-pro-max)
    Palette: navy/blue corporate trust + warm bronze accent. Typography: Calistoga (display) + Inter (body).
-   Les polices Google Fonts sont chargées via <link> dans le <head> de chaque page
-   (pas d'@import ici) : un @import CSS n'est découvert qu'une fois ce fichier
-   récupéré et parsé, ajoutant un aller-retour réseau complet avant même de savoir
-   qu'il faut charger les polices. Des <link> dans le HTML sont vus immédiatement
-   par le préchargeur du navigateur, en parallèle du reste. */
+   Les polices sont auto-hébergées dans fonts/ et déclarées dans fonts/fonts.css,
+   chargé via <link> dans le <head> de chaque page (pas d'@import ici) : un @import
+   CSS n'est découvert qu'une fois ce fichier récupéré et parsé, ajoutant un
+   aller-retour réseau complet avant même de savoir qu'il faut charger les polices.
+   Des <link> dans le HTML sont vus immédiatement par le préchargeur du navigateur. */
 
 :root{
   --ink:#0F172A;
@@ -17,9 +17,16 @@
   --accent:#0369A1;
   --accent-soft:#E1EEF6;
   --accent-ink:#FFFFFF;
-  --gold:#AD7E3F;
+  /* --gold habille du texte (.eyebrow en 12px, .step-num) : il lui faut 4.5:1 (WCAG 1.4.3).
+     L'ancien #AD7E3F plafonnait à 3.20:1 sur --paper-alt. #876231 conserve la teinte
+     bronze (34°) et atteint 4.89:1, et 5.50:1 pour du blanc posé dessus. */
+  --gold:#876231;
   --gold-soft:#F3E9DA;
   --danger:#DC2626;
+  /* Bordure des champs de saisie : leur fond est blanc comme la page, donc la bordure
+     est le seul indice qui identifie le champ — d'où le seuil de 3:1 (WCAG 1.4.11).
+     --line reste réservé aux séparateurs décoratifs, non soumis à ce seuil. */
+  --line-strong:#8190A4;
   --radius:12px;
   --shadow-sm:0 1px 2px rgba(15,23,42,.06);
   --shadow-md:0 8px 24px rgba(15,23,42,.10);
@@ -39,7 +46,10 @@
     --accent:#4CA9E0;
     --accent-soft:#16283D;
     --accent-ink:#08131F;
+    --gold:#C69B62;
     --gold-soft:#2B2213;
+    --danger:#F87171;
+    --line-strong:#586C94;
   }
 }
 /* Mode sombre forcé via le bouton de bascule (indépendant de prefers-color-scheme) */
@@ -53,11 +63,25 @@
   --accent:#4CA9E0;
   --accent-soft:#16283D;
   --accent-ink:#08131F;
+  --gold:#C69B62;
   --gold-soft:#2B2213;
+  --danger:#F87171;
+  --line-strong:#586C94;
 }
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+
+/* Lien d'évitement : premier élément focusable de la page, hors écran tant qu'il n'a
+   pas le focus. Permet d'atteindre le contenu sans retraverser toute la navigation
+   au clavier ou au lecteur d'écran (WCAG 2.4.1). */
+.skip-link{
+  position:absolute;left:-9999px;top:0;z-index:100;
+  background:var(--accent);color:var(--accent-ink);
+  padding:12px 20px;border-radius:0 0 var(--radius) 0;
+  font-family:var(--font-body);font-size:15px;font-weight:600;text-decoration:none;
+}
+.skip-link:focus{left:0}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
@@ -235,7 +259,7 @@ section{padding:64px 0}
   transition:box-shadow .2s ease,transform .2s ease,border-color .2s ease;
 }
 a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--accent)}
-.card h3{font-size:19px;font-family:var(--font-body);font-weight:700}
+.card h3,.card h2{font-size:19px;font-family:var(--font-body);font-weight:700}
 .pill{
   display:inline-block;font-family:var(--font-body);font-size:12px;font-weight:600;
   text-transform:uppercase;letter-spacing:.08em;
@@ -252,11 +276,15 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 .path-cards{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .path-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow-sm);transition:box-shadow .2s ease,transform .2s ease}
 .path-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
-.path-card h3{font-size:22px;font-family:var(--font-body);font-weight:700}
+.path-card h3,.path-card h2{font-size:22px;font-family:var(--font-body);font-weight:700}
 .path-card .btn{margin-top:18px}
 
 .step{display:flex;gap:18px;align-items:flex-start;margin-bottom:28px}
 .step-num{font-family:var(--font-display);color:var(--gold);font-size:22px;flex:none;line-height:1.3}
+/* Sans taille explicite, un titre d'étape prend celle par défaut du navigateur pour
+   son niveau — un h2 y serait bien plus gros qu'un h3 alors que le rôle visuel est
+   le même. On fixe la taille pour que le niveau reste un choix sémantique. */
+.step h2,.step h3{font-size:19px}
 
 .faq details{border-bottom:1px solid var(--line);padding:16px 0}
 .faq summary{cursor:pointer;font-family:var(--font-body);font-weight:600;min-height:44px;display:flex;align-items:center}
@@ -269,7 +297,7 @@ form{display:grid;gap:14px;max-width:520px}
 label{font-family:var(--font-body);font-size:14px;font-weight:600;display:block;margin-bottom:6px}
 input:not([type="radio"]):not([type="checkbox"]),select,textarea{
   font-family:var(--font-body);font-size:15px;padding:12px 14px;min-height:44px;
-  border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);
+  border:1px solid var(--line-strong);border-radius:8px;background:var(--card);color:var(--ink);
   transition:border-color .18s ease,box-shadow .18s ease;
 }
 input:not([type="radio"]):not([type="checkbox"]):hover,select:hover,textarea:hover{border-color:var(--accent)}
@@ -285,6 +313,17 @@ input[type="radio"],input[type="checkbox"]{
 .gated-download-row button{flex:none}
 .gated-download-msg{font-family:var(--font-body);font-size:13px;color:var(--ink-soft);margin:0;min-height:1.2em}
 
+/* Case de consentement : la case et son libellé sont alignés en haut, le libellé
+   restant cliquable sur toute sa longueur pour agrandir la cible. */
+.consent-row{display:flex;align-items:flex-start;gap:11px}
+.consent-row label{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--ink-soft);font-weight:400;cursor:pointer;margin:0}
+.consent-row input[type="checkbox"]{margin-top:2px}
+/* Champ leurre : sorti du flux visuel sans display:none, que les robots qui
+   n'évaluent pas le CSS le remplissent quand même. */
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-msg-error{color:var(--danger)}
+.form-msg-ok{color:var(--accent)}
+
 .banner{background:var(--ink-fixed);color:#fff;padding:56px 0;text-align:center}
 .banner h2{color:#fff}
 .banner .btn-primary{background:#fff;color:var(--ink-fixed)}
@@ -296,6 +335,20 @@ input[type="radio"],input[type="checkbox"]{
 .footer-links a:hover{color:var(--accent)}
 
 .note{background:var(--gold-soft);border:1px solid var(--gold);border-radius:var(--radius);padding:16px 20px;font-family:var(--font-body);font-size:14px;color:var(--ink-soft)}
+/* Marqueur inline des informations légales encore manquantes (structure non créée).
+   Volontairement voyant : il doit sauter aux yeux avant toute mise en ligne. */
+.legal-todo{background:var(--gold-soft);color:var(--ink);border:1px dashed var(--gold);border-radius:6px;padding:1px 7px;font-family:var(--font-body);font-size:.92em;font-weight:600}
+.legal-page h2{margin-top:38px;scroll-margin-top:90px}
+.legal-page h3{margin-top:24px}
+.legal-page p,.legal-page li{font-family:var(--font-body);font-size:15.5px;line-height:1.7;color:var(--ink-soft)}
+.legal-page li{margin-bottom:7px}
+.legal-page table{width:100%;border-collapse:collapse;margin:18px 0;display:block;overflow-x:auto;white-space:normal}
+.legal-page th{font-family:var(--font-body);font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink);vertical-align:bottom}
+.legal-page td{font-family:var(--font-body);font-size:14px;color:var(--ink-soft);vertical-align:top;min-width:150px}
+.legal-toc{background:var(--paper-alt);border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:28px 0}
+.legal-toc ol{margin:10px 0 0;padding-left:20px}
+.legal-toc a{color:var(--accent)}
+.legal-updated{font-family:var(--font-body);font-size:14px;color:var(--ink-soft);margin-top:6px}
 
 /* Icônes de carte (SVG outline, dessinées à la main — style Phosphor) */
 .card-icon{

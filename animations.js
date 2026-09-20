@@ -260,3 +260,78 @@
 
   nums.forEach(function (el) { observer.observe(el); });
 })();
+
+/* Formulaire de contact (contact.html) — envoie le message via /api/contact
+   (email transactionnel Brevo). Le consentement est requis côté client ET
+   revérifié côté serveur : une validation uniquement front-end ne prouve rien. */
+(function () {
+  "use strict";
+
+  var form = document.getElementById("contact-form");
+  if (!form) return;
+
+  var msg = document.getElementById("contact-msg");
+  var button = document.getElementById("contact-submit");
+  var defaultLabel = button.textContent;
+
+  function show(text, isError) {
+    msg.textContent = text;
+    msg.className = isError ? "form-msg-error" : "form-msg-ok";
+  }
+
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : "";
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var payload = {
+      nom: val("nom"),
+      email: val("email"),
+      entreprise: val("entreprise"),
+      profil: val("profil"),
+      message: val("message"),
+      consent: document.getElementById("consent").checked,
+      website: val("website"),
+    };
+
+    // On renvoie le focus sur le premier champ fautif : sans cela, un utilisateur
+    // au lecteur d'écran entend le message d'erreur sans savoir où corriger.
+    if (!payload.nom) { show("Merci d'indiquer votre nom.", true); document.getElementById("nom").focus(); return; }
+    if (!payload.email) { show("Merci d'indiquer votre email.", true); document.getElementById("email").focus(); return; }
+    if (!payload.message) { show("Merci de décrire votre situation en quelques mots.", true); document.getElementById("message").focus(); return; }
+    if (!payload.consent) { show("Merci d'accepter le traitement de votre message pour pouvoir l'envoyer.", true); document.getElementById("consent").focus(); return; }
+
+    button.disabled = true;
+    button.textContent = "Envoi en cours...";
+    show("", false);
+
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (data) {
+          return { ok: r.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (result.ok && result.data && result.data.ok) {
+          form.reset();
+          show("Merci ! Votre message est parti, on vous répond sous 24 à 48 heures ouvrables.", false);
+        } else {
+          show((result.data && result.data.error) || "Une erreur est survenue, réessayez.", true);
+        }
+      })
+      .catch(function () {
+        show("Impossible d'envoyer le message pour le moment. Réessayez dans quelques minutes.", true);
+      })
+      .finally(function () {
+        button.disabled = false;
+        button.textContent = defaultLabel;
+      });
+  });
+})();

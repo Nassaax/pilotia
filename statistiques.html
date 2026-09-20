@@ -8,21 +8,21 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Statistiques PME et indépendants en Belgique — Pilotia">
 <meta property="og:description" content="Chiffres clés sur les PME et indépendants en Belgique : survie à 5 ans, faillites, trésorerie — données SPF Economie et Statbel.">
-<meta property="og:image" content="https://pilotis-nassaaxs-projects.vercel.app/og-image.png">
-<meta property="og:url" content="https://pilotis-nassaaxs-projects.vercel.app/statistiques.html">
+<meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<meta property="og:url" content="https://pilotis-murex.vercel.app/statistiques.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Statistiques PME et indépendants en Belgique — Pilotia">
 <meta name="twitter:description" content="Chiffres clés sur les PME et indépendants en Belgique : survie à 5 ans, faillites, trésorerie — données SPF Economie et Statbel.">
-<meta name="twitter:image" content="https://pilotis-nassaaxs-projects.vercel.app/og-image.png">
+<meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <script>
 try{
   var __t = localStorage.getItem('pilotia-theme');
   if (__t === 'dark' || __t === 'light') document.documentElement.setAttribute('data-theme', __t);
 }catch(e){}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -31,11 +31,13 @@ try{
 </head>
 <body>
 
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light">
-      <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark">
+      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
     </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
@@ -69,6 +71,8 @@ try{
   </div>
 </header>
 
+<main id="contenu">
+
 <section class="hero" style="padding:56px 0 40px">
   <div class="wrap">
     <div class="eyebrow">Chiffres clés</div>
@@ -82,32 +86,32 @@ try{
     <div class="grid grid-3">
       <div class="card">
         <p class="stat-number" data-count="64" data-count-suffix=" %" style="font-size:38px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;color:var(--accent);margin:0 0 6px">64 %</p>
-        <h3>Taux de survie à 5 ans</h3>
+        <h2>Taux de survie à 5 ans</h2>
         <p>Des entreprises nouvellement assujetties à la TVA en 2018 sont encore actives 5 ans plus tard. Ce taux tombe à 62,6 % pour les entreprises sans salarié.</p>
       </div>
       <div class="card">
         <p class="stat-number" data-count="79" data-count-suffix=" %+" style="font-size:38px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;color:var(--accent);margin:0 0 6px">79 %+</p>
-        <h3>Avec au moins un salarié</h3>
+        <h2>Avec au moins un salarié</h2>
         <p>Les entreprises qui emploient du personnel dès le départ ont un taux de survie à 5 ans nettement supérieur à celles qui restent seules — signe que la structuration compte.</p>
       </div>
       <div class="card">
         <p style="font-size:38px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;color:var(--accent);margin:0 0 6px">1 sur 4</p>
-        <h3>PME en risque de faillite</h3>
+        <h2>PME en risque de faillite</h2>
         <p>Une PME belge sur quatre est aujourd'hui considérée à risque : pas de réserve financière, pas de trésorerie de sécurité.</p>
       </div>
       <div class="card">
         <p class="stat-number" data-count="11697" style="font-size:38px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;color:var(--accent);margin:0 0 6px">11 697</p>
-        <h3>Faillites en 2025</h3>
+        <h2>Faillites en 2025</h2>
         <p>Un niveau de faillites en Belgique en hausse de 5,9 % par rapport à 2024 — le plus haut niveau depuis 2013.</p>
       </div>
       <div class="card">
         <p class="stat-number" data-count="0.9" data-count-decimals="1" data-count-suffix=" %" style="font-size:38px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;color:var(--accent);margin:0 0 6px">0,9 %</p>
-        <h3>Taux de faillite micro-entreprises</h3>
+        <h2>Taux de faillite micro-entreprises</h2>
         <p>Contre 0,5 % pour les PME de 50 à 249 travailleurs en 2024 — les plus petites structures sont statistiquement plus exposées.</p>
       </div>
       <div class="card">
         <p class="stat-number" data-count="25000" data-count-suffix=" €" style="font-size:38px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;color:var(--accent);margin:0 0 6px">25 000 €</p>
-        <h3>Seuil de franchise TVA 2026</h3>
+        <h2>Seuil de franchise TVA 2026</h2>
         <p>Le chiffre d'affaires annuel maximum pour bénéficier de la franchise de TVA — sans tolérance de dépassement depuis 2025.</p>
       </div>
     </div>
@@ -146,15 +150,19 @@ try{
   </div>
 </section>
 
+</main>
+
 <footer class="site-footer">
   <div class="wrap">
-    <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
-    <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
     <ul class="footer-links">
       <li><a href="parrainage.html">Parrainage</a></li>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cookies.html">Cookies</a></li>
       <li><a href="cgv.html">CGV</a></li>
+      <li><a href="accessibilite.html">Accessibilité</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </div>

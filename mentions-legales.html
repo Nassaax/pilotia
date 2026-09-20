@@ -4,15 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mentions légales — Pilotia</title>
+<meta name="description" content="Informations légales de Pilotia : éditeur, numéro d'entreprise, régime TVA, hébergeur, propriété intellectuelle et droit applicable.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mentions légales — Pilotia">
+<meta property="og:description" content="Informations légales de Pilotia : éditeur, numéro d'entreprise, régime TVA, hébergeur, propriété intellectuelle et droit applicable.">
+<meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<meta property="og:url" content="https://pilotis-murex.vercel.app/mentions-legales.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mentions légales — Pilotia">
+<meta name="twitter:description" content="Informations légales de Pilotia : éditeur, numéro d'entreprise, régime TVA, hébergeur, propriété intellectuelle et droit applicable.">
+<meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <script>
 try{
   var __t = localStorage.getItem('pilotia-theme');
   if (__t === 'dark' || __t === 'light') document.documentElement.setAttribute('data-theme', __t);
 }catch(e){}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -21,11 +31,13 @@ try{
 </head>
 <body>
 
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light">
-      <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark">
+      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
     </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
@@ -59,28 +71,147 @@ try{
   </div>
 </header>
 
-<section class="hero" style="padding:56px 0">
-  <div class="wrap" style="max-width:70ch">
-    <h1>Mentions légales</h1>
-    <p class="note">Page à compléter dès que la structure juridique est créée : dénomination exacte, forme (personne physique / société), numéro d'entreprise (BCE), numéro de TVA, siège social, coordonnées de contact, hébergeur du site.</p>
-    <h2>Éditeur du site</h2>
-    <p>[Nom légal] — [Statut : indépendant / société] — Numéro d'entreprise : [à compléter] — [Adresse du siège] — Belgique</p>
-    <h2>Contact</h2>
-    <p>[email à définir]</p>
-    <h2>Hébergement</h2>
-    <p>[Nom de l'hébergeur, adresse]</p>
+<main id="contenu">
+<section class="hero legal-page" style="padding:56px 0 24px">
+  <div class="wrap" style="max-width:74ch">
+<h1>Mentions légales</h1>
+    <div class="note" style="border-width:2px">
+      <strong>Site en phase de lancement.</strong> La structure juridique de Pilotia
+      n&rsquo;est pas encore immatriculée à la Banque-Carrefour des Entreprises. Les
+      informations signalées par <span class="legal-todo">À COMPLÉTER</span> doivent être
+      renseignées dès l&rsquo;immatriculation, <em>avant</em> toute prestation payante :
+      l&rsquo;article XII.6 du Code de droit économique impose que ces mentions soient
+      accessibles de manière permanente et non équivoque.
+    </div>
+
+    <h2 id="editeur">1. Éditeur du site</h2>
+    <p>
+      Dénomination : <span class="legal-todo">À COMPLÉTER — nom légal exact</span><br>
+      Forme juridique : <span class="legal-todo">À COMPLÉTER — personne physique (indépendant) ou société</span><br>
+      Siège : <span class="legal-todo">À COMPLÉTER — rue, numéro, code postal, commune</span>, Belgique<br>
+      Numéro d&rsquo;entreprise (BCE) : <span class="legal-todo">À COMPLÉTER — BE 0XXX.XXX.XXX</span>
+    </p>
+    <p>
+      Nom commercial : Pilotia.
+    </p>
+
+    <h2 id="tva">2. Régime TVA</h2>
+    <p>
+      Pilotia relève du <strong>régime de la franchise de la taxe</strong> pour les petites
+      entreprises. En conséquence, aucune TVA n&rsquo;est facturée et aucune TVA n&rsquo;est
+      déductible. Toute facture porte la mention légale :
+      « <em>Régime particulier de franchise des petites entreprises — TVA non applicable,
+      article 56<sup>bis</sup> du Code de la TVA</em> ».
+    </p>
+    <p>
+      Les prix affichés sur ce site s&rsquo;entendent donc hors TVA et correspondent au montant
+      total effectivement dû.
+    </p>
+
+    <h2 id="contact">3. Contact</h2>
+    <p>
+      Adresse électronique : <span class="legal-todo">À COMPLÉTER — email professionnel</span><br>
+      Téléphone : <span class="legal-todo">À COMPLÉTER — facultatif mais recommandé</span><br>
+      Formulaire : <a href="contact.html">page Contact</a>
+    </p>
+
+    <h2 id="publication">4. Responsable de la publication</h2>
+    <p>
+      <span class="legal-todo">À COMPLÉTER — prénom et nom</span>, en qualité de représentant
+      légal de l&rsquo;éditeur.
+    </p>
+
+    <h2 id="hebergeur">5. Hébergeur</h2>
+    <p>
+      Le site est hébergé par <strong>Vercel Inc.</strong>, 440 N Barranca Ave #4133,
+      Covina, CA 91723, États-Unis — <a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a>.
+    </p>
+    <p>
+      L&rsquo;hébergement implique un traitement de données techniques (journaux de connexion)
+      décrit dans notre <a href="confidentialite.html">politique de confidentialité</a>.
+    </p>
+
+    <h2 id="activite">6. Nature de l&rsquo;activité — professions non réglementées</h2>
+    <p>
+      Pilotia exerce une activité de <strong>conseil et d&rsquo;accompagnement en gestion
+      d&rsquo;entreprise</strong> : coaching commercial, organisation, gestion administrative,
+      lecture de chiffres de gestion et marketing digital.
+    </p>
+    <p>
+      Pilotia <strong>n&rsquo;est ni expert-comptable, ni conseil fiscal, ni avocat, ni courtier
+      en assurances ou en crédit</strong>, et n&rsquo;est inscrit à aucun ordre ou institut
+      professionnel à ce titre. Aucune prestation ne constitue :
+    </p>
+    <ul>
+      <li>une mission réservée aux professions économiques réglementées par la loi du 17 mars 2019 (ITAA) — tenue de comptabilité pour compte de tiers, établissement de comptes annuels, déclarations fiscales ;</li>
+      <li>un conseil juridique au sens du Code judiciaire ;</li>
+      <li>un conseil en investissement ou un service d&rsquo;intermédiation financière.</li>
+    </ul>
+    <p>
+      Pour ces matières, le client reste tenu de s&rsquo;adresser à un professionnel agréé.
+      Pilotia peut travailler <em>aux côtés</em> de votre comptable ou de votre conseil, sans
+      s&rsquo;y substituer.
+    </p>
+
+    <h2 id="pi">7. Propriété intellectuelle</h2>
+    <p>
+      L&rsquo;ensemble des contenus de ce site — textes, structure, identité visuelle, logo,
+      calculateurs, guides téléchargeables et méthodologies — est protégé par le droit
+      d&rsquo;auteur (Livre XI du Code de droit économique) et demeure la propriété exclusive de
+      l&rsquo;éditeur.
+    </p>
+    <p>
+      Toute reproduction, représentation, adaptation ou exploitation commerciale, totale ou
+      partielle, est interdite sans autorisation écrite préalable. La citation courte avec
+      mention explicite de la source et lien vers la page d&rsquo;origine reste permise.
+    </p>
+
+    <h2 id="contenus">8. Contenus informatifs et limites</h2>
+    <p>
+      Les articles, statistiques, calculateurs et outils mis à disposition ont une finalité
+      <strong>pédagogique et indicative</strong>. Ils reposent sur des barèmes et des sources
+      publiques susceptibles d&rsquo;évoluer, et ne tiennent pas compte de votre situation
+      particulière.
+    </p>
+    <p>
+      Ils ne constituent en aucun cas un conseil personnalisé. Aucune décision de gestion,
+      fiscale ou d&rsquo;investissement ne devrait être prise sur leur seule base : vérifiez
+      toujours auprès de votre comptable, de votre caisse d&rsquo;assurances sociales ou de
+      l&rsquo;administration compétente.
+    </p>
+
+    <h2 id="liens">9. Liens externes</h2>
+    <p>
+      Ce site renvoie vers des ressources tierces (SPF Économie, INASTI, guichets
+      d&rsquo;entreprises, outil de réservation Cal.com). Ces sites disposent de leurs propres
+      politiques et l&rsquo;éditeur n&rsquo;exerce aucun contrôle sur leur contenu ni sur les
+      données qu&rsquo;ils collectent.
+    </p>
+
+    <h2 id="droit">10. Droit applicable</h2>
+    <p>
+      Le présent site et les présentes mentions sont régis par le <strong>droit belge</strong>.
+      Tout litige relatif à leur utilisation relève de la compétence exclusive des cours et
+      tribunaux de l&rsquo;arrondissement judiciaire du siège de l&rsquo;éditeur, sauf disposition
+      légale impérative contraire.
+    </p>
+
+    <p class="legal-updated">Dernière mise à jour : 20 septembre 2026.</p>
   </div>
 </section>
+</main>
 
 <footer class="site-footer">
   <div class="wrap">
-    <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
-    <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
     <ul class="footer-links">
       <li><a href="parrainage.html">Parrainage</a></li>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cookies.html">Cookies</a></li>
       <li><a href="cgv.html">CGV</a></li>
+      <li><a href="accessibilite.html">Accessibilité</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </div>

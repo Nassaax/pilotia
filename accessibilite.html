@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Déclaration d'accessibilité — Pilotia</title>
+<meta name="description" content="Engagement d'accessibilité de Pilotia : niveau WCAG 2.1 AA visé, mesures mises en place, limites connues et moyens de signalement.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Déclaration d'accessibilité — Pilotia">
+<meta property="og:description" content="Engagement d'accessibilité de Pilotia : niveau WCAG 2.1 AA visé, mesures mises en place, limites connues et moyens de signalement.">
+<meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<meta property="og:url" content="https://pilotis-murex.vercel.app/accessibilite.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Déclaration d'accessibilité — Pilotia">
+<meta name="twitter:description" content="Engagement d'accessibilité de Pilotia : niveau WCAG 2.1 AA visé, mesures mises en place, limites connues et moyens de signalement.">
+<meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<script>
+try{
+  var __t = localStorage.getItem('pilotia-theme');
+  if (__t === 'dark' || __t === 'light') document.documentElement.setAttribute('data-theme', __t);
+}catch(e){}
+</script>
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Devenir indépendant</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="marketing-digital.html">Marketing digital</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li class="dropdown">
+        <button type="button" class="dropdown-trigger" aria-expanded="false" aria-haspopup="true">Découvrir <span class="dropdown-caret" aria-hidden="true">▾</span></button>
+        <ul class="dropdown-menu">
+          <li><a href="outils.html">Outils</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="methode.html">Méthode</a></li>
+          <li><a href="statistiques.html">Statistiques</a></li>
+          <li><a href="conseils.html">Conseils</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+      </li>
+      <li class="nav-theme-li">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Passer en mode sombre" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2.5" x2="12" y2="5.5"/><line x1="12" y1="18.5" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5.5" y2="12"/><line x1="18.5" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke-linejoin="round"/></svg>
+          <span class="theme-toggle-label">Mode sombre</span>
+        </button>
+      </li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="contenu">
+<section class="hero legal-page" style="padding:56px 0 24px">
+  <div class="wrap" style="max-width:74ch">
+<h1>Déclaration d'accessibilité</h1>
+    <div class="legal-toc">
+      <strong>Notre engagement</strong>
+      <p style="margin:8px 0 0">
+        Ce site vise le niveau <strong>WCAG 2.1 AA</strong>. Cette page décrit ce qui a été fait,
+        ce qui reste perfectible, et comment nous signaler un problème.
+      </p>
+    </div>
+
+    <h2 id="engagement">1. Pourquoi cette page</h2>
+    <p>
+      Un site de conseil qui s&rsquo;adresse à des entrepreneurs doit être lisible par tous :
+      personnes malvoyantes, daltoniennes, naviguant au clavier, utilisant un lecteur
+      d&rsquo;écran, ou simplement consultant le site en plein soleil sur un téléphone.
+    </p>
+    <p>
+      Nous n&rsquo;attendons pas d&rsquo;y être contraints pour nous en occuper — mais il est
+      honnête de préciser le cadre légal : la directive européenne 2019/882 sur
+      l&rsquo;accessibilité (<em>European Accessibility Act</em>), applicable depuis le
+      28 juin 2025, exempte les micro-entreprises de services de moins de dix personnes et
+      réalisant moins de deux millions d&rsquo;euros de chiffre d&rsquo;affaires. Pilotia entre
+      dans cette catégorie. <strong>La démarche décrite ici est donc volontaire</strong>, et non
+      une obligation à laquelle nous répondrions a minima.
+    </p>
+
+    <h2 id="fait">2. Ce qui a été mis en place</h2>
+    <ul>
+      <li><strong>Contrastes vérifiés au calcul</strong>, pas à l&rsquo;œil : chaque couple texte/fond du système de design a été mesuré selon la formule de luminance relative WCAG, en thème clair comme en thème sombre. Le doré des intitulés de section plafonnait à 3,20:1 et a été assombri pour atteindre 4,89:1.</li>
+      <li><strong>Bordures des champs de formulaire</strong> renforcées à plus de 3:1, conformément au critère 1.4.11 : le fond d&rsquo;un champ étant blanc comme la page, sa bordure est le seul élément qui le signale.</li>
+      <li><strong>Navigation complète au clavier</strong>, avec un contour de focus visible de 3 px sur tous les éléments interactifs et un lien d&rsquo;évitement vers le contenu principal.</li>
+      <li><strong>Structure sémantique</strong> : un seul <code>h1</code> par page, hiérarchie de titres continue, repères <code>header</code>, <code>main</code>, <code>nav</code> et <code>footer</code>.</li>
+      <li><strong>Images et icônes</strong> : texte alternatif sur les images porteuses de sens, icônes décoratives masquées aux technologies d&rsquo;assistance pour ne pas encombrer la lecture.</li>
+      <li><strong>Animations désactivables</strong> : la préférence système « réduire les animations » est respectée.</li>
+      <li><strong>Thème sombre</strong> réel, activable manuellement, avec des contrastes vérifiés séparément.</li>
+      <li><strong>Zones tactiles</strong> d&rsquo;au moins 44 px de hauteur sur les champs et les boutons.</li>
+      <li><strong>Messages de formulaire</strong> annoncés aux lecteurs d&rsquo;écran via <code>aria-live</code>.</li>
+    </ul>
+
+    <h2 id="limites">3. Limites connues</h2>
+    <p>
+      Par souci d&rsquo;honnêteté, voici les points que nous savons perfectibles :
+    </p>
+    <ul>
+      <li>Le site n&rsquo;a pas fait l&rsquo;objet d&rsquo;un <strong>audit externe certifié</strong> ni de tests systématiques avec des utilisateurs de lecteurs d&rsquo;écran. Les vérifications sont internes et automatisées.</li>
+      <li>Les <strong>séparateurs décoratifs</strong> (bordures de cartes, filets) restent en contraste faible. Ils ne portent aucune information et n&rsquo;entrent pas dans le champ du critère 1.4.11, mais un œil fatigué peut les percevoir difficilement.</li>
+      <li>Les <strong>documents PDF</strong> téléchargeables ne sont pas encore balisés pour l&rsquo;accessibilité.</li>
+      <li>Les <strong>sites tiers</strong> vers lesquels nous renvoyons — en particulier l&rsquo;outil de réservation — ne relèvent pas de notre maîtrise.</li>
+    </ul>
+
+    <h2 id="signaler">4. Signaler un problème</h2>
+    <p>
+      Si une page vous résiste — texte illisible, élément inatteignable au clavier, contenu
+      incompréhensible au lecteur d&rsquo;écran — écrivez-nous à
+      <span class="legal-todo">À COMPLÉTER — email de contact</span> ou via la
+      <a href="contact.html">page Contact</a>, en indiquant la page concernée et votre
+      configuration (navigateur, technologie d&rsquo;assistance).
+    </p>
+    <p>
+      Nous nous engageons à répondre sous 15 jours ouvrables et à vous transmettre
+      l&rsquo;information demandée par un moyen alternatif si la correction devait prendre plus
+      de temps.
+    </p>
+
+    <h2 id="recours">5. Voies de recours</h2>
+    <p>
+      Si une réponse vous paraît insatisfaisante, vous pouvez saisir
+      <strong>Unia</strong>, service public indépendant de lutte contre la discrimination :
+      Rue Royale 138, 1000 Bruxelles —
+      <a href="https://www.unia.be" target="_blank" rel="noopener">www.unia.be</a>.
+    </p>
+
+    <p class="legal-updated">Dernière mise à jour : 20 septembre 2026.</p>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <ul class="footer-links">
+      <li><a href="parrainage.html">Parrainage</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cookies.html">Cookies</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="accessibilite.html">Accessibilité</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="animations.js" defer></script>
+</body>
+</html>

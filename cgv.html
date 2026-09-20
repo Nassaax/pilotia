@@ -4,15 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Conditions générales de vente — Pilotia</title>
+<meta name="description" content="Conditions générales de vente de Pilotia, applicables aux prestations d'accompagnement entre professionnels. Droit belge.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Conditions générales de vente — Pilotia">
+<meta property="og:description" content="Conditions générales de vente de Pilotia, applicables aux prestations d'accompagnement entre professionnels. Droit belge.">
+<meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<meta property="og:url" content="https://pilotis-murex.vercel.app/cgv.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Conditions générales de vente — Pilotia">
+<meta name="twitter:description" content="Conditions générales de vente de Pilotia, applicables aux prestations d'accompagnement entre professionnels. Droit belge.">
+<meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <script>
 try{
   var __t = localStorage.getItem('pilotia-theme');
   if (__t === 'dark' || __t === 'light') document.documentElement.setAttribute('data-theme', __t);
 }catch(e){}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -21,11 +31,13 @@ try{
 </head>
 <body>
 
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light">
-      <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark">
+      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
     </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
@@ -59,23 +71,301 @@ try{
   </div>
 </header>
 
-<section class="hero" style="padding:56px 0">
-  <div class="wrap" style="max-width:70ch">
-    <h1>Conditions générales de vente</h1>
-    <p class="note">À rédiger une fois les offres et tarifs (page Offres) finalisés : objet des prestations, modalités de réservation, tarifs et modalités de paiement, conditions d'annulation/report du diagnostic et des séances de suivi, droit de rétractation (le cas échéant pour du B2C), responsabilité, droit applicable (Belgique) et juridiction compétente.</p>
-    <p>Un modèle de CGV belge existe déjà sur le site educateur-financier (fichier <code>cgv.html</code>) et peut servir de base à adapter au contexte du coaching business.</p>
+<main id="contenu">
+<section class="hero legal-page" style="padding:56px 0 24px">
+  <div class="wrap" style="max-width:74ch">
+<h1>Conditions générales de vente</h1>
+    <div class="note" style="border-width:2px">
+      <strong>Site en phase de lancement.</strong> La structure juridique de Pilotia
+      n&rsquo;est pas encore immatriculée à la Banque-Carrefour des Entreprises. Les
+      informations signalées par <span class="legal-todo">À COMPLÉTER</span> doivent être
+      renseignées dès l&rsquo;immatriculation, <em>avant</em> toute prestation payante :
+      l&rsquo;article XII.6 du Code de droit économique impose que ces mentions soient
+      accessibles de manière permanente et non équivoque.
+    </div>
+
+    <div class="legal-toc">
+      <strong>Point d&rsquo;attention</strong>
+      <p style="margin:8px 0 0">
+        Les présentes conditions régissent des prestations fournies
+        <strong>exclusivement entre professionnels</strong>. Elles ne s&rsquo;appliquent pas aux
+        consommateurs. Voir l&rsquo;article 2 pour ce que cela implique concrètement.
+      </p>
+    </div>
+
+    <h2 id="prestataire">1. Identification du prestataire</h2>
+    <p>
+      Les présentes conditions générales régissent les prestations fournies sous le nom
+      commercial <strong>Pilotia</strong> par
+      <span class="legal-todo">À COMPLÉTER — nom légal</span>, dont le siège est situé
+      <span class="legal-todo">À COMPLÉTER — adresse</span>, inscrit à la Banque-Carrefour des
+      Entreprises sous le numéro <span class="legal-todo">À COMPLÉTER — BE 0XXX.XXX.XXX</span>
+      (ci-après « le Prestataire »).
+    </p>
+
+    <h2 id="champ">2. Champ d&rsquo;application — clientèle professionnelle uniquement</h2>
+    <p>
+      Les prestations du Prestataire s&rsquo;adressent <strong>exclusivement à des entreprises
+      et à des indépendants agissant dans le cadre de leur activité professionnelle</strong>
+      (ci-après « le Client »). En acceptant les présentes conditions, le Client déclare agir à
+      des fins professionnelles et communique son numéro d&rsquo;entreprise.
+    </p>
+    <p>
+      Le Prestataire ne contracte pas avec des consommateurs au sens de l&rsquo;article I.1, 2°
+      du Code de droit économique. Une personne qui n&rsquo;est pas encore immatriculée à la
+      Banque-Carrefour des Entreprises est invitée à régulariser sa situation avant de
+      contracter.
+    </p>
+    <div class="note">
+      <strong>Précision de bonne foi.</strong> Si, malgré ce qui précède, une prestation devait
+      être fournie à une personne qui agit en réalité en dehors de toute activité
+      professionnelle, celle-ci conserverait de plein droit la qualité de consommateur et le
+      bénéfice des dispositions impératives du Livre VI du Code de droit économique — notamment
+      le droit de rétractation de 14 jours. La qualification s&rsquo;apprécie en fait et aucune
+      clause ne peut y déroger.
+    </div>
+
+    <h2 id="objet">3. Objet des prestations</h2>
+    <p>Le Prestataire propose des prestations d&rsquo;accompagnement et de conseil en gestion :</p>
+    <ul>
+      <li>diagnostic de l&rsquo;organisation et des priorités ;</li>
+      <li>coaching commercial et structuration de la prospection ;</li>
+      <li>appui à la gestion administrative et préparation des éléments destinés au comptable ;</li>
+      <li>lecture et suivi des chiffres de gestion (marges, coûts, trésorerie) ;</li>
+      <li>accompagnement en marketing digital et visibilité en ligne ;</li>
+      <li>production de rapports d&rsquo;analyse, le cas échéant assistés par intelligence artificielle.</li>
+    </ul>
+    <p>
+      Le contenu exact, la durée et le rythme de chaque mission sont définis dans l&rsquo;offre
+      ou le devis accepté par le Client, qui prévaut sur toute description générale figurant sur
+      le site.
+    </p>
+
+    <h2 id="exclusions">4. Prestations exclues</h2>
+    <p>
+      Le Prestataire n&rsquo;est inscrit à aucun ordre ou institut professionnel réglementé. Sont
+      expressément exclues de son champ d&rsquo;intervention :
+    </p>
+    <ul>
+      <li>la tenue de comptabilité pour compte de tiers, l&rsquo;établissement de comptes annuels et les déclarations fiscales, missions réservées aux professionnels visés par la loi du 17 mars 2019 (ITAA) ;</li>
+      <li>le conseil fiscal et le conseil juridique ;</li>
+      <li>le conseil en investissement, l&rsquo;intermédiation en assurances et en crédit ;</li>
+      <li>la représentation devant une administration ou une juridiction.</li>
+    </ul>
+    <p>
+      Le Prestataire peut collaborer avec le comptable, le conseil fiscal ou l&rsquo;avocat du
+      Client, sans jamais s&rsquo;y substituer.
+    </p>
+
+    <h2 id="conclusion">5. Conclusion du contrat</h2>
+    <p>
+      Toute mission fait l&rsquo;objet d&rsquo;une offre écrite (devis, proposition ou
+      confirmation par email) précisant l&rsquo;objet, le prix et la durée. Le contrat est formé
+      à l&rsquo;acceptation écrite de cette offre par le Client, laquelle emporte adhésion sans
+      réserve aux présentes conditions.
+    </p>
+    <p>
+      L&rsquo;appel découverte gratuit et le diagnostic express en ligne sont sans engagement et
+      ne constituent pas une offre contractuelle.
+    </p>
+
+    <h2 id="prix">6. Prix et régime TVA</h2>
+    <p>
+      Les prix sont exprimés en euros. Le Prestataire relève du <strong>régime de la franchise
+      de la taxe</strong> : aucune TVA n&rsquo;est due ni facturée, et les factures portent la
+      mention « <em>Régime particulier de franchise des petites entreprises — TVA non
+      applicable, article 56<sup>bis</sup> du Code de la TVA</em> ». Les montants annoncés
+      correspondent donc au total effectivement dû.
+    </p>
+    <p>
+      Si le Prestataire venait à dépasser le seuil légal de la franchise, les prestations
+      postérieures au changement de régime seraient soumises à la TVA au taux en vigueur, le
+      Client en étant informé au préalable.
+    </p>
+    <p>
+      Les prix affichés sur le site à titre indicatif peuvent évoluer ; seul le prix figurant
+      dans l&rsquo;offre acceptée engage les parties.
+    </p>
+
+    <h2 id="paiement">7. Paiement</h2>
+    <p>
+      Sauf stipulation contraire dans l&rsquo;offre, les factures sont payables dans un délai de
+      <strong>30 jours</strong> à compter de leur date d&rsquo;émission. Les prestations
+      ponctuelles et les produits numériques sont payables à la commande.
+    </p>
+    <p>
+      Conformément à la loi du 2 août 2002 concernant la lutte contre le retard de paiement dans
+      les transactions commerciales, toute facture impayée à l&rsquo;échéance produit de plein
+      droit et sans mise en demeure préalable un intérêt de retard au taux légal applicable aux
+      transactions commerciales, ainsi qu&rsquo;une indemnisation forfaitaire de 40 € pour frais
+      de recouvrement, sans préjudice du droit de réclamer une indemnisation raisonnable pour
+      les frais de recouvrement supplémentaires réellement exposés.
+    </p>
+    <p>
+      En cas de défaut de paiement persistant, le Prestataire peut suspendre l&rsquo;exécution
+      des prestations en cours après notification écrite restée sans effet pendant huit jours.
+    </p>
+
+    <h2 id="retractation">8. Absence de droit de rétractation</h2>
+    <p>
+      Le droit de rétractation de 14 jours prévu par les articles VI.47 et suivants du Code de
+      droit économique est réservé aux consommateurs. Les prestations visées par les présentes
+      s&rsquo;adressant exclusivement à des professionnels, <strong>aucun droit de rétractation
+      légal ne s&rsquo;applique</strong>.
+    </p>
+    <p>
+      Les modalités d&rsquo;annulation et de report convenues à l&rsquo;article 9 s&rsquo;y
+      substituent contractuellement.
+    </p>
+
+    <h2 id="annulation">9. Annulation, report et remboursement</h2>
+    <h3>9.1 Séances et rendez-vous</h3>
+    <ul>
+      <li>Report ou annulation <strong>plus de 48 heures</strong> avant le rendez-vous : sans frais, la séance est replanifiée.</li>
+      <li>Report ou annulation <strong>moins de 48 heures</strong> avant : la séance est considérée comme due, sauf cas de force majeure dûment justifié.</li>
+      <li>Absence sans préavis : la séance est due.</li>
+    </ul>
+    <h3>9.2 Accompagnement mensuel</h3>
+    <p>
+      L&rsquo;accompagnement mensuel est conclu sans durée minimale imposée et peut être résilié
+      par l&rsquo;une ou l&rsquo;autre partie moyennant un préavis écrit de <strong>30 jours</strong>,
+      prenant effet à la fin du mois en cours. Les prestations déjà réalisées restent dues ; les
+      mois entamés ne sont pas remboursés au prorata.
+    </p>
+    <h3>9.3 Annulation par le Prestataire</h3>
+    <p>
+      En cas d&rsquo;annulation à l&rsquo;initiative du Prestataire, celui-ci propose une
+      nouvelle date. À défaut d&rsquo;accord, les sommes perçues pour les prestations non
+      exécutées sont intégralement remboursées dans les 30 jours.
+    </p>
+    <h3>9.4 Produits numériques et rapports générés</h3>
+    <p>
+      Les rapports personnalisés et documents numériques sont établis sur mesure à partir des
+      informations fournies par le Client. Une fois le document généré et mis à disposition, la
+      prestation est pleinement exécutée et n&rsquo;est pas remboursable. En cas de défaut
+      technique empêchant la livraison, le Client est remboursé ou le document régénéré, à son
+      choix.
+    </p>
+
+    <h2 id="obligations">10. Obligations du Client</h2>
+    <p>
+      La qualité de l&rsquo;accompagnement dépend directement des informations transmises. Le
+      Client s&rsquo;engage à communiquer des informations exactes, complètes et à jour, à
+      signaler tout changement significatif de sa situation, et à participer activement aux
+      séances convenues.
+    </p>
+    <p>
+      Le Client demeure seul décideur et seul responsable de la mise en œuvre des recommandations
+      dans son entreprise, ainsi que du respect de ses obligations légales, comptables, fiscales
+      et sociales.
+    </p>
+
+    <h2 id="responsabilite">11. Nature de l&rsquo;obligation et responsabilité</h2>
+    <p>
+      Le Prestataire est tenu d&rsquo;une <strong>obligation de moyens</strong> et non de
+      résultat. Il met en œuvre son savoir-faire avec diligence, sans pouvoir garantir un
+      résultat commercial, financier ou de rentabilité déterminé, celui-ci dépendant de facteurs
+      extérieurs à son intervention — marché, exécution par le Client, conjoncture.
+    </p>
+    <p>
+      La responsabilité du Prestataire est limitée aux dommages directs et prévisibles résultant
+      d&rsquo;une faute prouvée dans l&rsquo;exécution de ses prestations. Sont exclus les
+      dommages indirects, notamment la perte de chiffre d&rsquo;affaires, de bénéfice, de
+      clientèle, de données ou d&rsquo;image.
+    </p>
+    <p>
+      Sauf dol ou faute lourde, et sans préjudice de l&rsquo;article 1386<sup>bis</sup> et des
+      dispositions impératives relatives aux dommages corporels, l&rsquo;indemnisation totale ne
+      peut excéder le montant des sommes effectivement perçues par le Prestataire au titre de la
+      mission concernée au cours des douze mois précédant le fait générateur.
+    </p>
+    <p>
+      Les outils, calculateurs et contenus gratuits du site sont fournis à titre indicatif et
+      n&rsquo;engagent pas la responsabilité du Prestataire.
+    </p>
+
+    <h2 id="pi-cgv">12. Propriété intellectuelle</h2>
+    <p>
+      Les méthodes, supports, grilles d&rsquo;analyse et documents remis restent la propriété
+      intellectuelle du Prestataire. Le Client bénéficie d&rsquo;un droit d&rsquo;usage interne,
+      non exclusif et non transférable, pour les besoins propres de son entreprise. Toute
+      diffusion externe, revente ou reproduction à destination de tiers requiert un accord écrit
+      préalable.
+    </p>
+
+    <h2 id="confidentialite-cgv">13. Confidentialité</h2>
+    <p>
+      Chaque partie s&rsquo;engage à préserver la confidentialité des informations non publiques
+      portées à sa connaissance dans le cadre de la mission, pendant toute sa durée et trois ans
+      après son terme. Le Prestataire peut citer le Client comme référence commerciale
+      uniquement avec son accord écrit préalable.
+    </p>
+
+    <h2 id="donnees-cgv">14. Données personnelles</h2>
+    <p>
+      Le traitement des données personnelles est décrit dans la
+      <a href="confidentialite.html">politique de confidentialité</a>, qui fait partie
+      intégrante des présentes conditions.
+    </p>
+
+    <h2 id="force-majeure">15. Force majeure</h2>
+    <p>
+      Aucune partie ne peut être tenue responsable d&rsquo;un manquement résultant d&rsquo;un
+      événement échappant à son contrôle raisonnable — maladie grave, incapacité, panne
+      généralisée de réseau, décision d&rsquo;autorité. Les obligations sont suspendues pendant
+      la durée de l&rsquo;empêchement. Si celui-ci excède 60 jours, chaque partie peut résilier
+      sans indemnité, les prestations déjà exécutées restant dues.
+    </p>
+
+    <h2 id="litiges">16. Réclamations, droit applicable et juridiction</h2>
+    <p>
+      Toute réclamation doit être adressée par écrit à
+      <span class="legal-todo">À COMPLÉTER — email de contact</span> dans les 14 jours suivant
+      la prestation contestée. Les parties s&rsquo;efforcent de trouver une solution amiable
+      avant toute procédure.
+    </p>
+    <p>
+      Les présentes conditions sont régies par le <strong>droit belge</strong>. Tout litige
+      relève de la compétence exclusive des cours et tribunaux de l&rsquo;arrondissement
+      judiciaire du siège du Prestataire.
+    </p>
+    <p>
+      À titre informatif : la plateforme européenne de règlement en ligne des litiges a
+      définitivement cessé ses activités le 20 juillet 2025 et aucun lien vers celle-ci ne
+      figure donc dans les présentes. Les litiges impliquant un consommateur peuvent être
+      soumis au <strong>Service de Médiation pour le Consommateur</strong>, Boulevard du Roi
+      Albert II 8, 1000 Bruxelles —
+      <a href="https://mediationconsommateur.be" target="_blank" rel="noopener">mediationconsommateur.be</a>.
+    </p>
+
+    <h2 id="divers">17. Dispositions diverses</h2>
+    <p>
+      La nullité éventuelle d&rsquo;une clause n&rsquo;affecte pas la validité des autres
+      dispositions ; la clause concernée est remplacée par une disposition valable au sens le
+      plus proche de l&rsquo;intention initiale des parties.
+    </p>
+    <p>
+      Le Prestataire se réserve le droit de modifier les présentes conditions. La version
+      applicable est celle en vigueur au jour de l&rsquo;acceptation de l&rsquo;offre par le
+      Client. Le fait de ne pas se prévaloir d&rsquo;un manquement ne vaut pas renonciation.
+    </p>
+
+    <p class="legal-updated">Dernière mise à jour : 20 septembre 2026.</p>
   </div>
 </section>
+</main>
 
 <footer class="site-footer">
   <div class="wrap">
-    <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
-    <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
+    <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Coaching business, marketing digital et pilotage financier pour PME et indépendants en Belgique.
     <ul class="footer-links">
       <li><a href="parrainage.html">Parrainage</a></li>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cookies.html">Cookies</a></li>
       <li><a href="cgv.html">CGV</a></li>
+      <li><a href="accessibilite.html">Accessibilité</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </div>

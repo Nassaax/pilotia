@@ -10,9 +10,9 @@ try{
   if (__t === 'dark' || __t === 'light') document.documentElement.setAttribute('data-theme', __t);
 }catch(e){}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -21,11 +21,13 @@ try{
 </head>
 <body>
 
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <img src="logo-header-light.png" alt="Pilotia" class="brand-logo brand-logo-light">
-      <img src="logo-header-dark.png" alt="Pilotia" class="brand-logo brand-logo-dark">
+      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
     </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
@@ -59,6 +61,8 @@ try{
   </div>
 </header>
 
+<main id="contenu">
+
 <section class="hero" style="text-align:center">
   <div class="wrap">
     <h1>404 — Cette page n'existe pas.</h1>
@@ -70,5 +74,7 @@ try{
 </section>
 
 <script src="animations.js" defer></script>
+</main>
+
 </body>
 </html>

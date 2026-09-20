@@ -1,4 +1,46 @@
+# Pilotia — coaching business, gestion administrative et marketing digital
+# pour PME et indépendants en Belgique.
+
+# Le site est entièrement public et destiné à être lu, y compris par des agents
+# automatisés. Aucune restriction générale de parcours.
 User-agent: *
 Allow: /
 
-Sitemap: https://pilotia.vercel.app/sitemap.xml
+# Les fonctions serveur ne servent aucun contenu indexable : ce sont des points
+# d'entrée POST, qui ne renvoient qu'une erreur 405 si on les explore.
+Disallow: /api/
+
+# Assistants et moteurs de réponse basés sur l'IA : autorisés explicitement.
+# Chez certains opérateurs, l'absence de règle nommée se lit comme un refus —
+# d'où ces lignes, alors que la règle générique suffirait en théorie.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://pilotis-murex.vercel.app/sitemap.xml
+
+# Résumé structuré du site à destination des modèles de langage :
+# https://pilotis-murex.vercel.app/llms.txt

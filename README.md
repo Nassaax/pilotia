@@ -90,11 +90,46 @@ Légal & technique
 - Photo du fondateur sur `a-propos.html` (le champ a été retiré en attendant une vraie photo professionnelle — à réintégrer quand elle sera disponible)
 - La plupart des documents téléchargeables listés sur `ressources.html` restent à produire — seul "Les étapes pour devenir indépendant" existe (et est maintenant derrière la capture d'email, voir plus haut)
 - Grille tarifaire (`offres.html`) : chiffres indicatifs de démarrage (490 €, 390 €/mois, 390 € formule lancement) à valider selon votre positionnement réel
-- Backend du formulaire de contact libre (envoi d'email) — le lien Cal.com est déjà branché, seul ce formulaire reste à connecter
 - **`BREVO_API_KEY` et `ANTHROPIC_API_KEY`** — variables d'environnement à créer dans Vercel pour activer la capture d'email et le rapport IA (voir `.env.example`). Sans elles, ces fonctionnalités répondent une erreur claire plutôt que de planter silencieusement.
 - **Paiement du rapport diagnostic (19 €)** — le flux technique est prêt (formulaire → IA → PDF → email) mais le paiement Stripe n'est pas branché ; le rapport est actuellement généré gratuitement, avec une mention "version test" visible sur la page.
-- Mentions légales, CGV, politique de confidentialité — dénomination légale, numéro d'entreprise, hébergeur
-- Domaine réel : `robots.txt`, `sitemap.xml` et les balises `og:url`/`og:image` utilisent `pilotis-nassaaxs-projects.vercel.app` en placeholder — à mettre à jour une fois `pilotia.be` (ou équivalent) actif
+- **Identité légale** — les pages juridiques sont rédigées mais comportent des marqueurs `[À COMPLÉTER]` bien visibles : dénomination exacte, forme juridique, numéro BCE, siège, email professionnel. À remplir dès l'immatriculation, **avant** toute prestation payante.
+- Domaine réel : `robots.txt`, `sitemap.xml`, `llms.txt`, le JSON-LD et les balises `og:url`/`og:image` utilisent `pilotis-murex.vercel.app`, qui est le **vrai domaine Vercel actuel** (vérifié via l'API Vercel). À remplacer partout une fois `pilotia.be` actif.
+
+## Conformité, vie privée et accessibilité
+
+Audit réalisé le 20 septembre 2026 sur l'ensemble des 34 pages.
+
+**Ce que le site collecte réellement** — inventaire vérifié, pas déclaratif :
+- `contact.html` → `api/contact.js` : nom, email, entreprise (facultatif), profil, message. Consentement explicite obligatoire. L'expéditeur n'est **pas** ajouté à la liste marketing (détournement de finalité).
+- `ressources.html` / `outils.html` → `api/subscribe.js` : email seul, contre le guide PDF.
+- `rapport-diagnostic.html` → `api/generate-report.js` : prénom, email, secteur, taille d'équipe, difficulté, réponses au diagnostic.
+- Journaux techniques Vercel : IP, horodatage, page, navigateur.
+- **Les six calculateurs et le diagnostic express ne transmettent rien** : tout se calcule dans le navigateur.
+
+**Cookies : il n'y en a aucun.** Aucun outil de mesure d'audience, aucun pixel, aucune iframe tierce. Seulement deux clés `localStorage` (`pilotia-theme`, `pilotia-diagnostic`), toutes deux couvertes par l'exemption « strictement nécessaire » de l'article 5.3 ePrivacy. **Aucun bandeau de consentement n'est donc requis** — `cookies.html` documente ce raisonnement et liste ce qui le ferait basculer (analytics, paiement en ligne, iframe de réservation, script tiers).
+
+**Correctif RGPD majeur : polices auto-hébergées.** Les polices étaient chargées depuis `fonts.googleapis.com` / `fonts.gstatic.com`, ce qui transmettait l'IP de chaque visiteur à Google LLC (États-Unis) à chaque page vue, sans consentement ni nécessité. Elles sont désormais servies depuis `fonts/` (sous-ensembles latin/latin-ext uniquement, Inter en police variable : 598 Ko → 208 Ko). La CSP a été resserrée en conséquence. **Vérifié : l'audit navigateur ne relève plus aucune requête sortante vers un tiers sur les 34 pages.**
+
+**Pages juridiques** (`mentions-legales.html`, `confidentialite.html`, `cgv.html`, `cookies.html`, `accessibilite.html`) :
+- CGV rédigées en **B2B** (obligation de moyens, pas de droit de rétractation, clause d'exclusion des consommateurs, intérêts de retard loi du 2 août 2002), régime **franchise de TVA art. 56bis**.
+- **Aucun lien vers la plateforme ODR européenne** : elle a définitivement fermé le 20 juillet 2025 et la mention n'est plus obligatoire. Beaucoup de modèles de CGV en circulation y renvoient encore à tort.
+- Exclusion explicite des actes réservés aux professions réglementées (ITAA, conseil fiscal, conseil juridique).
+
+**Accessibilité** — contrastes calculés, pas estimés :
+- `--gold` passait à 3,20:1 sur `--paper-alt` alors que `.eyebrow` fait 12px : assombri en `#876231` (4,89:1). Variante mode sombre `#C69B62` ajoutée.
+- Bordures de champs à 1,18:1 → nouveau jeton `--line-strong` (3,25:1), requis par le critère 1.4.11 puisque le fond du champ est blanc comme la page.
+- `--danger` n'avait pas de variante sombre (3,61:1) → `#F87171`.
+- Lien d'évitement et repère `<main>` ajoutés sur les 34 pages ; hiérarchie de titres corrigée (plus aucun saut h1→h3) ; `alt` du logo d'en-tête rendu explicite et logo de pied de page passé en décoratif.
+- **40 paires de couleurs vérifiées en clair et en sombre : 0 échec.**
+
+**Accessibilité pour les agents IA** : `llms.txt` (résumé structuré + mises en garde sur les professions réglementées), JSON-LD `ProfessionalService` + `WebSite` sur l'accueil, `robots.txt` autorisant explicitement les principaux crawlers IA.
+
+**Ce qui reste à faire côté conformité :**
+1. Remplir les marqueurs `[À COMPLÉTER]` dès l'immatriculation BCE.
+2. Signer les accords de sous-traitance (art. 28 RGPD) avec Brevo, Vercel et Anthropic.
+3. Tenir un **registre des traitements** (art. 30) — l'exemption « moins de 250 salariés » ne joue pas ici, les traitements clients n'étant pas occasionnels.
+4. Confirmer dans le contrat Anthropic que les contenus envoyés ne servent pas à l'entraînement, puis retirer le marqueur correspondant dans `confidentialite.html`.
+5. Faire relire les CGV et la politique de confidentialité par un juriste avant la première facturation.
 
 ## Prochaines étapes suggérées
 
@@ -104,7 +139,6 @@ Légal & technique
 4. Créer la structure juridique (statut choisi avec un comptable) pour pouvoir remplir les pages légales.
 5. Produire les documents téléchargeables réels du kit de lancement et du kit pilotage PME.
 6. Passer à un design final une fois le concept validé.
-7. Brancher le formulaire de contact libre (envoi d'email) — Cal.com et les deux automatisations ci-dessus sont déjà branchés.
 8. Faire vérifier les chiffres légaux restants (INASTI, TVA, ONSS) par un professionnel avant toute communication commerciale — ce sont des estimations pédagogiques basées sur des barèmes publics, pas des avis fiscaux.
 9. Faire relire le contenu généré par `api/generate-report.js` sur quelques cas réels avant de pousser le trafic dessus — c'est un prompt système qui encadre le ton et interdit le conseil fiscal/comptable, mais une relecture humaine reste utile au lancement.
 
@@ -113,6 +147,7 @@ Légal & technique
 Le site reste **majoritairement statique** (HTML/CSS/JS vanilla, aucun build), mais inclut désormais un dossier `api/` de **fonctions serverless Vercel** (Node.js) pour tout ce qui touche aux clés API et aux emails côté serveur — jamais exposées au navigateur :
 - `api/subscribe.js` — capture d'email pour les lead magnets (Brevo).
 - `api/generate-report.js` — génération du rapport diagnostic payant (Claude + PDF via `pdfkit` + email).
+- `api/contact.js` — formulaire de contact (email transactionnel Brevo, consentement + champ leurre anti-robots).
 - `api/_brevo.js` — helper partagé.
 
 `package.json` liste la seule dépendance (`pdfkit`) ; Vercel l'installe automatiquement au déploiement. En local, `npm install` puis un serveur de dev capable de servir `/api/*.js` (ex. `vercel dev`) sont nécessaires pour tester ces routes — le reste du site continue de fonctionner en pur statique (`file://` ou n'importe quel serveur de fichiers). Tous les liens internes ont été vérifiés (aucun lien cassé), et les deux flux serveur ont été testés en simulant leurs réponses API (succès et erreur) via Playwright.
