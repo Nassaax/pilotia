@@ -22,6 +22,15 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script>document.documentElement.classList.add("js");</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Est-ce que Pilotia voit mes chiffres ?","acceptedAnswer":{"@type":"Answer","text":"Non. Tout est calculé dans votre navigateur et enregistré sur votre appareil. Aucun montant n'est envoyé à Pilotia, et il n'existe aucun compte à créer."}},
+{"@type":"Question","name":"Est-ce que cet outil remplace mon comptable ?","acceptedAnswer":{"@type":"Answer","text":"Non. Il ne tient aucune comptabilité, n'établit aucune déclaration et ne donne aucun avis fiscal — professions réservées en Belgique. Il projette une trésorerie à partir des montants que vous saisissez."}},
+{"@type":"Question","name":"Pourquoi ne pas connecter directement ma banque ?","acceptedAnswer":{"@type":"Answer","text":"Lire vos comptes bancaires suppose un agrément de prestataire de services d'information sur les comptes (DSP2) et le traitement de données financières sur un serveur. Pilotia n'a ni l'un ni l'autre, et tenait à ce que vos chiffres ne quittent pas votre appareil."}},
+{"@type":"Question","name":"Mes données suivent-elles si je change d'ordinateur ?","acceptedAnswer":{"@type":"Answer","text":"Non. L'enregistrement est propre à ce navigateur, sur cet appareil. Utilisez le bouton d'export pour conserver votre plan ou le reprendre ailleurs."}},
+{"@type":"Question","name":"Faut-il payer, ou laisser une adresse e-mail ?","acceptedAnswer":{"@type":"Answer","text":"Ni l'un ni l'autre. L'outil est librement accessible, sans inscription."}}
+]}
+</script>
 </head>
 <body>
 
@@ -187,8 +196,21 @@
       <a href="calculateur-tva-franchise.html">celui de la franchise TVA</a>.
     </div>
 
+    <!-- Réalisé -->
+    <h2 style="margin-top:38px">6. Confronter le plan à vos mois réels</h2>
+    <p class="treso-aide" style="max-width:70ch">Une prévision que personne ne compare jamais au réel dérive sans qu'on s'en aperçoive. Reprenez vos relevés bancaires et saisissez, pour chaque mois écoulé, le <strong>total encaissé</strong> et le <strong>total décaissé</strong>. L'outil en tire vos moyennes et les confronte à ce que votre plan projette. Ces montants n'entrent dans aucun calcul de projection : ils servent uniquement à vérifier que le plan tient debout.</p>
+
+    <div class="card">
+      <div class="treso-entetes treso-entetes-r"><span>Mois</span><span>Encaissé</span><span>Décaissé</span><span></span></div>
+      <div id="realise-lignes"></div>
+      <button type="button" class="btn btn-secondary treso-ajout" id="realise-ajout">+ Ajouter un mois écoulé</button>
+      <div class="treso-moyennes" id="realise-synthese"></div>
+    </div>
+
+    <p class="note treso-verdict treso-verdict-neutre" id="realise-verdict" role="status" aria-live="polite" hidden></p>
+
     <!-- Sauvegarde -->
-    <h2 style="margin-top:38px">6. Garder votre plan</h2>
+    <h2 style="margin-top:38px">7. Garder votre plan</h2>
     <div class="card">
       <p><strong>Vos chiffres ne quittent jamais votre appareil.</strong> Tout est calculé dans votre navigateur et enregistré localement : rien n'est envoyé à Pilotia, et personne d'autre que vous n'y a accès.</p>
       <p>La contrepartie : cet enregistrement est propre à ce navigateur. Il disparaît si vous videz vos données de navigation, et ne suit pas sur un autre appareil. <strong>Exportez votre plan</strong> pour le conserver ou le reprendre ailleurs.</p>
@@ -210,6 +232,53 @@
 </section>
 
 </div>
+
+<section style="background:var(--paper-alt)">
+  <div class="wrap">
+    <div class="eyebrow">Pourquoi pas un tableur</div>
+    <h2 class="section-title">Votre fichier Excel fonctionne. Jusqu'au mois où vous arrêtez de le tenir.</h2>
+    <p class="lead" style="max-width:68ch">Le problème d'un tableur de trésorerie n'est presque jamais le tableur : c'est qu'il demande d'être mis à jour, et qu'il cesse silencieusement d'être juste dès qu'on saute un mois.</p>
+
+    <div class="treso-compare">
+      <div class="card">
+        <h3>Avec un tableur</h3>
+        <ul class="treso-liste-moins">
+          <li>Les formules sont à écrire, et à corriger quand on ajoute une ligne</li>
+          <li>Rien ne signale que la projection est devenue optimiste</li>
+          <li>Le point bas se lit à l'œil, en parcourant la ligne du solde</li>
+          <li>Les cotisations et la TVA trimestrielles s'oublient facilement</li>
+          <li>Une erreur de plage de cellules ne se voit pas</li>
+        </ul>
+      </div>
+      <div class="card treso-compare-fort">
+        <h3>Avec cet outil</h3>
+        <ul class="treso-liste-plus">
+          <li>Les calculs sont écrits une fois pour toutes</li>
+          <li>Le point bas est désigné, daté et comparé à votre seuil</li>
+          <li>Cotisations sociales et TVA déjà posées en rythme trimestriel</li>
+          <li>Les factures engagées entrent au mois de leur échéance</li>
+          <li>Vos moyennes réelles alertent quand le plan s'en éloigne</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="treso-aide" style="max-width:68ch;margin-top:18px">Ce que cet outil ne fait <em>pas</em>, et qu'un logiciel payant fait : il ne se connecte à aucune banque. Vos totaux se saisissent à la main. C'est le prix d'un outil gratuit qui ne demande ni compte, ni adresse e-mail, ni accès à vos comptes.</p>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <div class="eyebrow">Questions fréquentes</div>
+    <h2 class="section-title">Ce que vous vous demandez sans doute</h2>
+    <div style="margin-top:20px">
+      <details><summary>Est-ce que Pilotia voit mes chiffres ?</summary><p>Non. Tout est calculé dans votre navigateur et enregistré sur votre appareil. Aucun montant n'est envoyé à Pilotia, et il n'existe aucun compte à créer. C'est vérifiable : la page fonctionne hors connexion une fois chargée.</p></details>
+      <details><summary>Est-ce que cet outil remplace mon comptable ?</summary><p>Non, et ce n'est pas son rôle. Il ne tient aucune comptabilité, n'établit aucune déclaration et ne donne aucun avis fiscal — professions réservées en Belgique. Il projette une trésorerie à partir des montants que vous saisissez, pour préparer vos décisions et vos échanges avec votre comptable.</p></details>
+      <details><summary>Pourquoi ne pas connecter directement ma banque ?</summary><p>Lire vos comptes bancaires suppose un agrément de prestataire de services d'information sur les comptes (DSP2) et le traitement de données financières sur un serveur. Pilotia n'a ni l'un ni l'autre, et tenait à ce que vos chiffres ne quittent pas votre appareil. La saisie manuelle est le prix assumé de ce choix.</p></details>
+      <details><summary>Mes données suivent-elles si je change d'ordinateur ?</summary><p>Non. L'enregistrement est propre à ce navigateur, sur cet appareil, et disparaît si vous videz vos données de navigation. Utilisez le bouton d'export pour conserver votre plan ou le reprendre ailleurs.</p></details>
+      <details><summary>Faut-il payer, ou laisser une adresse e-mail ?</summary><p>Ni l'un ni l'autre. L'outil est librement accessible, sans inscription. Si vous souhaitez ensuite être accompagné sur la suite — réduire un point bas, renégocier des échéances, structurer vos prix — c'est l'objet de l'appel gratuit.</p></details>
+    </div>
+  </div>
+</section>
 
 <section class="banner">
   <div class="wrap">

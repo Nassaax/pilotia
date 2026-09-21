@@ -16,7 +16,7 @@
   if (!racine) return;
 
   var CLE = "pilotia-tresorerie";
-  var VERSION = 2;
+  var VERSION = 3;
 
   // Catégories pré-remplies au rythme belge : les cotisations sociales et la
   // TVA tombent par trimestre, et c'est précisément ce qui crée les trous de
@@ -42,6 +42,11 @@
     // sépare une projection vague d'une projection juste : une grosse facture
     // client qui tombe le 12 du mois suivant déplace le point bas.
     factures: [],
+    // Mois déjà écoulés, saisis d'après les relevés bancaires. Ils ne rentrent
+    // dans aucun calcul de projection : ils servent à confronter le plan au
+    // réel. Une prévision qu'on ne compare jamais à ce qui s'est passé dérive
+    // sans que personne ne s'en aperçoive.
+    realise: [],
   };
 
   var MOIS_COURTS = ["janv.", "févr.", "mars", "avr.", "mai", "juin",
@@ -50,7 +55,19 @@
                     "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
   var etat = charger();
-  var prochainId = etat.lignes.reduce(function (m, l) { return Math.max(m, l.id); }, 0) + 1;
+  var prochainId = calculerProchainId();
+
+  // Les lignes, les factures et les mois réalisés puisent dans le même
+  // compteur. Le calculer à partir des seules lignes, comme c'était le cas,
+  // redonnait après un rechargement un identifiant déjà porté par une
+  // facture : supprimer l'une supprimait l'autre.
+  function calculerProchainId() {
+    var max = 0;
+    [etat.lignes, etat.factures, etat.realise].forEach(function (liste) {
+      (liste || []).forEach(function (x) { if (x.id > max) max = x.id; });
+    });
+    return max + 1;
+  }
 
   // ───────────────────────────────────────────────── persistance
 
@@ -62,10 +79,12 @@
         var d = JSON.parse(brut);
         if (d && Array.isArray(d.lignes)) {
           // Migration douce : un plan enregistré avant l'ajout des factures
-          // reste valable, on lui ajoute simplement le champ manquant.
+          // ou du réalisé reste valable, on lui ajoute les champs manquants.
           if (d.version === 1) { d.factures = []; d.version = 2; }
+          if (d.version === 2) { d.realise = []; d.version = 3; }
           if (d.version === VERSION) {
             if (!Array.isArray(d.factures)) d.factures = [];
+            if (!Array.isArray(d.realise)) d.realise = [];
             return d;
           }
         }
@@ -200,6 +219,8 @@
     remplirTableau(mois);
     rendreLignes();
     rendreFactures();
+    rendreRealise();
+    majComparaison(mois);
     sauver();
   }
 
@@ -443,9 +464,158 @@
     });
   }
 
+  // ───────────────────────────────────────────────── mois déjà écoulés
+  // La « moyenne » de Flunea recalculée à partir du réalisé. Sans accès
+  // bancaire, le réalisé se saisit à la main d'après les relevés — mais le
+  // service rendu est le même : confronter la prévision à ce qui s'est
+  // vraiment passé, plutôt que de la laisser vivre sa vie.
+
+  // Un mois laissé à zéro des deux côtés est un mois pas encore renseigné :
+  // le compter tirerait la moyenne vers le bas et déclencherait une alerte
+  // fondée sur rien.
+  function moisRenseignes() {
+    return etat.realise.filter(function (r) { return r.entrees > 0 || r.sorties > 0; });
+  }
+
+  function moyennesRealise() {
+    var liste = moisRenseignes();
+    if (!liste.length) return null;
+    var e = 0, so = 0;
+    liste.forEach(function (r) { e += r.entrees; so += r.sorties; });
+    return { n: liste.length, entrees: e / liste.length, sorties: so / liste.length };
+  }
+
+  function moyennesPlan(mois) {
+    var e = 0, so = 0;
+    mois.forEach(function (m) { e += m.entrees; so += m.sorties; });
+    return { entrees: e / mois.length, sorties: so / mois.length };
+  }
+
+  function majComparaison(mois) {
+    var synthese = document.getElementById("realise-synthese");
+    var verdict = document.getElementById("realise-verdict");
+    if (!synthese || !verdict) return;
+
+    var moy = moyennesRealise();
+    if (!moy) {
+      synthese.innerHTML = '<p class="treso-vide">Ajoutez un mois écoulé pour comparer votre plan à votre réalité.</p>';
+      verdict.textContent = "";
+      verdict.className = "note treso-verdict treso-verdict-neutre";
+      verdict.hidden = true;
+      return;
+    }
+
+    var plan = moyennesPlan(mois);
+    verdict.hidden = false;
+    synthese.innerHTML =
+      caseMoyenne("Encaissé en moyenne", moy.entrees, plan.entrees, "Le plan prévoit") +
+      caseMoyenne("Décaissé en moyenne", moy.sorties, plan.sorties, "Le plan prévoit") +
+      caseMoyenne("Dégagé en moyenne", moy.entrees - moy.sorties, plan.entrees - plan.sorties, "Le plan prévoit", true);
+
+    var v = jugerEcart(moy, plan);
+    verdict.className = "note treso-verdict " + v.classe;
+    verdict.textContent = v.texte;
+  }
+
+  function caseMoyenne(titre, reel, prevu, prefixe, signe) {
+    // Un « dégagé » négatif est une entreprise qui consomme sa trésorerie tous
+    // les mois. L'afficher dans la même encre que les deux autres chiffres le
+    // noie ; la couleur n'est ici qu'un renfort, le signe moins reste lisible.
+    var classe = "treso-moy-valeur" + (signe ? (reel < 0 ? " treso-neg" : " treso-pos") : "");
+    return '<div class="treso-moy">' +
+      '<span class="treso-moy-titre">' + echapper(titre) + "</span>" +
+      '<span class="' + classe + '">' + euros(reel) + "</span>" +
+      '<span class="treso-moy-note">' + echapper(prefixe) + " " + euros(prevu) + " par mois</span>" +
+    "</div>";
+  }
+
+  function jugerEcart(moy, plan) {
+    var mois = moy.n + (moy.n > 1 ? " derniers mois" : " dernier mois");
+    var alertes = [];
+
+    // D'abord le fait le plus lourd : une activité qui consomme de la
+    // trésorerie tous les mois. Le signaler après un écart de pourcentage
+    // reviendrait à enterrer l'essentiel.
+    var degageReel = moy.entrees - moy.sorties;
+    var degagePlan = plan.entrees - plan.sorties;
+    if (degageReel < 0) {
+      alertes.push("sur vos " + mois + " vous avez consommé " + euros(-degageReel) +
+        " de trésorerie par mois" + (degagePlan >= 0 ? ", là où le plan en dégage " + euros(degagePlan) : "") +
+        " — ce n'est pas l'accident d'un mois isolé");
+    }
+
+    if (moy.entrees > 0) {
+      var ecartIn = (plan.entrees - moy.entrees) / moy.entrees;
+      if (ecartIn > 0.1) {
+        alertes.push("votre plan table sur " + pourcent(ecartIn) + " d'encaissements de plus que vos " + mois +
+          " (" + euros(plan.entrees) + " contre " + euros(moy.entrees) + " par mois). À moins qu'un contrat signé " +
+          "ou une hausse de tarif ne le justifie, la projection est optimiste");
+      }
+    }
+    if (moy.sorties > 0) {
+      var ecartOut = (plan.sorties - moy.sorties) / moy.sorties;
+      if (ecartOut < -0.1) {
+        alertes.push("vous prévoyez " + pourcent(ecartOut) + " de dépenses de moins que ce que vous avez réellement " +
+          "sorti (" + euros(plan.sorties) + " contre " + euros(moy.sorties) + " par mois) — c'est le plus souvent " +
+          "une charge oubliée dans le plan");
+      }
+    }
+
+    if (alertes.length) {
+      return {
+        classe: (degageReel < 0 || alertes.length > 1) ? "treso-verdict-rouge" : "treso-verdict-orange",
+        texte: "Comparé à votre réalisé, " + alertes.join(" ; ") + ". Un point bas calculé sur une " +
+          "prévision trop favorable arrive toujours plus tôt qu'annoncé.",
+      };
+    }
+    return {
+      classe: "treso-verdict-vert",
+      texte: "Votre plan est cohérent avec vos " + mois + " : les montants projetés tiennent dans ce que " +
+        "votre activité produit réellement. C'est ce qui rend le point bas crédible.",
+    };
+  }
+
+  function pourcent(r) { return Math.round(Math.abs(r) * 100) + " %"; }
+
+  function rendreRealise() {
+    var hote = document.getElementById("realise-lignes");
+    if (!hote) return;
+    if (!etat.realise.length) {
+      hote.innerHTML = '<p class="treso-vide">Aucun mois saisi. Reprenez vos relevés bancaires : ' +
+        "un total encaissé et un total décaissé par mois suffisent.</p>";
+      return;
+    }
+    // Du plus ancien au plus récent : c'est l'ordre du relevé.
+    var liste = etat.realise.slice().sort(function (a, b) {
+      return String(a.mois).localeCompare(String(b.mois));
+    });
+    hote.innerHTML = liste.map(function (r) {
+      return '<div class="treso-reel" data-rid="' + r.id + '">' +
+        '<input type="month" value="' + echapper(r.mois || "") + '" data-rchamp="mois" aria-label="Mois écoulé">' +
+        '<input type="number" value="' + r.entrees + '" min="0" step="100" data-rchamp="entrees" aria-label="Total encaissé sur ce mois, en euros">' +
+        '<input type="number" value="' + r.sorties + '" min="0" step="100" data-rchamp="sorties" aria-label="Total décaissé sur ce mois, en euros">' +
+        '<button type="button" class="treso-suppr" data-rsuppr="' + r.id + '" aria-label="Supprimer le mois ' +
+          echapper(r.mois || "") + '">×</button>' +
+      "</div>";
+    }).join("");
+  }
+
   // ───────────────────────────────────────────────── évènements
 
   racine.addEventListener("input", function (e) {
+    var rchamp = e.target.getAttribute("data-rchamp");
+    if (rchamp) {
+      var br = e.target.closest(".treso-reel");
+      var re = etat.realise.find(function (x) { return x.id === parseInt(br.getAttribute("data-rid"), 10); });
+      if (!re) return;
+      re[rchamp] = (rchamp === "mois") ? e.target.value : Math.max(0, parseFloat(e.target.value) || 0);
+      // Le réalisé ne change pas la projection : seule la comparaison bouge.
+      // On ne redessine pas la liste, sinon le champ perd le focus à chaque
+      // caractère — et un tri par mois le déplacerait sous le curseur.
+      majComparaison(calculer());
+      sauver();
+      return;
+    }
     var fchamp = e.target.getAttribute("data-fchamp");
     if (fchamp) {
       var bf = e.target.closest(".treso-facture");
@@ -479,6 +649,9 @@
     if (e.target.id === "p-horizon") { etat.horizon = parseInt(e.target.value, 10); rendre(); }
     if (e.target.id === "p-mois") { etat.moisDepart = e.target.value; rendre(); }
     if (e.target.getAttribute("data-champ") === "frequence") rendre();
+    // Le mois validé peut changer l'ordre de la liste : on la redessine une
+    // fois la saisie terminée, pas pendant.
+    if (e.target.getAttribute("data-rchamp") === "mois") { rendreRealise(); majComparaison(calculer()); }
     var fc = e.target.getAttribute("data-fchamp");
     // Une case cochée ou une date choisie changent l'état affiché de la
     // facture (grisée, alerte de retard) : il faut redessiner les listes.
@@ -486,6 +659,38 @@
   });
 
   racine.addEventListener("click", function (e) {
+    var rsuppr = e.target.getAttribute("data-rsuppr");
+    if (rsuppr) {
+      etat.realise = etat.realise.filter(function (r) { return r.id !== parseInt(rsuppr, 10); });
+      rendreRealise();
+      majComparaison(calculer());
+      sauver();
+      return;
+    }
+    if (e.target.id === "realise-ajout") {
+      // Le mois proposé est celui qui précède le dernier saisi, ou le mois
+      // dernier si la liste est vide : on remonte le temps, puisqu'il s'agit
+      // de reprendre des relevés déjà émis.
+      var ref = new Date();
+      ref.setDate(1);
+      etat.realise.forEach(function (r) {
+        var q = String(r.mois || "").split("-");
+        var d = new Date(parseInt(q[0], 10), parseInt(q[1], 10) - 1, 1);
+        if (!isNaN(d) && d < ref) ref = d;
+      });
+      ref.setMonth(ref.getMonth() - 1);
+      etat.realise.push({
+        id: prochainId++,
+        mois: ref.getFullYear() + "-" + pad(ref.getMonth() + 1),
+        entrees: 0, sorties: 0,
+      });
+      rendreRealise();
+      majComparaison(calculer());
+      sauver();
+      var champs = document.querySelectorAll('#realise-lignes input[data-rchamp="entrees"]');
+      if (champs.length) { champs[0].focus(); champs[0].select(); }
+      return;
+    }
     var fsuppr = e.target.getAttribute("data-fsuppr");
     if (fsuppr) {
       etat.factures = etat.factures.filter(function (fa) { return fa.id !== parseInt(fsuppr, 10); });
@@ -542,6 +747,7 @@
     dessinerBarres(mois);
     remplirTableau(mois);
     majTotauxFactures();
+    majComparaison(mois);
     sauver();
   }
 
@@ -588,7 +794,7 @@
         var d = JSON.parse(lecteur.result);
         if (!d || d.version !== VERSION || !Array.isArray(d.lignes)) throw new Error("format");
         etat = d;
-        prochainId = etat.lignes.reduce(function (m, l) { return Math.max(m, l.id); }, 0) + 1;
+        prochainId = calculerProchainId();
         rendre();
         msg.textContent = "Plan restauré.";
         msg.className = "form-msg-ok";
@@ -605,7 +811,7 @@
     if (!window.confirm("Effacer votre plan et repartir de l'exemple ? Cette action est définitive — pensez à exporter d'abord.")) return;
     try { localStorage.removeItem(CLE); } catch (e) {}
     etat = charger();
-    prochainId = etat.lignes.reduce(function (m, l) { return Math.max(m, l.id); }, 0) + 1;
+    prochainId = calculerProchainId();
     synchroniserParametres();
     rendre();
   });

@@ -253,12 +253,16 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 @media (prefers-color-scheme: dark){.kpi-ok .kpi-valeur{color:#4ADE80}}
 
 .treso-verdict{margin-top:20px;font-size:15px}
-.treso-verdict-vert{background:#ECFDF3;border-color:#15803D;color:#14532D}
-.treso-verdict-orange{background:var(--gold-soft);border-color:var(--gold);color:var(--ink)}
-.treso-verdict-rouge{background:#FEF2F2;border-color:var(--danger);color:#7F1D1D}
+/* Ces variantes se posent sur un élément qui porte aussi .note, déclaré plus
+   bas dans ce fichier. À spécificité égale, la règle la plus tardive gagne :
+   sans le .note en tête du sélecteur, le vert et le rouge ne s'affichaient
+   jamais et toute alerte ressortait en doré, y compris un solde négatif. */
+.note.treso-verdict-vert{background:#ECFDF3;border-color:#15803D;color:#14532D}
+.note.treso-verdict-orange{background:var(--gold-soft);border-color:var(--gold);color:var(--ink)}
+.note.treso-verdict-rouge{background:#FEF2F2;border-color:var(--danger);color:#7F1D1D}
 @media (prefers-color-scheme: dark){
-  .treso-verdict-vert{background:#0D2318;color:#BBF7D0}
-  .treso-verdict-rouge{background:#2A1315;color:#FECACA}
+  .note.treso-verdict-vert{background:#0D2318;border-color:#4ADE80;color:#BBF7D0}
+  .note.treso-verdict-rouge{background:#2A1315;border-color:var(--danger);color:#FECACA}
 }
 
 .treso-graph{margin-top:14px}
@@ -329,6 +333,37 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 }
 .treso-vide{font-family:var(--font-body);font-size:14px;color:var(--ink-soft);margin:10px 0}
 
+/* Mois déjà écoulés et comparaison au réalisé */
+.treso-entetes-r{grid-template-columns:150px minmax(0,1fr) minmax(0,1fr) 34px}
+.treso-reel{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr) 34px;gap:8px;align-items:center;margin-bottom:8px}
+.treso-reel>*{min-width:0}
+.treso-reel input{font-size:14px;padding:9px 10px;min-height:40px;min-width:0;width:100%}
+.treso-moyennes{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.treso-moy{display:flex;flex-direction:column;gap:3px}
+.treso-moy-titre{font-family:var(--font-body);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+.treso-moy-valeur{font-family:var(--font-body);font-size:22px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.treso-moy-valeur.treso-neg{color:var(--danger)}
+.treso-moy-valeur.treso-pos{color:#15803D}
+@media (prefers-color-scheme: dark){.treso-moy-valeur.treso-pos{color:#4ADE80}}
+.treso-moy-note{font-family:var(--font-body);font-size:13px;color:var(--ink-soft)}
+.note.treso-verdict-neutre{background:var(--paper-alt);border-color:var(--line-strong);color:var(--ink-soft)}
+@media (max-width:640px){
+  .treso-entetes-r{display:none}
+  .treso-reel{grid-template-columns:1fr 1fr;gap:6px;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line)}
+  .treso-reel input[data-rchamp="mois"]{grid-column:1 / -1}
+  .treso-reel .treso-suppr{justify-self:end}
+}
+
+/* Comparatif tableur / outil */
+.treso-compare{display:grid;grid-template-columns:1fr;gap:18px;margin-top:26px}
+@media (min-width:860px){.treso-compare{grid-template-columns:1fr 1fr}}
+.treso-compare-fort{border-color:var(--accent)}
+.treso-compare ul{list-style:none;padding:0;margin:14px 0 0}
+.treso-compare li{font-family:var(--font-body);font-size:15px;line-height:1.55;padding-left:26px;position:relative;margin-bottom:11px}
+.treso-liste-moins li::before{content:"\2022";position:absolute;left:6px;color:var(--ink-soft);font-weight:700}
+.treso-liste-plus li::before{content:"\2192";position:absolute;left:2px;color:var(--accent);font-weight:700}
+.treso-liste-moins li{color:var(--ink-soft)}
+
 /* L'input file natif est illisible et instylable : on le masque et c'est son
    <label> qui fait office de bouton. Il reste atteignable au clavier. */
 .treso-import-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
@@ -368,6 +403,10 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 
 .faq details{border-bottom:1px solid var(--line);padding:16px 0}
 .faq summary{cursor:pointer;font-family:var(--font-body);font-weight:600;min-height:44px;display:flex;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary{list-style:none;gap:14px}
+.faq summary::after{content:"+";margin-left:auto;flex:none;font-size:22px;line-height:1;color:var(--accent)}
+.faq details[open] summary::after{content:"\2212"}
 
 table{width:100%;border-collapse:collapse;margin:18px 0}
 th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);font-size:15px}
