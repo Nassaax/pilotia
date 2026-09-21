@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="Quelles données Pilotia traite, pourquoi, combien de temps et quels sont vos droits. Aucun cookie, aucun traceur, aucune revente de données.">
 <meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -106,7 +105,8 @@
     </p>
 
     <h2 id="traitements">3. Traitements réalisés</h2>
-    <table>
+    <div class="table-defile" role="region" tabindex="0" aria-label="Données traitées, tableau défilant horizontalement">
+<table>
       <caption class="legal-updated" style="text-align:left;margin-bottom:8px">Détail des traitements, finalités, bases légales et durées de conservation.</caption>
       <thead>
         <tr>
@@ -148,6 +148,7 @@
         </tr>
       </tbody>
     </table>
+</div>
     <p>
       <strong>Les calculateurs ne transmettent rien.</strong> Le calculateur de cotisations,
       celui du coût d&rsquo;un salarié, celui de marge, celui de la franchise TVA, le générateur
@@ -161,7 +162,8 @@
       Le site n&rsquo;utilise aucun cookie. Il enregistre en revanche un élément dans le
       stockage local (<code>localStorage</code>) de votre navigateur :
     </p>
-    <table>
+    <div class="table-defile" role="region" tabindex="0" aria-label="Destinataires des données, tableau défilant horizontalement">
+<table>
       <thead>
         <tr><th scope="col">Clé</th><th scope="col">Contenu</th><th scope="col">Rôle</th><th scope="col">Durée</th></tr>
       </thead>
@@ -174,6 +176,7 @@
         </tr>
       </tbody>
     </table>
+</div>
     <p>
       Ces données restent <strong>sur votre appareil</strong> : elles ne sont pas transmises à
       nos serveurs, ne permettent pas de vous identifier et ne servent à aucun suivi. Voir la
@@ -189,7 +192,8 @@
       l&rsquo;éditeur et aux prestataires techniques strictement nécessaires au fonctionnement
       du service, agissant comme sous-traitants au sens de l&rsquo;article 28 RGPD :
     </p>
-    <table>
+    <div class="table-defile" role="region" tabindex="0" aria-label="Durées de conservation, tableau défilant horizontalement">
+<table>
       <thead>
         <tr><th scope="col">Prestataire</th><th scope="col">Rôle</th><th scope="col">Lieu de traitement</th></tr>
       </thead>
@@ -211,6 +215,7 @@
         </tr>
       </tbody>
     </table>
+</div>
     <p>
       <strong>Transferts hors Union européenne.</strong> Vercel et Anthropic sont établis aux
       États-Unis. Les données qui leur sont transmises le sont sur la base des garanties

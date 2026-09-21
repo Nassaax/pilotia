@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="Calculez votre marge par produit, plat ou chantier et votre seuil de rentabilité — outil gratuit pour restaurants, artisans et commerces en Belgique.">
 <meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -85,7 +84,7 @@
           <button class="btn btn-primary" onclick="calculerMarge()" style="justify-self:start">Calculer la marge →</button>
         </form>
         <div id="resultatMarge" style="margin-top:18px">
-          <p style="font-size:26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700" id="margeEuro">—</p>
+          <p style="font-size:26px;font-family:var(--font-body);font-weight:700" id="margeEuro">—</p>
           <p id="margePct" style="color:var(--ink-soft)"></p>
         </div>
       </div>
@@ -104,7 +103,7 @@
           <button class="btn btn-primary" onclick="calculerSeuil()" style="justify-self:start">Calculer le seuil →</button>
         </form>
         <div id="resultatSeuil" style="margin-top:18px">
-          <p style="font-size:26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700" id="seuilVentes">—</p>
+          <p style="font-size:26px;font-family:var(--font-body);font-weight:700" id="seuilVentes">—</p>
           <p id="seuilDetail" style="color:var(--ink-soft)"></p>
         </div>
       </div>

@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="Ce site ne dépose aucun cookie et n'utilise aucun traceur. Détail de ce qui est enregistré localement et pourquoi aucun bandeau n'est nécessaire.">
 <meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -96,7 +95,8 @@
       (<code>localStorage</code>) de votre navigateur. Ce n&rsquo;est pas un cookie : elle n&rsquo;est
       jamais jointe aux requêtes réseau et ne quitte jamais votre appareil.
     </p>
-    <table>
+    <div class="table-defile" role="region" tabindex="0" aria-label="Stockage local utilisé, tableau défilant horizontalement">
+<table>
       <thead>
         <tr>
           <th scope="col">Clé</th>
@@ -114,6 +114,7 @@
         </tr>
       </tbody>
     </table>
+</div>
     <p>
       Cet usage relève de l&rsquo;exemption prévue pour le stockage « strictement
       nécessaire à la fourniture d&rsquo;un service expressément demandé par

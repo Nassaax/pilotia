@@ -27,11 +27,19 @@
      est le seul indice qui identifie le champ — d'où le seuil de 3:1 (WCAG 1.4.11).
      --line reste réservé aux séparateurs décoratifs, non soumis à ce seuil. */
   --line-strong:#8190A4;
-  --radius:12px;
-  --shadow-sm:0 1px 2px rgba(15,23,42,.06);
-  --shadow-md:0 8px 24px rgba(15,23,42,.10);
+  --accent-fonce:#02527D;      /* survol : on assombrit l'accent, on ne change pas de teinte */
+  --radius:18px;
+  /* Les ombres portées sont un artifice de profondeur. Ici la hiérarchie vient
+     du vide et de la taille du texte, donc elles ne servent plus qu'à décoller
+     très légèrement une carte survolée. */
+  --shadow-sm:none;
+  --shadow-md:0 6px 28px rgba(15,23,42,.08);
   --max:1120px;
-  --font-display:'Calistoga',Georgia,serif;
+  /* Une seule famille sur tout le site. Le serif d'affichage a été retiré des
+     titres : un grotesque neutre en très grand corps, avec un interlettrage
+     resserré, porte mieux ce registre. Calistoga ne sert plus qu'au logotype
+     des visuels sociaux (brand/social.css). */
+  --font-display:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --font-body:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
@@ -44,7 +52,7 @@
     --ink-soft:#94A3B8;
     --paper:#0B1220;
     --paper-alt:#111A2C;
-    --card:#101A2C;
+    --card:#16223A;
     --line:#22304A;
     --accent:#4CA9E0;
     --accent-soft:#16283D;
@@ -53,6 +61,8 @@
     --gold-soft:#2B2213;
     --danger:#F87171;
     --line-strong:#586C94;
+    --accent-fonce:#7FC4EC;
+    --shadow-md:0 6px 28px rgba(0,0,0,.42);
   }
 }
 
@@ -85,12 +95,14 @@ body{
 }
 h1,h2,h3,h4{
   font-family:var(--font-display);
-  font-weight:400;
-  letter-spacing:-0.01em;
-  line-height:1.15;
+  font-weight:600;
+  letter-spacing:-0.022em;
+  line-height:1.08;
   color:var(--ink);
   margin:0 0 .5em;
+  text-wrap:balance;
 }
+h3,h4{letter-spacing:-0.014em;line-height:1.2}
 p{margin:0 0 1em}
 a{color:var(--accent)}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{
@@ -101,9 +113,23 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 
 /* Header */
-.site-header{border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:20;backdrop-filter:blur(6px)}
-.nav-inner{max-width:var(--max);margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;font-family:var(--font-body)}
-.brand{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink)}
+.site-header{
+  position:sticky;top:0;z-index:20;
+  border-bottom:1px solid var(--line);
+  /* Translucide au-dessus du contenu qui défile. Sans le repli, un navigateur
+     sans backdrop-filter afficherait un en-tête à moitié transparent et un
+     texte illisible par-dessus. */
+  background:var(--paper);
+}
+@supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){
+  .site-header{
+    background:color-mix(in srgb, var(--paper) 72%, transparent);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    backdrop-filter:blur(20px) saturate(180%);
+  }
+}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;font-family:var(--font-body)}
+.brand{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:var(--ink)}
 .brand-logo{height:32px;width:150px;object-fit:contain;object-position:left center;display:block}
 .brand-logo-dark{display:none}
 @media (prefers-color-scheme: dark){
@@ -111,7 +137,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .brand-logo-dark{display:block}
 }
 .nav-links{list-style:none;display:flex;align-items:center;gap:22px;margin:0;padding:0}
-.nav-links a{text-decoration:none;color:var(--ink-soft);font-size:15px;font-weight:500;transition:color .18s ease}
+.nav-links a{text-decoration:none;color:var(--ink-soft);font-size:15px;font-weight:500;transition:color .18s ease;display:inline-flex;align-items:center;min-height:44px}
 .nav-links a.active,.nav-links a:hover{color:var(--accent)}
 .nav-cta{background:var(--accent);color:var(--accent-ink) !important;padding:10px 18px;border-radius:999px;font-weight:600;transition:background .18s ease,transform .18s ease;display:inline-block}
 .nav-cta:hover{background:var(--ink);transform:translateY(-1px)}
@@ -141,7 +167,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* Bouton hamburger (mobile uniquement) */
 .nav-toggle{
   display:none;flex-direction:column;justify-content:center;align-items:flex-end;gap:5px;
-  width:40px;height:40px;padding:8px;background:none;border:none;cursor:pointer;flex:none;
+  width:44px;height:44px;padding:10px;background:none;border:none;cursor:pointer;flex:none;
 }
 .nav-toggle span{display:block;width:100%;height:2px;border-radius:2px;background:var(--ink);transition:transform .2s ease,opacity .2s ease,width .2s ease}
 .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);width:100%}
@@ -172,16 +198,16 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Hero */
 .hero{
-  padding:76px 0 64px;
-  border-bottom:1px solid var(--line);
-  background:
-    radial-gradient(560px 320px at 88% -10%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
-    radial-gradient(420px 260px at 6% 110%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 70%),
-    var(--paper);
+  padding:clamp(84px,11vw,150px) 0 clamp(64px,8vw,110px);
+  /* Fond plat. Les deux halos colorés d'avant tiraient l'œil vers les angles ;
+     dans ce registre, c'est le vide autour du titre qui doit faire l'effet. */
+  background:var(--paper);
 }
-.eyebrow{font-family:var(--font-body);text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:14px}
-.hero h1{font-size:clamp(30px,4.4vw,48px);max-width:17ch}
-.lead{font-size:19px;color:var(--ink-soft);max-width:58ch}
+/* Le sur-titre passe du doré à l'encre douce : un seul accent sur la page,
+   et il est réservé aux éléments cliquables. */
+.eyebrow{font-family:var(--font-body);text-transform:uppercase;letter-spacing:.12em;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:18px}
+.hero h1{font-size:clamp(38px,6.2vw,72px);max-width:15ch;letter-spacing:-0.032em}
+.lead{font-size:clamp(18px,1.6vw,22px);line-height:1.45;color:var(--ink-soft);max-width:52ch;margin-top:22px}
 .btn-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
 .btn{
   font-family:var(--font-body);
@@ -196,26 +222,32 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   border:1px solid transparent;
 }
 .btn-primary{background:var(--accent);color:var(--accent-ink)}
-.btn-primary:hover{background:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow-md)}
-.btn-secondary{background:transparent;color:var(--ink);border-color:var(--line)}
-.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary:hover{background:var(--accent-fonce)}
+.btn-secondary{background:transparent;color:var(--accent);border-color:var(--line-strong)}
+.btn-secondary:hover{background:var(--accent-soft);border-color:var(--accent)}
 
 /* Sections & cards */
-section{padding:64px 0}
-.section-title{font-size:clamp(24px,3.2vw,34px)}
+section{padding:clamp(72px,9vw,132px) 0}
+.hero + section,.hero + div > section:first-child{padding-top:clamp(40px,5vw,72px)}
+.section-title{font-size:clamp(28px,4vw,46px);letter-spacing:-0.026em;max-width:20ch}
 .grid{display:grid;gap:24px}
 .grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .card{
   background:var(--card);
-  border:1px solid var(--line);
+  border:1px solid transparent;   /* garde la géométrie, sans le trait */
   border-radius:var(--radius);
-  padding:28px;
-  box-shadow:var(--shadow-sm);
-  transition:box-shadow .2s ease,transform .2s ease,border-color .2s ease;
+  padding:34px;
+  transition:box-shadow .25s ease,transform .25s ease;
 }
-a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--accent)}
+a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 .card h3,.card h2{font-size:19px;font-family:var(--font-body);font-weight:700}
+.tarif{
+  font-size:clamp(25px,2.4vw,31px);font-weight:700;letter-spacing:-0.022em;
+  line-height:1.15;margin:12px 0;text-wrap:balance;
+}
+.tarif-petit{font-size:clamp(20px,1.8vw,23px)}
+
 .pill{
   display:inline-block;font-family:var(--font-body);font-size:12px;font-weight:600;
   text-transform:uppercase;letter-spacing:.08em;
@@ -230,7 +262,7 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 .triangle-base .triangle-card{flex:1 1 300px}
 
 .path-cards{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
-.path-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow-sm);transition:box-shadow .2s ease,transform .2s ease}
+.path-card{background:var(--card);border-radius:var(--radius);padding:42px;transition:box-shadow .25s ease,transform .25s ease}
 .path-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 .path-card h3,.path-card h2{font-size:22px;font-family:var(--font-body);font-weight:700}
 .path-card .btn{margin-top:18px}
@@ -256,7 +288,7 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 .treso-aide{font-family:var(--font-body);font-size:14px;color:var(--ink-soft);margin:10px 0 0}
 
 .treso-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:20px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:flex;flex-direction:column;gap:4px}
+.kpi{background:var(--card);border-radius:var(--radius);padding:26px 28px;display:flex;flex-direction:column;gap:6px}
 .kpi-titre{font-family:var(--font-body);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft)}
 .kpi-valeur{font-family:var(--font-body);font-size:29px;font-weight:700;color:var(--ink);line-height:1.15}
 .kpi-note{font-family:var(--font-body);font-size:13px;color:var(--ink-soft)}
@@ -393,7 +425,7 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
   .treso-entetes{display:none}
   .treso-ligne{grid-template-columns:1fr 1fr;gap:6px;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line)}
   .treso-ligne input[data-champ="categorie"]{grid-column:1 / -1}
-  .treso-suppr{justify-self:end}
+  .treso-suppr{justify-self:end;min-width:44px;min-height:44px}
 }
 
 /* Illustrations de marque insérées en SVG dans la page (et non via <img>) :
@@ -464,6 +496,15 @@ input[type="radio"],input[type="checkbox"]{
 
 .site-footer{border-top:1px solid var(--line);padding:44px 0;font-family:var(--font-body);font-size:14px;color:var(--ink-soft)}
 .footer-links{list-style:none;display:flex;gap:18px;flex-wrap:wrap;padding:0;margin:14px 0 0}
+/* Cible tactile : 44 px de haut, sinon ces liens sont trop fins pour un pouce. */
+.footer-links a{display:inline-flex;align-items:center;min-height:44px}
+
+/* Un tableau large ne doit pas pousser toute la page : il défile dans son
+   propre cadre. La région est focalisable au clavier, sans quoi un tableau
+   défilant n'est atteignable qu'à la souris. */
+.table-defile{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.table-defile table{margin-top:0}
+.table-defile:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
 .footer-links a{color:var(--ink-soft);transition:color .18s ease}
 .footer-links a:hover{color:var(--accent)}
 

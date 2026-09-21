@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="Formules d'accompagnement Pilotia : diagnostic gratuit, coaching ponctuel, suivi mensuel, pour PME et futurs indépendants en Belgique.">
 <meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -74,21 +73,21 @@
       <div class="card">
         <div class="pill">Gratuit</div>
         <h2>Diagnostic découverte</h2>
-        <p style="font-size:28px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;margin:8px 0">0 €</p>
+        <p class="tarif">0 €</p>
         <p>Appel de 15 minutes pour faire le point sur votre situation, vos priorités et voir si un accompagnement a du sens.</p>
         <a href="contact.html" class="btn btn-secondary">Réserver →</a>
       </div>
       <div class="card" style="border-color:var(--accent);border-width:2px">
         <div class="pill">Le plus choisi</div>
         <h2>Diagnostic complet + plan d'action</h2>
-        <p style="font-size:28px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;margin:8px 0">À partir de 490 €</p>
+        <p class="tarif">À partir de 490 €</p>
         <p>État des lieux simple et concret (marges, organisation, visibilité) et restitution avec priorités claires et feuille de route. Prestation ponctuelle, sans engagement de suivi.</p>
         <a href="contact.html" class="btn btn-primary">En discuter →</a>
       </div>
       <div class="card">
         <div class="pill">Suivi</div>
         <h2>Accompagnement mensuel</h2>
-        <p style="font-size:28px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;margin:8px 0">À partir de 390 €/mois</p>
+        <p class="tarif">À partir de 390 €/mois</p>
         <p>Suivi régulier pour mettre en œuvre le plan d'action, ajuster et garder le cap. Durée et fréquence adaptées à votre besoin (engagement 3, 6 ou 12 mois — tarif dégressif sur 12 mois).</p>
         <a href="contact.html" class="btn btn-secondary">En discuter →</a>
       </div>
@@ -103,7 +102,7 @@
     <div class="card" style="max-width:640px;margin-top:20px">
       <h3>Accompagnement au lancement</h3>
       <p>3 séances pour clarifier vos démarches administratives, poser des repères financiers simples (charges à prévoir, objectif de ventes) et préparer vos premiers pas commerciaux — en plus des documents gratuits du kit de lancement. Le choix de statut et les questions fiscales restent à valider avec un comptable agréé.</p>
-      <p style="font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:22px">390 € (les 3 séances)</p>
+      <p class="tarif tarif-petit">390 € (les 3 séances)</p>
       <a href="contact.html" class="btn btn-primary">En discuter →</a>
     </div>
   </div>
@@ -118,14 +117,14 @@
         <div class="pill">Ponctuel</div>
         <h3>Diagnostic &amp; stratégie de visibilité</h3>
         <p>État des lieux de votre présence en ligne (fiche Google, réseaux, avis) + stratégie et calendrier de contenu sur 4 semaines à décliner vous-même.</p>
-        <p style="font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:22px">290 €</p>
+        <p class="tarif tarif-petit">290 €</p>
         <a href="marketing-digital.html" class="btn btn-secondary">En savoir plus →</a>
       </div>
       <div class="card">
         <div class="pill">Suivi</div>
         <h3>Gestion des réseaux sociaux</h3>
         <p>Création et publication de contenu prise en charge, gestion des avis et de la fiche Google Business, reporting mensuel simple.</p>
-        <p style="font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:22px">À partir de 290 €/mois</p>
+        <p class="tarif tarif-petit">À partir de 290 €/mois</p>
         <a href="contact.html" class="btn btn-secondary">En discuter →</a>
       </div>
     </div>
@@ -137,7 +136,8 @@
   <div class="wrap">
     <div class="eyebrow">En détail</div>
     <h2 class="section-title" style="font-size:22px">Comparatif des formules</h2>
-    <table style="margin-top:16px">
+    <div class="table-defile" role="region" tabindex="0" aria-label="Comparatif des formules, tableau défilant horizontalement">
+<table style="margin-top:16px">
       <thead>
         <tr><th>Formule</th><th>Pour qui</th><th>Contenu</th><th>Tarif indicatif</th></tr>
       </thead>
@@ -151,6 +151,7 @@
         <tr><td>Kit de lancement / kit pilotage</td><td>Tout le monde</td><td>Documents et outils téléchargeables</td><td>Gratuit</td></tr>
       </tbody>
     </table>
+</div>
   </div>
 </section>
 

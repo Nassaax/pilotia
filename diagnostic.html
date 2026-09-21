@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="8 questions pour situer votre entreprise sur la gestion financière, le personnel, le présence digitale et la trésorerie — résultat immédiat.">
 <meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/calistoga-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -73,7 +72,7 @@
     <div id="quiz" class="card" style="max-width:720px">
       <div id="question-block"></div>
       <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center">
-        <span id="progress" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;color:var(--ink-soft)"></span>
+        <span id="progress" style="font-family:var(--font-body);font-size:13px;color:var(--ink-soft)"></span>
         <div>
           <button class="btn btn-secondary" id="btnPrev" onclick="prev()">← Précédent</button>
           <button class="btn btn-primary" id="btnNext" onclick="next()">Suivant →</button>
@@ -212,7 +211,7 @@ function render(){
   var html = '<div class="pill">' + q.theme + '</div><h2 style="font-size:20px;margin-bottom:16px">' + q.q + '</h2>';
   q.options.forEach(function(opt, i){
     var checked = answers[current] === i ? 'checked' : '';
-    html += '<label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:15px">' +
+    html += '<label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;font-family:var(--font-body);font-size:15px">' +
       '<input type="radio" name="opt" value="' + i + '" ' + checked + ' onchange="chooseAnswer(' + i + ')"> ' + opt.label +
       '</label>';
   });
@@ -304,7 +303,7 @@ function showResult(){
     var score = themes[theme];
     var pct = Math.round(score / 4 * 100);
     breakdown += '<div style="margin-bottom:10px">' +
-      '<div style="display:flex;justify-content:space-between;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;margin-bottom:4px"><span>' + theme + '</span><span>' + score + '/4</span></div>' +
+      '<div style="display:flex;justify-content:space-between;font-family:var(--font-body);font-size:13px;margin-bottom:4px"><span>' + theme + '</span><span>' + score + '/4</span></div>' +
       '<div style="background:var(--paper-alt);border-radius:999px;height:8px;overflow:hidden"><div style="background:var(--accent);height:100%;width:' + pct + '%"></div></div>' +
       '</div>';
   });
