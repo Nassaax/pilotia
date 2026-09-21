@@ -1,0 +1,151 @@
+/* Charte graphique des contenus sociaux Pilotia.
+ *
+ * Feuille autonome : elle ne dépend pas de style.css, parce qu'elle sert à
+ * rendre des images et des vidéos hors du site. Le raisonnement derrière
+ * chaque valeur est dans brand/charte-social.md — ne pas recopier une
+ * couleur à la main, importer ce fichier.
+ */
+
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+@font-face{font-family:'Calistoga';src:url('../fonts/calistoga-400-latin.woff2') format('woff2');font-weight:400;font-display:block}
+
+:root{
+  --void:#070B16;
+  --void-lift:#0E1628;
+  --void-deep:#04060E;
+
+  --ink:#F1F5F9;
+  --ink-soft:#8CA0BC;
+  --ink-faint:#63748E;
+
+  /* Un seul accent. L'alerte est rationnée : solde négatif, point bas,
+     seuil dépassé. Jamais décorative. */
+  --accent:#4FD1E8;
+  --alert:#FB7185;
+  --ok:#4ADE80;
+
+  --titre:'Calistoga',serif;
+  --texte:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  --marge:90px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000}
+
+/* ─────────────────────────── la planche ─────────────────────────────── */
+.planche{
+  position:relative;overflow:hidden;
+  width:1080px;height:1350px;                 /* carrousel par défaut */
+  padding:var(--marge);
+  display:flex;flex-direction:column;
+  background:radial-gradient(120% 70% at 50% 32%,
+    var(--void-lift) 0%, var(--void) 58%, var(--void-deep) 100%);
+  font-family:var(--texte);color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+.planche.reel{width:1080px;height:1920px;padding:300px 90px 470px}
+.planche.paysage{width:1920px;height:1080px;padding:120px}
+
+/* ─────────────────────────── blocs de texte ─────────────────────────── */
+.sur-titre{
+  font-size:24px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);
+}
+.titre{
+  font-size:78px;font-weight:300;line-height:1.1;letter-spacing:-0.022em;
+  margin-top:26px;
+}
+.titre em{font-style:normal;color:var(--accent)}
+.titre strong{font-weight:500}
+.sous-titre{
+  font-size:34px;font-weight:300;line-height:1.38;color:var(--ink-soft);
+  margin-top:28px;max-width:26ch;
+}
+
+/* Le chiffre qui porte la planche. */
+.chiffre{
+  font-size:168px;font-weight:200;line-height:1;letter-spacing:-0.045em;
+  font-variant-numeric:tabular-nums;
+}
+.chiffre.petit{font-size:112px;letter-spacing:-0.038em}
+.chiffre.accent{color:var(--accent)}
+.chiffre.alerte{color:var(--alert)}
+.chiffre-note{font-size:28px;color:var(--ink-soft);margin-top:20px;line-height:1.4}
+
+/* ─────────────────────────── lignes de détail ───────────────────────── */
+.lignes{margin-top:8px;width:100%}
+.ligne{
+  display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+  padding:26px 0;border-bottom:1px solid rgba(140,160,188,.18);
+}
+.ligne:last-child{border-bottom:none}
+.ligne-nom{font-size:31px;font-weight:300;color:var(--ink)}
+.ligne-val{
+  font-size:36px;font-weight:400;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.ligne.forte .ligne-nom{font-weight:500}
+.ligne.forte .ligne-val{color:var(--accent);font-weight:500}
+.ligne.alerte .ligne-val{color:var(--alert)}
+
+/* ─────────────────────────── listes à flèches ───────────────────────── */
+.points{list-style:none;margin-top:12px}
+.points li{
+  font-size:33px;font-weight:300;line-height:1.42;color:var(--ink);
+  padding-left:52px;position:relative;margin-bottom:30px;
+}
+.points li::before{
+  content:"\2192";position:absolute;left:0;top:0;
+  color:var(--accent);font-weight:500;
+}
+
+/* ─────────────────────────── barres comparatives ────────────────────── */
+.barres{margin-top:54px;display:flex;flex-direction:column;gap:34px}
+.barre-nom{font-size:28px;color:var(--ink-soft);margin-bottom:14px}
+.barre-piste{height:26px;border-radius:13px;background:rgba(140,160,188,.14);overflow:hidden}
+.barre-jauge{height:100%;border-radius:13px;background:var(--accent)}
+.barre-jauge.alerte{background:var(--alert)}
+.barre-val{
+  font-size:32px;font-weight:500;margin-top:14px;
+  font-variant-numeric:tabular-nums;color:var(--ink);
+}
+.barre.alerte .barre-val{color:var(--alert)}
+
+/* ─────────────────────────── habillage ──────────────────────────────── */
+/* Composition verticale : sur-titre en haut, bloc de contenu ancré dans les
+   deux tiers bas, pied collé en bas. Sans cela le texte se tasse en haut et
+   la planche a l'air inachevée. */
+.espace{flex:1}
+.espace-bas{flex:.55}
+.pied{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  font-size:25px;color:var(--ink-faint);
+}
+.marque{
+  font-family:var(--titre);font-size:40px;line-height:1;
+  background:linear-gradient(92deg,#FFFFFF 0%,var(--accent) 135%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:inline-block;
+}
+.numero{font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.glisser{color:var(--accent);font-weight:500;font-size:27px}
+.mention{
+  font-size:20px;color:var(--ink-faint);line-height:1.5;margin-top:22px;
+}
+.filet{
+  width:132px;height:2px;margin:36px 0 0;
+  background:linear-gradient(90deg,var(--accent),rgba(79,209,232,0));
+}
+
+/* ─────────────────────────── texture ────────────────────────────────── */
+.grain,.vignette{position:absolute;pointer-events:none}
+.grain{
+  inset:-160px;opacity:.055;mix-blend-mode:screen;
+  background-repeat:repeat;background-size:220px 220px;
+}
+.vignette{
+  inset:0;
+  background:radial-gradient(118% 76% at 50% 40%,
+    rgba(0,0,0,0) 42%, rgba(0,0,0,.42) 78%, rgba(0,0,0,.72) 100%);
+}

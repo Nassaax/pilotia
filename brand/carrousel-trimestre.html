@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Carrousel — Le trimestre</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="social.css">
+<style>body{display:flex;flex-direction:column;gap:40px;align-items:center;padding:40px}</style>
+</head>
+<body>
+
+<!-- Tous les montants viennent du scénario calculé avec l'arithmétique de
+     tresorerie.js : charges fixes 6 550 €/mois, cotisations 1 900 € et TVA
+     2 800 € au trimestre, donc 11 250 € le mois de trimestre. -->
+
+<!-- 1 — couverture -->
+<div class="planche" data-nom="01-couverture">
+  <div class="sur-titre">Pilotia · Trésorerie</div>
+  <div class="espace"></div>
+  <div class="titre">Votre trésorerie<br>ne meurt pas en juin.<br>Elle meurt <em>au trimestre</em>.</div>
+  <div class="filet"></div>
+  <div class="sous-titre">Le calendrier belge concentre vos deux plus grosses charges sur le même mois. Quatre fois par an.</div>
+  <div class="espace-bas"></div>
+  <div class="pied"><span class="marque">Pilotia</span><span class="glisser">glisser →</span></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<!-- 2 — le mécanisme -->
+<div class="planche" data-nom="02-rythme">
+  <div class="sur-titre">Le rythme</div>
+  <div class="espace"></div>
+  <div class="titre">Deux charges,<br>une seule échéance.</div>
+  <div class="lignes" style="margin-top:44px">
+    <div class="ligne"><span class="ligne-nom">Cotisations sociales</span><span class="ligne-val">chaque trimestre</span></div>
+    <div class="ligne"><span class="ligne-nom">TVA à reverser</span><span class="ligne-val">chaque trimestre</span></div>
+    <div class="ligne"><span class="ligne-nom">Salaires, loyer, achats, assurances…</span><span class="ligne-val">chaque mois</span></div>
+  </div>
+  <div class="sous-titre" style="max-width:30ch">Les autres postes se lissent. Ces deux-là attendent trois mois, puis tombent ensemble.</div>
+  <div class="espace-bas"></div>
+  <div class="pied"><span class="marque">Pilotia</span><span class="numero">02 / 06</span></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<!-- 3 — le chiffre -->
+<div class="planche" data-nom="03-chiffre">
+  <div class="sur-titre">Dans notre scénario</div>
+  <div class="espace"></div>
+  <div class="chiffre accent">4 700 €</div>
+  <div class="chiffre-note">quittent le compte le même mois<br>cotisations sociales 1 900 € + TVA 2 800 €</div>
+  <div class="espace"></div>
+  <div class="mention">Scénario d'exemple calculé par le plan de trésorerie Pilotia. Ces montants ne représentent les résultats d'aucun client.</div>
+  <div class="pied" style="margin-top:28px"><span class="marque">Pilotia</span><span class="numero">03 / 06</span></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<!-- 4 — l'effet -->
+<div class="planche" data-nom="04-effet">
+  <div class="sur-titre">Ce que ça fait</div>
+  <div class="espace"></div>
+  <div class="titre" style="font-size:64px">Un mois sur trois,<br>vous encaissez pareil<br>et vous payez <em>+ 72 %</em>.</div>
+  <div class="barres">
+    <div class="barre">
+      <div class="barre-nom">Sorties d'un mois ordinaire</div>
+      <div class="barre-piste"><div class="barre-jauge" style="width:58%"></div></div>
+      <div class="barre-val">6 550 €</div>
+    </div>
+    <div class="barre alerte">
+      <div class="barre-nom">Sorties du mois de trimestre</div>
+      <div class="barre-piste"><div class="barre-jauge alerte" style="width:100%"></div></div>
+      <div class="barre-val">11 250 €</div>
+    </div>
+  </div>
+  <div class="espace-bas"></div>
+  <div class="pied"><span class="marque">Pilotia</span><span class="numero">04 / 06</span></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<!-- 5 — les leviers -->
+<div class="planche" data-nom="05-leviers">
+  <div class="sur-titre">Trois leviers</div>
+  <div class="espace"></div>
+  <div class="titre" style="font-size:66px">Ça s'anticipe.<br>Ça ne se rattrape pas.</div>
+  <ul class="points" style="margin-top:50px">
+    <li>Mettre de côté un tiers du trimestre chaque mois, sur un compte séparé.</li>
+    <li>Décaler hors du mois de trimestre tout achat qui peut attendre.</li>
+    <li>Relancer vos factures clients quinze jours avant l'échéance, pas après.</li>
+  </ul>
+  <div class="espace-bas"></div>
+  <div class="pied"><span class="marque">Pilotia</span><span class="numero">05 / 06</span></div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<!-- 6 — appel à l'action -->
+<div class="planche" data-nom="06-appel">
+  <div class="espace"></div>
+  <div class="marque" style="font-size:76px">Pilotia</div>
+  <div class="filet"></div>
+  <div class="titre" style="font-size:62px;margin-top:40px">Voyez votre point bas<br>avant qu'il n'arrive.</div>
+  <div class="sous-titre" style="max-width:30ch">Plan de trésorerie prévisionnel. Gratuit, sans compte, sans adresse e-mail — tout reste dans votre navigateur.</div>
+  <div class="espace-bas"></div>
+  <div class="pied">
+    <span style="color:var(--accent);font-weight:500;font-size:29px">Lien en bio →</span>
+    <span class="numero">06 / 06</span>
+  </div>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<script>
+/* Grain : une tuile fixe, appliquée à toutes les planches. */
+(function () {
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220">' +
+    '<filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7"/>' +
+    '<feColorMatrix type="saturate" values="0"/></filter>' +
+    '<rect width="220" height="220" filter="url(#n)"/></svg>';
+  var url = 'url("data:image/svg+xml;base64,' + btoa(svg) + '")';
+  document.querySelectorAll('.grain').forEach(function (g, i) {
+    g.style.backgroundImage = url;
+    g.style.backgroundPosition = (i * 47) + 'px ' + (i * 83) + 'px';
+  });
+})();
+</script>
+</body>
+</html>

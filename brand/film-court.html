@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Pilotia — films courts</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="social.css">
+<style>
+/* Format Reel. La bande sûre est 300 → 1450 : au-delà, l'interface
+   d'Instagram recouvre le contenu. Tout beat est centré dans cette bande. */
+#scene{position:relative;width:1080px;height:1920px;overflow:hidden;
+  background:radial-gradient(120% 70% at 50% 32%,
+    var(--void-lift) 0%, var(--void) 58%, var(--void-deep) 100%);
+  font-family:var(--texte);color:var(--ink);-webkit-font-smoothing:antialiased}
+.beat{position:absolute;left:0;right:0;top:300px;height:1150px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:0 80px;text-align:center;opacity:0;will-change:opacity,transform}
+.b-carton{font-size:64px;font-weight:300;line-height:1.22;letter-spacing:-0.018em}
+.b-carton em{font-style:normal;color:var(--accent)}
+.b-chip{font-size:38px;font-weight:400;display:flex;gap:22px;align-items:baseline;justify-content:center}
+.b-chip .v{font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink-soft)}
+.b-chiffre{font-size:158px;font-weight:200;line-height:1;letter-spacing:-0.045em;
+  font-variant-numeric:tabular-nums}
+.b-note{font-size:32px;color:var(--ink-soft);margin-top:30px;line-height:1.35}
+.b-chapeau{font-size:46px;font-weight:300;line-height:1.24;margin-bottom:58px;letter-spacing:-0.012em}
+.b-chapeau em{font-style:normal;color:var(--accent)}
+.b-barre{width:100%;max-width:820px;margin-bottom:56px}
+.b-barre:last-child{margin-bottom:0}
+.b-bnom{font-size:31px;color:var(--ink-soft);margin-bottom:18px;text-align:left}
+.b-bpiste{height:28px;border-radius:14px;background:rgba(140,160,188,.14);overflow:hidden}
+.b-bjauge{height:100%;border-radius:14px;background:var(--accent);width:0}
+.b-bval{font-size:36px;font-weight:500;margin-top:16px;text-align:left;
+  font-variant-numeric:tabular-nums}
+.b-marque{font-family:var(--titre);font-size:104px;line-height:1.05;display:inline-block;
+  background:linear-gradient(92deg,#FFFFFF 0%,var(--accent) 128%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.b-mfilet{width:120px;height:2px;margin:32px auto 0;
+  background:linear-gradient(90deg,rgba(79,209,232,0),var(--accent),rgba(79,209,232,0))}
+.b-mligne{font-size:34px;font-weight:400;color:var(--accent);margin-top:36px}
+.b-mention{position:absolute;left:80px;right:80px;top:1360px;text-align:center;
+  font-size:21px;color:var(--ink-faint);line-height:1.5;opacity:0}
+#grain{position:absolute;inset:-260px;pointer-events:none;opacity:.055;mix-blend-mode:screen;
+  background-repeat:repeat;background-size:220px 220px}
+#vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(118% 74% at 50% 42%,
+    rgba(0,0,0,0) 42%, rgba(0,0,0,.44) 78%, rgba(0,0,0,.74) 100%)}
+#noir{position:absolute;inset:0;background:#000;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="scene"><div id="beats"></div><div class="b-mention" id="mention"></div>
+<div id="grain"></div><div id="vignette"></div><div id="noir"></div></div>
+
+<script>
+/* Moteur de films courts Pilotia.
+ *
+ * Aucune bibliothèque : chaque beat expose une fonction pure du temps. Un
+ * seek à l'instant T produit donc toujours la même image, quel que soit le
+ * chemin parcouru — c'est la condition d'un rendu image par image fiable, et
+ * une dépendance d'animation ne l'aurait pas garantie sans précautions.
+ *
+ * Pour ajouter un film : une entrée dans FILMS. Le moteur ne change pas.
+ */
+
+/* ── courbes d'accélération ------------------------------------------- */
+function sortie3(p){ return 1 - Math.pow(1 - p, 3); }   // ralentit à l'arrivée
+function entree2(p){ return p * p; }                     // accélère au départ
+function seg(t, t0, duree){ return Math.min(Math.max((t - t0) / duree, 0), 1); }
+
+/* ── les films ---------------------------------------------------------
+   Les montants viennent de l'arithmétique des outils du site. Aucun chiffre
+   n'est saisi deux fois ni arrondi « pour que ça sonne mieux ».
+
+   RÈGLE : un film ne reprend jamais le sujet d'un carrousel. Les deux
+   formats visent la même personne ; dire deux fois la même chose consomme
+   deux publications pour une seule idée. Sujets déjà pris par les
+   carrousels : le rythme trimestriel, le coût réel d'un salarié. */
+var FILMS = {
+
+  /* Franchise TVA. Les faits viennent de calculateur-tva-franchise.html :
+     seuil national de 25 000 € de chiffre d'affaires annuel, pas de TVA
+     facturée mais pas de TVA récupérable non plus. */
+  tva: {
+    duree: 15.4,
+    mention: "Seuil national de 25 000 € de chiffre d'affaires annuel.<br>Information générale, pas un conseil fiscal : votre comptable confirme votre cas.",
+    mentionA: 8.6,
+    beats: [
+      {t: 0.7,  fin: 3.0,  type: 'chiffre', val: "25 000 €", accent: true,
+                            note: "le seuil de la franchise TVA<br>en Belgique"},
+      {t: 3.3,  fin: 5.2,  type: 'carton', texte: "En dessous, vous ne<br>facturez <em>pas la TVA</em>."},
+      {t: 5.5,  fin: 8.3,  type: 'chips',
+                            chapeau: "Deux faces de la même pièce.",
+                            items: [
+        ["Ce que vous gagnez", "pas de TVA à facturer"],
+        ["Ce que vous perdez", "pas de TVA à récupérer"]]},
+      {t: 8.6,  fin: 11.2, type: 'carton', texte: "Si vos clients sont assujettis,<br>ils récupèrent la TVA.<br>Votre avantage <em>disparaît</em>."},
+      {t: 11.5, fin: 13.7, type: 'carton', texte: "La franchise n'est pas<br>un cadeau. C'est un <em>calcul</em>."},
+      {t: 14.0, fin: null, type: 'marque', ligne: "Testez votre cas — calculateur gratuit"},
+    ],
+    impacts: [0.85, 5.65, 6.15, 8.75],
+    resolution: 14.05,
+  },
+
+  /* Marge et seuil de rentabilité. Arithmetique de calculateur-marge.html :
+     marge = prix de vente − coût de revient ; seuil = frais fixes ÷ marge
+     unitaire, arrondi au supérieur ; base de 26 jours ouvrés.
+     100 − 62 = 38 € (38 %) ; 4 200 / 38 = 111 ventes ; 111 / 26 = 5 par jour. */
+  marge: {
+    duree: 15.4,
+    mention: "Exemple simplifié. Seuil = frais fixes ÷ marge unitaire,<br>sur une base de 26 jours ouvrés par mois.",
+    mentionA: 8.0,
+    beats: [
+      {t: 0.7,  fin: 2.5,  type: 'carton', texte: "Vous vendez à <em>100 €</em>."},
+      {t: 2.8,  fin: 5.3,  type: 'chips',
+                            chapeau: "Ce que ça laisse vraiment.",
+                            items: [
+        ["Coût de revient", "62 €"],
+        ["Marge", "38 €  ·  38 %"]]},
+      {t: 5.6,  fin: 7.7,  type: 'carton', texte: "Et vos frais fixes ?<br><em>4 200 €</em> par mois."},
+      {t: 8.0,  fin: 10.9, type: 'chiffre', val: "111", accent: true,
+                            note: "ventes par mois,<br>juste pour atteindre zéro"},
+      {t: 11.2, fin: 13.7, type: 'carton', texte: "Soit <em>5 par jour ouvré</em>,<br>avant le premier euro<br>de bénéfice."},
+      {t: 14.0, fin: null, type: 'marque', ligne: "Calculateur de marge — gratuit"},
+    ],
+    impacts: [0.85, 2.95, 3.45, 8.15],
+    resolution: 14.05,
+  },
+};
+
+var nom = (location.search.match(/[?&]f=([a-z]+)/) || [])[1] || 'tva';
+var SPEC = FILMS[nom];
+if (!SPEC) throw new Error("film inconnu : " + nom);
+
+/* ── construction du DOM ------------------------------------------------ */
+var hote = document.getElementById('beats');
+
+function el(classe, html) {
+  var d = document.createElement('div');
+  d.className = classe;
+  if (html !== undefined) d.innerHTML = html;
+  return d;
+}
+
+SPEC.beats.forEach(function (b) {
+  var n = el('beat');
+  if (b.chapeau) n.appendChild(el('b-chapeau', b.chapeau));
+  if (b.type === 'carton') {
+    n.appendChild(el('b-carton', b.texte));
+
+  } else if (b.type === 'chips') {
+    b.items.forEach(function (it, i) {
+      var c = el('b-chip', '<span>' + it[0] + '</span><span class="v">' + it[1] + '</span>');
+      c.style.marginBottom = (i < b.items.length - 1) ? '52px' : '0';
+      c.dataset.rang = i;
+      n.appendChild(c);
+    });
+
+  } else if (b.type === 'chiffre') {
+    var v = el('b-chiffre', b.val);
+    if (b.accent) v.style.color = 'var(--accent)';
+    if (b.petit) v.style.fontSize = '132px';
+    n.appendChild(v);
+    if (b.note) n.appendChild(el('b-note', b.note));
+
+  } else if (b.type === 'barres') {
+    b.items.forEach(function (it, i) {
+      var w = el('b-barre');
+      w.appendChild(el('b-bnom', it[0]));
+      var piste = el('b-bpiste');
+      var jauge = el('b-bjauge');
+      if (it[3]) jauge.style.background = 'var(--alert)';
+      jauge.dataset.cible = it[2];
+      jauge.dataset.rang = i;
+      piste.appendChild(jauge);
+      w.appendChild(piste);
+      var val = el('b-bval', it[1]);
+      if (it[3]) val.style.color = 'var(--alert)';
+      w.appendChild(val);
+      n.appendChild(w);
+    });
+
+  } else if (b.type === 'marque') {
+    n.appendChild(el('b-marque', 'Pilotia'));
+    n.appendChild(el('b-mfilet'));
+    n.appendChild(el('b-mligne', b.ligne));
+  }
+  b.noeud = n;
+  hote.appendChild(n);
+});
+
+var elMention = document.getElementById('mention');
+elMention.innerHTML = SPEC.mention;
+
+/* ── grain : tuile fixe, décalage dérivé de la tête de lecture ---------- */
+(function () {
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220">' +
+    '<filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7"/>' +
+    '<feColorMatrix type="saturate" values="0"/></filter>' +
+    '<rect width="220" height="220" filter="url(#n)"/></svg>';
+  document.getElementById('grain').style.backgroundImage =
+    'url("data:image/svg+xml;base64,' + btoa(svg) + '")';
+})();
+
+/* ── rendu : fonction pure du temps ------------------------------------ */
+var ENTREE = 0.62, SORTIE = 0.42;
+
+function rendre(t) {
+  SPEC.beats.forEach(function (b) {
+    var e = seg(t, b.t, ENTREE);
+    var s = b.fin === null ? 0 : seg(t, b.fin, SORTIE);
+    var op = sortie3(e) * (1 - entree2(s));
+    var y = 38 * (1 - sortie3(e)) - 34 * entree2(s);
+    b.noeud.style.opacity = op;
+    b.noeud.style.transform = 'translateY(' + y.toFixed(2) + 'px)';
+
+    // Les éléments d'une liste arrivent en cascade, pas tous ensemble.
+    if (b.type === 'chips') {
+      b.noeud.querySelectorAll('.b-chip').forEach(function (c) {
+        var d = seg(t, b.t + 0.34 * c.dataset.rang, ENTREE);
+        c.style.opacity = sortie3(d);
+        c.style.transform = 'translateY(' + (26 * (1 - sortie3(d))).toFixed(2) + 'px)';
+      });
+    }
+    if (b.type === 'barres') {
+      b.noeud.querySelectorAll('.b-bjauge').forEach(function (j) {
+        var d = seg(t, b.t + 0.30 + 0.45 * j.dataset.rang, 0.95);
+        j.style.width = (j.dataset.cible * sortie3(d)).toFixed(2) + '%';
+      });
+    }
+  });
+
+  elMention.style.opacity = (0.9 * sortie3(seg(t, SPEC.mentionA, 0.7)) *
+                             (1 - entree2(seg(t, SPEC.mentionA + 2.6, 0.5)))).toFixed(3);
+
+  // ouverture et fermeture au noir
+  var noir = (1 - sortie3(seg(t, 0, 0.8))) +
+             entree2(seg(t, SPEC.duree - 0.9, 0.9));
+  document.getElementById('noir').style.opacity = Math.min(noir, 1).toFixed(3);
+
+  var f = Math.round(t * 30);
+  document.getElementById('grain').style.backgroundPosition =
+    (((f * 71) % 220) - 110) + 'px ' + (((f * 127) % 220) - 110) + 'px';
+}
+
+window.FILM = {duration: SPEC.duree, nom: nom, seek: rendre,
+               impacts: SPEC.impacts, resolution: SPEC.resolution};
+rendre(0);
+</script>
+</body>
+</html>
