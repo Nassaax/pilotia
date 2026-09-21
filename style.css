@@ -235,6 +235,20 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color
 .path-card h3,.path-card h2{font-size:22px;font-family:var(--font-body);font-weight:700}
 .path-card .btn{margin-top:18px}
 
+/* ─── Film de lancement (index.html) ───────────────────────────────────── */
+.film{margin:26px 0 0}
+.film video{
+  display:block;width:100%;height:auto;
+  border:1px solid var(--line);border-radius:var(--radius);background:#070B16;
+}
+/* Le film est muet et sans paroles : ce résumé en est l'équivalent textuel
+   (WCAG 1.2.3), pas une légende décorative. */
+.film-resume{
+  font-family:var(--font-body);font-size:14.5px;line-height:1.62;color:var(--ink-soft);
+  margin-top:16px;max-width:80ch;
+}
+.film-resume strong{color:var(--ink)}
+
 /* ─── Plan de trésorerie (plan-tresorerie.html) ─────────────────────────── */
 .treso-params{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-top:16px}
 .treso-params label{display:block;margin-bottom:6px}
