@@ -92,7 +92,22 @@ de l'application.
    tant qu'elle n'est pas mesurée sur des cas réels.
 5. Un visuel renvoie vers **un** outil ou **une** action, jamais trois.
 
-## 8. Cohérence de série
+## 8. Sujets déjà traités — ne pas refaire
+
+Un compte se décrédibilise vite s'il ressert deux fois le même calcul sous une
+autre couverture. Avant d'écrire un nouveau visuel, vérifier cette liste et
+l'y ajouter ensuite.
+
+| Sujet | Support | Fichier / lien |
+|---|---|---|
+| Le rythme trimestriel des échéances | Carrousel | `carrousel-trimestre.html` |
+| Le coût réel d'un salarié (× 1,45) | Carrousel | `carrousel-cout-salarie.html` |
+| La franchise TVA à 25 000 € | Film court | `film-court.html?f=tva` |
+| La marge unitaire et le seuil de rentabilité | Film court | `film-court.html?f=marge` |
+| La régularisation des cotisations d'indépendant | Carrousel Canva | `DAHV2lIVqTs` |
+| Rentabilité ≠ trésorerie (le délai d'encaissement) | Carrousel Canva | `DAHV2hPWtRA` |
+
+## 9. Cohérence de série
 
 Contrairement à un film de lancement — où la ressemblance entre deux films est
 un défaut — un compte social gagne à être reconnaissable. Le gabarit est donc
@@ -100,7 +115,7 @@ un défaut — un compte social gagne à être reconnaissable. Le gabarit est do
 structure de couverture. Ce qui change d'un post à l'autre, c'est le chiffre et
 l'histoire, pas l'habillage.
 
-## 9. Production — les fichiers
+## 10. Production — les fichiers
 
 Tout est dans `brand/`. Rien ne dépend d'un service extérieur ni d'un compte.
 
@@ -135,3 +150,34 @@ livré**, pas du mixage source : cible **−14 LUFS, crête vraie ≤ −1 dBTP*
 Auto-hébergées depuis `fonts/`, jamais chargées depuis un CDN — un appel à
 Google Fonts enverrait l'adresse IP du visiteur aux États-Unis sans son
 consentement.
+
+## 11. La voie Canva
+
+Deux carrousels vivent dans le compte Canva plutôt que dans ce dépôt, pour
+pouvoir être retouchés sans passer par du code :
+
+| Carrousel | Design |
+|---|---|
+| La régularisation des cotisations | `DAHV2lIVqTs` |
+| Rentabilité n'est pas trésorerie | `DAHV2hPWtRA` |
+
+Ce qu'il faut savoir avant d'en refaire un :
+
+- **La génération automatique de Canva ne sert à rien ici.** Sur deux essais,
+  elle a rendu une couverture seule d'un côté, et de l'autre les six pages
+  empilées sur une seule avec du faux français et des montants inventés
+  (« 5,0000 € »). Les pages sont donc construites à la main, élément par
+  élément, à des coordonnées explicites.
+- **Le gabarit** est celui de `social.css` transposé : marge de 90 px, fond
+  `#070B16` posé en rectangle plein page, sur-titre à y = 90, filet cyan de
+  120 × 3 px, pied de page à y = 1232.
+- **Ancrer chaque texte en haut** (`update_text_anchoring: start`) *avant* de
+  le positionner : sinon Canva recentre le bloc dès que la taille change, et
+  l'élément se déplace tout seul.
+- **Un nombre ne doit jamais être coupé par un retour à la ligne.** C'est
+  arrivé deux fois (« = 7 » / « 790,00 € », puis « 12 000 » / « € HTVA »).
+  Soit on réduit le corps pour que la ligne tienne, soit on force la coupure
+  avec un `\n` explicite.
+- **Une seule police pour tout le carrousel.** Un texte ajouté par l'API prend
+  la police par défaut ; un texte hérité d'une génération garde la sienne. Si
+  la couverture ne ressemble pas aux autres pages, la supprimer et la recréer.
