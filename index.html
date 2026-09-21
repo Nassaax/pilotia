@@ -124,7 +124,11 @@
         <source src="film-lancement.mp4" type="video/mp4">
         <p>Votre navigateur ne peut pas lire cette vidéo. <a href="film-lancement.mp4">Télécharger le film (MP4)</a>.</p>
       </video>
-      <figcaption class="film-resume" id="film-resume">
+      <!-- Le résumé n'est plus affiché : la section devait rester épurée. Il
+           reste lu par les lecteurs d'écran via aria-describedby, sans quoi ce
+           film muet — qui porte toute son information à l'image — serait
+           inaccessible (WCAG 1.2.3). -->
+      <figcaption class="sr-only" id="film-resume">
         <strong>Le film, en texte.</strong> Un solde bancaire de 9 000 € apparaît seul à l'écran : c'est ce que montre une application bancaire. Les charges déjà engagées tombent alors dessus une à une — salaires et ONSS 2 900 €, achats, loyer et assurances 3 650 €, cotisations sociales du trimestre 1 900 €, TVA du trimestre 2 800 € — et le solde passe à −2 250 €. Les ventes du mois, 7 300 €, le ramènent à 5 050 € : le mois est passé, l'entreprise tient. La courbe des six mois se dessine alors et montre le vrai problème, un trimestre plus loin : un point bas à 2 600 €, sous le seuil de sécurité de 5 000 €, atteint dans quatre mois. Le film n'a pas de paroles ; sa bande-son ne porte aucune information. Les montants sont un scénario d'exemple calculé par l'outil, et ne représentent les résultats d'aucun client.
       </figcaption>
     </figure>
@@ -186,8 +190,7 @@
 
 <section>
   <div class="wrap">
-    <div class="eyebrow">Preuve</div>
-    <h2 class="section-title">Ils nous font confiance</h2>
+    <h2 class="section-title">Ce que nos clients en pensent</h2>
     <div class="grid grid-3">
       <div class="card">
         <p style="font-style:italic">« J'ai fait appel à Pilotia pour structurer le pilotage de mon activité. Le diagnostic a été clair, concret, et surtout actionnable. En quelques semaines, on a mis en place des indicateurs simples, un suivi régulier et des priorités réalistes. Résultat : je pilote enfin mon entreprise avec une vision nette et moins de stress. »</p>

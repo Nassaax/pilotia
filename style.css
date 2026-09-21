@@ -273,13 +273,14 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
   display:block;width:100%;height:auto;
   border:1px solid var(--line);border-radius:var(--radius);background:#070B16;
 }
-/* Le film est muet et sans paroles : ce résumé en est l'équivalent textuel
-   (WCAG 1.2.3), pas une légende décorative. */
-.film-resume{
-  font-family:var(--font-body);font-size:14.5px;line-height:1.62;color:var(--ink-soft);
-  margin-top:16px;max-width:80ch;
+/* Masqué à l'écran, lu par les technologies d'assistance. Sert au résumé du
+   film : la section doit rester épurée, mais retirer le texte tout court
+   rendrait la vidéo muette inaccessible. */
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);
+  white-space:nowrap;border:0;
 }
-.film-resume strong{color:var(--ink)}
 
 /* ─── Plan de trésorerie (plan-tresorerie.html) ─────────────────────────── */
 .treso-params{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-top:16px}
