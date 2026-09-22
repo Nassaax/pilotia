@@ -65,6 +65,9 @@ comme indépendant.
 - [Marge en restauration](https://pilotis-murex.vercel.app/conseils-marge-restaurant.html)
 - [Chiffrer un chantier](https://pilotis-murex.vercel.app/conseils-chiffrer-chantier.html)
 - [Se lancer comme indépendant](https://pilotis-murex.vercel.app/conseils-lancer-independant.html)
+- [Facture impayée : que faire](https://pilotis-murex.vercel.app/conseils-facture-impayee.html)
+- [Indépendant complémentaire : les trois seuils](https://pilotis-murex.vercel.app/conseils-independant-complementaire.html)
+- [Combien facturer de l'heure](https://pilotis-murex.vercel.app/conseils-taux-horaire-independant.html)
 - [Statistiques](https://pilotis-murex.vercel.app/statistiques.html) : chiffres sur les PME et indépendants belges, avec sources.
 - [Ressources](https://pilotis-murex.vercel.app/ressources.html) : guides téléchargeables.
 - [Outils](https://pilotis-murex.vercel.app/outils.html) : index des calculateurs.
