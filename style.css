@@ -22,6 +22,8 @@
      bronze (34°) et atteint 4.89:1, et 5.50:1 pour du blanc posé dessus. */
   --gold:#876231;
   --gold-soft:#F3E9DA;
+  --vert:#15803D;
+  --vert-soft:#ECFDF3;
   --danger:#DC2626;
   /* Bordure des champs de saisie : leur fond est blanc comme la page, donc la bordure
      est le seul indice qui identifie le champ — d'où le seuil de 3:1 (WCAG 1.4.11).
@@ -59,6 +61,8 @@
     --accent-ink:#08131F;
     --gold:#C69B62;
     --gold-soft:#2B2213;
+    --vert:#4ADE80;
+    --vert-soft:#0F2A1B;
     --danger:#F87171;
     --line-strong:#586C94;
     --accent-fonce:#7FC4EC;
@@ -256,10 +260,15 @@ a.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 }
 
 /* Trois piliers en triangle (page d'accueil) */
-.triangle-grid{display:flex;flex-direction:column;align-items:center;gap:24px;margin-top:32px}
-.triangle-card{max-width:380px;width:100%}
-.triangle-base{display:flex;gap:24px;width:100%;justify-content:center;flex-wrap:wrap}
-.triangle-base .triangle-card{flex:1 1 300px}
+ /* Le triangle (une carte au-dessus, deux en dessous) laissait deux vides de
+    350 px de part et d'autre de la carte du haut, et ne se lisait pas comme un
+    triangle. Trois colonnes égales remplissent la largeur et se comparent. */
+.triangle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;align-items:stretch}
+.triangle-card{max-width:none;width:100%;height:100%}
+.triangle-base{display:contents}
+@media (max-width:900px){
+  .triangle-grid{grid-template-columns:1fr}
+}
 
 .path-cards{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .path-card{background:var(--card);border-radius:var(--radius);padding:42px;transition:box-shadow .25s ease,transform .25s ease}
@@ -637,4 +646,57 @@ input[type="radio"],input[type="checkbox"]{
 @media (max-width:700px){
   .photo img{aspect-ratio:3/2}
   .photo-bande img{aspect-ratio:2/1}
+}
+
+
+/* ─── Section sombre ────────────────────────────────────────────────────── */
+/* Une page de 6 000 px dont cinq sections sur sept ont le même fond blanc n'a
+   aucun rythme. Celle-ci redéfinit les jetons plutôt que de peindre un fond :
+   tout ce qu'on y place s'adapte, sans règle supplémentaire par composant. */
+.section-sombre{
+  background:var(--ink-fixed);
+  --ink:#F1F5F9;
+  --ink-soft:#94A3B8;
+  --paper:#0F172A;
+  --paper-alt:#16223A;
+  --card:#16223A;
+  --line:#2A3A57;
+  --accent:#4CA9E0;
+  --accent-soft:#16283D;
+  --accent-ink:#08131F;
+  --accent-fonce:#7FC4EC;
+  --gold:#C69B62;
+  --vert:#4ADE80;
+  color:var(--ink);
+}
+/* En mode sombre la page est déjà foncée : sans ces filets, la section se
+   fondrait dans son voisinage au lieu de le ponctuer. */
+@media (prefers-color-scheme: dark){
+  .section-sombre{border-top:1px solid #22304A;border-bottom:1px solid #22304A}
+}
+
+/* ─── Pastilles d'icône colorées ────────────────────────────────────────── */
+/* Une couleur par pilier : la couleur porte une distinction, elle ne décore pas. */
+.card-icon-bleu{background:var(--accent-soft);color:var(--accent)}
+.card-icon-vert{background:var(--vert-soft);color:var(--vert)}
+.card-icon-bronze{background:var(--gold-soft);color:var(--gold)}
+
+/* ─── Avis clients ──────────────────────────────────────────────────────── */
+/* L'italique sur un paragraphe entier fatigue la lecture, et quatre colonnes
+   laissaient une cinquième carte orpheline. Trois colonnes donnent 3 + 2, et
+   un guillemet coloré signale la citation mieux que l'italique. */
+.avis{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.avis figure{
+  position:relative;margin:0;background:var(--card);
+  border-radius:var(--radius);padding:52px 28px 28px;
+}
+.avis figure::before{
+  content:"\201C";position:absolute;top:22px;left:26px;
+  font-family:var(--font-display);font-size:52px;line-height:.7;
+  color:var(--accent);opacity:.30;
+}
+.avis blockquote{margin:0;font-size:15.5px;line-height:1.62;color:var(--ink)}
+.avis figcaption{
+  margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+  font-family:var(--font-body);font-size:13px;color:var(--ink-soft);
 }
