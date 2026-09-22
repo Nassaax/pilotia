@@ -149,7 +149,7 @@ function calculerMarge(){
   var cr = parseFloat(document.getElementById('coutRevient').value) || 0;
   var margeEuro = pv - cr;
   var margePct = pv > 0 ? (margeEuro / pv) * 100 : 0;
-  document.getElementById('margeEuro').textContent = margeEuro.toLocaleString('fr-BE',{style:'currency',currency:'EUR'}) + ' de marge';
+  document.getElementById('margeEuro').textContent = margeEuro.toLocaleString('fr-BE',{style:'currency',currency:'EUR'}).replace(/\u202f/g, '\u00a0') + ' de marge';
   document.getElementById('margePct').textContent = 'Soit un taux de marge de ' + margePct.toFixed(1) + ' % du prix de vente.';
   document.getElementById('margeUnitaire').value = margeEuro.toFixed(2);
 }
@@ -164,7 +164,7 @@ function calculerSeuil(){
   }
   var seuil = ff / mu;
   document.getElementById('seuilVentes').textContent = Math.ceil(seuil) + ' ventes / mois';
-  document.getElementById('seuilDetail').textContent = 'Nombre de ventes nécessaires pour couvrir vos frais fixes mensuels de ' + ff.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ', soit environ ' + Math.ceil(seuil/26) + ' ventes par jour ouvré (base 26 jours/mois).';
+  document.getElementById('seuilDetail').textContent = 'Nombre de ventes nécessaires pour couvrir vos frais fixes mensuels de ' + ff.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).replace(/\u202f/g, '\u00a0') + ', soit environ ' + Math.ceil(seuil/26) + ' ventes par jour ouvré (base 26 jours/mois).';
 }
 
 calculerMarge();

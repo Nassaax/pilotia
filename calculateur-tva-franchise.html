@@ -132,7 +132,7 @@ function verifier(){
     statutEl.textContent = '✓ Éligible à la franchise TVA';
     statutEl.style.color = 'var(--accent)';
     var reste = seuil - ca;
-    margeEl.textContent = 'Il vous reste ' + reste.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' de chiffre d\'affaires avant de dépasser le seuil de 25 000 €. Attention : depuis 2025, le premier euro de dépassement fait basculer au régime TVA normal, sans tolérance.';
+    margeEl.textContent = 'Il vous reste ' + reste.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).replace(/\u202f/g, '\u00a0') + ' de chiffre d\'affaires avant de dépasser le seuil de 25 000 €. Attention : depuis 2025, le premier euro de dépassement fait basculer au régime TVA normal, sans tolérance.';
   } else {
     statutEl.textContent = '✗ Non éligible — régime TVA normal';
     statutEl.style.color = '#a4432f';

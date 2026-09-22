@@ -156,11 +156,11 @@ function calculerCout(){
     coutAnnuel = Math.max(0, coutAnnuel - reductionAnnuelle);
   }
 
-  document.getElementById('out-cout').textContent = coutAnnuel.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' / an';
+  document.getElementById('out-cout').textContent = coutAnnuel.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).replace(/\u202f/g, '\u00a0') + ' / an';
 
-  var detail = 'Soit environ ' + (coutAnnuel/12).toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' par mois, pour un salaire brut de ' + brut.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + '.';
+  var detail = 'Soit environ ' + (coutAnnuel/12).toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).replace(/\u202f/g, '\u00a0') + ' par mois, pour un salaire brut de ' + brut.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).replace(/\u202f/g, '\u00a0') + '.';
   if (premier){
-    detail += ' Réduction "premier engagement" déjà déduite (environ ' + reductionAnnuelle.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + '/an).';
+    detail += ' Réduction "premier engagement" déjà déduite (environ ' + reductionAnnuelle.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).replace(/\u202f/g, '\u00a0') + '/an).';
   }
   document.getElementById('out-detail').textContent = detail;
 }

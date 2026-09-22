@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur de taux horaire et de tarif journalier indépendant — Pilotia</title>
+<meta name="description" content="Calculez votre prix plancher à partir de votre revenu visé : cotisations sociales, frais professionnels et jours réellement facturables. Gratuit, sans inscription.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Calculateur de taux horaire et de tarif journalier indépendant — Pilotia">
+<meta property="og:description" content="Calculez votre prix plancher à partir de votre revenu visé : cotisations sociales, frais professionnels et jours réellement facturables. Gratuit, sans inscription.">
+<meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<meta property="og:url" content="https://pilotis-murex.vercel.app/calculateur-taux-horaire.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Calculateur de taux horaire et de tarif journalier indépendant — Pilotia">
+<meta name="twitter:description" content="Calculez votre prix plancher à partir de votre revenu visé : cotisations sociales, frais professionnels et jours réellement facturables. Gratuit, sans inscription.">
+<meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="canonical" href="https://pilotis-murex.vercel.app/calculateur-taux-horaire.html">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>document.documentElement.classList.add("js");</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://pilotis-murex.vercel.app/calculateur-taux-horaire.html#app",
+      "name": "Calculateur de taux horaire et de tarif journalier indépendant",
+      "url": "https://pilotis-murex.vercel.app/calculateur-taux-horaire.html",
+      "description": "Calculez votre prix plancher à partir de votre revenu visé : cotisations sociales, frais professionnels et jours réellement facturables. Gratuit, sans inscription.",
+      "inLanguage": "fr-BE",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Tout navigateur web",
+      "browserRequirements": "JavaScript activé",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "publisher": {
+        "@id": "https://pilotis-murex.vercel.app/#organisation"
+      },
+      "isPartOf": {
+        "@id": "https://pilotis-murex.vercel.app/#site"
+      }
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://pilotis-murex.vercel.app/#organisation",
+      "name": "Pilotia",
+      "url": "https://pilotis-murex.vercel.app/",
+      "logo": "https://pilotis-murex.vercel.app/icon-512.png",
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Région de Bruxelles-Capitale"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Liège"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Namur"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Hainaut"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province du Brabant wallon"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Luxembourg"
+        }
+      ],
+      "availableLanguage": [
+        "fr"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://pilotis-murex.vercel.app/#site",
+      "url": "https://pilotis-murex.vercel.app/",
+      "name": "Pilotia",
+      "inLanguage": "fr-BE",
+      "publisher": {
+        "@id": "https://pilotis-murex.vercel.app/#organisation"
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="entreprises.html">Entreprises</a></li>
+      <li><a href="independants.html">Devenir indépendant</a></li>
+      <li><a href="diagnostic.html">Diagnostic</a></li>
+      <li><a href="marketing-digital.html">Présence digitale</a></li>
+      <li><a href="offres.html">Offres</a></li>
+      <li class="dropdown">
+        <button type="button" class="dropdown-trigger active" aria-expanded="false" aria-haspopup="true">Découvrir <span class="dropdown-caret" aria-hidden="true">▾</span></button>
+        <ul class="dropdown-menu">
+          <li><a href="outils.html" class="active">Outils</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="methode.html">Méthode</a></li>
+          <li><a href="statistiques.html">Statistiques</a></li>
+          <li><a href="conseils.html">Conseils</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+      </li>
+      <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="contenu">
+
+<section class="hero" style="padding:56px 0 40px">
+  <div class="wrap">
+    <div class="eyebrow">Outil — Indépendants</div>
+    <h1>Calculateur de taux horaire et de tarif journalier</h1>
+    <p class="lead">Partez de ce que vous voulez gagner, pas de ce que fait le voisin. L'outil remonte le calcul&nbsp;: cotisations sociales, frais professionnels et jours réellement facturables.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>Vos chiffres</h2>
+        <form onsubmit="return false">
+          <div>
+            <label for="revenuNet">Revenu net visé, avant impôt (€ / an)</label>
+            <input type="number" id="revenuNet" min="0" step="500" value="36000" oninput="calculerTarif()">
+          </div>
+          <div>
+            <label for="fraisPro">Frais professionnels annuels (€)</label>
+            <input type="number" id="fraisPro" min="0" step="100" value="6000" oninput="calculerTarif()">
+          </div>
+          <div>
+            <label for="conges">Jours de congé par an</label>
+            <input type="number" id="conges" min="0" max="200" step="1" value="20" oninput="calculerTarif()">
+          </div>
+          <div>
+            <label for="maladie">Jours de maladie et d'imprévus</label>
+            <input type="number" id="maladie" min="0" max="200" step="1" value="5" oninput="calculerTarif()">
+          </div>
+          <div>
+            <label for="occupation">Taux d'occupation (%) — part des jours réellement facturés</label>
+            <input type="number" id="occupation" min="1" max="100" step="1" value="70" oninput="calculerTarif()">
+          </div>
+          <div>
+            <label for="heuresJour">Heures facturées par jour</label>
+            <input type="number" id="heuresJour" min="1" max="24" step="0.5" value="8" oninput="calculerTarif()">
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Votre prix plancher</h2>
+        <p style="font-size:34px;font-family:var(--font-body);font-weight:700;margin:0" id="outJour">—</p>
+        <p id="outHeure" style="color:var(--ink-soft);margin-top:4px">—</p>
+        <div class="table-defile" role="region" tabindex="0" aria-label="Détail du calcul, tableau défilant horizontalement" style="margin-top:22px">
+          <table>
+            <tbody>
+              <tr><th scope="row">Jours travaillables</th><td id="outTravaillables">—</td></tr>
+              <tr><th scope="row">Jours réellement facturés</th><td id="outFactures">—</td></tr>
+              <tr><th scope="row">Revenu net professionnel à dégager</th><td id="outRnp">—</td></tr>
+              <tr><th scope="row">dont cotisations sociales</th><td id="outCotis">—</td></tr>
+              <tr><th scope="row">+ frais professionnels</th><td id="outFrais">—</td></tr>
+              <tr><th scope="row"><strong>Chiffre d'affaires nécessaire</strong></th><td id="outCa"><strong>—</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p id="outAlerte" class="note" style="margin-top:18px;display:none" role="status"></p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      Le résultat est un <strong>prix plancher</strong>, pas un objectif&nbsp;: il couvre vos frais et vos cotisations et vous laisse le revenu visé, <strong>avant impôt des personnes physiques</strong>. Il n'intègre ni la TVA, ni votre pension complémentaire, ni la régularisation de cotisations qui arrivera deux à trois ans plus tard. La méthode est détaillée dans notre article <a href="conseils-taux-horaire-independant.html">combien facturer de l'heure quand on est indépendant</a>.
+    </div>
+  </div>
+</section>
+
+<section class="banner">
+  <div class="wrap">
+    <h2 style="color:#fff">Votre tarif couvre-t-il vraiment vos coûts&nbsp;?</h2>
+    <p style="color:#fff;opacity:.9">On reprend vos chiffres réels, poste par poste.</p>
+    <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
+  </div>
+</section>
+
+<script>
+/* Bareme 2026 des cotisations sociales d'independant, identique a celui de
+   calculateur-cotisations-independant.html : une seule source de verite. */
+var EXO = 1922.16, S1 = 75024.54, S2 = 110562.42, T1 = 0.205, T2 = 0.1416;
+
+function cotisations(r){
+  if (r <= EXO) return 0;
+  if (r <= S1) return r * T1;
+  if (r <= S2) return S1 * T1 + (r - S1) * T2;
+  return S1 * T1 + (S2 - S1) * T2;
+}
+
+/* Probleme inverse : quel revenu net professionnel laisse « net » une fois les
+   cotisations deduites ? La fonction r - cotisations(r) est croissante au-dela
+   du seuil d'exoneration, donc une dichotomie converge. */
+function revenuPour(net){
+  if (net <= EXO) return net;
+  var bas = EXO, haut = 2000000;
+  for (var i = 0; i < 200; i++){
+    var m = (bas + haut) / 2;
+    if (m - cotisations(m) < net) bas = m; else haut = m;
+  }
+  return (bas + haut) / 2;
+}
+
+function eur(x){
+  return x.toLocaleString('fr-BE', {style:'currency', currency:'EUR',
+    minimumFractionDigits:2, maximumFractionDigits:2}).replace(/\u202f/g, '\u00a0');
+}
+
+function calculerTarif(){
+  var net = Math.max(parseFloat(document.getElementById('revenuNet').value) || 0, 0);
+  var frais = Math.max(parseFloat(document.getElementById('fraisPro').value) || 0, 0);
+  var conges = Math.max(parseFloat(document.getElementById('conges').value) || 0, 0);
+  var maladie = Math.max(parseFloat(document.getElementById('maladie').value) || 0, 0);
+  var occ = parseFloat(document.getElementById('occupation').value) || 0;
+  var heures = parseFloat(document.getElementById('heuresJour').value) || 0;
+
+  var travaillables = 365 - 104 - 10 - conges - maladie;
+  var factures = Math.round(travaillables * (occ / 100));
+  var alerte = document.getElementById('outAlerte');
+
+  if (travaillables <= 0 || factures <= 0 || heures <= 0){
+    document.getElementById('outJour').textContent = '—';
+    document.getElementById('outHeure').textContent =
+      'Avec ces valeurs, il ne reste aucun jour à facturer.';
+    ['outTravaillables','outFactures','outRnp','outCotis','outFrais','outCa']
+      .forEach(function(id){ document.getElementById(id).textContent = '—'; });
+    alerte.style.display = 'none';
+    return;
+  }
+
+  var rnp = revenuPour(net);
+  var cotis = cotisations(rnp);
+  var ca = rnp + frais;
+  var jour = ca / factures;
+
+  document.getElementById('outJour').textContent = eur(jour) + ' / jour';
+  document.getElementById('outHeure').textContent =
+    'soit ' + eur(jour / heures) + ' de l\'heure sur ' + heures + ' h facturées par jour.';
+  document.getElementById('outTravaillables').textContent = travaillables + ' jours';
+  document.getElementById('outFactures').textContent =
+    factures + ' jours (' + occ + ' % de ' + travaillables + ')';
+  document.getElementById('outRnp').textContent = eur(rnp);
+  document.getElementById('outCotis').textContent = eur(cotis);
+  document.getElementById('outFrais').textContent = eur(frais);
+  document.getElementById('outCa').innerHTML = '<strong>' + eur(ca) + '</strong>';
+
+  if (rnp > S1){
+    alerte.style.display = 'block';
+    alerte.textContent = 'Au-delà de ' + eur(S1) + ' de revenu net professionnel, '
+      + 'le taux de cotisation passe de 20,5 % à 14,16 % sur la part supérieure. '
+      + 'Le calcul en tient compte.';
+  } else {
+    alerte.style.display = 'none';
+  }
+}
+calculerTarif();
+</script>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Accompagnement d'entreprise, gestion administrative et présence digitale pour les indépendants et PME en Belgique.
+    <ul class="footer-links">
+      <li><a href="parrainage.html">Parrainage</a></li>
+      <li><a href="https://www.instagram.com/pilotia.be/" rel="noopener noreferrer" target="_blank">Instagram<span class="sr-only"> (ouvre un nouvel onglet)</span></a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="cookies.html">Cookies</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+      <li><a href="accessibilite.html">Accessibilité</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="animations.js" defer></script>
+</body>
+</html>

@@ -168,8 +168,8 @@ function calculer(){
     detail = 'Cotisation trimestrielle avec minimum légal appliqué le cas échéant (indépendant à titre principal).';
   }
 
-  document.getElementById('out-trimestre').textContent = cotisationTrim.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' / trimestre';
-  document.getElementById('out-detail').textContent = 'Soit environ ' + (cotisationTrim*4).toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}) + ' par an. ' + detail;
+  document.getElementById('out-trimestre').textContent = cotisationTrim.toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).replace(/\u202f/g, '\u00a0') + ' / trimestre';
+  document.getElementById('out-detail').textContent = 'Soit environ ' + (cotisationTrim*4).toLocaleString('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).replace(/\u202f/g, '\u00a0') + ' par an. ' + detail;
 }
 calculer();
 </script>

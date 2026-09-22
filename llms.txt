@@ -48,6 +48,8 @@ comme indépendant.
 - [Cotisations sociales indépendant](https://pilotis-murex.vercel.app/calculateur-cotisations-independant.html) : estimation trimestrielle sur base du barème INASTI.
 - [Coût réel d'un salarié](https://pilotis-murex.vercel.app/calculateur-cout-salarie.html) : du brut mensuel au coût employeur.
 - [Calculateur de marge](https://pilotis-murex.vercel.app/calculateur-marge.html) : marge unitaire et seuil de rentabilité.
+- [Calculateur de taux horaire](https://pilotis-murex.vercel.app/calculateur-taux-horaire.html) : prix plancher d'un indépendant, à partir du revenu visé.
+- [Calculateur de délai d'encaissement](https://pilotis-murex.vercel.app/calculateur-delai-encaissement.html) : décalage de trésorerie entre dépense et paiement.
 - [Franchise TVA](https://pilotis-murex.vercel.app/calculateur-tva-franchise.html) : position par rapport au seuil de franchise.
 - [Générateur de calendrier de contenu](https://pilotis-murex.vercel.app/generateur-calendrier-contenu.html) : planning de publication par secteur.
 
