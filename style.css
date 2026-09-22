@@ -579,3 +579,43 @@ input[type="radio"],input[type="checkbox"]{
   section{padding:48px 0}
   .hero{padding:48px 0 40px}
 }
+
+/* ─── Récapitulatif des formules (offres.html) ──────────────────────────── */
+/* Ce n'était pas un vrai comparatif : une seule colonne portait des valeurs
+   comparables (le tarif), « Contenu » était de la prose, et « Pour qui » ne
+   prenait que trois valeurs répétées — elle devient un titre de groupe.
+   Une liste de prix se lit d'un coup d'œil et n'a pas besoin de défiler
+   latéralement sur un téléphone. */
+.offres-groupe + .offres-groupe{margin-top:40px}
+.offres-groupe h3{
+  font-family:var(--font-body);font-size:12px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);
+  margin:0 0 10px;
+}
+.offres-groupe ul{list-style:none;margin:0;padding:0}
+.offre-ligne{
+  display:flex;align-items:baseline;gap:24px;
+  padding:18px 0;border-top:1px solid var(--line);
+}
+.offre-nom{flex:1 1 auto;min-width:0}
+.offre-nom b{
+  display:block;font-family:var(--font-display);font-weight:600;font-size:17px;
+  letter-spacing:-.01em;color:var(--ink);
+}
+.offre-nom span{
+  display:block;margin-top:5px;font-family:var(--font-body);
+  font-size:14.5px;line-height:1.5;color:var(--ink-soft);
+}
+.offre-prix{
+  flex:0 0 auto;text-align:right;white-space:nowrap;
+  font-family:var(--font-body);font-size:17px;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.offre-prix em{
+  display:block;font-style:normal;font-weight:400;font-size:12.5px;
+  color:var(--ink-soft);margin-bottom:2px;
+}
+@media (max-width:560px){
+  .offre-ligne{flex-direction:column;gap:10px}
+  .offre-prix{text-align:left}
+}
