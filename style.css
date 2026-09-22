@@ -619,3 +619,22 @@ input[type="radio"],input[type="checkbox"]{
   .offre-ligne{flex-direction:column;gap:10px}
   .offre-prix{text-align:left}
 }
+
+/* ─── Photographies de contexte ─────────────────────────────────────────── */
+/* Le rapport est imposé par la mise en page, pas par le fichier : les sources
+   n'ont pas la même orientation, et un recadrage en CSS évite d'en exporter
+   une version par point de rupture. */
+.photo{margin:0}
+.photo img{
+  display:block;width:100%;height:auto;
+  aspect-ratio:20/9;object-fit:cover;object-position:center;
+  border-radius:var(--radius);border:1px solid var(--line);
+  background:var(--paper-alt);
+}
+/* Le téléphone est un sujet large : lui imposer le rapport des deux autres
+   rognerait les icônes sur les bords en écran étroit. */
+.photo-bande img{aspect-ratio:2.4/1}
+@media (max-width:700px){
+  .photo img{aspect-ratio:3/2}
+  .photo-bande img{aspect-ratio:2/1}
+}
