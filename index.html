@@ -33,7 +33,9 @@
       "name": "Pilotia",
       "inLanguage": "fr-BE",
       "description": "Accompagnement d'entreprise, gestion administrative et présence digitale pour les indépendants et PME en Belgique.",
-      "publisher": { "@id": "https://pilotis-murex.vercel.app/#organisation" }
+      "publisher": {
+        "@id": "https://pilotis-murex.vercel.app/#organisation"
+      }
     },
     {
       "@type": "ProfessionalService",
@@ -44,8 +46,35 @@
       "image": "https://pilotis-murex.vercel.app/og-image.png",
       "description": "Accompagnement de terrain pour PME, commerçants et indépendants belges : diagnostic de l'organisation, coaching commercial, gestion administrative et comptable, lecture des chiffres de gestion et présence digitale.",
       "disambiguatingDescription": "Pilotia exerce une activité de conseil en gestion d'entreprise. Pilotia n'est ni expert-comptable, ni conseil fiscal, ni avocat, ni conseiller en investissement, et n'est inscrit à aucun ordre professionnel à ce titre.",
-      "areaServed": { "@type": "Country", "name": "Belgique" },
-      "availableLanguage": ["fr"],
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Région de Bruxelles-Capitale"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Liège"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Namur"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Hainaut"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province du Brabant wallon"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Luxembourg"
+        }
+      ],
+      "availableLanguage": [
+        "fr"
+      ],
       "knowsAbout": [
         "coaching commercial",
         "gestion administrative",

@@ -36,11 +36,93 @@
       "datePublished": "2026-09-22",
       "dateModified": "2026-09-22",
       "image": "https://pilotis-murex.vercel.app/og-image.png",
-      "author": { "@id": "https://pilotis-murex.vercel.app/#organisation" },
-      "publisher": { "@id": "https://pilotis-murex.vercel.app/#organisation" },
-      "isPartOf": { "@id": "https://pilotis-murex.vercel.app/#site" }
+      "author": {
+        "@id": "https://pilotis-murex.vercel.app/#organisation"
+      },
+      "publisher": {
+        "@id": "https://pilotis-murex.vercel.app/#organisation"
+      },
+      "isPartOf": {
+        "@id": "https://pilotis-murex.vercel.app/#site"
+      }
     },
-    { "@type": "FAQPage", "@id": "https://pilotis-murex.vercel.app/conseils-facture-impayee.html#faq", "mainEntity": [{"@type":"Question","name":"Puis-je facturer des frais de rappel à un client particulier ?","acceptedAnswer":{"@type":"Answer","text":"Pas sur le premier rappel : la loi du 4 mai 2023 impose qu'il soit gratuit. Un délai d'attente d'au moins 14 jours civils court ensuite avant que le moindre frais puisse être réclamé, et les pénalités sont plafonnées selon le montant dû. Entre professionnels, la règle est l'inverse : les intérêts courent de plein droit dès l'échéance."}},{"@type":"Question","name":"Dois-je envoyer une mise en demeure avant de réclamer des intérêts à une entreprise ?","acceptedAnswer":{"@type":"Answer","text":"Non. La loi du 2 août 2002 prévoit que les intérêts de retard et l'indemnité forfaitaire de 40 € sont dus de plein droit, sans mise en demeure préalable, dès le lendemain de l'échéance. Cela ne dispense pas d'écrire : un rappel daté reste votre preuve."}},{"@type":"Question","name":"Puis-je convenir d'un délai de paiement de 90 jours avec un client professionnel ?","acceptedAnswer":{"@type":"Answer","text":"Non. Depuis la réforme entrée en vigueur en février 2022, le délai de paiement entre entreprises ne peut pas dépasser 60 jours, et cette limite ne peut être écartée par contrat. À défaut d'accord écrit, le délai est de 30 jours."}}] }
+    {
+      "@type": "FAQPage",
+      "@id": "https://pilotis-murex.vercel.app/conseils-facture-impayee.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Puis-je facturer des frais de rappel à un client particulier ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pas sur le premier rappel : la loi du 4 mai 2023 impose qu'il soit gratuit. Un délai d'attente d'au moins 14 jours civils court ensuite avant que le moindre frais puisse être réclamé, et les pénalités sont plafonnées selon le montant dû. Entre professionnels, la règle est l'inverse : les intérêts courent de plein droit dès l'échéance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Dois-je envoyer une mise en demeure avant de réclamer des intérêts à une entreprise ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Non. La loi du 2 août 2002 prévoit que les intérêts de retard et l'indemnité forfaitaire de 40 € sont dus de plein droit, sans mise en demeure préalable, dès le lendemain de l'échéance. Cela ne dispense pas d'écrire : un rappel daté reste votre preuve."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Puis-je convenir d'un délai de paiement de 90 jours avec un client professionnel ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Non. Depuis la réforme entrée en vigueur en février 2022, le délai de paiement entre entreprises ne peut pas dépasser 60 jours, et cette limite ne peut être écartée par contrat. À défaut d'accord écrit, le délai est de 30 jours."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://pilotis-murex.vercel.app/#organisation",
+      "name": "Pilotia",
+      "url": "https://pilotis-murex.vercel.app/",
+      "logo": "https://pilotis-murex.vercel.app/icon-512.png",
+      "description": "Accompagnement de terrain pour PME, commerçants et indépendants belges.",
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Région de Bruxelles-Capitale"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Liège"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Namur"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Hainaut"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province du Brabant wallon"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Province de Luxembourg"
+        }
+      ],
+      "availableLanguage": [
+        "fr"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://pilotis-murex.vercel.app/#site",
+      "url": "https://pilotis-murex.vercel.app/",
+      "name": "Pilotia",
+      "inLanguage": "fr-BE",
+      "publisher": {
+        "@id": "https://pilotis-murex.vercel.app/#organisation"
+      }
+    }
   ]
 }
 </script>
