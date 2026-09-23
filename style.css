@@ -666,7 +666,9 @@ input[type="radio"],input[type="checkbox"]{
   --accent-ink:#08131F;
   --accent-fonce:#7FC4EC;
   --gold:#C69B62;
+  --gold-soft:#2B2213;
   --vert:#4ADE80;
+  --vert-soft:#0F2A1B;
   color:var(--ink);
 }
 /* En mode sombre la page est déjà foncée : sans ces filets, la section se
@@ -701,22 +703,22 @@ input[type="radio"],input[type="checkbox"]{
   font-family:var(--font-body);font-size:13px;color:var(--ink-soft);
 }
 
-/* ─── Pages métier : les défis ──────────────────────────────────────────── */
+/* ─── Grille numérotée (défis des pages métier, volets) ──────────────── ─────────────────────────────────────────── */
 /* Quatre cartes en auto-fit donnaient 3 + 1 sur grand écran. On force 2 × 2,
    et un numéro coloré donne à chaque défi un point d'entrée visuel. */
-.defis{grid-template-columns:repeat(2,1fr);counter-reset:defi}
-.defis .card{counter-increment:defi;border-top:3px solid var(--accent)}
-.defis .card::before{
-  content:counter(defi,decimal-leading-zero);display:block;margin-bottom:10px;
+.grille-num{grid-template-columns:repeat(2,1fr);counter-reset:num}
+.grille-num .card{counter-increment:num;border-top:3px solid var(--accent)}
+.grille-num .card::before{
+  content:counter(num,decimal-leading-zero);display:block;margin-bottom:10px;
   font-family:var(--font-display);font-size:28px;line-height:1;
   color:var(--accent);font-variant-numeric:tabular-nums;
 }
-.defis .card:nth-child(2){border-top-color:var(--vert)}
-.defis .card:nth-child(2)::before{color:var(--vert)}
-.defis .card:nth-child(3){border-top-color:var(--gold)}
-.defis .card:nth-child(3)::before{color:var(--gold)}
+.grille-num .card:nth-child(2){border-top-color:var(--vert)}
+.grille-num .card:nth-child(2)::before{color:var(--vert)}
+.grille-num .card:nth-child(3){border-top-color:var(--gold)}
+.grille-num .card:nth-child(3)::before{color:var(--gold)}
 .card > :last-child{margin-bottom:0}
-@media (max-width:700px){.defis{grid-template-columns:1fr}.defis .card{padding:28px 24px}}
+@media (max-width:700px){.grille-num{grid-template-columns:1fr}.grille-num .card{padding:28px 24px}}
 .avis-seul{grid-template-columns:1fr;max-width:72ch}
 
 /* ─── Page outils ───────────────────────────────────────────────────────── */
