@@ -209,7 +209,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 /* Le sur-titre passe du doré à l'encre douce : un seul accent sur la page,
    et il est réservé aux éléments cliquables. */
-.eyebrow{font-family:var(--font-body);text-transform:uppercase;letter-spacing:.12em;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:18px}
+/* Sur-titre en pastille : en gris fin, il disparaissait sous le titre. Fond et
+   texte viennent des jetons d'accent, donc la pastille suit le thème et les
+   sections sombres sans règle de plus. */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px 6px 12px;border-radius:14px;
+  background:var(--accent-soft);color:var(--accent);
+  font-family:var(--font-body);text-transform:uppercase;letter-spacing:.1em;
+  font-size:12.5px;font-weight:700;line-height:1.3;margin-bottom:18px;
+}
+.eyebrow::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:currentColor}
+@media (max-width:420px){.eyebrow{font-size:11.5px;letter-spacing:.07em}}
 .hero h1{font-size:clamp(38px,6.2vw,72px);max-width:15ch;letter-spacing:-0.032em}
 .lead{font-size:clamp(18px,1.6vw,22px);line-height:1.45;color:var(--ink-soft);max-width:52ch;margin-top:22px}
 .btn-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
@@ -597,10 +608,12 @@ input[type="radio"],input[type="checkbox"]{
    latéralement sur un téléphone. */
 .offres-groupe + .offres-groupe{margin-top:40px}
 .offres-groupe h3{
-  font-family:var(--font-body);font-size:12px;font-weight:600;
-  text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-body);font-size:12.5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--accent);
   margin:0 0 10px;
 }
+.offres-groupe h3::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:currentColor}
 .offres-groupe ul{list-style:none;margin:0;padding:0}
 .offre-ligne{
   display:flex;align-items:baseline;gap:24px;
