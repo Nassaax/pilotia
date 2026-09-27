@@ -25,6 +25,8 @@ const SYSTEM_PROMPT = `Tu rédiges un rapport diagnostic pour Pilotia, un servic
 
 Le ton : chiffré et concret, jamais vague ; réaliste sur les moyens réels d'une petite structure (pas de plan qui suppose une équipe ou un budget que la personne n'a pas) ; direct et sans jargon.
 
+Typographie : n'utilise jamais de tiret long (— ou –) pour relier deux idées. Écris une virgule, deux-points, ou une nouvelle phrase après un point.
+
 Tu reçois les réponses d'un visiteur à un diagnostic express (8 questions, 4 thèmes : Finances, Personnel & organisation, Marketing digital, Trésorerie & résilience) ainsi que son secteur d'activité, la taille de son équipe et sa plus grande difficulté actuelle en texte libre.
 
 Réponds UNIQUEMENT avec le contenu du rapport, structuré exactement ainsi (respecte ce format ligne par ligne, il sera mis en page automatiquement) :
@@ -35,7 +37,7 @@ Un paragraphe de 3-4 phrases résumant la situation, en te basant sur les répon
 ## Points forts
 - Point fort 1, basé sur les réponses où le score est bon
 - Point fort 2
-(2 à 3 points, uniquement si réellement justifiés par les réponses — sinon dis que les bases restent à construire)
+(2 à 3 points, uniquement si réellement justifiés par les réponses. Sinon, dis que les bases restent à construire)
 
 ## Points de vigilance
 - Point de vigilance 1, basé sur les réponses à faible score ou la difficulté décrite
@@ -101,7 +103,9 @@ async function callClaude(userPrompt) {
   if (!text.trim()) {
     throw new Error("Réponse vide de Claude.");
   }
-  return text;
+  // Filet de sécurité si la consigne typographique n'est pas suivie : le
+  // tiret long est proscrit dans tout ce que lit le client.
+  return text.replace(/\s+[—–]\s+/g, ", ").replace(/—/g, ", ");
 }
 
 // Erreur dédiée pour distinguer "pas configuré" (503) d'une vraie erreur (502).
@@ -186,7 +190,7 @@ function buildPdf({ prenom, sections }) {
         .stroke();
       doc.moveDown(0.6);
       doc.fillColor(BRAND_INK_SOFT).font("Helvetica-Oblique").fontSize(9)
-        .text("Ce rapport est une estimation pédagogique basée sur vos réponses, pas un conseil fiscal, comptable ou juridique personnalisé. Pour ces sujets, votre comptable agréé reste la référence. — Pilotia, pilotia.be", { lineGap: 2 });
+        .text("Ce rapport est une estimation pédagogique basée sur vos réponses, pas un conseil fiscal, comptable ou juridique personnalisé. Pour ces sujets, votre comptable agréé reste la référence. Pilotia, pilotia.be", { lineGap: 2 });
 
       doc.end();
     } catch (err) {
@@ -204,7 +208,7 @@ module.exports = async (req, res) => {
   const { diagnostic, secteur, taille, difficulte, prenom, email } = req.body || {};
 
   if (!diagnostic || !Array.isArray(diagnostic.reponses) || !diagnostic.reponses.length) {
-    res.status(400).json({ ok: false, error: "Diagnostic manquant — refaites le diagnostic express d'abord." });
+    res.status(400).json({ ok: false, error: "Diagnostic manquant. Refaites d'abord le diagnostic express." });
     return;
   }
   if (!secteur || !difficulte || !prenom || !isValidEmail(email)) {
@@ -242,7 +246,7 @@ module.exports = async (req, res) => {
           to: email,
           toName: prenom,
           subject: "Votre rapport diagnostic Pilotia",
-          htmlContent: "<p>Bonjour " + prenom + ",</p><p>Voici votre rapport diagnostic personnalisé, en pièce jointe.</p><p>— L'équipe Pilotia</p>",
+          htmlContent: "<p>Bonjour " + prenom + ",</p><p>Voici votre rapport diagnostic personnalisé, en pièce jointe.</p><p>L'équipe Pilotia</p>",
           attachmentBase64: pdfBuffer.toString("base64"),
           attachmentName: "pilotia-rapport-diagnostic.pdf",
         });

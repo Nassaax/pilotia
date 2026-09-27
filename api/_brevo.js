@@ -24,7 +24,7 @@ function isValidEmail(email) {
 async function upsertContact({ email, attributes }) {
   const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) {
-    throw new Error("BREVO_API_KEY manquante — voir api/_brevo.js pour la configuration requise.");
+    throw new Error("BREVO_API_KEY manquante, voir api/_brevo.js pour la configuration requise.");
   }
 
   // BREVO_LIST_ID est optionnelle et parfois mal renseignée (URL entière collée au

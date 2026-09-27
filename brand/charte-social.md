@@ -91,6 +91,9 @@ de l'application.
 4. **Aucune métrique de performance** (« +30 % de marge », « 40 clients »)
    tant qu'elle n'est pas mesurée sur des cas réels.
 5. Un visuel renvoie vers **un** outil ou **une** action, jamais trois.
+6. **Aucun tiret long (« — ») pour relier deux idées**, ni sur les visuels ni
+   sur le site : il donne au texte un air rédigé par une IA. On écrit une
+   virgule, deux-points, des parenthèses, ou une nouvelle phrase après un point.
 
 ## 8. Sujets déjà traités — ne pas refaire
 

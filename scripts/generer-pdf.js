@@ -136,7 +136,7 @@ function tableau(doc, entetes, lignes, largeurs) {
 // déborde de la marge fait créer une page supplémentaire par pdfkit, à chaque
 // page — ce qui produisait six pages pour deux pages de contenu, et faisait
 // disparaître le pied lui-même.
-const PIED = "Pilotia — document d'information. Ne remplace pas l'avis d'un comptable agréé.";
+const PIED = "Pilotia, document d'information. Ne remplace pas l'avis d'un comptable agréé.";
 
 function finaliser(doc) {
   const plage = doc.bufferedPageRange();

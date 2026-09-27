@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plan de trésorerie prévisionnel — Pilotia</title>
+<title>Plan de trésorerie prévisionnel | Pilotia</title>
 <meta name="description" content="Plan de trésorerie prévisionnel gratuit : vos entrées et sorties sur six mois, le point bas et le seuil d'alerte. Sans inscription, données sur votre appareil.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Plan de trésorerie prévisionnel — Pilotia">
+<meta property="og:title" content="Plan de trésorerie prévisionnel | Pilotia">
 <meta property="og:description" content="Plan de trésorerie prévisionnel gratuit : vos entrées et sorties sur six mois, le point bas et le seuil d'alerte. Sans inscription, données sur votre appareil.">
 <meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <meta property="og:url" content="https://pilotis-murex.vercel.app/plan-tresorerie.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Plan de trésorerie prévisionnel — Pilotia">
+<meta name="twitter:title" content="Plan de trésorerie prévisionnel | Pilotia">
 <meta name="twitter:description" content="Plan de trésorerie prévisionnel gratuit : vos entrées et sorties sur six mois, le point bas et le seuil d'alerte. Sans inscription, données sur votre appareil.">
 <meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -25,7 +25,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Est-ce que Pilotia voit mes chiffres ?","acceptedAnswer":{"@type":"Answer","text":"Non. Tout est calculé dans votre navigateur et enregistré sur votre appareil. Aucun montant n'est envoyé à Pilotia, et il n'existe aucun compte à créer."}},
-{"@type":"Question","name":"Est-ce que cet outil remplace mon comptable ?","acceptedAnswer":{"@type":"Answer","text":"Non. Il ne tient aucune comptabilité, n'établit aucune déclaration et ne donne aucun avis fiscal — professions réservées en Belgique. Il projette une trésorerie à partir des montants que vous saisissez."}},
+{"@type":"Question","name":"Est-ce que cet outil remplace mon comptable ?","acceptedAnswer":{"@type":"Answer","text":"Non. Il ne tient aucune comptabilité, n'établit aucune déclaration et ne donne aucun avis fiscal. Ce sont des professions réservées en Belgique. Il projette une trésorerie à partir des montants que vous saisissez."}},
 {"@type":"Question","name":"Pourquoi ne pas connecter directement ma banque ?","acceptedAnswer":{"@type":"Answer","text":"Lire vos comptes bancaires suppose un agrément de prestataire de services d'information sur les comptes (DSP2) et le traitement de données financières sur un serveur. Pilotia n'a ni l'un ni l'autre, et tenait à ce que vos chiffres ne quittent pas votre appareil."}},
 {"@type":"Question","name":"Mes données suivent-elles si je change d'ordinateur ?","acceptedAnswer":{"@type":"Answer","text":"Non. L'enregistrement est propre à ce navigateur, sur cet appareil. Utilisez le bouton d'export pour conserver votre plan ou le reprendre ailleurs."}},
 {"@type":"Question","name":"Faut-il payer, ou laisser une adresse e-mail ?","acceptedAnswer":{"@type":"Answer","text":"Ni l'un ni l'autre. L'outil est librement accessible, sans inscription."}}
@@ -39,8 +39,8 @@
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
-      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
+      <img src="logo-header-light.png" alt="Pilotia, accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia, accueil" class="brand-logo brand-logo-dark">
     </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
@@ -71,9 +71,9 @@
 
 <section class="hero" style="padding:56px 0 32px">
   <div class="wrap">
-    <div class="eyebrow">Outil gratuit — Belgique</div>
+    <div class="eyebrow">Outil gratuit</div>
     <h1>Votre banque montre le passé. Voici les six prochains mois.</h1>
-    <p class="lead">Votre solde d'aujourd'hui ne dit pas si vous passerez novembre. Renseignez ce qui rentre et ce qui sort, l'outil calcule votre solde mois par mois et vous indique votre <strong>point bas</strong> — le moment où la trésorerie sera la plus tendue.</p>
+    <p class="lead">Votre solde d'aujourd'hui ne dit pas si vous passerez novembre. Renseignez ce qui rentre et ce qui sort, l'outil calcule votre solde mois par mois et vous indique votre <strong>point bas</strong>, le moment où la trésorerie sera la plus tendue.</p>
   </div>
 </section>
 
@@ -145,14 +145,14 @@
 
     <!-- Tableau -->
     <h2 style="margin-top:38px">3. Votre plan de trésorerie</h2>
-    <p class="treso-aide" style="max-width:70ch">Le détail mois par mois. Faites glisser horizontalement pour voir toute la période — ou exportez-le en fin de page.</p>
+    <p class="treso-aide" style="max-width:70ch">Le détail mois par mois. Faites glisser horizontalement pour voir toute la période, ou exportez-le en fin de page.</p>
     <div class="card treso-table-hote">
       <table class="treso-table" id="treso-tableau"></table>
     </div>
 
     <!-- Saisie -->
     <h2 style="margin-top:38px">4. Ce qui rentre et ce qui sort</h2>
-    <p class="treso-aide" style="max-width:70ch">Modifiez, ajoutez ou supprimez des lignes : tout se recalcule immédiatement. Le <strong>décalage</strong> indique à partir de quel mois la ligne s'applique — 0 pour le premier mois projeté, 1 pour le suivant, et ainsi de suite.</p>
+    <p class="treso-aide" style="max-width:70ch">Modifiez, ajoutez ou supprimez des lignes : tout se recalcule immédiatement. Le <strong>décalage</strong> indique à partir de quel mois la ligne s'applique : 0 pour le premier mois projeté, 1 pour le suivant, et ainsi de suite.</p>
 
     <div class="treso-colonnes">
       <div class="card">
@@ -272,10 +272,10 @@
     <h2 class="section-title">Ce que vous vous demandez sans doute</h2>
     <div style="margin-top:20px">
       <details><summary>Est-ce que Pilotia voit mes chiffres ?</summary><p>Non. Tout est calculé dans votre navigateur et enregistré sur votre appareil. Aucun montant n'est envoyé à Pilotia, et il n'existe aucun compte à créer. C'est vérifiable : la page fonctionne hors connexion une fois chargée.</p></details>
-      <details><summary>Est-ce que cet outil remplace mon comptable ?</summary><p>Non, et ce n'est pas son rôle. Il ne tient aucune comptabilité, n'établit aucune déclaration et ne donne aucun avis fiscal — professions réservées en Belgique. Il projette une trésorerie à partir des montants que vous saisissez, pour préparer vos décisions et vos échanges avec votre comptable.</p></details>
+      <details><summary>Est-ce que cet outil remplace mon comptable ?</summary><p>Non, et ce n'est pas son rôle. Il ne tient aucune comptabilité, n'établit aucune déclaration et ne donne aucun avis fiscal. Ce sont des professions réservées en Belgique. Il projette une trésorerie à partir des montants que vous saisissez, pour préparer vos décisions et vos échanges avec votre comptable.</p></details>
       <details><summary>Pourquoi ne pas connecter directement ma banque ?</summary><p>Lire vos comptes bancaires suppose un agrément de prestataire de services d'information sur les comptes (DSP2) et le traitement de données financières sur un serveur. Pilotia n'a ni l'un ni l'autre, et tenait à ce que vos chiffres ne quittent pas votre appareil. La saisie manuelle est le prix assumé de ce choix.</p></details>
       <details><summary>Mes données suivent-elles si je change d'ordinateur ?</summary><p>Non. L'enregistrement est propre à ce navigateur, sur cet appareil, et disparaît si vous videz vos données de navigation. Utilisez le bouton d'export pour conserver votre plan ou le reprendre ailleurs.</p></details>
-      <details><summary>Faut-il payer, ou laisser une adresse e-mail ?</summary><p>Ni l'un ni l'autre. L'outil est librement accessible, sans inscription. Si vous souhaitez ensuite être accompagné sur la suite — réduire un point bas, renégocier des échéances, structurer vos prix — c'est l'objet de l'appel gratuit.</p></details>
+      <details><summary>Faut-il payer, ou laisser une adresse e-mail ?</summary><p>Ni l'un ni l'autre. L'outil est librement accessible, sans inscription. Si vous souhaitez ensuite être accompagné sur la suite (réduire un point bas, renégocier des échéances, structurer vos prix), c'est l'objet de l'appel gratuit.</p></details>
     </div>
   </div>
 </section>
@@ -283,7 +283,7 @@
 <section class="banner">
   <div class="wrap">
     <h2 style="color:#fff">Votre point bas vous inquiète ?</h2>
-    <p style="color:#fff;opacity:.9">C'est exactement le genre de situation qu'un regard extérieur aide à désamorcer — avant qu'elle n'arrive.</p>
+    <p style="color:#fff;opacity:.9">C'est exactement le genre de situation qu'un regard extérieur aide à désamorcer, avant qu'elle n'arrive.</p>
     <a href="contact.html" class="btn btn-primary">Réserver mon appel gratuit →</a>
   </div>
 </section>
@@ -293,7 +293,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
-    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> — Accompagnement d'entreprise, gestion administrative et présence digitale pour les indépendants et PME en Belgique.
+    <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px"> Accompagnement d'entreprise, gestion administrative et présence digitale pour les indépendants et PME en Belgique.
     <ul class="footer-links">
       <li><a href="parrainage.html">Parrainage</a></li>
       <li><a href="https://www.instagram.com/pilotia.be/" rel="noopener noreferrer" target="_blank">Instagram<span class="sr-only"> (ouvre un nouvel onglet)</span></a></li>

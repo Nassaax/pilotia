@@ -19,11 +19,11 @@ async function checklistCharges() {
 
   titreSection(d, "À provisionner chaque trimestre");
   cases(d, [
-    `Cotisations sociales — appelées trimestriellement par votre caisse d'assurances sociales. Barème 2026 : ${CHIFFRES.tauxBas} du revenu net imposable jusqu'à ${CHIFFRES.seuilBas}, puis ${CHIFFRES.tauxHaut} jusqu'à ${CHIFFRES.seuilHaut}. Cotisation minimale à titre principal : ${CHIFFRES.minTrimestre} par trimestre.`,
-    `TVA — si vous y êtes assujetti. En dessous de ${CHIFFRES.franchiseTVA} de chiffre d'affaires annuel, le régime de franchise permet de ne pas la facturer, mais vous ne la récupérez pas non plus sur vos achats.`,
-    "Impôt des personnes physiques — aucun précompte n'est retenu à la source pour un indépendant. Sans versements anticipés, la note arrive en une fois, majorée.",
-    "Assurances professionnelles — responsabilité civile, et selon le métier : décennale, protection juridique, assurance du matériel ou du véhicule.",
-    "Pension libre complémentaire (PLCI) — facultative, mais déductible et souvent la seule pension complémentaire d'un indépendant.",
+    `Cotisations sociales : appelées trimestriellement par votre caisse d'assurances sociales. Barème 2026 : ${CHIFFRES.tauxBas} du revenu net imposable jusqu'à ${CHIFFRES.seuilBas}, puis ${CHIFFRES.tauxHaut} jusqu'à ${CHIFFRES.seuilHaut}. Cotisation minimale à titre principal : ${CHIFFRES.minTrimestre} par trimestre.`,
+    `TVA : si vous y êtes assujetti. En dessous de ${CHIFFRES.franchiseTVA} de chiffre d'affaires annuel, le régime de franchise permet de ne pas la facturer, mais vous ne la récupérez pas non plus sur vos achats.`,
+    "Impôt des personnes physiques : aucun précompte n'est retenu à la source pour un indépendant. Sans versements anticipés, la note arrive en une fois, majorée.",
+    "Assurances professionnelles : responsabilité civile, et selon le métier : décennale, protection juridique, assurance du matériel ou du véhicule.",
+    "Pension libre complémentaire (PLCI) : facultative, mais déductible et souvent la seule pension complémentaire d'un indépendant.",
   ]);
 
   titreSection(d, "La règle des trois enveloppes");
@@ -40,7 +40,7 @@ async function checklistCharges() {
 
   titreSection(d, "Les deux oublis les plus fréquents");
   puces(d, [
-    `La régularisation des premières années. Un débutant cotise d'abord sur une base provisoire, puis l'administration régularise deux à trois ans plus tard sur les revenus réels. Si l'activité a bien démarré, le rattrapage peut représenter plusieurs milliers d'euros — pour une année déjà dépensée.`,
+    `La régularisation des premières années. Un débutant cotise d'abord sur une base provisoire, puis l'administration régularise deux à trois ans plus tard sur les revenus réels. Si l'activité a bien démarré, le rattrapage peut représenter plusieurs milliers d'euros, pour une année déjà dépensée.`,
     `Le dépassement du seuil de franchise TVA. Franchir ${CHIFFRES.franchiseTVA} en cours d'année fait basculer dans le régime normal : il faut alors facturer la TVA, la déclarer et la reverser. Mieux vaut le voir venir que le découvrir.`,
   ]);
 
@@ -54,7 +54,7 @@ async function checklistVisibilite() {
 
   para(d, "Être visible localement ne demande pas d'acheter de la publicité. Cela demande d'occuper correctement les endroits où vos clients cherchent déjà. Voici l'ordre dans lequel s'y prendre : chaque étape rend la suivante plus efficace.");
 
-  titreSection(d, "Étape 1 — La fiche d'établissement Google");
+  titreSection(d, "Étape 1 : la fiche d'établissement Google");
   para(d, "C'est le point de départ, et de loin le meilleur rapport effort/résultat. Une fiche complète apparaît dans la recherche locale et dans Maps, gratuitement.");
   cases(d, [
     "Fiche revendiquée et vérifiée (Google Business Profile)",
@@ -66,7 +66,7 @@ async function checklistVisibilite() {
     "Lien vers votre site ou, à défaut, vers votre page de contact",
   ]);
 
-  titreSection(d, "Étape 2 — Les avis clients");
+  titreSection(d, "Étape 2 : les avis clients");
   para(d, "Le volume et la fraîcheur des avis pèsent autant que la note moyenne. Un établissement à 4,3 avec trente avis récents inspire plus confiance qu'un 5,0 avec quatre avis datant de deux ans.");
   cases(d, [
     "Une méthode simple et répétable pour demander un avis (QR code en caisse, lien en bas de facture, message après prestation)",
@@ -75,7 +75,7 @@ async function checklistVisibilite() {
     "Aucun achat d'avis, aucun faux avis : c'est une pratique commerciale déloyale sanctionnée",
   ]);
 
-  titreSection(d, "Étape 3 — La cohérence des informations");
+  titreSection(d, "Étape 3 : la cohérence des informations");
   para(d, "Les moteurs recoupent vos coordonnées d'un site à l'autre. Une adresse écrite de trois façons différentes affaiblit tout le reste.");
   cases(d, [
     "Même libellé exact partout : site, Google, Facebook, Instagram, annuaires, pages jaunes",
@@ -83,20 +83,20 @@ async function checklistVisibilite() {
     "Adresse écrite à l'identique (abréviations, numéro de boîte, code postal)",
   ]);
 
-  titreSection(d, "Étape 4 — Le site, même minimal");
+  titreSection(d, "Étape 4 : le site, même minimal");
   cases(d, [
     "Une page qui dit clairement ce que vous faites, pour qui, et où",
     "Coordonnées visibles sans avoir à chercher",
-    "Affichage correct sur téléphone — c'est là que se fait l'essentiel des recherches locales",
+    "Affichage correct sur téléphone : c'est là que se fait l'essentiel des recherches locales",
     "Chargement rapide : au-delà de trois secondes, une partie des visiteurs est déjà repartie",
     "Mentions légales conformes (article XII.6 du Code de droit économique)",
   ]);
 
-  titreSection(d, "Étape 5 — Les réseaux sociaux, mais pas tous");
+  titreSection(d, "Étape 5 : les réseaux sociaux, mais pas tous");
   para(d, "Mieux vaut un seul réseau tenu correctement que trois abandonnés. Choisissez celui où se trouvent vos clients, pas celui qui vous plaît.");
   cases(d, [
     "Un seul réseau principal choisi et assumé",
-    "Un rythme tenable sur la durée — une publication par semaine vaut mieux que cinq puis plus rien",
+    "Un rythme tenable sur la durée : une publication par semaine vaut mieux que cinq puis plus rien",
     "Profil complet : secteur, zone desservie, moyen de contact",
     "Publications qui montrent le travail réel plutôt que des images génériques",
   ]);
@@ -115,7 +115,7 @@ async function suiviMensuel() {
 
   titreSection(d, "Comment s'en servir");
   puces(d, [
-    "Remplir une ligne par mois, toujours au même moment — par exemple le premier lundi.",
+    "Remplir une ligne par mois, toujours au même moment, par exemple le premier lundi.",
     "Utiliser les montants hors TVA si vous y êtes assujetti, et les montants réellement encaissés sinon.",
     "Ne pas chercher la précision comptable : un ordre de grandeur juste vaut mieux qu'un chiffre exact obtenu trois mois trop tard.",
     "Comparer chaque mois au même mois de l'année précédente plutôt qu'au mois précédent : la saisonnalité fausse toute autre comparaison.",
@@ -146,7 +146,7 @@ async function guideStatuts() {
   const d = doc("Guide des statuts en Belgique",
     "Comprendre les options avant d'en discuter avec votre comptable");
 
-  para(d, "Le choix du statut engage votre fiscalité, votre protection sociale et votre responsabilité personnelle pour des années. Ce guide sert à arriver informé chez votre comptable — pas à décider seul.");
+  para(d, "Le choix du statut engage votre fiscalité, votre protection sociale et votre responsabilité personnelle pour des années. Ce guide sert à arriver informé chez votre comptable, pas à décider seul.");
 
   titreSection(d, "Première question : personne physique ou société ?");
   para(d, "C'est la bifurcation principale. Tout le reste en découle.");
@@ -154,7 +154,7 @@ async function guideStatuts() {
     ["", "Personne physique", "Société (SRL le plus souvent)"],
     [
       ["Création", "Simple et peu coûteuse : guichet d'entreprises, inscription BCE", "Acte notarié, plan financier, capital de départ suffisant"],
-      ["Responsabilité", "Illimitée — votre patrimoine personnel est engagé", "Limitée aux apports, sauf faute de gestion"],
+      ["Responsabilité", "Illimitée : votre patrimoine personnel est engagé", "Limitée aux apports, sauf faute de gestion"],
       ["Imposition", "Impôt des personnes physiques, par tranches progressives", "Impôt des sociétés, puis imposition de ce que vous vous versez"],
       ["Comptabilité", "Simplifiée dans la plupart des cas", "Complète, avec comptes annuels à déposer"],
       ["Bascule fréquente", "En dessous d'un certain bénéfice", "Au-delà, quand l'écart d'imposition compense les frais"],
@@ -164,16 +164,16 @@ async function guideStatuts() {
 
   titreSection(d, "Deuxième question : à titre principal, complémentaire ou étudiant ?");
   puces(d, [
-    "À titre principal — votre activité indépendante est votre occupation principale. Cotisations sociales pleines, avec un minimum trimestriel de " + CHIFFRES.minTrimestre + ". C'est ce statut qui ouvre les droits complets (pension, maladie, allocations familiales).",
-    "À titre complémentaire — vous exercez par ailleurs une activité salariée d'au moins un mi-temps. Cotisations calculées sur les revenus réels, sans minimum « titre principal », mais droits sociaux ouverts par l'activité salariée.",
-    "Étudiant-indépendant — statut spécifique sous conditions d'âge et d'inscription dans un établissement d'enseignement, avec un régime de cotisations allégé.",
-    "Conjoint aidant — statut propre pour la personne qui assiste régulièrement un indépendant sans être elle-même titulaire de l'activité.",
+    "À titre principal : votre activité indépendante est votre occupation principale. Cotisations sociales pleines, avec un minimum trimestriel de " + CHIFFRES.minTrimestre + ". C'est ce statut qui ouvre les droits complets (pension, maladie, allocations familiales).",
+    "À titre complémentaire : vous exercez par ailleurs une activité salariée d'au moins un mi-temps. Cotisations calculées sur les revenus réels, sans minimum « titre principal », mais droits sociaux ouverts par l'activité salariée.",
+    "Étudiant-indépendant : statut spécifique sous conditions d'âge et d'inscription dans un établissement d'enseignement, avec un régime de cotisations allégé.",
+    "Conjoint aidant : statut propre pour la personne qui assiste régulièrement un indépendant sans être elle-même titulaire de l'activité.",
   ]);
 
   titreSection(d, "Les démarches, dans l'ordre");
   cases(d, [
     "Vérifier les accès à la profession éventuellement requis pour votre activité (certaines professions restent réglementées, les règles varient selon la Région)",
-    "Ouvrir un compte bancaire professionnel distinct — obligatoire pour les assujettis TVA, et de toute façon indispensable pour tenir ses comptes",
+    "Ouvrir un compte bancaire professionnel distinct, obligatoire pour les assujettis TVA, et de toute façon indispensable pour tenir ses comptes",
     "S'inscrire à la Banque-Carrefour des Entreprises via un guichet d'entreprises agréé, et obtenir son numéro d'entreprise",
     "S'affilier à une caisse d'assurances sociales pour indépendants, au plus tard le jour du début d'activité",
     "S'affilier à une mutuelle en qualité d'indépendant",
@@ -183,7 +183,7 @@ async function guideStatuts() {
   ]);
 
   titreSection(d, "Le régime de franchise de TVA, en clair");
-  para(d, `Sous ${CHIFFRES.franchiseTVA} de chiffre d'affaires annuel, vous pouvez demander à ne pas facturer la TVA. Vos factures portent alors la mention « Régime particulier de franchise des petites entreprises — TVA non applicable, article 56bis du Code de la TVA ».`);
+  para(d, `Sous ${CHIFFRES.franchiseTVA} de chiffre d'affaires annuel, vous pouvez demander à ne pas facturer la TVA. Vos factures portent alors la mention « Régime particulier de franchise des petites entreprises, TVA non applicable, article 56bis du Code de la TVA ».`);
   puces(d, [
     "Avantage : des prix plus légers pour une clientèle de particuliers, et une administration nettement allégée.",
     "Inconvénient : vous ne récupérez aucune TVA sur vos achats, investissements et matériel. Une activité qui achète beaucoup y perd.",
@@ -203,7 +203,7 @@ async function planPresence() {
 
   para(d, "Ce plan part d'un principe : la visibilité gratuite se construit avant d'envisager la moindre publicité. Chaque semaine demande environ deux heures, découpables en sessions de vingt minutes.");
 
-  titreSection(d, "Semaine 1 — Mettre de l'ordre avant de publier");
+  titreSection(d, "Semaine 1 : mettre de l'ordre avant de publier");
   para(d, "Publier sur des fondations bancales gaspille l'effort. Cette semaine ne produit rien de visible, et c'est la plus rentable.");
   cases(d, [
     "Revendiquer et compléter la fiche d'établissement Google",
@@ -213,16 +213,16 @@ async function planPresence() {
     "Lister les cinq questions que vos clients posent systématiquement",
   ]);
 
-  titreSection(d, "Semaine 2 — Choisir son terrain");
+  titreSection(d, "Semaine 2 : choisir son terrain");
   para(d, "Un réseau tenu correctement bat trois réseaux à l'abandon. Le bon critère n'est pas votre préférence, mais la présence de vos clients.");
   cases(d, [
     "Choisir UN réseau principal et s'y tenir trois mois",
     "Compléter le profil : activité, zone, moyen de contact direct",
     "Repérer cinq concurrents ou confrères et noter ce qui fonctionne chez eux",
-    "Définir un rythme tenable — une publication par semaine suffit pour commencer",
+    "Définir un rythme tenable : une publication par semaine suffit pour commencer",
   ]);
 
-  titreSection(d, "Semaine 3 — Produire de quoi tenir deux mois");
+  titreSection(d, "Semaine 3 : produire de quoi tenir deux mois");
   para(d, "Les cinq questions notées en semaine 1 sont votre matière première : chacune fait une publication utile, et répond réellement à quelqu'un.");
   cases(d, [
     "Rédiger huit publications d'avance à partir des questions clients",
@@ -231,7 +231,7 @@ async function planPresence() {
     "Programmer les publications, ou bloquer un créneau fixe dans l'agenda",
   ]);
 
-  titreSection(d, "Semaine 4 — Enclencher les avis et mesurer");
+  titreSection(d, "Semaine 4 : enclencher les avis et mesurer");
   cases(d, [
     "Mettre en place une demande d'avis systématique après chaque prestation",
     "Répondre à tous les avis existants, même anciens",
@@ -240,9 +240,9 @@ async function planPresence() {
   ]);
 
   titreSection(d, "Pourquoi pas de publicité au départ");
-  para(d, "Un budget publicitaire amplifie ce qui existe. Si la fiche est incomplète, les avis rares et le site lent, la publicité amène des visiteurs sur une vitrine mal rangée — et le budget part sans retour. Les quatre semaines ci-dessus rangent la vitrine. Après seulement, la question de la publicité devient légitime, et elle coûte alors moins cher pour un meilleur résultat.");
+  para(d, "Un budget publicitaire amplifie ce qui existe. Si la fiche est incomplète, les avis rares et le site lent, la publicité amène des visiteurs sur une vitrine mal rangée, et le budget part sans retour. Les quatre semaines ci-dessus rangent la vitrine. Après seulement, la question de la publicité devient légitime, et elle coûte alors moins cher pour un meilleur résultat.");
 
-  encadre(d, "Un repère utile : trois mois après avoir mis ces bases en place, comparez vos trois chiffres de départ. Si les avis ont progressé et les appels avec, continuez sans rien payer. Sinon, c'est le positionnement qu'il faut revoir — pas le budget.");
+  encadre(d, "Un repère utile : trois mois après avoir mis ces bases en place, comparez vos trois chiffres de départ. Si les avis ont progressé et les appels avec, continuez sans rien payer. Sinon, c'est le positionnement qu'il faut revoir, pas le budget.");
 
   await ecrire(d, "pilotia-plan-presence-digitale.pdf");
 }
@@ -264,7 +264,7 @@ async function grilleDiagnostic() {
     "Je connais ma marge sur mes trois produits ou prestations les plus vendus",
     "Je sais combien mon activité doit générer chaque mois pour couvrir toutes mes charges",
     "Je consulte un chiffre de gestion au moins une fois par mois",
-    "Je sais quel client ou quel produit me rapporte le plus — et lequel me coûte",
+    "Je sais quel client ou quel produit me rapporte le plus, et lequel me coûte",
     "Je peux dire à quoi ressemblera ma trésorerie dans trois mois",
   ]);
 

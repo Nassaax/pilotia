@@ -441,7 +441,7 @@
           var enRetard = !fa.regle && idx !== null && idx < 0;
           var horsHorizon = !fa.regle && idx !== null && idx >= etat.horizon;
           var alerte = "";
-          if (enRetard) alerte = '<span class="treso-alerte">échéance dépassée — comptée sur le 1er mois</span>';
+          if (enRetard) alerte = '<span class="treso-alerte">échéance dépassée, comptée sur le 1er mois</span>';
           else if (horsHorizon) alerte = '<span class="treso-hors">au-delà de l\'horizon choisi</span>';
           return '<div class="treso-facture' + (fa.regle ? " treso-facture-reglee" : "") + '" data-fid="' + fa.id + '">' +
             '<input type="text" value="' + echapper(fa.libelle) + '" data-fchamp="libelle" aria-label="Nom du client ou du fournisseur">' +
@@ -460,7 +460,7 @@
       var nb = liste.filter(function (fa) { return !fa.regle; }).length;
       var resume = document.getElementById(sens === "in" ? "total-in" : "total-out");
       resume.textContent = nb === 0 ? "Rien en attente"
-        : nb + (nb > 1 ? " factures" : " facture") + " — " + euros(total);
+        : nb + (nb > 1 ? " factures" : " facture") + ", " + euros(total);
     });
   }
 
@@ -541,7 +541,7 @@
     if (degageReel < 0) {
       alertes.push("sur vos " + mois + " vous avez consommé " + euros(-degageReel) +
         " de trésorerie par mois" + (degagePlan >= 0 ? ", là où le plan en dégage " + euros(degagePlan) : "") +
-        " — ce n'est pas l'accident d'un mois isolé");
+        ". Ce n'est pas l'accident d'un mois isolé");
     }
 
     if (moy.entrees > 0) {
@@ -556,7 +556,7 @@
       var ecartOut = (plan.sorties - moy.sorties) / moy.sorties;
       if (ecartOut < -0.1) {
         alertes.push("vous prévoyez " + pourcent(ecartOut) + " de dépenses de moins que ce que vous avez réellement " +
-          "sorti (" + euros(plan.sorties) + " contre " + euros(moy.sorties) + " par mois) — c'est le plus souvent " +
+          "sorti (" + euros(plan.sorties) + " contre " + euros(moy.sorties) + " par mois). C'est le plus souvent " +
           "une charge oubliée dans le plan");
       }
     }
@@ -757,7 +757,7 @@
       var total = liste.reduce(function (s, fa) { return s + fa.montant; }, 0);
       var el = document.getElementById(sens === "in" ? "total-in" : "total-out");
       if (el) el.textContent = liste.length === 0 ? "Rien en attente"
-        : liste.length + (liste.length > 1 ? " factures" : " facture") + " — " + euros(total);
+        : liste.length + (liste.length > 1 ? " factures" : " facture") + ", " + euros(total);
     });
   }
 
@@ -808,7 +808,7 @@
   });
 
   document.getElementById("treso-reset").addEventListener("click", function () {
-    if (!window.confirm("Effacer votre plan et repartir de l'exemple ? Cette action est définitive — pensez à exporter d'abord.")) return;
+    if (!window.confirm("Effacer votre plan et repartir de l'exemple ? Cette action est définitive. Pensez à exporter d'abord.")) return;
     try { localStorage.removeItem(CLE); } catch (e) {}
     etat = charger();
     prochainId = calculerProchainId();

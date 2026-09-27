@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rapport diagnostic détaillé — Pilotia</title>
+<title>Rapport diagnostic détaillé | Pilotia</title>
 <meta name="description" content="Votre rapport diagnostic personnalisé, généré à partir de vos réponses : synthèse, points de vigilance et plan d'action priorisé en PDF.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Rapport diagnostic détaillé — Pilotia">
+<meta property="og:title" content="Rapport diagnostic détaillé | Pilotia">
 <meta property="og:description" content="Votre rapport diagnostic personnalisé, généré à partir de vos réponses : synthèse, points de vigilance et plan d'action priorisé en PDF.">
 <meta property="og:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <meta property="og:url" content="https://pilotis-murex.vercel.app/rapport-diagnostic.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Rapport diagnostic détaillé — Pilotia">
+<meta name="twitter:title" content="Rapport diagnostic détaillé | Pilotia">
 <meta name="twitter:description" content="Votre rapport diagnostic personnalisé, généré à partir de vos réponses : synthèse, points de vigilance et plan d'action priorisé en PDF.">
 <meta name="twitter:image" content="https://pilotis-murex.vercel.app/og-image.png">
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -30,8 +30,8 @@
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">
-      <img src="logo-header-light.png" alt="Pilotia — accueil" class="brand-logo brand-logo-light">
-      <img src="logo-header-dark.png" alt="Pilotia — accueil" class="brand-logo brand-logo-dark">
+      <img src="logo-header-light.png" alt="Pilotia, accueil" class="brand-logo brand-logo-light">
+      <img src="logo-header-dark.png" alt="Pilotia, accueil" class="brand-logo brand-logo-dark">
     </a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
@@ -62,7 +62,7 @@
 
 <section class="hero" style="padding:56px 0 40px">
   <div class="wrap">
-    <div class="eyebrow">Rapport détaillé — 19 €</div>
+    <div class="eyebrow">Rapport détaillé · 19 €</div>
     <h1>Votre plan d'action, écrit noir sur blanc.</h1>
     <p class="lead">On reprend vos réponses au diagnostic express, on les développe avec quelques questions en plus, et on vous génère un rapport PDF personnalisé : synthèse, points de vigilance par thème, et 3 à 5 recommandations concrètes et priorisées.</p>
   </div>
@@ -87,7 +87,7 @@
 
         <div class="card">
           <div class="note" style="margin-bottom:18px">
-            <strong>Version test :</strong> le paiement en ligne n'est pas encore activé — le rapport est généré gratuitement pendant la phase de lancement. Tarif normal une fois le paiement activé : 19 €.
+            <strong>Version test :</strong> le paiement en ligne n'est pas encore activé : le rapport est généré gratuitement pendant la phase de lancement. Tarif normal une fois le paiement activé : 19 €.
           </div>
           <form id="report-form" onsubmit="return false">
             <div>
@@ -105,7 +105,7 @@
             </div>
             <div>
               <label for="difficulte">Votre plus grande difficulté en ce moment</label>
-              <textarea id="difficulte" rows="4" placeholder="Décrivez en quelques phrases — plus c'est précis, plus le rapport sera utile." required></textarea>
+              <textarea id="difficulte" rows="4" placeholder="Décrivez en quelques phrases. Plus c'est précis, plus le rapport sera utile." required></textarea>
             </div>
             <div>
               <label for="prenom">Prénom</label>
@@ -139,7 +139,7 @@
   <div class="wrap">
     <img src="logo-header-light.png" alt="" class="brand-logo brand-logo-light" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
     <img src="logo-header-dark.png" alt="" class="brand-logo brand-logo-dark" style="height:22px;width:103px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:6px">
-     — Accompagnement d'entreprise, gestion administrative et présence digitale pour les indépendants et PME en Belgique.
+     Accompagnement d'entreprise, gestion administrative et présence digitale pour les indépendants et PME en Belgique.
     <ul class="footer-links">
       <li><a href="parrainage.html">Parrainage</a></li>
       <li><a href="https://www.instagram.com/pilotia.be/" rel="noopener noreferrer" target="_blank">Instagram<span class="sr-only"> (ouvre un nouvel onglet)</span></a></li>
@@ -165,7 +165,7 @@
     return;
   }
   document.getElementById('report-flow').style.display = 'block';
-  document.getElementById('recap-pill').textContent = data.pill + ' — ' + data.total + '/16';
+  document.getElementById('recap-pill').textContent = data.pill + ', ' + data.total + '/16';
   document.getElementById('recap-title').textContent = 'Diagnostic express complété';
 
   var form = document.getElementById('report-form');
@@ -207,7 +207,7 @@
           a.click();
           a.remove();
           URL.revokeObjectURL(url);
-          msg.textContent = 'Votre rapport a été téléchargé — un exemplaire vous a aussi été envoyé par email si notre service d\'envoi est configuré.';
+          msg.textContent = 'Votre rapport a été téléchargé. Un exemplaire vous a aussi été envoyé par email si notre service d\'envoi est configuré.';
         });
       }
       return r.json().catch(function(){ return {}; }).then(function(data){
