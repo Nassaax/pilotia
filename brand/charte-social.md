@@ -109,6 +109,9 @@ l'y ajouter ensuite.
 | La marge unitaire et le seuil de rentabilité | Film court | `film-court.html?f=marge` |
 | La régularisation des cotisations d'indépendant | Carrousel Canva | `DAHV2lIVqTs` |
 | Rentabilité ≠ trésorerie (le délai d'encaissement) | Carrousel Canva | `DAHV2hPWtRA` |
+| Service : facture électronique Peppol | Carrousel série Services | `carrousel-service-peppol.html` |
+| Service : prévenir les mauvais payeurs | Carrousel série Services | `carrousel-service-mauvais-payeurs.html` |
+| Service : affacturage | Carrousel série Services | `carrousel-service-affacturage.html` |
 
 ## 9. Cohérence de série
 
@@ -184,3 +187,25 @@ Ce qu'il faut savoir avant d'en refaire un :
 - **Une seule police pour tout le carrousel.** Un texte ajouté par l'API prend
   la police par défaut ; un texte hérité d'une génération garde la sienne. Si
   la couverture ne ressemble pas aux autres pages, la supprimer et la recréer.
+
+## 12. La série « Services » : l'exception colorée
+
+Les carrousels pédagogiques restent sur le fond bleu-nuit des sections 1 à 3.
+Les carrousels qui **présentent une offre** suivent une autre grammaire, pour
+accrocher dans un fil et se lire comme une affiche. Tout est dans
+`brand/services.css`.
+
+| Règle | Pourquoi |
+|---|---|
+| Fond crème `#FFF8EC`, planche finale en couleur pleine | Tranche avec le fil sombre des carrousels pédagogiques : on reconnaît une offre au premier coup d'œil |
+| Une couleur par service (Peppol bleu, mauvais payeurs corail, affacturage vert) et une couleur « pop » pour surligner | Chaque service garde son identité d'un post à l'autre |
+| Cartes à contour marine épais et ombre franche, pastilles inclinées | Le côté ludique vient de la forme, pas de la quantité de couleurs |
+| Texte blanc seulement sur `--plein` (4,5:1 minimum) | Le vert et le corail vifs plafonnaient à 3,3:1 |
+| Aucun montant ni taux d'offre | Les conditions des partenaires ne sont pas publiques. Seuls chiffres admis : ceux de la loi (40 €, 60 jours) |
+| Aucun nom de partenaire financier | Choix du fondateur |
+
+Les règles de contenu de la section 7 s'appliquent sans exception, et la
+règle n° 6 aussi : aucun tiret long.
+
+Rendu : chaque `.planche` est capturée en PNG 1080 × 1350, avec un contrôle
+qui signale tout texte sortant de la marge de 90 px.

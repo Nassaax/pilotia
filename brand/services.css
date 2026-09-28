@@ -1,0 +1,201 @@
+/* Série « Services » : l'exception colorée de la charte sociale.
+ *
+ * Les carrousels pédagogiques (trésorerie, coûts) restent sur le fond
+ * bleu-nuit de social.css. Cette série-ci présente des offres : elle doit
+ * accrocher dans un fil Instagram et se lire comme une affiche. D'où des
+ * fonds clairs, une couleur par service, des cartes à contour épais et
+ * ombre franche. Le raisonnement est dans charte-social.md, section 12.
+ */
+
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+
+:root{
+  --encre:#0F172A;          /* texte, contours, ombres : toujours le même marine */
+  --encre-douce:#334155;
+  --papier:#FFF8EC;         /* fond crème, plus chaud qu'un blanc pur */
+  --blanc:#FFFFFF;
+  --marge:90px;
+  --texte:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+
+/* Une couleur principale (c1), une secondaire (c2), une couleur « pop »
+   (c3) pour surligner et coller des pastilles. Trois thèmes, un par service. */
+.theme-peppol{--c1:#2563EB;--c1-clair:#DBEAFE;--c2:#06B6D4;--c3:#FACC15;--plein:#2563EB;--c1-texte:#1D4ED8}
+.theme-payeurs{--c1:#F9563B;--c1-clair:#FFE4DC;--c2:#FB923C;--c3:#A3E635;--plein:#C2410C;--c1-texte:#C2410C}
+.theme-affacturage{--c1:#16A34A;--c1-clair:#DCFCE7;--c2:#14B8A6;--c3:#FDE047;--plein:#15803D;--c1-texte:#15803D}
+/* --plein : fond des planches d'appel, choisi pour que le texte blanc tienne
+   4,5:1 (le vert et le corail vifs plafonnaient à 3,3:1). --c1-texte : même
+   règle pour un texte coloré posé sur le papier. */
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#E5E7EB}
+body{display:flex;flex-direction:column;gap:40px;align-items:center;padding:40px}
+
+/* ─────────────────────────── la planche ─────────────────────────────── */
+.planche{
+  position:relative;overflow:hidden;isolation:isolate;
+  width:1080px;height:1350px;padding:var(--marge);
+  display:flex;flex-direction:column;
+  background:var(--papier);color:var(--encre);
+  font-family:var(--texte);-webkit-font-smoothing:antialiased;
+}
+.planche.pleine{background:var(--plein);color:var(--blanc)}
+.planche.pleine .texte{color:rgba(255,255,255,.88)}
+
+/* Décor : formes géométriques en arrière-plan, jamais sous un texte long. */
+.deco{position:absolute;z-index:-1;pointer-events:none}
+.rond{border-radius:50%}
+.points{
+  background-image:radial-gradient(var(--encre) 2.6px,transparent 3px);
+  background-size:30px 30px;opacity:.16;
+}
+.pleine .points{background-image:radial-gradient(#fff 2.6px,transparent 3px);opacity:.28}
+
+/* ─────────────────────────── texte ──────────────────────────────────── */
+.pastille{
+  align-self:flex-start;display:inline-flex;align-items:center;gap:12px;
+  background:var(--c3);color:var(--encre);
+  border:4px solid var(--encre);border-radius:999px;
+  padding:12px 26px;font-size:26px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  box-shadow:6px 6px 0 var(--encre);transform:rotate(-2deg);
+  margin:14px 0 0 4px;         /* l'inclinaison et l'ombre mordaient sur la marge */
+}
+.h1{font-size:112px;font-weight:850;line-height:.98;letter-spacing:-0.045em;margin-top:44px}
+.h2{font-size:76px;font-weight:850;line-height:1.02;letter-spacing:-0.035em;margin-top:36px}
+.surligne{
+  background:linear-gradient(transparent 58%,var(--c3) 58%,var(--c3) 92%,transparent 92%);
+  padding:0 .06em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+.couleur{color:var(--c1-texte)}
+.texte{font-size:36px;font-weight:500;line-height:1.38;color:var(--encre-douce);margin-top:30px;max-width:28ch}
+.texte strong{color:var(--encre);font-weight:800}
+.espace{flex:1}
+
+/* ─────────────────────────── cartes ─────────────────────────────────── */
+.carte{
+  background:var(--blanc);border:5px solid var(--encre);border-radius:34px;
+  box-shadow:12px 12px 0 var(--encre);padding:36px 40px;
+}
+.carte h3{font-size:42px;font-weight:850;letter-spacing:-0.02em;line-height:1.1}
+.carte p{font-size:31px;font-weight:500;line-height:1.38;color:var(--encre-douce);margin-top:12px}
+.pile{display:flex;flex-direction:column;gap:30px;margin-top:48px}
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:48px}
+.grille .carte{padding:32px 32px}
+.grille .carte h3{font-size:38px}
+.grille .carte p{font-size:28px}
+
+.carte-ligne{display:flex;align-items:center;gap:30px}
+.icone{
+  flex:none;width:96px;height:96px;border-radius:26px;
+  border:5px solid var(--encre);display:grid;place-items:center;
+  background:var(--c1-clair);
+}
+.icone svg{width:52px;height:52px;stroke:var(--encre);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.icone.c1{background:var(--c1)} .icone.c1 svg{stroke:#fff}
+.icone.c2{background:var(--c2)}
+.icone.c3{background:var(--c3)}
+
+.num{
+  flex:none;width:88px;height:88px;border-radius:50%;
+  display:grid;place-items:center;border:5px solid var(--encre);
+  font-size:44px;font-weight:900;background:var(--c3);
+}
+.num.c1{background:var(--c1);color:#fff}
+.num.c2{background:var(--c2)}
+
+/* Liste « oui / non » */
+.coche{display:flex;align-items:flex-start;gap:24px;font-size:36px;font-weight:700;line-height:1.3}
+.coche + .coche{margin-top:30px}
+.coche .marque-oui,.coche .marque-non{
+  flex:none;width:60px;height:60px;border-radius:18px;border:4px solid var(--encre);
+  display:grid;place-items:center;margin-top:-4px;
+}
+.marque-oui{background:var(--c3)}
+.marque-non{background:#FECACA}
+.coche svg{width:34px;height:34px;stroke:var(--encre);stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.coche small{display:block;font-size:28px;font-weight:500;color:var(--encre-douce);margin-top:6px}
+
+/* Schéma en flux (Peppol, affacturage) */
+.flux{display:flex;align-items:center;justify-content:space-between;margin-top:60px}
+.noeud{
+  width:260px;padding:28px 18px;text-align:center;background:var(--blanc);
+  border:5px solid var(--encre);border-radius:30px;box-shadow:10px 10px 0 var(--encre);
+}
+.noeud .icone{margin:0 auto 16px}
+.noeud b{display:block;font-size:32px;font-weight:850;line-height:1.1}
+.noeud span{display:block;font-size:24px;font-weight:600;color:var(--encre-douce);margin-top:6px}
+.fleche{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.fleche svg{width:100%;height:40px;overflow:visible}
+.fleche path{stroke:var(--encre);stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* Frise temporelle */
+.frise{position:relative;margin-top:64px;padding-left:70px}
+.frise::before{content:"";position:absolute;left:30px;top:20px;bottom:20px;width:8px;border-radius:4px;background:var(--encre)}
+.etape{position:relative;margin-bottom:34px}
+.etape:last-child{margin-bottom:0}
+.etape::before{
+  content:"";position:absolute;left:-58px;top:8px;width:44px;height:44px;border-radius:50%;
+  border:5px solid var(--encre);background:var(--point,var(--blanc));
+}
+.etape .quand{font-size:26px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--c1-texte)}
+.etape .quoi{font-size:38px;font-weight:800;line-height:1.2;margin-top:4px}
+
+/* Encadré juridique ou de mention */
+.mention{font-size:23px;line-height:1.45;color:var(--encre-douce);font-weight:500}
+.pleine .mention{color:rgba(255,255,255,.8)}
+
+/* ─────────────────────────── pied de planche ────────────────────────── */
+.pied{display:flex;align-items:center;justify-content:space-between;margin-top:40px}
+.logo{height:46px;width:auto;display:block}
+.compteur{
+  font-size:24px;font-weight:800;letter-spacing:.06em;
+  border:4px solid var(--encre);border-radius:999px;padding:8px 18px;background:var(--blanc);color:var(--encre);
+}
+.glisser{
+  display:inline-flex;align-items:center;gap:12px;font-size:26px;font-weight:850;
+  background:var(--encre);color:#fff;border-radius:999px;padding:14px 26px;
+}
+.pleine .glisser{background:#fff;color:var(--encre)}
+
+/* Bouton d'appel final */
+.appel{
+  align-self:flex-start;display:inline-flex;align-items:center;gap:16px;margin-top:48px;
+  background:var(--c3);color:var(--encre);border:5px solid var(--encre);border-radius:999px;
+  padding:24px 40px;font-size:38px;font-weight:900;box-shadow:10px 10px 0 var(--encre);
+}
+
+/* Le contenu d'une planche intérieure se centre dans l'espace libre, au lieu
+   de se tasser sous le titre en laissant un vide en bas. */
+.bloc{margin:auto 0;padding-top:36px}
+.bloc > :first-child{margin-top:0}
+.bloc .pile .carte h3{font-size:44px}
+.bloc .pile .carte p{font-size:32px}
+
+/* Autocollants des couvertures : un objet concret, légèrement incliné. */
+.stickers{display:flex;align-items:center;gap:26px;margin:auto 0 auto 12px}
+.sticker{
+  display:flex;align-items:center;gap:20px;background:var(--blanc);
+  border:5px solid var(--encre);border-radius:28px;box-shadow:10px 10px 0 var(--encre);
+  padding:22px 28px;
+}
+.sticker b{display:block;font-size:34px;font-weight:850;line-height:1.1}
+.sticker span{display:block;font-size:24px;font-weight:600;color:var(--encre-douce);margin-top:4px}
+.sticker .icone{width:78px;height:78px;border-radius:22px}
+.sticker .icone svg{width:42px;height:42px}
+.barre b{text-decoration:line-through;text-decoration-thickness:5px;text-decoration-color:#DC2626}
+.sticker-fleche{width:64px;height:40px;flex:none}
+.sticker-fleche path{stroke:var(--encre);stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* Sur fond plein, le logo clair est posé sur une pastille blanche : le logo
+   « sombre » garde un aplat marine qui faisait tache. */
+.pleine .logo{height:72px;padding:12px 22px;background:#fff;border:4px solid var(--encre);border-radius:18px}
+
+/* Listes et frises : un cran plus grand, pour remplir la planche sans vide. */
+.coche{font-size:41px}
+.coche + .coche{margin-top:38px}
+.coche small{font-size:30px}
+.coche .marque-oui,.coche .marque-non{width:66px;height:66px}
+.etape{margin-bottom:50px}
+.etape .quand{font-size:29px}
+.etape .quoi{font-size:45px}
+.etape::before{width:50px;height:50px;left:-61px;top:12px}
