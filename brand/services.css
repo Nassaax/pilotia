@@ -23,6 +23,14 @@
 .theme-peppol{--c1:#2563EB;--c1-clair:#DBEAFE;--c2:#06B6D4;--c3:#FACC15;--plein:#2563EB;--c1-texte:#1D4ED8}
 .theme-payeurs{--c1:#F9563B;--c1-clair:#FFE4DC;--c2:#FB923C;--c3:#A3E635;--plein:#C2410C;--c1-texte:#C2410C}
 .theme-affacturage{--c1:#16A34A;--c1-clair:#DCFCE7;--c2:#14B8A6;--c3:#FDE047;--plein:#15803D;--c1-texte:#15803D}
+.theme-diagnostic{--c1:#7C3AED;--c1-clair:#EDE9FE;--c2:#F472B6;--c3:#FACC15;--plein:#6D28D9;--c1-texte:#6D28D9}
+.theme-presence{--c1:#EC4899;--c1-clair:#FCE7F3;--c2:#8B5CF6;--c3:#FDE047;--plein:#BE185D;--c1-texte:#BE185D}
+.theme-independant{--c1:#F59E0B;--c1-clair:#FEF3C7;--c2:#FB7185;--c3:#67E8F9;--plein:#B45309;--c1-texte:#B45309}
+.theme-pilotage{--c1:#4F46E5;--c1-clair:#E0E7FF;--c2:#22D3EE;--c3:#FACC15;--plein:#4338CA;--c1-texte:#4338CA}
+.theme-outils{--c1:#0D9488;--c1-clair:#CCFBF1;--c2:#F59E0B;--c3:#FDE047;--plein:#0F766E;--c1-texte:#0F766E;--c2-plein:#2DD4BF}
+/* L'ambre est trop clair pour un trait blanc (2,15:1) : icônes et numéros en marine. */
+.theme-independant .icone.c1 svg{stroke:var(--encre)}
+.theme-independant .num.c1{color:var(--encre)}
 /* --plein : fond des planches d'appel, choisi pour que le texte blanc tienne
    4,5:1 (le vert et le corail vifs plafonnaient à 3,3:1). --c1-texte : même
    règle pour un texte coloré posé sur le papier. */
@@ -64,7 +72,7 @@ body{display:flex;flex-direction:column;gap:40px;align-items:center;padding:40px
 .h2{font-size:76px;font-weight:850;line-height:1.02;letter-spacing:-0.035em;margin-top:36px}
 .surligne{
   background:linear-gradient(transparent 58%,var(--c3) 58%,var(--c3) 92%,transparent 92%);
-  padding:0 .06em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
 }
 .couleur{color:var(--c1-texte)}
 .texte{font-size:36px;font-weight:500;line-height:1.38;color:var(--encre-douce);margin-top:30px;max-width:28ch}
@@ -199,3 +207,17 @@ body{display:flex;flex-direction:column;gap:40px;align-items:center;padding:40px
 .etape .quand{font-size:29px}
 .etape .quoi{font-size:45px}
 .etape::before{width:50px;height:50px;left:-61px;top:12px}
+
+/* Calendrier de 4 semaines (présence digitale) */
+.semaines{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:52px}
+.semaine{display:flex;flex-direction:column;align-items:center;gap:16px;padding:28px 12px}
+.semaine-nom{font-size:25px;font-weight:850;letter-spacing:.02em}
+.semaine .marque-oui{width:74px;height:74px;border-radius:22px;border:4px solid var(--encre);display:grid;place-items:center;background:var(--c3)}
+.semaine .marque-oui svg{width:40px;height:40px;stroke:var(--encre);stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.semaine-post{font-size:24px;font-weight:700;color:var(--encre-douce)}
+
+/* Carte « gros chiffre » : un montant cité d'un barème, jamais inventé */
+.chiffre-carte{display:flex;align-items:center;gap:30px;padding:28px 36px}
+.chiffre-carte .val{flex:none;min-width:330px;font-size:78px;font-weight:900;letter-spacing:-0.04em;line-height:1;color:var(--c1-texte);font-variant-numeric:tabular-nums}
+.chiffre-carte p{margin-top:0;font-size:29px}
+.chiffre-carte p strong{color:var(--encre)}

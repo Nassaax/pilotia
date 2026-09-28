@@ -112,6 +112,11 @@ l'y ajouter ensuite.
 | Service : facture électronique Peppol | Carrousel série Services | `carrousel-service-peppol.html` |
 | Service : prévenir les mauvais payeurs | Carrousel série Services | `carrousel-service-mauvais-payeurs.html` |
 | Service : affacturage | Carrousel série Services | `carrousel-service-affacturage.html` |
+| Service : diagnostic express et complet | Carrousel série Services | `carrousel-service-diagnostic.html` |
+| Service : présence digitale | Carrousel série Services | `carrousel-service-presence-digitale.html` |
+| Service : devenir indépendant | Carrousel série Services | `carrousel-service-independant.html` |
+| Service : accompagnement mensuel | Carrousel série Services | `carrousel-service-accompagnement.html` |
+| Service : outils gratuits | Carrousel série Services | `carrousel-service-outils.html` |
 
 ## 9. Cohérence de série
 
@@ -198,7 +203,7 @@ accrocher dans un fil et se lire comme une affiche. Tout est dans
 | Règle | Pourquoi |
 |---|---|
 | Fond crème `#FFF8EC`, planche finale en couleur pleine | Tranche avec le fil sombre des carrousels pédagogiques : on reconnaît une offre au premier coup d'œil |
-| Une couleur par service (Peppol bleu, mauvais payeurs corail, affacturage vert) et une couleur « pop » pour surligner | Chaque service garde son identité d'un post à l'autre |
+| Une couleur par service (Peppol bleu, mauvais payeurs corail, affacturage vert, diagnostic violet, présence digitale rose, indépendants ambre, accompagnement indigo, outils sarcelle) et une couleur « pop » pour surligner | Chaque service garde son identité d'un post à l'autre |
 | Cartes à contour marine épais et ombre franche, pastilles inclinées | Le côté ludique vient de la forme, pas de la quantité de couleurs |
 | Texte blanc seulement sur `--plein` (4,5:1 minimum) | Le vert et le corail vifs plafonnaient à 3,3:1 |
 | Aucun montant ni taux d'offre | Les conditions des partenaires ne sont pas publiques. Seuls chiffres admis : ceux de la loi (40 €, 60 jours) |
