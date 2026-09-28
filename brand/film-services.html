@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Film | Le mur</title>
+<link rel="icon" href="data:,">
+<!--
+  Film de lancement n° 2, « Le mur ». Direction : film-services-DIRECTION.md.
+
+  DÉTERMINISME. Aucune transition CSS, aucune animation CSS, aucun hasard :
+  chaque image est une fonction pure du temps t, calculée par rendre(t). Un
+  saut à l'instant T produit toujours la même image, quel que soit le chemin.
+
+  CAMÉRA. Deux nœuds (loi 4) : #monde porte la translation et l'échelle (le
+  travelling), .rot de chaque carte porte la rotation 3D (le retournement).
+  Jamais les deux sur le même élément.
+
+  FORMAT. ?format=9x16 (Instagram, par défaut) ou ?format=16x9 (site).
+-->
+<style>
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+:root{--encre:#0F172A;--encre-douce:#334155;--papier:#FFF8EC}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--papier)}
+body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;color:var(--encre)}
+#scene{position:relative;overflow:hidden;background:var(--papier)}
+.points{position:absolute;inset:0;background-image:radial-gradient(#0F172A 2px,transparent 2.5px);background-size:34px 34px;opacity:.07}
+
+#monde{position:absolute;left:0;top:0;transform-origin:0 0}
+.carte-mur{position:absolute;width:640px;height:480px;perspective:1800px}
+.rot{position:absolute;inset:0;transform-style:preserve-3d}
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border:6px solid var(--encre);border-radius:38px;box-shadow:14px 14px 0 var(--encre);
+  padding:40px 44px;display:flex;flex-direction:column;
+}
+.probleme{background:#EEF0F3}
+.solution{background:var(--plein);color:#fff;transform:rotateY(180deg)}
+.num{font-size:24px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:#64748B}
+.probleme .phrase{font-size:50px;font-weight:850;line-height:1.08;letter-spacing:-0.03em;color:#334155;margin-top:auto}
+.interro{
+  position:absolute;right:34px;top:30px;width:88px;height:88px;border-radius:50%;
+  background:#FECACA;border:5px solid var(--encre);display:grid;place-items:center;
+  font-size:54px;font-weight:900;color:var(--encre);transform:rotate(10deg);
+}
+.tag{
+  align-self:flex-start;background:var(--c3);color:var(--encre);border:5px solid var(--encre);
+  border-radius:999px;padding:10px 24px;font-size:25px;font-weight:850;letter-spacing:.06em;
+  text-transform:uppercase;box-shadow:6px 6px 0 var(--encre);transform-origin:left center;
+}
+.icone{
+  width:96px;height:96px;border-radius:26px;border:5px solid var(--encre);background:#fff;
+  display:grid;place-items:center;position:absolute;right:40px;top:36px;
+}
+.icone svg{width:54px;height:54px;stroke:var(--encre);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.solution .phrase{font-size:56px;font-weight:900;line-height:1.04;letter-spacing:-0.035em;margin-top:auto}
+
+/* Cartons en surimpression (espace écran, hors caméra) */
+.carton{
+  position:absolute;left:50%;top:50%;background:#fff;border:7px solid var(--encre);border-radius:40px;
+  box-shadow:16px 16px 0 var(--encre);padding:44px 56px;text-align:left;
+}
+.carton .l1{font-weight:900;letter-spacing:-0.04em;line-height:1.02}
+.carton .l2{font-weight:900;letter-spacing:-0.04em;line-height:1.02;margin-top:18px}
+.surligne{background:linear-gradient(transparent 58%,#FACC15 58%,#FACC15 92%,transparent 92%)}
+.fin .logo{display:block;height:64px;width:auto;margin-bottom:30px}
+.appel{
+  display:inline-block;margin-top:34px;background:#FACC15;border:6px solid var(--encre);border-radius:999px;
+  padding:18px 36px;font-weight:900;box-shadow:9px 9px 0 var(--encre);
+}
+</style>
+</head>
+<body>
+<div id="scene">
+  <div class="points"></div>
+  <div id="monde"></div>
+  <div class="carton" id="intro"><div class="l1" id="intro1">8 casse-têtes d'entrepreneur.</div><div class="l2" id="intro2"><span class="surligne">Pilotia les retourne.</span></div></div>
+  <div class="carton fin" id="fin"><img class="logo" src="../logo-header-light.png" alt=""><div class="l1">Huit casse-têtes.</div><div class="l2"><span class="surligne">Un seul interlocuteur.</span></div><span class="appel" id="appel"></span></div>
+</div>
+
+<script>
+'use strict';
+const FORMAT = new URLSearchParams(location.search).get('format') === '16x9' ? '16x9' : '9x16';
+const VW = FORMAT === '16x9' ? 1920 : 1080, VH = FORMAT === '16x9' ? 1080 : 1920;
+const scene = document.getElementById('scene');
+scene.style.width = VW + 'px'; scene.style.height = VH + 'px';
+
+const I = {
+ fusee:'<path d="M12 15l-3-3c1-4 4-8 10-9-1 6-5 9-9 10z"/><path d="M9 12l-4 1-1 4 4-1M12 15l-1 4 4-1 1-4"/><circle cx="15" cy="9" r="1.2"/>',
+ doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+ cloche:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+ euro:'<path d="M17 6.5a6.5 6.5 0 1 0 0 11M4 10.5h9M4 13.5h9"/>',
+ loupe:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/>',
+ repere:'<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.5"/>',
+ tendance:'<path d="M3.5 17l5.5-5.5 4 4 7.5-7.5"/><path d="M15 8h5.5v5.5"/>',
+ equipe:'<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.2c3 .1 5.5 2.5 5.5 5.8"/>',
+};
+
+// Une carte par service. Les couleurs --plein et --c3 sont celles de services.css
+// (texte blanc sur --plein : 5:1 au minimum, vérifié).
+const CARTES = [
+ {tag:'Devenir indépendant', ic:'fusee',    plein:'#B45309', c3:'#67E8F9', p:'Je me lance. Par où commencer&nbsp;?',            s:'Un cadre clair pour démarrer.'},
+ {tag:'Facture Peppol',      ic:'doc',      plein:'#2563EB', c3:'#FACC15', p:'Mes factures PDF ne comptent plus&nbsp;?',        s:'Mis en règle avec Peppol.'},
+ {tag:'Mauvais payeurs',     ic:'cloche',   plein:'#C2410C', c3:'#A3E635', p:'Ce client paie toujours en retard.',             s:'Des relances planifiées, sans gêne.'},
+ {tag:'Affacturage',         ic:'euro',     plein:'#15803D', c3:'#FDE047', p:'Payé dans 60 jours, les salaires c\'est demain.', s:'Payé sans attendre l\'échéance.'},
+ {tag:'Diagnostic express',  ic:'loupe',    plein:'#6D28D9', c3:'#FACC15', p:'Où part mon argent&nbsp;?',                       s:'Le diagnostic, en 3 minutes.'},
+ {tag:'Présence digitale',   ic:'repere',   plein:'#BE185D', c3:'#FDE047', p:'Personne ne me trouve sur Google.',              s:'Une fiche Google à jour.'},
+ {tag:'Outils gratuits',     ic:'tendance', plein:'#0F766E', c3:'#FDE047', p:'Ma banque ne montre que le passé.',              s:'Mon point bas, repéré d\'avance.'},
+ {tag:'Accompagnement',      ic:'equipe',   plein:'#4338CA', c3:'#FACC15', p:'Seul face à mes chiffres.',                      s:'Un point chaque mois, ensemble.'},
+];
+
+// ── Le mur ─────────────────────────────────────────────────────────────────
+const CW = 640, CH = 480, GAP = 70;
+const COLS = FORMAT === '16x9' ? 4 : 2, ROWS = 8 / COLS;
+const MW = COLS * CW + (COLS - 1) * GAP, MH = ROWS * CH + (ROWS - 1) * GAP;
+const monde = document.getElementById('monde');
+const pos = [];   // centre de chaque carte, dans le repère du mur
+CARTES.forEach((c, k) => {
+  // Parcours en serpentin : la caméra ne traverse jamais tout le mur d'un coup.
+  const r = Math.floor(k / COLS), col = r % 2 === 0 ? k % COLS : COLS - 1 - (k % COLS);
+  const x = col * (CW + GAP), y = r * (CH + GAP);
+  pos.push({x: x + CW / 2, y: y + CH / 2});
+  const el = document.createElement('div');
+  el.className = 'carte-mur';
+  el.style.left = x + 'px'; el.style.top = y + 'px';
+  el.style.setProperty('--plein', c.plein); el.style.setProperty('--c3', c.c3);
+  el.innerHTML = `<div class="rot">
+    <div class="face probleme"><span class="num">Casse-tête n° ${k + 1}</span><span class="interro">?</span><div class="phrase">${c.p}</div></div>
+    <div class="face solution"><span class="tag">${c.tag}</span><div class="icone"><svg viewBox="0 0 24 24">${I[c.ic]}</svg></div><div class="phrase">${c.s}</div></div>
+  </div>`;
+  monde.appendChild(el);
+});
+const rots = [...document.querySelectorAll('.rot')];
+const tags = [...document.querySelectorAll('.tag')];
+
+// ── Cartons ────────────────────────────────────────────────────────────────
+const intro = document.getElementById('intro'), intro1 = document.getElementById('intro1'), intro2 = document.getElementById('intro2');
+const fin = document.getElementById('fin');
+document.getElementById('appel').textContent = FORMAT === '16x9' ? 'Premier appel gratuit →' : 'Lien en bio →';
+const T1 = FORMAT === '16x9' ? 96 : 84;
+[intro, fin].forEach(e => { e.style.width = (FORMAT === '16x9' ? 1180 : 940) + 'px'; });
+intro.querySelectorAll('.l1,.l2').forEach(e => e.style.fontSize = T1 + 'px');
+fin.querySelectorAll('.l1,.l2').forEach(e => e.style.fontSize = T1 + 'px');
+document.getElementById('appel').style.fontSize = (FORMAT === '16x9' ? 40 : 42) + 'px';
+
+// ── Temps ──────────────────────────────────────────────────────────────────
+const BPM = 80, TEMPS = 60 / BPM, MESURE = 4 * TEMPS;          // 0,75 s et 3 s
+const DEBUT = k => MESURE * (k + 1);                           // mesure de la carte k
+const TRAJET = 0.45, POSE = TEMPS;                             // arrivée, puis retournement posé au 2e temps
+const RECUL = 9 * MESURE, SLAP = RECUL + 2 * TEMPS, DUREE = SLAP + 4 * TEMPS;
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, d) => clamp((t - a) / d);
+const easeInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const back = (p, s = 1.7) => 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2);
+const lerp = (a, b, p) => a + (b - a) * p;
+
+// Échelles de la caméra : plan large (tout le mur) et gros plan (une carte).
+const S_LARGE = Math.min(VW * 0.88 / MW, VH * 0.84 / MH);
+const S_PROCHE = FORMAT === '16x9' ? 1.5 : 1.42;
+const LARGE = {x: MW / 2, y: MH / 2, s: S_LARGE};
+const proche = k => ({x: pos[k].x, y: pos[k].y, s: S_PROCHE});
+
+function camera(t) {
+  if (t < DEBUT(0)) return LARGE;
+  if (t >= RECUL) {
+    const p = easeInOut(prog(t, RECUL, 0.9));
+    const a = proche(7), c = {x: lerp(a.x, LARGE.x, p), y: lerp(a.y, LARGE.y, p), s: lerp(a.s, LARGE.s, p)};
+    // Le coup de la marque fait vibrer le mur une fois, puis tout se pose.
+    const q = prog(t, SLAP, 0.24);
+    c.s *= 1 + 0.018 * Math.sin(Math.PI * q);
+    return c;
+  }
+  const k = Math.min(7, Math.floor((t - DEBUT(0)) / MESURE));
+  const de = k === 0 ? LARGE : proche(k - 1), vers = proche(k);
+  const p = easeInOut(prog(t, DEBUT(k), TRAJET));
+  // Petit saut de caméra entre deux cartes : on recule d'un cran pendant le trajet.
+  const saut = k === 0 ? 1 : 1 - 0.12 * Math.sin(Math.PI * p);
+  return {x: lerp(de.x, vers.x, p), y: lerp(de.y, vers.y, p), s: lerp(de.s, vers.s, p) * saut};
+}
+
+function rendre(t) {
+  const c = camera(t);
+  monde.style.transform = `translate(${VW / 2 - c.x * c.s}px,${VH / 2 - c.y * c.s}px) scale(${c.s})`;
+
+  CARTES.forEach((_, k) => {
+    const d = DEBUT(k) + TRAJET;                         // début du retournement
+    // Avec back(p, 1.1), la rotation franchit 180° à p = 1 - 1,1/2,1 ≈ 0,476.
+    // Durée choisie pour que ce passage tombe pile sur le 2e temps.
+    const p = prog(t, d, (POSE - TRAJET) / 0.476);
+    rots[k].style.transform = `rotateY(${180 * back(p, 1.1)}deg)`;
+    const q = prog(t, DEBUT(k) + 2 * TEMPS, 0.28);      // étiquette au 3e temps
+    tags[k].style.transform = `scale(${back(q, 2.2)}) rotate(-3deg)`;
+  });
+
+  // Carton d'ouverture : ligne 1 au 2e temps, ligne 2 au 3e, sortie avant la mesure 1.
+  const a1 = prog(t, TEMPS, 0.3), a2 = prog(t, 2 * TEMPS, 0.3), sortie = easeInOut(prog(t, 3.5 * TEMPS, 0.45));
+  intro.style.transform = `translate(-50%,-50%) translateY(${-sortie * VH}px) rotate(${-2 - 4 * sortie}deg) scale(${a1 > 0 ? back(a1, 2) : 0})`;
+  intro2.style.transform = `scale(${back(a2, 2.4)})`;
+  intro2.style.transformOrigin = 'left center';
+
+  // Carton final : collé au 3e temps de la mesure 9, puis immobile.
+  const f = prog(t, SLAP, 0.34);
+  fin.style.transform = `translate(-50%,-50%) rotate(${-8 + 6 * easeOut(f)}deg) scale(${f > 0 ? lerp(1.6, 1, back(f, 1.6)) : 0})`;
+}
+
+window.FILM = {
+  duration: DUREE, format: FORMAT, width: VW, height: VH, seek: rendre,
+  // Grille des bruitages, lue par score-services.py : la bande-son vient de la
+  // même source que l'image, elle ne peut pas diverger.
+  sons: {
+    bpm: BPM, duree: DUREE, recul: RECUL, slap: SLAP,
+    trajets: CARTES.map((_, k) => DEBUT(k)),
+    poses: CARTES.map((_, k) => DEBUT(k) + TEMPS),
+    etiquettes: CARTES.map((_, k) => DEBUT(k) + 2 * TEMPS),
+    cartons: [TEMPS, 2 * TEMPS],
+  },
+};
+rendre(0);
+</script>
+</body>
+</html>

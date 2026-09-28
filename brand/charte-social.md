@@ -117,6 +117,7 @@ l'y ajouter ensuite.
 | Service : devenir indépendant | Carrousel série Services | `carrousel-service-independant.html` |
 | Service : accompagnement mensuel | Carrousel série Services | `carrousel-service-accompagnement.html` |
 | Service : outils gratuits | Carrousel série Services | `carrousel-service-outils.html` |
+| Film « Le mur » : les huit services | Film 9:16 et 16:9 (31,5 s) | `film-services.html`, direction : `film-services-DIRECTION.md` |
 
 ## 9. Cohérence de série
 
