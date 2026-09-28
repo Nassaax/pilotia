@@ -31,6 +31,7 @@ comme indépendant.
 - [Accueil](https://pilotis-murex.vercel.app/index.html) : positionnement, trois volets d'accompagnement, parcours possibles.
 - [Entreprises](https://pilotis-murex.vercel.app/entreprises.html) : accompagnement des PME et commerces déjà en activité.
 - [Devenir indépendant](https://pilotis-murex.vercel.app/independants.html) : étapes de lancement d'une activité indépendante en Belgique.
+- [Facture électronique Peppol et encaissements](https://pilotis-murex.vercel.app/facturation-electronique.html) : mise en conformité avec l'obligation de facturation électronique entre entreprises (1er janvier 2026), conditions de paiement, suivi des encaissements et relances amiables B2B. Ni tenue de comptabilité, ni déclaration TVA, ni recouvrement judiciaire.
 - [Présence digitale](https://pilotis-murex.vercel.app/marketing-digital.html) : visibilité en ligne, réseaux sociaux, avis clients.
 - [Offres](https://pilotis-murex.vercel.app/offres.html) : formules d'accompagnement et tarifs.
 - [Méthode](https://pilotis-murex.vercel.app/methode.html) : déroulé concret d'un accompagnement.

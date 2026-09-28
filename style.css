@@ -141,7 +141,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .brand-logo-dark{display:block}
 }
 .nav-links{list-style:none;display:flex;align-items:center;gap:22px;margin:0;padding:0}
-.nav-links a{text-decoration:none;color:var(--ink-soft);font-size:15px;font-weight:500;transition:color .18s ease;display:inline-flex;align-items:center;min-height:44px}
+.nav-links a{white-space:nowrap;text-decoration:none;color:var(--ink-soft);font-size:15px;font-weight:500;transition:color .18s ease;display:inline-flex;align-items:center;min-height:44px}
 .nav-links a.active,.nav-links a:hover{color:var(--accent)}
 .nav-cta{background:var(--accent);color:var(--accent-ink) !important;padding:10px 18px;border-radius:999px;font-weight:600;transition:background .18s ease,transform .18s ease;display:inline-block}
 .nav-cta:hover{background:var(--ink);transform:translateY(-1px)}
@@ -149,6 +149,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* Dropdown ("Découvrir") */
 .dropdown{position:relative}
 .dropdown-trigger{
+  white-space:nowrap;
   display:inline-flex;align-items:center;gap:5px;
   font-family:var(--font-body);font-size:15px;font-weight:500;color:var(--ink-soft);
   background:none;border:none;padding:0;cursor:pointer;line-height:1.6;
@@ -177,8 +178,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);width:100%}
 .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
 .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);width:100%}
-
-@media (max-width:760px){
+/* Seuil relevé de 760 à 1080 px : en dessous, les sept entrées du menu ne
+   tiennent plus sur une ligne et passaient sur deux. */
+@media (max-width:1080px){
   .nav-inner{position:relative;flex-wrap:wrap}
   .nav-toggle{display:flex}
   .nav-links{
@@ -741,3 +743,17 @@ input[type="radio"],input[type="checkbox"]{
 .outil-vedette .btn{flex:none}
 .outil-phare{border-color:var(--accent)}
 .grid-fill{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.grid-2x2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:700px){.grid-2x2{grid-template-columns:1fr}}
+
+/* ─── Annonce Peppol (accueil) ──────────────────────────────────────────── */
+.annonce{
+  display:flex;align-items:center;justify-content:space-between;gap:20px 32px;flex-wrap:wrap;
+  background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius);
+  padding:24px 28px;
+}
+.annonce > div{flex:1 1 420px}
+.annonce h2{font-size:clamp(20px,2.2vw,24px);margin:0 0 6px}
+.annonce p{margin:0;color:var(--ink-soft)}
+.annonce .btn{flex:none}
+sup{line-height:0;font-size:.62em}
