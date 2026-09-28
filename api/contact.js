@@ -99,7 +99,7 @@ module.exports = async (req, res) => {
   try {
     await sendTransactionalEmail({
       to: destinataire,
-      subject: `Contact site : ${nom}`,
+      subject: `${profil === "Demande d'affacturage" ? "Affacturage" : "Contact site"} : ${nom}`,
       htmlContent: html,
       replyTo: { email, name: nom },
     });

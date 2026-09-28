@@ -1,33 +1,33 @@
-calculateur-cotisations-independant.html:95: -size:32px;font-family:var(--font-body);font-weight:700;margin:8px 0">—</p>         <p id="out-detail" style="color:var(--ink-soft)">Renseign
-calculateur-cout-salarie.html:101: -size:30px;font-family:var(--font-body);font-weight:700;margin:8px 0">—</p>         <p id="out-detail" style="color:var(--ink-soft)"></p>    
-calculateur-delai-encaissement.html:182: ;font-family:var(--font-body);font-weight:700;margin:0" id="dsoJours">—</p>         <p id="dsoLegende" style="color:var(--ink-soft);margin-to
-calculateur-delai-encaissement.html:183:       <p id="dsoLegende" style="color:var(--ink-soft);margin-top:4px">—</p>         <div class="table-defile" role="region" tabindex="0" aria
-calculateur-delai-encaissement.html:187: pe="row">Durée de la mission, en jours calendrier</th><td id="dsoCal">—</td></tr>               <tr><th scope="row">+ délai de paiement</th><
-calculateur-delai-encaissement.html:188:         <tr><th scope="row">+ délai de paiement</th><td id="dsoDelai">—</td></tr>               <tr><th scope="row">+ retard constaté</th><td
-calculateur-delai-encaissement.html:189:          <tr><th scope="row">+ retard constaté</th><td id="dsoRetard">—</td></tr>               <tr><th scope="row"><strong>Décalage total</s
-calculateur-delai-encaissement.html:190: e="row"><strong>Décalage total</strong></th><td id="dsoTotal"><strong>—</strong></td></tr>               <tr><th scope="row">Part de la comma
-calculateur-delai-encaissement.html:191: scope="row">Part de la commande que vous avancez</th><td id="dsoPart">—</td></tr>               <tr><th scope="row"><strong>Trésorerie immobi
-calculateur-delai-encaissement.html:192: rerie immobilisée en permanence</strong></th><td id="dsoImmo"><strong>—</strong></td></tr>             </tbody>           </table>         </
-calculateur-delai-encaissement.html:240: ntent =     montant > 0 ? part.toFixed(1).replace('.', ',') + ' %' : '—';   document.getElementById('dsoImmo').innerHTML =     '<strong>' + e
-calculateur-marge.html:89: ize:26px;font-family:var(--font-body);font-weight:700" id="margeEuro">—</p>           <p id="margePct" style="color:var(--ink-soft)"></p>    
-calculateur-marge.html:108: e:26px;font-family:var(--font-body);font-weight:700" id="seuilVentes">—</p>           <p id="seuilDetail" style="color:var(--ink-soft)"></p> 
-calculateur-taux-horaire.html:182: x;font-family:var(--font-body);font-weight:700;margin:0" id="outJour">—</p>         <p id="outHeure" style="color:var(--ink-soft);margin-top:
-calculateur-taux-horaire.html:183:         <p id="outHeure" style="color:var(--ink-soft);margin-top:4px">—</p>         <div class="table-defile" role="region" tabindex="0" aria
-calculateur-taux-horaire.html:187: <tr><th scope="row">Jours travaillables</th><td id="outTravaillables">—</td></tr>               <tr><th scope="row">Jours réellement facturés
-calculateur-taux-horaire.html:188: tr><th scope="row">Jours réellement facturés</th><td id="outFactures">—</td></tr>               <tr><th scope="row">Revenu net professionnel 
-calculateur-taux-horaire.html:189: th scope="row">Revenu net professionnel à dégager</th><td id="outRnp">—</td></tr>               <tr><th scope="row">dont cotisations sociales
-calculateur-taux-horaire.html:190:   <tr><th scope="row">dont cotisations sociales</th><td id="outCotis">—</td></tr>               <tr><th scope="row">+ frais professionnels</t
-calculateur-taux-horaire.html:191:      <tr><th scope="row">+ frais professionnels</th><td id="outFrais">—</td></tr>               <tr><th scope="row"><strong>Chiffre d'affaire
-calculateur-taux-horaire.html:192: ong>Chiffre d'affaires nécessaire</strong></th><td id="outCa"><strong>—</strong></td></tr>             </tbody>           </table>         </
-calculateur-taux-horaire.html:257: | heures <= 0){     document.getElementById('outJour').textContent = '—';     document.getElementById('outHeure').textContent =       'Avec c
-calculateur-taux-horaire.html:261:     .forEach(function(id){ document.getElementById(id).textContent = '—'; });     alerte.style.display = 'none';     return;   }    var rnp =
-calculateur-tva-franchise.html:87: " style="font-size:22px;font-family:var(--font-body);font-weight:700">—</p>         <p id="out-marge-restante" style="color:var(--ink-soft)">
-plan-tresorerie.html:119: lde de départ</span>         <span class="kpi-valeur" id="kpi-depart">—</span>         <span class="kpi-note" id="kpi-depart-note">—</span>  
-plan-tresorerie.html:120: -depart">—</span>         <span class="kpi-note" id="kpi-depart-note">—</span>       </div>       <div class="kpi" id="kpi-bas-carte">       
-plan-tresorerie.html:124: int bas anticipé</span>         <span class="kpi-valeur" id="kpi-bas">—</span>         <span class="kpi-note" id="kpi-bas-note">—</span>     
-plan-tresorerie.html:125: d="kpi-bas">—</span>         <span class="kpi-note" id="kpi-bas-note">—</span>       </div>       <div class="kpi">         <span class="kpi-
-plan-tresorerie.html:129: en fin d'horizon</span>         <span class="kpi-valeur" id="kpi-fin">—</span>         <span class="kpi-note" id="kpi-fin-note">—</span>     
-plan-tresorerie.html:130: d="kpi-fin">—</span>         <span class="kpi-note" id="kpi-fin-note">—</span>       </div>     </div>      <p class="note treso-verdict" id=
-plan-tresorerie.html:180: tre-in">À encaisser</h3>         <p class="treso-total" id="total-in">—</p>         <div class="treso-entetes treso-entetes-f"><span>Client</
-plan-tresorerie.html:187: titre-out">À payer</h3>         <p class="treso-total" id="total-out">—</p>         <div class="treso-entetes treso-entetes-f"><span>Fourniss
+calculateur-cotisations-independant.html:96: -size:32px;font-family:var(--font-body);font-weight:700;margin:8px 0">—</p>         <p id="out-detail" style="color:var(--ink-soft)">Renseign
+calculateur-cout-salarie.html:102: -size:30px;font-family:var(--font-body);font-weight:700;margin:8px 0">—</p>         <p id="out-detail" style="color:var(--ink-soft)"></p>    
+calculateur-delai-encaissement.html:183: ;font-family:var(--font-body);font-weight:700;margin:0" id="dsoJours">—</p>         <p id="dsoLegende" style="color:var(--ink-soft);margin-to
+calculateur-delai-encaissement.html:184:       <p id="dsoLegende" style="color:var(--ink-soft);margin-top:4px">—</p>         <div class="table-defile" role="region" tabindex="0" aria
+calculateur-delai-encaissement.html:188: pe="row">Durée de la mission, en jours calendrier</th><td id="dsoCal">—</td></tr>               <tr><th scope="row">+ délai de paiement</th><
+calculateur-delai-encaissement.html:189:         <tr><th scope="row">+ délai de paiement</th><td id="dsoDelai">—</td></tr>               <tr><th scope="row">+ retard constaté</th><td
+calculateur-delai-encaissement.html:190:          <tr><th scope="row">+ retard constaté</th><td id="dsoRetard">—</td></tr>               <tr><th scope="row"><strong>Décalage total</s
+calculateur-delai-encaissement.html:191: e="row"><strong>Décalage total</strong></th><td id="dsoTotal"><strong>—</strong></td></tr>               <tr><th scope="row">Part de la comma
+calculateur-delai-encaissement.html:192: scope="row">Part de la commande que vous avancez</th><td id="dsoPart">—</td></tr>               <tr><th scope="row"><strong>Trésorerie immobi
+calculateur-delai-encaissement.html:193: rerie immobilisée en permanence</strong></th><td id="dsoImmo"><strong>—</strong></td></tr>             </tbody>           </table>         </
+calculateur-delai-encaissement.html:241: ntent =     montant > 0 ? part.toFixed(1).replace('.', ',') + ' %' : '—';   document.getElementById('dsoImmo').innerHTML =     '<strong>' + e
+calculateur-marge.html:90: ize:26px;font-family:var(--font-body);font-weight:700" id="margeEuro">—</p>           <p id="margePct" style="color:var(--ink-soft)"></p>    
+calculateur-marge.html:109: e:26px;font-family:var(--font-body);font-weight:700" id="seuilVentes">—</p>           <p id="seuilDetail" style="color:var(--ink-soft)"></p> 
+calculateur-taux-horaire.html:183: x;font-family:var(--font-body);font-weight:700;margin:0" id="outJour">—</p>         <p id="outHeure" style="color:var(--ink-soft);margin-top:
+calculateur-taux-horaire.html:184:         <p id="outHeure" style="color:var(--ink-soft);margin-top:4px">—</p>         <div class="table-defile" role="region" tabindex="0" aria
+calculateur-taux-horaire.html:188: <tr><th scope="row">Jours travaillables</th><td id="outTravaillables">—</td></tr>               <tr><th scope="row">Jours réellement facturés
+calculateur-taux-horaire.html:189: tr><th scope="row">Jours réellement facturés</th><td id="outFactures">—</td></tr>               <tr><th scope="row">Revenu net professionnel 
+calculateur-taux-horaire.html:190: th scope="row">Revenu net professionnel à dégager</th><td id="outRnp">—</td></tr>               <tr><th scope="row">dont cotisations sociales
+calculateur-taux-horaire.html:191:   <tr><th scope="row">dont cotisations sociales</th><td id="outCotis">—</td></tr>               <tr><th scope="row">+ frais professionnels</t
+calculateur-taux-horaire.html:192:      <tr><th scope="row">+ frais professionnels</th><td id="outFrais">—</td></tr>               <tr><th scope="row"><strong>Chiffre d'affaire
+calculateur-taux-horaire.html:193: ong>Chiffre d'affaires nécessaire</strong></th><td id="outCa"><strong>—</strong></td></tr>             </tbody>           </table>         </
+calculateur-taux-horaire.html:258: | heures <= 0){     document.getElementById('outJour').textContent = '—';     document.getElementById('outHeure').textContent =       'Avec c
+calculateur-taux-horaire.html:262:     .forEach(function(id){ document.getElementById(id).textContent = '—'; });     alerte.style.display = 'none';     return;   }    var rnp =
+calculateur-tva-franchise.html:88: " style="font-size:22px;font-family:var(--font-body);font-weight:700">—</p>         <p id="out-marge-restante" style="color:var(--ink-soft)">
+plan-tresorerie.html:120: lde de départ</span>         <span class="kpi-valeur" id="kpi-depart">—</span>         <span class="kpi-note" id="kpi-depart-note">—</span>  
+plan-tresorerie.html:121: -depart">—</span>         <span class="kpi-note" id="kpi-depart-note">—</span>       </div>       <div class="kpi" id="kpi-bas-carte">       
+plan-tresorerie.html:125: int bas anticipé</span>         <span class="kpi-valeur" id="kpi-bas">—</span>         <span class="kpi-note" id="kpi-bas-note">—</span>     
+plan-tresorerie.html:126: d="kpi-bas">—</span>         <span class="kpi-note" id="kpi-bas-note">—</span>       </div>       <div class="kpi">         <span class="kpi-
+plan-tresorerie.html:130: en fin d'horizon</span>         <span class="kpi-valeur" id="kpi-fin">—</span>         <span class="kpi-note" id="kpi-fin-note">—</span>     
+plan-tresorerie.html:131: d="kpi-fin">—</span>         <span class="kpi-note" id="kpi-fin-note">—</span>       </div>     </div>      <p class="note treso-verdict" id=
+plan-tresorerie.html:181: tre-in">À encaisser</h3>         <p class="treso-total" id="total-in">—</p>         <div class="treso-entetes treso-entetes-f"><span>Client</
+plan-tresorerie.html:188: titre-out">À payer</h3>         <p class="treso-total" id="total-out">—</p>         <div class="treso-entetes treso-entetes-f"><span>Fourniss
 tresorerie.js:380: ");       c.push('<td class="treso-num ' + signe + '">' + (v === 0 ? "—" : euros(v)) + "</td>");     });     c.push("</tr>");     return c.jo

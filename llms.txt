@@ -32,6 +32,7 @@ comme indépendant.
 - [Entreprises](https://pilotis-murex.vercel.app/entreprises.html) : accompagnement des PME et commerces déjà en activité.
 - [Devenir indépendant](https://pilotis-murex.vercel.app/independants.html) : étapes de lancement d'une activité indépendante en Belgique.
 - [Facture électronique Peppol et encaissements](https://pilotis-murex.vercel.app/facturation-electronique.html) : mise en conformité avec l'obligation de facturation électronique entre entreprises (1er janvier 2026), conditions de paiement, suivi des encaissements et relances amiables B2B. Ni tenue de comptabilité, ni déclaration TVA, ni recouvrement judiciaire.
+- [Affacturage](https://pilotis-murex.vercel.app/affacturage.html) : étude gratuite et mise en relation, en qualité d'apporteur d'affaires, avec un partenaire d'affacturage pour des factures entre entreprises. Pilotia n'accorde aucun financement et ne décide pas de l'acceptation des dossiers.
 - [Présence digitale](https://pilotis-murex.vercel.app/marketing-digital.html) : visibilité en ligne, réseaux sociaux, avis clients.
 - [Offres](https://pilotis-murex.vercel.app/offres.html) : formules d'accompagnement et tarifs.
 - [Méthode](https://pilotis-murex.vercel.app/methode.html) : déroulé concret d'un accompagnement.

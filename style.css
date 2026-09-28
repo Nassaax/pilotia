@@ -757,3 +757,7 @@ input[type="radio"],input[type="checkbox"]{
 .annonce p{margin:0;color:var(--ink-soft)}
 .annonce .btn{flex:none}
 sup{line-height:0;font-size:.62em}
+.form-2col{max-width:760px;grid-template-columns:1fr 1fr;gap:16px 20px}
+.form-2col .plein{grid-column:1 / -1}
+@media (max-width:640px){.form-2col{grid-template-columns:1fr}}
+.form-2col input:not([type="checkbox"]):not([type="radio"]),.form-2col select,.form-2col textarea{width:100%}
