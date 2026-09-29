@@ -301,3 +301,23 @@ double ni « Le mur » ni les Reels.
 - **Chiffres à l'écran :** 4 étapes, 15 minutes, 3 à 5 priorités. Rien d'autre.
 - **Publication :** Reel, couverture fournie (l'accroche « Qui pilote votre
   entreprise ? », lisible dans le recadrage 3:4 de la grille).
+
+## 17. Le film n° 4 « Votre métier » (charte colorée)
+
+`film-metiers.html` (9:16, 31 s), `score-metiers.py`, direction dans
+`film-metiers-DIRECTION.md`. Il présente les cinq métiers qui ont leur page
+d'accompagnement (coiffure, boulangerie, restauration, esthétique,
+immobilier), avec leurs accroches reprises mot pour mot des pages
+`coaching-*.html`.
+
+- **Geste signature :** un seul objet au centre, caméra fixe, qui se transforme
+  d'un métier à l'autre (sèche-cheveux, croissant, cloche, vernis, maison) ;
+  à chaque transformation, la couleur du métier inonde l'écran depuis l'objet,
+  précédée d'un liseré jaune.
+- **Couleurs :** les variantes « plein » de la série Services (texte blanc
+  lisible) : rose coiffure, ambre boulangerie, corail restauration, violet
+  esthétique, bleu immobilier ; crème pour l'accroche et la fin.
+- **Son :** pop-funk à 128 bpm, mené par les bruitages (rebond à chaque
+  transformation, claque à chaque autocollant, une note par mot) ; fin sur un
+  accord suspendu, la question « Et votre métier ? » reste ouverte.
+- **Aucun chiffre à l'écran.**

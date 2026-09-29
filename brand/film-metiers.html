@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Film Votre métier | PILOTIA</title>
+<link rel="icon" href="data:,">
+<!--
+  Film n° 4, « Votre métier » (9:16, 31 s). Direction : film-metiers-DIRECTION.md.
+  Charte colorée de la série Services : crème, couleurs franches, contours
+  marine, ombres portées nettes, pastilles, autocollants.
+
+  Caméra fixe. Un seul objet au centre se transforme d'un métier à l'autre
+  (le même contour, jamais un fondu) et la couleur du métier inonde l'écran
+  depuis l'intérieur de l'objet.
+
+  CONTRAT DE RENDU : chaque image est une fonction pure du temps
+  (window.FILM.seek), sans hasard ni horloge. La grille des sons
+  (window.FILM.sons) est lue par score-metiers.py.
+-->
+<style>
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;overflow:hidden}
+#scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:#FFF8EC;
+  font-family:'Inter',sans-serif;color:#0F172A;-webkit-font-smoothing:antialiased}
+#monde{position:absolute;left:0;top:0}
+.txt{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;opacity:0}
+.mot{display:inline-block;transform-origin:50% 80%}
+.titre{font-weight:900;letter-spacing:-0.045em;line-height:1}
+.jaune{color:#FACC15}
+.surligne{background:linear-gradient(transparent 58%,#FACC15 58%,#FACC15 92%,transparent 92%);padding:0 .04em}
+.pastille{position:absolute;left:50%;top:0;opacity:0;white-space:nowrap;
+  background:#FACC15;color:#0F172A;border:6px solid #0F172A;border-radius:999px;
+  padding:14px 36px;font-size:40px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  box-shadow:7px 7px 0 #0F172A}
+.defi{position:absolute;left:640px;top:0;opacity:0;white-space:nowrap;
+  background:#fff;color:#0F172A;border:6px solid #0F172A;border-radius:28px;
+  padding:18px 32px;font-size:50px;font-weight:850;letter-spacing:-0.02em;
+  box-shadow:10px 10px 0 #0F172A;display:flex;align-items:center;gap:16px}
+.defi i{flex:none;width:26px;height:26px;border-radius:50%;border:5px solid #0F172A}
+#logo{position:absolute;left:50%;top:318px;opacity:0;height:84px;padding:14px 26px;background:#fff;
+  border:5px solid #0F172A;border-radius:22px;box-shadow:7px 7px 0 #0F172A}
+</style>
+</head>
+<body>
+<div id="scene">
+  <canvas id="monde" width="1080" height="1920"></canvas>
+  <div id="textes"></div>
+  <img id="logo" src="../logo-header-light.png" alt="Pilotia">
+</div>
+
+<script>
+'use strict';
+const W = 1080, H = 1920, BPM = 128, B = 60 / BPM, DUREE = 31.0;
+const T = k => k * B;                      // le k-ième temps de la grille
+
+// ── Outils ────────────────────────────────────────────────────────────────
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const prog = (t, a, d) => clamp((t - a) / d);
+const sstep = (a, b, x) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+const E = {
+  out2: u => 1 - (1 - u) ** 2, out3: u => 1 - (1 - u) ** 3, in2: u => u * u,
+  io3: u => u < .5 ? 4 * u * u * u : 1 - (-2 * u + 2) ** 3 / 2,
+  expo: u => u >= 1 ? 1 : 1 - Math.pow(2, -10 * u),
+  back: (u, s = 1.7) => 1 + (s + 1) * (u - 1) ** 3 + s * (u - 1) ** 2,
+};
+// Rebond amorti borné : revient exactement au repos (aucune boucle).
+const rebond = (d, amp, freq = 3.2, amort = 0.13, fin = 0.62) =>
+  d <= 0 || d >= fin ? 0 : amp * Math.exp(-d / amort) * Math.sin(d * Math.PI * 2 * freq) * (1 - sstep(fin * 0.72, fin, d));
+
+const ENCRE = '#0F172A', CREME = '#FFF8EC', JAUNE = '#FACC15';
+
+// ── Les emblèmes : un contour fermé qui se transforme, des détails posés ──
+// Boîte de dessin 1000 x 1000, centre optique (500, 520).
+const EMBLEMES = {
+  generique: { contour: 'M 500 260 A 260 260 0 1 1 499.9 260 Z', details: [] },
+  sechoir: {
+    contour: 'M 175 345 Q 140 345 140 380 L 140 460 Q 140 495 175 495 L 262 505 L 520 540 L 552 812 Q 560 872 618 872 Q 676 872 672 812 L 660 566 A 150 150 0 1 0 700 270 L 262 330 Z',
+    details: [['cercleVif', 700, 420, 72], ['ligne', 'M 60 380 Q 90 370 110 382'], ['ligne', 'M 40 425 L 105 425'],
+      ['ligne', 'M 60 470 Q 90 480 110 468'], ['ligne', 'M 565 640 L 665 640']],
+  },
+  croissant: {
+    contour: 'M 130 640 Q 110 600 150 560 C 200 360 360 300 500 300 C 640 300 800 360 850 560 Q 890 600 870 640 Q 830 690 770 650 C 700 580 600 545 500 545 C 400 545 300 580 230 650 Q 170 690 130 640 Z',
+    details: [['ligne', 'M 270 425 Q 300 500 335 575'], ['ligne', 'M 400 330 Q 420 440 440 552'],
+      ['ligne', 'M 600 330 Q 580 440 560 552'], ['ligne', 'M 730 425 Q 700 500 665 575']],
+  },
+  cloche: {
+    contour: 'M 150 672 Q 150 640 182 640 L 212 640 A 288 288 0 0 1 452 362 A 52 52 0 1 1 548 362 A 288 288 0 0 1 788 640 L 818 640 Q 850 640 850 672 Q 850 704 818 704 L 182 704 Q 150 704 150 672 Z',
+    details: [['ligne', 'M 300 560 Q 320 460 400 410'], ['ligne', 'M 212 640 L 788 640']],
+  },
+  vernis: {
+    contour: 'M 452 200 Q 420 200 420 232 L 420 468 L 442 468 L 442 520 L 372 520 Q 300 520 300 592 L 300 772 Q 300 844 372 844 L 628 844 Q 700 844 700 772 L 700 592 Q 700 520 628 520 L 558 520 L 558 468 L 580 468 L 580 232 Q 580 200 548 200 Z',
+    details: [['remplissage', 'M 330 600 Q 330 560 370 560 L 630 560 Q 670 560 670 600 L 670 770 Q 670 812 628 812 L 372 812 Q 330 812 330 770 Z'],
+      ['ligne', 'M 420 468 L 580 468'], ['ligneBlanche', 'M 460 250 L 460 430'], ['ligneBlanche', 'M 370 640 L 370 740']],
+  },
+  maison: {
+    contour: 'M 500 222 L 652 340 L 652 272 L 718 272 L 718 392 L 822 472 L 764 472 L 764 806 Q 764 838 732 838 L 268 838 Q 236 838 236 806 L 236 472 L 178 472 Z',
+    details: [['remplissage', 'M 450 838 L 450 690 Q 450 660 480 660 L 520 660 Q 550 660 550 690 L 550 838 Z'],
+      ['cadre', 'M 300 540 L 400 540 L 400 630 L 300 630 Z'], ['ligne', 'M 350 540 L 350 630'], ['ligne', 'M 300 585 L 400 585'],
+      ['cadre', 'M 600 540 L 700 540 L 700 630 L 600 630 Z'], ['ligne', 'M 650 540 L 650 630'], ['ligne', 'M 600 585 L 700 585']],
+  },
+  bulle: {
+    contour: 'M 222 262 Q 130 262 130 354 L 130 646 Q 130 738 222 738 L 350 738 L 300 868 L 470 738 L 778 738 Q 870 738 870 646 L 870 354 Q 870 262 778 262 Z',
+    details: [],
+  },
+};
+// Chaque contour est échantillonné en N points à pas constant, même sens de
+// parcours ; puis chaque forme est « calée » sur la précédente (décalage
+// circulaire qui minimise le trajet des points) : la transformation ne vrille pas.
+const N = 220;
+function echantillonner(d) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', 'path'); el.setAttribute('d', d);
+  const L = el.getTotalLength(), pts = [];
+  for (let i = 0; i < N; i++) { const q = el.getPointAtLength(L * i / N); pts.push([q.x, q.y]); }
+  let aire = 0; for (let i = 0; i < N; i++) { const a = pts[i], b = pts[(i + 1) % N]; aire += a[0] * b[1] - b[0] * a[1]; }
+  if (aire < 0) pts.reverse();
+  return pts;
+}
+function caler(ref, pts) {
+  let meilleur = 0, min = Infinity;
+  for (let k = 0; k < N; k += 2) {
+    let d = 0; for (let i = 0; i < N; i += 4) { const a = ref[i], b = pts[(i + k) % N]; d += (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2; }
+    if (d < min) { min = d; meilleur = k; }
+  }
+  return pts.map((_, i) => pts[(i + meilleur) % N]);
+}
+
+// ── La partition des transformations (temps, forme, couleur du fond) ────
+const MET = {
+  coiffure: { fond: '#BE185D', vif: '#EC4899', c2: '#8B5CF6', forme: 'sechoir', nom: 'Coiffure' },
+  boulangerie: { fond: '#B45309', vif: '#F59E0B', c2: '#FB7185', forme: 'croissant', nom: 'Boulangerie' },
+  restauration: { fond: '#C2410C', vif: '#F9563B', c2: '#FB923C', forme: 'cloche', nom: 'Restauration' },
+  esthetique: { fond: '#6D28D9', vif: '#7C3AED', c2: '#F472B6', forme: 'vernis', nom: 'Esthétique' },
+  immobilier: { fond: '#1D4ED8', vif: '#2563EB', c2: '#06B6D4', forme: 'maison', nom: 'Immobilier' },
+};
+const ORDRE = ['coiffure', 'boulangerie', 'restauration', 'esthetique', 'immobilier'];
+const GRIS = { fond: CREME, vif: '#CBD5E1', c2: '#94A3B8', forme: 'generique' };
+const BULLE = { fond: CREME, vif: '#FFFFFF', c2: JAUNE, forme: 'bulle' };
+const MORPHS = [[0, GRIS]];
+ORDRE.forEach((m, i) => MORPHS.push([T(12 + 8 * i), MET[m]]));      // un métier toutes les deux mesures
+ORDRE.forEach((m, i) => MORPHS.push([T(52 + i), MET[m]]));          // l'emballement : un métier par temps
+MORPHS.push([T(57), BULLE]);
+const DUREE_MORPH = 0.3;
+
+const FORMES = {};
+(function preparer() {
+  let prec = null;
+  MORPHS.forEach(([, m], i) => {
+    const pts = echantillonner(EMBLEMES[m.forme].contour);
+    const cale = prec ? caler(prec, pts) : pts;
+    FORMES[i] = cale; prec = cale;
+  });
+  for (const k in EMBLEMES) EMBLEMES[k].chemins = EMBLEMES[k].details.map(d => [d[0], typeof d[1] === 'string' ? new Path2D(d[1]) : d.slice(1)]);
+})();
+function etatMorph(t) {
+  let i = 0; while (i + 1 < MORPHS.length && t >= MORPHS[i + 1][0]) i++;
+  return { i, t0: MORPHS[i][0], m: MORPHS[i][1], prec: i > 0 ? MORPHS[i - 1][1] : null };
+}
+
+const cv = document.getElementById('monde'), ctx = cv.getContext('2d');
+
+// ── Le fond : chaque métier inonde l'écran depuis l'objet ─────────────────
+function fond(t, centre) {
+  const { i, t0, m, prec } = etatMorph(t);
+  const u = prog(t, t0, 0.5), R = 1360 * E.expo(u);
+  ctx.fillStyle = prec && u < 1 ? prec.fond : m.fond; ctx.fillRect(0, 0, W, H);
+  if (prec && u < 1 && m.fond !== prec.fond) {
+    ctx.fillStyle = JAUNE;                                          // un liseré jaune mène la vague
+    ctx.beginPath(); ctx.arc(centre[0], centre[1], R + 34, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = m.fond;
+    ctx.beginPath(); ctx.arc(centre[0], centre[1], R, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+// ── Décor : quelques formes qui sautent en place, par métier ───────────
+const DECOR = [
+  ['rond', 118, 930, 46, 'c2'], ['carre', 968, 846, 40, 'jaune'], ['etoile', 950, 1470, 44, 'blanc'],
+  ['rond', 150, 1480, 30, 'jaune'], ['points', 870, 350, 0, 'blanc'], ['rond', 980, 1150, 22, 'blanc'],
+];
+function decor(t) {
+  const { t0, m, i } = etatMorph(t);
+  if (m === GRIS || m === BULLE || t0 >= T(52) && t0 < T(57)) return;
+  const fin = MORPHS[i + 1] ? MORPHS[i + 1][0] : DUREE;
+  DECOR.forEach(([forme, x, y, r, c], k) => {
+    const d = t0 + 0.14 + k * 0.05;
+    const s = E.back(prog(t, d, 0.32), 2.1) * (1 - E.in2(prog(t, fin - 0.2, 0.16)));
+    if (s <= 0.01) return;
+    const coul = c === 'c2' ? m.c2 : c === 'jaune' ? JAUNE : '#FFFFFF';
+    ctx.save(); ctx.translate(x, y); ctx.scale(s, s); ctx.rotate((k % 2 ? 1 : -1) * 0.2 * (1 - s));
+    ctx.lineWidth = 6; ctx.strokeStyle = ENCRE; ctx.lineJoin = 'round';
+    const trace = () => {
+      ctx.beginPath();
+      if (forme === 'rond') ctx.arc(0, 0, r, 0, Math.PI * 2);
+      else if (forme === 'carre') ctx.roundRect(-r, -r, 2 * r, 2 * r, 12);
+      else if (forme === 'etoile') for (let j = 0; j < 10; j++) { const a = -Math.PI / 2 + j * Math.PI / 5, rr = j % 2 ? r * 0.45 : r; ctx.lineTo(rr * Math.cos(a), rr * Math.sin(a)); }
+      ctx.closePath();
+    };
+    if (forme === 'points') {
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      for (let a = 0; a < 4; a++) for (let b = 0; b < 3; b++) { ctx.beginPath(); ctx.arc(a * 34 - 50, b * 34 - 34, 6, 0, Math.PI * 2); ctx.fill(); }
+    } else {
+      ctx.save(); ctx.translate(7, 7); trace(); ctx.fillStyle = ENCRE; ctx.fill(); ctx.restore();
+      trace(); ctx.fillStyle = coul; ctx.fill(); ctx.stroke();
+    }
+    ctx.restore();
+  });
+}
+
+// ── L'objet ───────────────────────────────────────────────────────────────
+function placeObjet(t) {
+  // Il monte et grandit un peu en devenant la bulle finale.
+  const u = E.io3(prog(t, T(57), 0.5));
+  return { c: [540, lerp(1090, 860, u)], s: lerp(0.68, 0.7, u) };
+}
+function objet(t) {
+  const { i, t0, m } = etatMorph(t);
+  const { c, s } = placeObjet(t);
+  const apparition = i === 0 ? E.back(prog(t, 0.05, 0.42), 2.2) : 1;
+  const p = i > 0 ? prog(t, t0, DUREE_MORPH) : 1, e = i > 0 ? E.back(p, 1.25) : 1;
+  const A = i > 0 ? FORMES[i - 1] : FORMES[0], Bp = FORMES[i];
+  const pts = Bp.map((b, k) => [lerp(A[k][0], b[0], e), lerp(A[k][1], b[1], e)]);
+  // Écrasement pendant la transformation, puis rebond amorti en se posant.
+  const pendant = i > 0 ? Math.sin(Math.PI * p) : 0, apres = t - (t0 + (i > 0 ? DUREE_MORPH : 0.3));
+  const sx = 1 + 0.12 * pendant - rebond(apres, 0.07), sy = 1 - 0.12 * pendant + rebond(apres, 0.07);
+  const rot = (i % 2 ? 1 : -1) * (0.09 * pendant + rebond(apres, 0.035, 2.4));
+  const final = etatMorph(t).m === BULLE ? rebond(t - T(64), 0.17, 2.6, 0.13, 0.75) : 0;   // le dernier rebond, sur le dernier coup
+  const K = s * apparition;
+  ctx.save();
+  ctx.translate(c[0], c[1]); ctx.rotate(rot); ctx.scale(K * (sx - final * 0.6), K * (sy + final)); ctx.translate(-500, -520);
+  const chemin = new Path2D(); pts.forEach((q, k) => k ? chemin.lineTo(q[0], q[1]) : chemin.moveTo(q[0], q[1])); chemin.closePath();
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  ctx.save(); ctx.translate(26, 26); ctx.fillStyle = ENCRE; ctx.fill(chemin); ctx.restore();   // ombre portée franche
+  ctx.fillStyle = m === GRIS ? '#E2E8F0' : '#FFFFFF'; ctx.fill(chemin);
+  ctx.lineWidth = 18 / Math.max(0.5, s / 0.6) * 1.0; ctx.strokeStyle = ENCRE; ctx.stroke(chemin);
+  // Détails : ils apparaissent une fois la forme posée, disparaissent avant la suivante.
+  const suivant = MORPHS[i + 1] ? MORPHS[i + 1][0] : 1e9;
+  const vis = sstep(t0 + (i > 0 ? DUREE_MORPH * 0.7 : 0.2), t0 + (i > 0 ? DUREE_MORPH + 0.05 : 0.4), t) * (1 - sstep(suivant - 0.1, suivant - 0.02, t));
+  if (vis > 0.01) {
+    ctx.globalAlpha = vis; ctx.lineWidth = 16;
+    for (const [type, q] of EMBLEMES[m.forme].chemins) {
+      if (type === 'cercleVif') { ctx.beginPath(); ctx.arc(q[0], q[1], q[2], 0, Math.PI * 2); ctx.fillStyle = m.vif; ctx.fill(); ctx.strokeStyle = ENCRE; ctx.stroke(); }
+      else if (type === 'remplissage') { ctx.fillStyle = m.vif; ctx.fill(q); ctx.strokeStyle = ENCRE; ctx.stroke(q); }
+      else if (type === 'cadre') { ctx.fillStyle = JAUNE; ctx.fill(q); ctx.strokeStyle = ENCRE; ctx.stroke(q); }
+      else if (type === 'ligneBlanche') { ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 14; ctx.stroke(q); ctx.lineWidth = 16; }
+      else { ctx.strokeStyle = ENCRE; ctx.stroke(q); }
+    }
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+  // Le tampon « non » sur le cercle générique.
+  if (i === 0) {
+    const a = E.back(prog(t, T(4), 0.26), 2.6), sortie = 1 - E.in2(prog(t, T(11.4), 0.16));
+    if (a > 0.01 && sortie > 0.01) {
+      ctx.save(); ctx.translate(c[0], c[1]); ctx.rotate(-0.12); ctx.scale(lerp(1.8, 1, clamp(a)) * sortie, lerp(1.8, 1, clamp(a)) * sortie);
+      ctx.globalAlpha = clamp(a * 1.4);
+      for (const sgn of [1, -1]) {
+        ctx.beginPath(); ctx.moveTo(-130, -130 * sgn); ctx.lineTo(130, 130 * sgn); ctx.lineCap = 'round';
+        ctx.strokeStyle = ENCRE; ctx.lineWidth = 64; ctx.stroke(); ctx.strokeStyle = '#EF4444'; ctx.lineWidth = 40; ctx.stroke();
+      }
+      ctx.restore();
+    }
+  }
+}
+
+// ── Mini emblèmes de la fin : les cinq métiers autour de la bulle ─────────
+const MINIS = [['coiffure', 175, 600, -0.2], ['boulangerie', 905, 600, 0.18], ['restauration', 165, 1300, 0.14], ['esthetique', 915, 1300, -0.16], ['immobilier', 540, 1438, 0.06]];
+function minis(t) {
+  if (t < T(58)) return;
+  MINIS.forEach(([cle, x, y, rot], k) => {
+    const d = T(58) + k * B / 2, s = 0.19 * E.back(prog(t, d, 0.34), 2.4);
+    if (s <= 0.005) return;
+    const hop = rebond(t - T(64) - k * 0.03, 46, 2.2, 0.13, 0.65);
+    const m = MET[cle], e = EMBLEMES[m.forme];
+    ctx.save(); ctx.translate(x, y - hop); ctx.rotate(rot); ctx.scale(s, s); ctx.translate(-500, -520);
+    const p = new Path2D(e.contour); ctx.lineJoin = 'round';
+    ctx.save(); ctx.translate(40, 40); ctx.fillStyle = ENCRE; ctx.fill(p); ctx.restore();
+    ctx.fillStyle = m.vif; ctx.fill(p); ctx.lineWidth = 34; ctx.strokeStyle = ENCRE; ctx.stroke(p);
+    ctx.restore();
+  });
+}
+
+// ── Typographie (DOM) ────────────────────────────────────────────────────
+const TEXTES = [];
+const zone = document.getElementById('textes');
+function element(html, cls, style) {
+  const el = document.createElement('div'); el.className = cls; el.innerHTML = html; el.style.cssText = style; zone.appendChild(el); return el;
+}
+// Ligne de titre : chaque mot claque à son tour (échelle, rotation, rebond).
+// Syntaxe : *mot* en jaune, _mot_ surligné ; &nbsp; lie plusieurs mots en un seul bloc.
+function ligne(html, top, taille, couleur, entree, sortie, o = {}) {
+  const mots = html.split(' ').map(w => w.startsWith('*') && w.endsWith('*') ? `<span class="mot jaune">${w.slice(1, -1)}</span>`
+    : w.startsWith('_') && w.endsWith('_') ? `<span class="mot"><span class="surligne">${w.slice(1, -1)}</span></span>`
+    : `<span class="mot">${w}</span>`).join(' ');
+  const el = element(mots, 'txt titre', `top:${top}px;font-size:${taille}px;color:${couleur}`);
+  TEXTES.push({ el, entree, sortie, pas: o.pas || 0.06, type: 'ligne' });
+  return el;
+}
+function pastille(texte, top, entree, sortie) {
+  const el = element(texte, 'pastille', `top:${top}px`);
+  TEXTES.push({ el, entree, sortie, type: 'pastille' });
+}
+function defi(texte, x, y, entree, sortie, couleur) {
+  const el = element(`<i style="background:${couleur}"></i>${texte}`, 'defi', `left:${x}px;top:${y}px`);   // x : centre
+  TEXTES.push({ el, entree, sortie, type: 'defi' });
+}
+
+// Accroche
+ligne('Des conseils', 440, 112, ENCRE, T(0.5), T(5.6));
+ligne('génériques&nbsp;?', 556, 112, ENCRE, T(1.5), T(5.6));
+pastille('Non merci', 1330, T(5), T(11.4));
+ligne('Pilotia parle', 440, 112, ENCRE, T(6.2), T(11.5));
+ligne('_votre&nbsp;métier._', 556, 112, ENCRE, T(7), T(11.5), { pas: 0.0 });
+
+// Les cinq métiers
+const TITRES_METIERS = [];
+const ACCROCHES = {
+  coiffure: [['Un agenda plein', 'ne garantit pas', 'un salon *rentable.*'], 'Taux de remplissage'],
+  boulangerie: [['Vos marges,', 'on les regarde', '*quand&nbsp;?*'], 'Invendus'],
+  restauration: [['Salle pleine', 'ne veut pas dire', 'marge *saine.*'], 'Marge par plat'],
+  esthetique: [['Vos cabines', 'sont occupées.', 'Votre rentabilité,', '*moins&nbsp;claire.*'], 'Créneaux vides'],
+  immobilier: [['Entre deux ventes,', 'votre trésorerie', '*tient&nbsp;la&nbsp;route&nbsp;?*'], 'Mois creux'],
+};
+ORDRE.forEach((cle, i) => {
+  const k0 = 12 + 8 * i, [lignes, d] = ACCROCHES[cle], m = MET[cle];
+  const sortie = T(k0 + 7.55);
+  pastille(m.nom, 318, T(k0) + 0.1, sortie);
+  const quatre = lignes.length === 4;
+  lignes.forEach((l, j) => TITRES_METIERS.push([ligne(l, 0, 100, '#FFFFFF', T(k0 + 1 + j * (quatre ? 0.75 : 1)), sortie), j, quatre]));
+  defi(d, 650, 1318, T(k0 + 5), sortie, m.vif);
+});
+// L'emballement : un nom de métier par temps.
+ORDRE.forEach((cle, i) => ligne(MET[cle].nom + '.', 470, 128, '#FFFFFF', T(52 + i) + 0.02, T(53 + i) - 0.06, { pas: 0 }));
+// La fin
+ligne('Et votre', 744, 104, ENCRE, T(58), null, { pas: 0 });
+ligne('métier&nbsp;?', 858, 104, ENCRE, T(58.5), null, { pas: 0 });
+pastille('Premier appel gratuit', 1172, T(60), null);
+ligne('Lien en bio ↓', 1290, 52, ENCRE, T(61), null, { pas: 0 });
+const logo = document.getElementById('logo');
+
+function animerTextes(t) {
+  for (const o of TEXTES) {
+    const el = o.el, fin = o.sortie == null ? 1e9 : o.sortie;
+    if (t < o.entree - 0.02 || t > fin + 0.2) { el.style.opacity = 0; continue; }
+    const sortie = E.in2(prog(t, fin, 0.14));
+    if (o.type === 'ligne') {
+      el.style.opacity = 1;
+      el.style.transform = `scale(${(1 - 0.35 * sortie).toFixed(4)})`;
+      el.querySelectorAll('.mot').forEach((m, k) => {
+        const d = o.entree + k * o.pas, u = prog(t, d, 0.3);
+        const s = lerp(1.5, 1, E.back(u, 1.9)), r = lerp(-9, 0, E.back(u, 1.6)) * (k % 2 ? -1 : 1);
+        m.style.opacity = (E.out2(prog(t, d, 0.07)) * (1 - sortie)).toFixed(3);
+        m.style.transform = `scale(${s.toFixed(4)}) rotate(${r.toFixed(2)}deg)`;
+      });
+    } else if (o.type === 'pastille') {
+      const u = prog(t, o.entree, 0.34), s = lerp(1.7, 1, E.back(u, 2.2)) * (1 - 0.4 * sortie);
+      el.style.opacity = (E.out2(prog(t, o.entree, 0.08)) * (1 - sortie)).toFixed(3);
+      el.style.transform = `translateX(-50%) scale(${s.toFixed(4)}) rotate(${lerp(-12, -3, E.back(u, 1.8)).toFixed(2)}deg)`;
+    } else {
+      const u = prog(t, o.entree, 0.34), s = lerp(1.8, 1, E.back(u, 2.4)) * (1 - 0.4 * sortie);
+      el.style.opacity = (E.out2(prog(t, o.entree, 0.08)) * (1 - sortie)).toFixed(3);
+      el.style.transform = `translateX(-50%) scale(${s.toFixed(4)}) rotate(${lerp(8, -4, E.back(u, 1.8)).toFixed(2)}deg)`;
+    }
+  }
+  const u = prog(t, T(59), 0.36);
+  logo.style.opacity = E.out2(prog(t, T(59), 0.08)).toFixed(3);
+  logo.style.transform = `translateX(-50%) scale(${lerp(1.6, 1, E.back(u, 2.2)).toFixed(4)}) rotate(${lerp(10, 2, E.back(u, 1.8)).toFixed(2)}deg)`;
+}
+
+// Taille commune des accroches : la plus grande qui tient la ligne la plus
+// longue dans 960 px (mesurée avec la vraie police), plafonnée à 120 px.
+function ajuster() {
+  let max = 0;
+  for (const [el] of TITRES_METIERS) { el.style.fontSize = '100px'; el.style.right = 'auto'; el.style.display = 'inline-block';
+    max = Math.max(max, el.offsetWidth); el.style.right = ''; el.style.display = ''; }
+  const taille = Math.min(120, Math.floor(960 / max * 100));
+  for (const [el, j, quatre] of TITRES_METIERS) {
+    const tl = quatre ? Math.round(taille * 0.86) : taille;
+    el.style.fontSize = tl + 'px'; el.style.top = (424 + j * tl * 1.04) + 'px';
+  }
+  window.TAILLES = { accroches: taille };
+}
+
+function seek(t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1;
+  const { c } = placeObjet(t);
+  fond(t, c);
+  decor(t);
+  minis(t);
+  objet(t);
+  animerTextes(t);
+}
+
+// La grille des sons : chaque bruitage est posé sur un événement de l'image.
+const SONS = {
+  duree: DUREE, bpm: BPM, temps: B,
+  apparition: 0.05,
+  mots: TEXTES.filter(o => o.type === 'ligne').flatMap(o => [...o.el.querySelectorAll('.mot')].map((_, k) => +(o.entree + k * o.pas).toFixed(4))).sort((a, b) => a - b),
+  tampon: T(4), autocollants: TEXTES.filter(o => o.type !== 'ligne').map(o => +o.entree.toFixed(4)).concat([T(59)]).sort((a, b) => a - b),
+  morphs: MORPHS.slice(1).map(([t]) => +t.toFixed(4)),
+  groove: T(12), emballement: T(52), bulle: T(57), minis: MINIS.map((_, k) => +(T(58) + k * B / 2).toFixed(4)),
+  final: T(64), fin: DUREE,
+};
+
+Promise.all([document.fonts.load('900 40px Inter'), document.fonts.load('800 40px Inter'), document.fonts.ready,
+  ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = r; i.onerror = r; }))]).then(() => {
+  ajuster();
+  window.FILM = { duree: DUREE, sons: SONS, seek };
+  const q = new URLSearchParams(location.search);
+  seek(q.has('t') ? parseFloat(q.get('t')) : 0);
+  window.PRET = true;
+});
+</script>
+</body>
+</html>
