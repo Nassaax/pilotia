@@ -141,6 +141,15 @@ for m in range(nb_mesures):
         if t < silence_de and m > 0:
             poser(batterie, t, charley(int(t * 997) % SR), 0.22 if c % 2 else 0.12)
 
+# Le demi-temps avant la marque doit être un vrai silence : les notes et la
+# basse posées juste avant résonnent encore dedans. On ferme la musique par un
+# fondu de 60 ms au début de la fenêtre (mesuré : -8,6 dB de résonance sans ce
+# fondu dans les Reels).
+_i0 = int(silence_de * SR); _i1 = int(silence_a * SR); _f = int(0.06 * SR)
+for _p in (musique, batterie):
+    _p[_i0:_i0 + _f] *= np.linspace(1, 0, _f)
+    _p[_i0 + _f:_i1] = 0
+
 # Accord final : fa majeur plein, sur la marque, avec une pluie de notes aiguës.
 fin = G['slap']
 for f in [41, 53, 60, 65, 69, 72, 77]:

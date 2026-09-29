@@ -74,3 +74,32 @@ du film.
 
 Chaque bruitage est calculé depuis cette même grille (voir `score-services.py`) :
 la synchronisation est garantie par construction, pas mesurée après coup.
+
+---
+
+# Série de Reels « Un casse-tête, une réponse » (15 s)
+
+Moteur : `film-reel.html?s=peppol|affacturage|payeurs|diagnostic`. Même
+bande-son (`score-services.py`), même contrat de grille.
+
+**Différences voulues avec « Le mur » :** un seul objet au lieu d'un mur,
+empilement vertical au lieu d'un travelling, fin par inondation de couleur au
+lieu d'un recul. **Constante de marque gardée :** la carte se retourne sur le
+2e temps de la mesure.
+
+| Temps | Contenu |
+|---|---|
+| 0,0 | Pastille « Casse-tête du jour » collée : le film démarre en mouvement |
+| 0,75 | La carte grise tombe et se pose ; « ? » au 3e temps |
+| 3,75 | Retournement posé au 2e temps : la réponse, dans la couleur du service |
+| 5,25 | La carte monte et rétrécit |
+| 6,0 / 7,5 / 9,0 | Trois points clés, un par temps fort |
+| 11,6 à 12,55 | Sortie, puis la couleur du service envahit l'écran |
+| 12,75 | Carton final collé : accord, puis tenue jusqu'à 15 s |
+
+Zone sûre Instagram tenue : tout le texte utile entre y = 300 et y = 1450.
+
+**Mesures sur les fichiers livrés (v4) :** -14,3 LUFS, crête vraie -1,2 dB ;
+retournement +9 dB au-dessus de ce qui précède ; creux de -17 dB dans le
+demi-temps avant l'accord (la v1 n'avait pas de vrai silence : le souffle de
+sortie et la résonance de la basse le couvraient, corrigé en v3 et v4).

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Reel | Un casse-tête, une réponse</title>
+<link rel="icon" href="data:,">
+<!--
+  Série de Reels de 15 s, un par service : ?s=peppol|affacturage|payeurs|diagnostic.
+
+  Grammaire commune à la série (et différente du film « Le mur ») : un seul
+  objet, empilement vertical, fin par une inondation de couleur. Le geste de
+  marque est gardé : la carte se retourne sur le 2e temps de la mesure.
+
+  Zone sûre des Reels (charte, section 6) : tout le texte utile tient entre
+  y = 300 et y = 1450 ; l'interface d'Instagram couvre le reste.
+
+  DÉTERMINISME : chaque image est une fonction pure de t (rendre(t)).
+  Rotation 3D sur .rot, translation et échelle sur #carte-pos (loi 4).
+-->
+<style>
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+:root{--encre:#0F172A;--encre-douce:#334155;--papier:#FFF8EC}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--papier)}
+body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;color:var(--encre)}
+#scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--papier)}
+.points{position:absolute;inset:0;background-image:radial-gradient(#0F172A 2px,transparent 2.5px);background-size:34px 34px;opacity:.07}
+.deco{position:absolute;border-radius:50%}
+
+.pastille{
+  position:absolute;left:90px;top:318px;background:var(--c3);border:5px solid var(--encre);border-radius:999px;
+  padding:12px 28px;font-size:30px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;
+  box-shadow:7px 7px 0 var(--encre);transform-origin:left center;
+}
+#carte-pos{position:absolute;left:90px;top:0;width:900px;height:640px;perspective:2200px;transform-origin:50% 50%}
+.rot{position:absolute;inset:0;transform-style:preserve-3d}
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border:7px solid var(--encre);border-radius:46px;box-shadow:16px 16px 0 var(--encre);
+  padding:52px 56px;display:flex;flex-direction:column;
+}
+.probleme{background:#EEF0F3}
+.solution{background:var(--plein);color:#fff;transform:rotateY(180deg)}
+.num{font-size:28px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:#64748B}
+.phrase-p{font-size:74px;font-weight:900;line-height:1.04;letter-spacing:-0.035em;color:#334155;margin-top:auto}
+.interro{
+  position:absolute;right:46px;top:40px;width:120px;height:120px;border-radius:50%;
+  background:#FECACA;border:6px solid var(--encre);display:grid;place-items:center;
+  font-size:74px;font-weight:900;color:var(--encre);
+}
+.tag{
+  align-self:flex-start;background:var(--c3);color:var(--encre);border:6px solid var(--encre);
+  border-radius:999px;padding:12px 28px;font-size:30px;font-weight:850;letter-spacing:.06em;
+  text-transform:uppercase;box-shadow:7px 7px 0 var(--encre);transform-origin:left center;
+}
+.face .icone{position:absolute;right:48px;top:44px;width:124px;height:124px;border-radius:32px}
+.phrase-s{font-size:82px;font-weight:900;line-height:1.02;letter-spacing:-0.04em;margin-top:auto}
+
+.icone{border:6px solid var(--encre);background:#fff;display:grid;place-items:center;flex:none}
+.icone svg{width:62%;height:62%;stroke:var(--encre);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+.point{
+  position:absolute;left:90px;width:900px;background:#fff;border:6px solid var(--encre);border-radius:38px;
+  box-shadow:12px 12px 0 var(--encre);padding:30px 36px;display:flex;align-items:center;gap:30px;
+  transform-origin:50% 50%;
+}
+.point .icone{width:108px;height:108px;border-radius:28px;background:var(--c1-clair)}
+.point b{display:block;font-size:46px;font-weight:900;letter-spacing:-0.02em;line-height:1.08}
+.point span{display:block;font-size:32px;font-weight:600;color:var(--encre-douce);line-height:1.3;margin-top:6px}
+
+#flot{position:absolute;border-radius:50%;background:var(--plein)}
+#fin{
+  position:absolute;left:90px;width:900px;top:560px;background:#fff;border:7px solid var(--encre);
+  border-radius:46px;box-shadow:16px 16px 0 var(--encre);padding:56px 56px 60px;transform-origin:50% 50%;
+}
+#fin .logo{height:66px;width:auto;display:block}
+#fin .ligne{font-size:84px;font-weight:900;letter-spacing:-0.04em;line-height:1.02;margin-top:34px}
+#fin .surligne{background:linear-gradient(transparent 58%,var(--c3) 58%,var(--c3) 92%,transparent 92%)}
+#fin .appel{
+  display:inline-block;margin-top:40px;background:var(--c3);border:6px solid var(--encre);border-radius:999px;
+  padding:20px 38px;font-size:44px;font-weight:900;box-shadow:9px 9px 0 var(--encre);
+}
+#fin .mention{font-size:26px;font-weight:600;color:var(--encre-douce);margin-top:30px;line-height:1.4}
+</style>
+</head>
+<body>
+<div id="scene">
+  <div class="points"></div>
+  <div class="deco" id="deco1"></div>
+  <div class="deco" id="deco2"></div>
+  <span class="pastille" id="pastille">Casse-tête du jour</span>
+  <div id="carte-pos"><div class="rot" id="rot">
+    <div class="face probleme"><span class="num">Casse-tête</span><span class="interro" id="interro">?</span><div class="phrase-p" id="phrase-p"></div></div>
+    <div class="face solution"><span class="tag" id="tag"></span><div class="icone" id="icone-s"></div><div class="phrase-s" id="phrase-s"></div></div>
+  </div></div>
+  <div id="points"></div>
+  <div id="flot"></div>
+  <div id="fin"><img class="logo" src="../logo-header-light.png" alt=""><div class="ligne" id="fin-ligne"></div><span class="appel">Lien en bio →</span><div class="mention" id="fin-mention"></div></div>
+</div>
+
+<script>
+'use strict';
+const I = {
+ doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+ reseau:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.9l7.6-3.8M8.2 13.1l7.6 3.8"/>',
+ ecran:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+ facture:'<path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21z"/><path d="M10 8h4M10 12h4"/>',
+ euro:'<path d="M17 6.5a6.5 6.5 0 1 0 0 11M4 10.5h9M4 13.5h9"/>',
+ bouclier:'<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/>',
+ envoi:'<path d="M4 12l16-8-6 16-3-7z"/><path d="M11 13l9-9"/>',
+ stylo:'<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/>',
+ cloche:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+ barres:'<path d="M5 20v-8M10 20V5M15 20v-5M20 20V9M3 20h18"/>',
+ loupe:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/>',
+ cadenas:'<rect x="5" y="11" width="14" height="9.5" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+};
+// Couleurs reprises de services.css ; texte blanc sur --plein ≥ 5:1 (vérifié).
+const SERIES = {
+ peppol: {c1:'#2563EB', clair:'#DBEAFE', c2:'#06B6D4', c3:'#FACC15', plein:'#2563EB', ic:'doc', tag:'Facture Peppol',
+   p:'Mes factures PDF ne comptent plus&nbsp;?', s:'Mis en règle avec Peppol.',
+   pts:[['doc','Le PDF ne suffit plus','Entre entreprises belges, depuis 2026.'],
+        ['reseau','Envoyer et recevoir','Via un logiciel inscrit sur Peppol.'],
+        ['ecran','Pilotia vous met en règle','Outil, inscription, modèles, premiers envois.']],
+   fin:'Facture Peppol&nbsp;: <span class="surligne">on s\'en occupe.</span>', mention:'Pilotia ne tient pas de comptabilité et ne dépose aucune déclaration TVA.'},
+ affacturage: {c1:'#16A34A', clair:'#DCFCE7', c2:'#14B8A6', c3:'#FDE047', plein:'#15803D', ic:'euro', tag:'Affacturage',
+   p:'Payé dans 60 jours, les salaires c\'est demain.', s:'Payé sans attendre l\'échéance.',
+   pts:[['facture','Vous facturez','Un client professionnel, comme d\'habitude.'],
+        ['euro','Vous recevez l\'avance','La plus grande partie, sans attendre.'],
+        ['bouclier','Étude gratuite','Pilotia prépare votre dossier.']],
+   fin:'Votre argent <span class="surligne">n\'attend plus.</span>', mention:'Pilotia n\'accorde aucun financement : la décision revient au partenaire financier. Réservé aux entreprises.'},
+ payeurs: {c1:'#F9563B', clair:'#FFE4DC', c2:'#FB923C', c3:'#A3E635', plein:'#C2410C', ic:'cloche', tag:'Mauvais payeurs',
+   p:'Ce client paie toujours en retard.', s:'Des relances planifiées, sans gêne.',
+   pts:[['envoi','Facturer le jour même','Par Peppol, avec une trace de transmission.'],
+        ['stylo','Des conditions claires','Intérêts et 40&nbsp;€ d\'indemnité prévus.'],
+        ['cloche','Un calendrier de relance','Écrit une fois, envoyé à chaque fois.']],
+   fin:'Vos factures, <span class="surligne">payées à l\'heure.</span>', mention:'Entre entreprises : loi du 2 août 2002. Pour un litige, le relais passe à un avocat.'},
+ diagnostic: {c1:'#7C3AED', clair:'#EDE9FE', c2:'#F472B6', c3:'#FACC15', plein:'#6D28D9', ic:'loupe', tag:'Diagnostic express',
+   p:'Où part mon argent&nbsp;?', s:'Le diagnostic, en 3 minutes.',
+   pts:[['barres','8 questions','Finances, personnel, visibilité, trésorerie.'],
+        ['loupe','Un score par thème','Pour voir tout de suite où ça coince.'],
+        ['cadenas','Gratuit et privé','Vos réponses restent dans votre navigateur.']],
+   fin:'3 minutes pour <span class="surligne">y voir clair.</span>', mention:'Gratuit, sans inscription.'},
+};
+const NOM = new URLSearchParams(location.search).get('s') || 'peppol';
+const S = SERIES[NOM];
+const scene = document.getElementById('scene');
+scene.style.setProperty('--c1', S.c1); scene.style.setProperty('--c1-clair', S.clair);
+scene.style.setProperty('--c3', S.c3); scene.style.setProperty('--plein', S.plein);
+const svg = k => `<svg viewBox="0 0 24 24">${I[k]}</svg>`;
+document.getElementById('phrase-p').innerHTML = S.p;
+document.getElementById('phrase-s').innerHTML = S.s;
+document.getElementById('tag').textContent = S.tag;
+document.getElementById('icone-s').innerHTML = svg(S.ic);
+document.getElementById('fin-ligne').innerHTML = S.fin;
+document.getElementById('fin-mention').textContent = S.mention;
+const pts = document.getElementById('points');
+const Y_POINTS = [860, 1050, 1240];
+S.pts.forEach(([ic, b, sp], i) => {
+  const d = document.createElement('div'); d.className = 'point'; d.style.top = Y_POINTS[i] + 'px';
+  d.innerHTML = `<div class="icone">${svg(ic)}</div><div><b>${b}</b><span>${sp}</span></div>`;
+  pts.appendChild(d);
+});
+const deco1 = document.getElementById('deco1'), deco2 = document.getElementById('deco2');
+Object.assign(deco1.style, {width:'520px', height:'520px', right:'-180px', top:'-160px', background:S.c2, opacity:.9});
+Object.assign(deco2.style, {width:'200px', height:'200px', left:'-60px', bottom:'300px', background:S.c3, border:'6px solid #0F172A'});
+
+// ── Temps : 80 bpm, une mesure = 3 s ──────────────────────────────────────
+const TEMPS = 0.75;
+const T = {
+  pastille: 0.0, chute: 0.25, pose: 0.75, interro: 1.5,
+  flip: 3.75, tagPop: 4.5, monte: 5.25,
+  points: [6.0, 7.5, 9.0],
+  sortie: 11.6, flot: 12.0, fin: 12.75, duree: 15.0,
+};
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, d) => clamp((t - a) / d);
+const easeInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const easeIn = p => p * p * p;
+const back = (p, s = 1.7) => 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2);
+const lerp = (a, b, p) => a + (b - a) * p;
+
+const pastille = document.getElementById('pastille'), cartePos = document.getElementById('carte-pos');
+const rot = document.getElementById('rot'), tag = document.getElementById('tag'), interro = document.getElementById('interro');
+const pointEls = [...document.querySelectorAll('.point')];
+const flot = document.getElementById('flot'), fin = document.getElementById('fin');
+
+function rendre(t) {
+  // Pastille : collée à t = 0, le film commence déjà en mouvement.
+  const pa = prog(t, T.pastille, 0.3), sortie = easeIn(prog(t, T.sortie, 0.4));
+  pastille.style.transform = `translateY(${-sortie * 700}px) rotate(-3deg) scale(${back(pa, 2)})`;
+
+  // Carte : tombe et se pose au 2e temps, puis monte et rétrécit au 4e temps de la mesure 1.
+  const chute = prog(t, T.chute, T.pose - T.chute);
+  const yPose = 820 - 320;                                   // centre à y = 820
+  const monte = easeInOut(prog(t, T.monte, 0.45));
+  const y = lerp(-800, yPose, back(chute, 1.2)) + lerp(0, 610 - 820, monte) - sortie * 1200;
+  const s = lerp(1, 0.62, monte);
+  cartePos.style.transform = `translateY(${y}px) scale(${s})`;
+  cartePos.style.top = '0px';
+
+  // Retournement : back(p, 1.1) franchit 180° à p ≈ 0,476 ; durée réglée pour tomber sur T.flip.
+  const d = 0.63, p = prog(t, T.flip - 0.476 * d, d);
+  rot.style.transform = `rotateY(${180 * back(p, 1.1)}deg)`;
+  interro.style.transform = `rotate(12deg) scale(${back(prog(t, T.interro, 0.28), 2.4)})`;
+  tag.style.transform = `rotate(-3deg) scale(${back(prog(t, T.tagPop, 0.28), 2.2)})`;
+
+  // Trois points collés en rythme, légère rotation qui se pose à plat.
+  pointEls.forEach((el, i) => {
+    const q = prog(t, T.points[i] - 0.3, 0.3);
+    const r = i % 2 ? 2.5 : -2.5;
+    el.style.transform = `translateY(${-sortie * 1500}px) rotate(${lerp(r * 3, r * 0.3, easeOut(q))}deg) scale(${q > 0 ? lerp(1.5, 1, back(q, 1.4)) : 0})`;
+  });
+
+  // Inondation de couleur depuis le centre de la carte, puis carton final.
+  const f = easeInOut(prog(t, T.flot, 0.55)), R = 2300 * f;
+  Object.assign(flot.style, {width: 2 * R + 'px', height: 2 * R + 'px', left: 540 - R + 'px', top: 610 - R + 'px'});
+  const g = prog(t, T.fin - 0.3, 0.34);
+  fin.style.transform = `rotate(${lerp(-9, -2, easeOut(g))}deg) scale(${g > 0 ? lerp(1.6, 1, back(g, 1.6)) : 0})`;
+}
+
+window.FILM = {
+  duration: T.duree, format: '9x16', width: 1080, height: 1920, seek: rendre,
+  // Même contrat que film-services.html : score-services.py lit cette grille.
+  sons: {
+    // Le souffle de sortie (0,9 s) part 0,3 s avant l'image : il accompagne la
+    // sortie et s'éteint avant le demi-temps de silence qui précède l'accord.
+    bpm: 80, duree: T.duree, recul: T.sortie - 0.3, slap: T.fin,
+    trajets: [T.monte], poses: [T.pose, T.flip],
+    etiquettes: [T.interro, T.tagPop, ...T.points], cartons: [T.pastille],
+  },
+};
+rendre(0);
+</script>
+</body>
+</html>
