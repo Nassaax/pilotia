@@ -255,3 +255,29 @@ publications (`--creme`, qui devient le fond alternatif en mode sombre), et
 l'appel final reprend deux ronds de couleur qui débordent du cadre. Le mot
 PILOTIA multicolore (les sept couleurs de la mosaïque) mène à Instagram en
 pied de chaque page, et s'affiche en grand sur la page 404.
+
+## 15. Les stories « à la une »
+
+`stories-a-la-une.html` (généré par `stories-a-la-une.py`, mise en page dans
+`stories.css`) : 8 thèmes à épingler sur le profil, 3 ou 4 stories chacun, et
+une couverture par thème.
+
+| À la une | Thème couleur | Stories |
+|---|---|---|
+| Pilotia | indigo | 4 |
+| Peppol | bleu | 4 |
+| Impayés | corail | 4 |
+| Affacturage | vert | 4 |
+| Diagnostic | violet | 3 |
+| Outils | turquoise | 3 |
+| Lancement | ambre | 3 |
+| Tarifs | rose | 3 |
+
+- **Zone sûre.** Tout le texte tient entre y = 300 et y = 1450 (le rendu le
+  vérifie) ; le décor occupe les bandes du haut et du bas.
+- **Dernière story de chaque thème** : fond plein et « Touchez le lien ».
+  L'autocollant « Lien » d'Instagram se pose dans l'espace libre juste en dessous.
+- **Couvertures** : un aplat de couleur et une icône centrée, rien près des
+  bords, car Instagram n'en montre qu'un disque.
+- **Texte** : tout vient des pages du site. Si un prix change sur `offres.html`,
+  regénérer les stories Tarifs et les republier.

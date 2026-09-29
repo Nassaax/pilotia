@@ -1,0 +1,102 @@
+/* Stories « à la une » : la série Services au format 9:16.
+ *
+ * Reprend tout services.css (thèmes, cartes, pastilles, frises) et n'ajoute
+ * que le format. Instagram couvre le haut (barre de progression, nom du
+ * compte) et le bas (champ de réponse) : tout le texte utile tient dans la
+ * zone y = 300 à 1450 (charte-social.md, section 3). Le décor, lui, occupe
+ * volontairement les bandes du haut et du bas, là où le texte ne peut pas aller.
+ */
+
+.story{
+  position:relative;overflow:hidden;isolation:isolate;
+  width:1080px;height:1920px;flex:none;
+  background:var(--papier);color:var(--encre);
+  font-family:var(--texte);-webkit-font-smoothing:antialiased;
+}
+.story.pleine{background:var(--plein);color:var(--blanc)}
+.story.pleine .texte{color:rgba(255,255,255,.9)}
+.story.pleine .texte strong{color:#fff}
+
+/* La zone sûre : c'est elle que le rendu contrôle. */
+.zone{position:absolute;left:90px;right:90px;top:300px;height:1150px;display:flex;flex-direction:column}
+.zone .bloc{margin:auto 0;padding-top:30px}
+.story .pied{position:absolute;left:90px;right:90px;top:1482px;margin:0}
+
+.story .h1{font-size:104px;margin-top:40px}
+.story .h2{font-size:74px;margin-top:34px}
+.story .texte{font-size:38px;max-width:none}
+
+/* Ligne de tarif */
+.tarifs{padding:12px 40px}
+.tarif-ligne{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:26px 0}
+.tarif-ligne + .tarif-ligne{border-top:4px dashed #CBD5E1}
+.tarif-ligne b{font-size:36px;font-weight:850;line-height:1.15;letter-spacing:-0.01em}
+.tarif-ligne small{display:block;font-size:26px;font-weight:600;color:var(--encre-douce);margin-top:6px}
+.tarif-ligne .prix{flex:none;font-size:36px;font-weight:900;color:var(--c1-texte);white-space:nowrap;text-align:right}
+
+/* Invitation à toucher le lien : l'autocollant « Lien » d'Instagram se pose
+   dans l'espace laissé libre juste en dessous. */
+.lien-ici{
+  display:flex;align-items:center;gap:18px;margin-top:40px;
+  font-size:34px;font-weight:850;letter-spacing:.02em;
+}
+.lien-ici svg{width:46px;height:46px;stroke:currentColor;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.place-lien{height:170px;flex:none}
+
+.pleine .carte{color:var(--encre)}
+.pleine .mention{margin-top:28px}
+
+/* ─── Couvertures des stories à la une ────────────────────────────────── */
+/* Instagram n'en montre qu'un disque central : un aplat de couleur et une
+   icône bien au centre, rien près des bords. */
+.couv{
+  position:relative;width:1080px;height:1920px;flex:none;overflow:hidden;
+  background:var(--c1);display:grid;place-items:center;
+}
+.couv-icone{
+  width:470px;height:470px;border-radius:120px;background:#fff;
+  border:16px solid var(--encre);box-shadow:24px 24px 0 var(--encre);
+  display:grid;place-items:center;transform:translate(-12px,-12px);
+}
+.couv-icone svg{width:60%;height:60%;stroke:var(--encre);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+body.stories{flex-direction:row;flex-wrap:wrap;align-items:flex-start}
+
+/* Le 9:16 laisse plus de hauteur que la planche 4:5 : les éléments prennent
+   un cran de plus pour remplir la zone sûre au lieu d'y flotter. */
+.story .sticker{padding:30px 34px;gap:24px}
+.story .sticker b{font-size:44px}
+.story .sticker span{font-size:29px}
+.story .sticker .icone{width:100px;height:100px;border-radius:26px}
+.story .sticker .icone svg{width:54px;height:54px}
+.story .stickers{gap:22px;margin-left:0}
+.story .pile .sticker{padding:36px 40px}
+.story .frise{margin-top:40px}
+.story .etape{margin-bottom:64px}
+.story .etape .quand{font-size:32px}
+.story .etape .quoi{font-size:54px}
+.story .etape::before{width:56px;height:56px;left:-64px;top:14px}
+.story .coche{font-size:50px}
+.story .coche + .coche{margin-top:52px}
+.story .coche small{font-size:34px}
+.story .coche .marque-oui,.story .coche .marque-non{width:74px;height:74px;border-radius:20px}
+.story .grille .carte h3{font-size:44px}
+.story .grille .carte{padding:40px 34px}
+
+/* Stories d'appel : le bloc entier se centre, le titre prend la place. */
+.story.pleine .zone{justify-content:center}
+.story.pleine .zone .bloc{margin:0;padding-top:0}
+.story.pleine .h2{font-size:90px}
+.story.pleine .texte{font-size:42px}
+.lien-ici{font-size:40px;margin-top:56px}
+.lien-ici svg{width:56px;height:56px}
+.story .frise.serree .etape{margin-bottom:38px}
+
+/* Autocollants empilés : en 9:16 la hauteur est là, la largeur non. Deux
+   autocollants côte à côte coupaient « 3 minutes » sur deux lignes. */
+.story .stickers{flex-direction:column;align-items:flex-start;gap:28px;margin-top:10px}
+.story .stickers .sticker{transform:rotate(-2deg)}
+.story .stickers .sticker:last-child{margin-left:140px;transform:rotate(2deg)}
+.story .sticker b{white-space:nowrap}
+.story .sticker-fleche{transform:rotate(90deg);margin:0 0 0 70px}
+.story .mention{font-size:27px}
