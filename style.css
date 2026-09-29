@@ -761,3 +761,53 @@ sup{line-height:0;font-size:.62em}
 .form-2col .plein{grid-column:1 / -1}
 @media (max-width:640px){.form-2col{grid-template-columns:1fr}}
 .form-2col input:not([type="checkbox"]):not([type="radio"]),.form-2col select,.form-2col textarea{width:100%}
+
+/* ─── Rappel de la série Instagram « Services » ───────────────────────────── */
+/* Une couleur par service, la même que sur les carrousels et les Reels
+   (brand/services.css) : qui arrive depuis une publication verte retrouve du
+   vert. La couleur signale le service, elle ne décore pas ; texte courant,
+   formulaires et pages légales restent sobres.
+   Posée sur <body> (page de service) ou sur une carte, la classe .svc
+   remplace les jetons d'accent : boutons, sur-titre, liens et pastille
+   d'icône suivent sans autre règle. Les teintes « texte » sont assombries
+   par rapport aux carrousels pour tenir 4,5:1 (vérifié sur blanc, fond,
+   fond alternatif et pastille claire ; en sombre, sur fond, carte et
+   section sombre). --svc-vif sert seulement aux filets décoratifs. */
+.svc-peppol     {--svc:#1D4ED8;--svc-soft:#DBEAFE;--svc-fonce:#1E40AF;--svc-vif:#2563EB;--svc-d:#60A5FA;--svc-d-soft:#14213D;--svc-d-fonce:#93C5FD}
+.svc-payeurs    {--svc:#C2410C;--svc-soft:#FFEDD5;--svc-fonce:#9A3412;--svc-vif:#F9563B;--svc-d:#FB923C;--svc-d-soft:#2C1A10;--svc-d-fonce:#FDBA74}
+.svc-affacturage{--svc:#157A3B;--svc-soft:#DCFCE7;--svc-fonce:#166534;--svc-vif:#16A34A;--svc-d:#4ADE80;--svc-d-soft:#0F2A1B;--svc-d-fonce:#86EFAC}
+.svc-diagnostic {--svc:#6D28D9;--svc-soft:#EDE9FE;--svc-fonce:#5B21B6;--svc-vif:#7C3AED;--svc-d:#A78BFA;--svc-d-soft:#211A3D;--svc-d-fonce:#C4B5FD}
+.svc-presence   {--svc:#BE185D;--svc-soft:#FCE7F3;--svc-fonce:#9D174D;--svc-vif:#EC4899;--svc-d:#F472B6;--svc-d-soft:#2E1426;--svc-d-fonce:#F9A8D4}
+.svc-independant{--svc:#AD4F0A;--svc-soft:#FEF3C7;--svc-fonce:#92400E;--svc-vif:#F59E0B;--svc-d:#FBBF24;--svc-d-soft:#2B2211;--svc-d-fonce:#FCD34D}
+.svc-pilotage   {--svc:#4338CA;--svc-soft:#E0E7FF;--svc-fonce:#3730A3;--svc-vif:#4F46E5;--svc-d:#818CF8;--svc-d-soft:#1B1D40;--svc-d-fonce:#A5B4FC}
+.svc-outils     {--svc:#0F766E;--svc-soft:#CCFBF1;--svc-fonce:#115E59;--svc-vif:#0D9488;--svc-d:#2DD4BF;--svc-d-soft:#0E2A29;--svc-d-fonce:#5EEAD4}
+.svc{--accent:var(--svc);--accent-soft:var(--svc-soft);--accent-fonce:var(--svc-fonce)}
+@media (prefers-color-scheme: dark){
+  .svc{--accent:var(--svc-d);--accent-soft:var(--svc-d-soft);--accent-fonce:var(--svc-d-fonce);--svc-vif:var(--svc-d)}
+}
+/* La section sombre redéfinit ses jetons : elle reprend la variante sombre. */
+.svc .section-sombre,.section-sombre .svc{--accent:var(--svc-d);--accent-soft:var(--svc-d-soft);--accent-fonce:var(--svc-d-fonce)}
+/* Page de service : un filet de la couleur du service sous l'en-tête. */
+body.svc .hero{border-top:6px solid var(--svc-vif)}
+/* Carte de service : filet en haut et pastille d'icône à la couleur du service. */
+.card.svc,.path-card.svc{border-top:5px solid var(--svc-vif)}
+.card.svc .card-icon,.path-card.svc .card-icon{background:var(--accent-soft);color:var(--accent)}
+
+/* ─── Signature : contour marine et ombre décalée ──────────────────────── */
+/* Le trait des publications (contour épais, ombre franche sans flou), dosé :
+   sur le bouton principal, et sur les cartes cliquables au survol seulement.
+   En sombre le marine disparaîtrait dans le fond : le trait passe au noir. */
+:root{--trait:#0F172A}
+@media (prefers-color-scheme: dark){:root{--trait:#000000}}
+.btn-primary,.nav-cta{border:2px solid var(--trait);box-shadow:3px 3px 0 var(--trait)}
+.btn-primary:hover,.nav-cta:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--trait)}
+.btn-primary:active,.nav-cta:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--trait)}
+/* Sur fond marine (bandeau, section sombre), l'ombre marine ne se verrait pas. */
+.banner,.section-sombre{--trait:#000000}
+a.card:hover,.path-card:hover{
+  transform:translate(-3px,-3px);
+  box-shadow:0 0 0 2px var(--trait),6px 6px 0 2px var(--trait);
+}
+@media (prefers-reduced-motion: reduce){
+  .btn-primary:hover,.btn-primary:active,.nav-cta:hover,.nav-cta:active,a.card:hover,.path-card:hover{transform:none}
+}

@@ -238,3 +238,14 @@ mot ; rangée 3 : Diagnostic, Gestion, Visibilité et « Lien en bio »).
   on publie la case 09 en premier et la case 01 en dernier.
 - **Après la mosaïque.** Toujours publier par multiples de 3, sinon le mot se
   décale d'une colonne. Ne pas épingler d'autre publication au-dessus.
+
+## 14. Le rappel sur le site
+
+Le site reprend les couleurs de la série « Services » (jetons `.svc-*` dans
+`style.css`) : chaque page de service porte la couleur de son carrousel
+(filet sous l'en-tête, sur-titre, boutons, liens), et les cartes de service de
+l'accueil aussi. Le bouton principal et les cartes cliquables au survol
+reprennent le contour marine et l'ombre décalée des publications.
+Une nouvelle couleur de service s'ajoute aux deux endroits à la fois :
+`brand/services.css` (teinte vive) et `style.css` (teintes texte, assombries
+pour tenir 4,5:1).
