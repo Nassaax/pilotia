@@ -221,3 +221,20 @@ règle n° 6 aussi : aucun tiret long.
 
 Rendu : chaque `.planche` est capturée en PNG 1080 × 1350, avec un contrôle
 qui signale tout texte sortant de la marge de 90 px.
+
+## 13. La mosaïque de profil « PILOTIA »
+
+`grille-instagram.html` produit 9 publications qui, ensemble, écrivent PILOTIA
+sur la grille du profil (rangée 1 : PME, logo, indépendants ; rangée 2 : le
+mot ; rangée 3 : Diagnostic, Gestion, Visibilité et « Lien en bio »).
+
+- **Recadrage.** La grille du profil montre les publications en 3:4 : 34 px sont
+  rognés à gauche et à droite de chaque 1080 × 1350. Rien d'utile n'est placé
+  dans ces bandes.
+- **Lettres entières.** Le mot est découpé PI | LOT | IA, placé par calcul :
+  aucune frontière ne coupe une lettre, l'espacement est de 84 px partout.
+  Chaque case se lit donc seule dans le fil.
+- **Ordre de publication.** Instagram affiche la plus récente en haut à gauche :
+  on publie la case 09 en premier et la case 01 en dernier.
+- **Après la mosaïque.** Toujours publier par multiples de 3, sinon le mot se
+  décale d'une colonne. Ne pas épingler d'autre publication au-dessus.

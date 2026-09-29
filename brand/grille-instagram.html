@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Grille Instagram | PILOTIA</title>
+<link rel="icon" href="data:,">
+<!--
+  Mosaïque de profil : 9 publications (3 × 3) qui, côte à côte sur la grille
+  du profil, affichent le mot PILOTIA.
+
+  GÉOMÉTRIE. Une publication fait 1080 × 1350. La grille du profil l'affiche
+  en 3:4 : seuls les 1012 px centraux sont visibles, 34 px sont rognés de
+  chaque côté. La toile maîtresse mesure donc 3 × 1012 px de large, plus 34 px
+  de débord à gauche et à droite ; chaque case est découpée sur 1080 px de
+  large, débords compris, pour que la publication ouverte en 4:5 reste
+  continue elle aussi.
+
+  LETTRES ENTIÈRES. Le mot est placé par calcul : chaque frontière entre deux
+  cases tombe dans un espace entre deux lettres, ombre comprise. Aucune lettre
+  n'est coupée, donc chaque publication se lit seule dans le fil.
+-->
+<style>
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+:root{--encre:#0F172A;--papier:#FFF8EC}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#ccc}
+#toile{position:relative;width:3104px;height:4050px;background:var(--papier);overflow:hidden;font-family:'Inter',sans-serif;color:var(--encre);-webkit-font-smoothing:antialiased}
+.abs{position:absolute}
+.rond{position:absolute;border-radius:50%}
+.points{position:absolute;background-image:radial-gradient(#0F172A 3px,transparent 3.6px);background-size:44px 44px;opacity:.13}
+.lettre{
+  position:absolute;font-weight:900;line-height:1;letter-spacing:0;
+  -webkit-text-stroke:12px var(--encre);paint-order:stroke fill;
+  text-shadow:20px 20px 0 var(--encre);
+}
+.carte{
+  position:absolute;background:#fff;border:9px solid var(--encre);border-radius:56px;
+  box-shadow:22px 22px 0 var(--encre);display:flex;align-items:center;gap:40px;padding:48px 54px;
+}
+.icone{flex:none;width:170px;height:170px;border-radius:44px;border:9px solid var(--encre);display:grid;place-items:center}
+.icone svg{width:62%;height:62%;stroke:var(--encre);stroke-width:2.3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.carte b{display:block;font-size:92px;font-weight:900;letter-spacing:-0.04em;line-height:1}
+.carte span{display:block;font-size:46px;font-weight:700;color:#334155;margin-top:14px}
+.pastille{
+  position:absolute;background:#FACC15;border:9px solid var(--encre);border-radius:999px;
+  box-shadow:14px 14px 0 var(--encre);padding:26px 56px;font-size:74px;font-weight:900;letter-spacing:.02em;
+}
+</style>
+</head>
+<body>
+<div id="toile"></div>
+<script>
+'use strict';
+const BORD = 34, CASE = 1012, H = 1350;
+const X = (col, x) => BORD + col * CASE + x;   // abscisse dans la case col, en zone visible
+const toile = document.getElementById('toile');
+const add = (html) => { toile.insertAdjacentHTML('beforeend', html); return toile.lastElementChild; };
+const I = {
+ loupe:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/>',
+ doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+ repere:'<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.5"/>',
+ equipe:'<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.2c3 .1 5.5 2.5 5.5 5.8"/>',
+ fusee:'<path d="M12 15l-3-3c1-4 4-8 10-9-1 6-5 9-9 10z"/><path d="M9 12l-4 1-1 4 4-1M12 15l-1 4 4-1 1-4"/><circle cx="15" cy="9" r="1.2"/>',
+};
+const svg = k => `<svg viewBox="0 0 24 24">${I[k]}</svg>`;
+
+// ── Décor : formes qui traversent les frontières, pour que la grille se lise d'un bloc ──
+add(`<div class="rond" style="width:900px;height:900px;left:${X(0,-420)}px;top:-380px;background:#06B6D4"></div>`);
+add(`<div class="rond" style="width:640px;height:640px;left:${X(2,620)}px;top:-160px;background:#F472B6"></div>`);
+add(`<div class="rond" style="width:520px;height:520px;left:${X(1,-260)}px;top:880px;background:#FACC15;border:9px solid #0F172A"></div>`);
+add(`<div class="rond" style="width:1100px;height:1100px;left:${X(2,380)}px;top:2400px;background:#16A34A"></div>`);
+add(`<div class="rond" style="width:760px;height:760px;left:${X(0,-380)}px;top:3480px;background:#7C3AED"></div>`);
+add(`<div class="rond" style="width:300px;height:300px;left:${X(1,780)}px;top:3620px;background:#F9563B;border:9px solid #0F172A"></div>`);
+add(`<div class="points" style="left:${X(0,560)}px;top:1060px;width:760px;height:220px"></div>`);
+add(`<div class="points" style="left:${X(1,420)}px;top:2780px;width:900px;height:200px"></div>`);
+add(`<div class="points" style="left:${X(2,120)}px;top:520px;width:520px;height:260px"></div>`);
+
+// ── Rangée 1 : la marque ──
+add(`<div class="carte" style="left:${X(0,110)}px;top:470px;transform:rotate(-4deg)"><div class="icone" style="background:#DBEAFE">${svg('equipe')}</div><div><b>PME</b><span>et commerces</span></div></div>`);
+const logo = add(`<img src="../icon-512.png" alt="" style="position:absolute;width:520px;height:520px;left:${X(1,246)}px;top:330px;border-radius:120px;border:10px solid #0F172A;box-shadow:24px 24px 0 #0F172A;transform:rotate(3deg)">`);
+add(`<div class="carte" style="left:${X(2,70)}px;top:560px;transform:rotate(3deg)"><div class="icone" style="background:#FEF3C7">${svg('fusee')}</div><div><b>Indép.</b><span>et futurs indépendants</span></div></div>`);
+
+// Le placement mesure les lettres : il doit attendre la police Inter, sinon il
+// calcule avec la police de secours (constaté : écarts de 57 à 103 px au lieu d'un écart uniforme).
+document.fonts.ready.then(() => {
+// ── Rangée 2 : le mot, placé lettre par lettre ──
+const MOT = [['P','#2563EB'],['I','#F9563B'],['L','#16A34A'],['O','#7C3AED'],['T','#EC4899'],['I','#F59E0B'],['A','#4F46E5']];
+const els = MOT.map(([c, col]) => add(`<div class="lettre" style="color:${col}">${c}</div>`));
+// Découpage PI | LOT | IA. Mesuré : avec PIL | OT | IA, aucun espacement
+// uniforme ne fait tomber les deux frontières entre deux lettres (il faudrait
+// à la fois un corps > 830 px et < 582 px). Avec PI | LOT | IA, un corps
+// d'environ 420 px et un espacement de 80 px conviennent, et 80 px est aussi
+// l'écart de part et d'autre d'une frontière : l'espacement est uniforme partout.
+const COUPE = [1, 4];                 // dernière lettre de la case 1, puis de la case 2
+function placer(F) {
+  els.forEach(e => e.style.fontSize = F + 'px');
+  return els.map(e => e.getBoundingClientRect().width);
+}
+// La plus grande taille pour laquelle chaque frontière tombe dans un espace
+// entre lettres, avec 30 px de marge de chaque côté plus l'ombre de 20 px.
+const OMBRE = 20, MARGE = 30, BORDS = [X(1, 0), X(2, 0)];
+let meilleur = null;
+for (let F = 900; F >= 300 && !meilleur; F -= 5) {
+  const w = placer(F);
+  for (let g = 40; g <= 260 && !meilleur; g += 2) {
+    // départ fixé par la 1re frontière : la lettre suivante commence à BORDS[0] + MARGE
+    let avant = 0; for (let i = 0; i <= COUPE[0]; i++) avant += w[i] + g;
+    const x0 = BORDS[0] + MARGE - avant;
+    const xs = []; let x = x0;
+    w.forEach(wi => { xs.push(x); x += wi + g; });
+    const ok = COUPE.every((k, n) => xs[k] + w[k] + OMBRE + MARGE <= BORDS[n] && xs[k + 1] >= BORDS[n] + MARGE);
+    const gauche = xs[0] - BORD, droite = BORD + 3 * CASE - (xs[6] + w[6] + OMBRE);
+    if (ok && gauche >= 90 && droite >= 90 && Math.abs(gauche - droite) < 160) meilleur = {F, g, xs, w, gauche, droite};
+  }
+}
+if (!meilleur) throw new Error('aucune disposition ne tient les deux frontières');
+placer(meilleur.F);
+els.forEach((e, i) => { e.style.left = meilleur.xs[i] + 'px'; e.style.top = (H + (H - meilleur.F * 0.97) / 2 - 20) + 'px'; });
+window.DISPOSITION = {F: meilleur.F, g: meilleur.g, gauche: Math.round(meilleur.gauche), droite: Math.round(meilleur.droite)};
+
+// ── Rangée 3 : les trois piliers ──
+add(`<div class="carte" style="left:${X(0,90)}px;top:${2 * H + 380}px;transform:rotate(-3deg)"><div class="icone" style="background:#EDE9FE">${svg('loupe')}</div><div><b>Diagnostic</b><span>vos chiffres, en clair</span></div></div>`);
+add(`<div class="carte" style="left:${X(1,90)}px;top:${2 * H + 470}px;transform:rotate(2deg)"><div class="icone" style="background:#DBEAFE">${svg('doc')}</div><div><b>Gestion</b><span>Peppol, encaissements</span></div></div>`);
+add(`<div class="carte" style="left:${X(2,80)}px;top:${2 * H + 380}px;transform:rotate(-2deg)"><div class="icone" style="background:#FCE7F3">${svg('repere')}</div><div><b>Visibilité</b><span>Google, réseaux</span></div></div>`);
+add(`<div class="pastille" style="left:${X(2,300)}px;top:${2 * H + 900}px;transform:rotate(-4deg)">Lien en bio →</div>`);
+
+window.PRET = true;
+});
+</script>
+</body>
+</html>
