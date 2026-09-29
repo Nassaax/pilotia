@@ -118,6 +118,11 @@ l'y ajouter ensuite.
 | Service : accompagnement mensuel | Carrousel série Services | `carrousel-service-accompagnement.html` |
 | Service : outils gratuits | Carrousel série Services | `carrousel-service-outils.html` |
 | Film « Le mur » : les huit services | Film 9:16 et 16:9 (31,5 s) | `film-services.html`, direction : `film-services-DIRECTION.md` |
+| Le vrai calcul du taux horaire (324,58 € par jour) | Carrousel série Services (pédagogique) | `carrousel-edu-taux-horaire.html` |
+| Indépendant complémentaire : les trois seuils | Carrousel série Services (pédagogique) | `carrousel-edu-complementaire.html` |
+| Facture impayée : professionnel ou particulier | Carrousel série Services (pédagogique) | `carrousel-edu-impaye.html` |
+| Les 3 fuites de marge d'un restaurant | Carrousel série Services (pédagogique) | `carrousel-edu-marge-restaurant.html` |
+| Chiffrer un chantier | Carrousel série Services (pédagogique) | `carrousel-edu-chantier.html` |
 
 ## 9. Cohérence de série
 
