@@ -249,3 +249,9 @@ reprennent le contour marine et l'ombre décalée des publications.
 Une nouvelle couleur de service s'ajoute aux deux endroits à la fois :
 `brand/services.css` (teinte vive) et `style.css` (teintes texte, assombries
 pour tenir 4,5:1).
+
+Sur l'accueil, le bloc des services et l'appel final ont le fond crème des
+publications (`--creme`, qui devient le fond alternatif en mode sombre), et
+l'appel final reprend deux ronds de couleur qui débordent du cadre. Le mot
+PILOTIA multicolore (les sept couleurs de la mosaïque) mène à Instagram en
+pied de chaque page, et s'affiche en grand sur la page 404.
