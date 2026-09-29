@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Film Le cap | PILOTIA</title>
+<link rel="icon" href="data:,">
+<!--
+  Film n° 3, « Le cap » (9:16, 31 s). Direction : film-cap-DIRECTION.md.
+
+  Un seul plan-séquence en vue pilote : la caméra suit une ligne lumineuse qui
+  file sur un sol sombre. Le cap ne bouge jamais à l'écran : quand la route
+  tourne, c'est le monde qui tourne. À la fin, la caméra s'élève et montre que
+  la route était la ligne du logo, et le sol la tuile de l'icône.
+
+  CONTRAT DE RENDU. Chaque image est une fonction pure du temps :
+  window.FILM.seek(t) redessine tout à partir de t seul, sans état hérité de
+  l'image précédente, sans hasard ni horloge. Un rendu image par image est
+  donc reproductible à l'octet près.
+
+  La grille des sons (window.FILM.sons) est exportée par le script de rendu et
+  lue par score-cap.py : image et son viennent de la même source.
+-->
+<style>
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;overflow:hidden}
+#scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:#03050A;
+  font-family:'Inter',sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+#monde{position:absolute;left:0;top:0}
+.txt{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;opacity:0;
+  transform-origin:50% 50%;line-height:1.02;letter-spacing:-0.035em}
+.ligne{display:block}
+.m{display:inline-block;transform-origin:50% 70%}
+.idx{font-size:30px;font-weight:600;letter-spacing:.3em;text-indent:.3em}
+.sub{font-size:46px;font-weight:500;color:#9AA1B4;letter-spacing:-0.012em;line-height:1.22}
+/* Le spectre de la marque, rationné : un mot par titre au plus. */
+.grad{background:linear-gradient(100deg,#22D3C3 0%,#2563EB 24%,#7C3AED 48%,#EC4899 68%,#F9563B 84%,#F59E0B 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  padding:0 .06em}
+#icone{position:absolute;left:320px;top:680px;width:440px;height:440px;opacity:0}
+#reflet{position:absolute;left:320px;top:680px;width:440px;height:440px;border-radius:88px;overflow:hidden;opacity:0}
+#reflet i{position:absolute;top:-30%;height:160%;width:34%;left:0;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.34) 50%,rgba(255,255,255,0))}
+#marque{position:absolute;left:340px;top:1172px;width:400px;opacity:0}
+#pastille{position:absolute;left:50%;top:1300px;opacity:0;white-space:nowrap;
+  font-size:32px;font-weight:600;color:#D3D8E4;letter-spacing:-0.005em;
+  padding:16px 34px;border-radius:999px;border:2px solid rgba(255,255,255,.22)}
+</style>
+</head>
+<body>
+<div id="scene">
+  <canvas id="monde" width="1080" height="1920"></canvas>
+  <div id="ciel"></div>
+  <img id="icone" src="../icon-512.png" alt="">
+  <div id="reflet"><i></i></div>
+  <img id="marque" src="film-cap-wordmark.png" alt="">
+  <div id="pastille">Premier appel gratuit · lien en bio</div>
+</div>
+
+<script>
+'use strict';
+const W = 1080, H = 1920, DUREE = 31.0, BPM = 120;
+
+// ── Outils ────────────────────────────────────────────────────────────────
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const prog = (t, a, d) => clamp((t - a) / d);
+const sstep = (a, b, x) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+const E = {
+  out2: u => 1 - (1 - u) ** 2, out3: u => 1 - (1 - u) ** 3, out4: u => 1 - (1 - u) ** 4,
+  in2: u => u * u, in3: u => u * u * u,
+  io2: u => u < .5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2,
+  io3: u => u < .5 ? 4 * u * u * u : 1 - (-2 * u + 2) ** 3 / 2,
+  expo: u => u >= 1 ? 1 : 1 - Math.pow(2, -10 * u),
+  back: (u, s = 1.7) => 1 + (s + 1) * (u - 1) ** 3 + s * (u - 1) ** 2,
+};
+const V = {
+  sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]],
+  dot: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2],
+  cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]],
+  norm: a => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; },
+  lerp: (a, b, u) => [lerp(a[0], b[0], u), lerp(a[1], b[1], u), lerp(a[2], b[2], u)],
+};
+const hex = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+const rgba = (c, a = 1) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
+const mix = (a, b, u) => [lerp(a[0], b[0], u), lerp(a[1], b[1], u), lerp(a[2], b[2], u)];
+const BLANC = [255, 255, 255];
+
+// Le spectre de la marque, dans l'ordre des teintes : il part du turquoise du
+// point de départ du logo et finit sur l'ambre.
+const SPECTRE = ['#22D3C3', '#2563EB', '#4F46E5', '#7C3AED', '#EC4899', '#F9563B', '#F59E0B'].map(hex);
+function spectre(u) {
+  u = clamp(u) * (SPECTRE.length - 1);
+  const i = Math.min(SPECTRE.length - 2, Math.floor(u));
+  return mix(SPECTRE[i], SPECTRE[i + 1], u - i);
+}
+
+// ── La route : la ligne du logo, à l'échelle 20 (tuile de 10 240 unités) ──
+// Relevés sur icon-512.png : départ (point turquoise), sommet, creux, base
+// de la flèche, pointe et coins de la flèche.
+const K = 20, TUILE = 512 * K;
+const P0 = [115 * K, 365 * K], P1 = [193 * K, 287 * K], P2 = [260 * K, 331 * K], PB = [352.5 * K, 198.5 * K];
+const POINTE = [398 * K, 131 * K], COIN1 = [322 * K, 178 * K], COIN2 = [383 * K, 219 * K];
+const R_VIRAGE = 280;
+const ROUTE = (function construire() {
+  const pts = [];
+  const unit = (a, b) => { const l = Math.hypot(b[0] - a[0], b[1] - a[1]); return [(b[0] - a[0]) / l, (b[1] - a[1]) / l]; };
+  const ligne = (a, b) => { const n = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 4);
+    for (let i = 0; i < n; i++) pts.push([lerp(a[0], b[0], i / n), lerp(a[1], b[1], i / n)]); };
+  const courbe = (a, c, b) => { for (let i = 0; i < 80; i++) { const u = i / 80;
+    pts.push([(1 - u) ** 2 * a[0] + 2 * (1 - u) * u * c[0] + u * u * b[0], (1 - u) ** 2 * a[1] + 2 * (1 - u) * u * c[1] + u * u * b[1]]); } };
+  const virage = (avant, p, apres) => { const a = unit(avant, p), b = unit(p, apres);
+    const th = Math.acos(clamp(a[0] * b[0] + a[1] * b[1], -1, 1)), T = R_VIRAGE * Math.tan(th / 2);
+    return [[p[0] - a[0] * T, p[1] - a[1] * T], [p[0] + b[0] * T, p[1] + b[1] * T]]; };
+  const [a1, b1] = virage(P0, P1, P2), [a2, b2] = virage(P1, P2, PB);
+  ligne(P0, a1); const i1 = pts.length; courbe(a1, P1, b1); const m1 = pts.length - 40;
+  ligne(b1, a2); courbe(a2, P2, b2); const m2 = pts.length - 40;
+  ligne(b2, PB); pts.push(PB);
+  const cum = [0];
+  for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+  return { pts, cum, total: cum[cum.length - 1], sA: cum[m1], sB: cum[m2] };
+})();
+function surRoute(s) {
+  const { pts, cum } = ROUTE;
+  s = clamp(s, 0, ROUTE.total);
+  let lo = 0, hi = cum.length - 1;
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; if (cum[m] <= s) lo = m; else hi = m; }
+  const u = (s - cum[lo]) / ((cum[hi] - cum[lo]) || 1);
+  const x = lerp(pts[lo][0], pts[hi][0], u), y = lerp(pts[lo][1], pts[hi][1], u);
+  // tangente lissée sur ±30 unités : continue dans les virages
+  const a = Math.max(0, lo - 7), b = Math.min(pts.length - 1, hi + 7);
+  let tx = pts[b][0] - pts[a][0], ty = pts[b][1] - pts[a][1]; const l = Math.hypot(tx, ty) || 1;
+  return { x, y, tx: tx / l, ty: ty / l };
+}
+
+// ── L'horaire de la tête : abscisse curviligne en fonction du temps ─────
+// Interpolation cubique monotone (Fritsch-Carlson) : la tête ne recule
+// jamais, ralentit aux stations et accélère entre elles.
+const { sA, sB, total: LT } = ROUTE;
+const HORAIRE = [
+  [0, 0], [2.0, 360], [3.5, 840], [4.2, 1040], [6.8, 1200],
+  [7.35, sA - 480], [7.8, sA], [8.5, sA + 600], [10.8, sA + 740],
+  [11.35, sB - 480], [11.8, sB], [12.5, sB + 500], [14.9, sB + 640],
+  [16.0, sB + 860], [20.0, sB + 1720], [24.0, LT - 300], [26.3, LT], [DUREE, LT],
+];
+const horaire = (function monotone(kf) {
+  const xs = kf.map(k => k[0]), ys = kf.map(k => k[1]), n = xs.length, d = [], m = [];
+  for (let i = 0; i < n - 1; i++) d[i] = (ys[i + 1] - ys[i]) / (xs[i + 1] - xs[i]);
+  m[0] = d[0]; m[n - 1] = d[n - 2];
+  for (let i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+  for (let i = 0; i < n - 1; i++) {
+    if (d[i] === 0) { m[i] = m[i + 1] = 0; continue; }
+    const a = m[i] / d[i], b = m[i + 1] / d[i], h = a * a + b * b;
+    if (h > 9) { const k = 3 / Math.sqrt(h); m[i] = k * a * d[i]; m[i + 1] = k * b * d[i]; }
+  }
+  return x => {
+    if (x <= xs[0]) return ys[0];
+    if (x >= xs[n - 1]) return ys[n - 1];
+    let i = 0; while (x > xs[i + 1]) i++;
+    const h = xs[i + 1] - xs[i], u = (x - xs[i]) / h;
+    return (2 * u ** 3 - 3 * u ** 2 + 1) * ys[i] + (u ** 3 - 2 * u ** 2 + u) * h * m[i]
+      + (-2 * u ** 3 + 3 * u ** 2) * ys[i + 1] + (u ** 3 - u ** 2) * h * m[i + 1];
+  };
+})(HORAIRE);
+const vitesse = t => (horaire(t + 0.02) - horaire(t - 0.02)) / 0.04;
+
+// ── La caméra ─────────────────────────────────────────────────────────────
+// Vue pilote : basse, derrière la tête, alignée sur la tangente de la route.
+// Le cap reste donc droit devant ; c'est le sol qui tourne dans les virages.
+// Grue finale : montée (en échelle logarithmique) jusqu'à la vue d'en haut,
+// où la tuile mesure exactement 440 px, centrée à y = 900 : l'icône PNG vient
+// ensuite se poser pixel pour pixel sur le dessin.
+const F = 1300, CX = 540, CY = 1060, PRES = 20;
+const T_ICONE = 440, Y_ICONE = 900;
+const H_FIN = F * TUILE / T_ICONE, DELTA = (CY - Y_ICONE) * H_FIN / F;
+const C_FIN = [TUILE / 2, TUILE / 2 + DELTA, H_FIN], L_FIN = [TUILE / 2, TUILE / 2 + DELTA, 0];
+function camera(t) {
+  const p = surRoute(horaire(t)), d = [p.tx, p.ty, 0];
+  const g = sstep(19.6, 20.4, t) * (1 - sstep(23.3, 24.2, t));      // plus bas et plus près : la vitesse
+  const Db = lerp(900, 770, g), Hc = lerp(260, 212, g), La = 1000;
+  const Cp = [p.x - d[0] * Db, p.y - d[1] * Db, Hc], Lp = [p.x + d[0] * La, p.y + d[1] * La, 0];
+  const u = E.io3(prog(t, 24.0, 2.5));
+  let C = Cp, L = Lp, haut = [0, 0, 1];
+  // Ouverture : la caméra est d'abord à la verticale du point turquoise, en
+  // gros plan, puis se redresse vers l'horizon pendant que la ligne part. Le
+  // film s'ouvre sur le point de départ du logo vu d'en haut, et se ferme sur
+  // le logo entier vu d'en haut.
+  const e = E.io3(prog(t, 0.2, 1.9));
+  if (e < 1) {
+    const Cs = [P0[0], P0[1], 520], Ls = [P0[0], P0[1], 0];
+    C = [lerp(Cs[0], Cp[0], e), lerp(Cs[1], Cp[1], e), Math.exp(lerp(Math.log(Cs[2]), Math.log(Cp[2]), e))];
+    L = V.lerp(Ls, Lp, E.io2(e));
+    haut = V.norm(V.lerp([d[0], d[1], 0], [0, 0, 1], sstep(0.05, 0.9, e)));
+  }
+  if (u > 0) {
+    const uxy = E.io2(u);
+    C = [lerp(Cp[0], C_FIN[0], uxy), lerp(Cp[1], C_FIN[1], uxy), Math.exp(lerp(Math.log(Cp[2]), Math.log(C_FIN[2]), u))];
+    L = V.lerp(Lp, L_FIN, E.io2(clamp(u * 1.08)));
+    haut = V.norm(V.lerp([0, 0, 1], [0, -1, 0], sstep(0.22, 0.8, u)));
+  }
+  const f = V.norm(V.sub(L, C));
+  let r = V.norm(V.cross(haut, f)), up = V.cross(f, r);
+  // Inclinaison dans les virages, comme un avion : proportionnelle à la
+  // vitesse de rotation du cap, nulle en ligne droite et pendant la grue.
+  const cap = x => { const q = surRoute(horaire(x)); return Math.atan2(q.ty, q.tx); };
+  let dcap = cap(t + 0.06) - cap(t - 0.06);
+  if (dcap > Math.PI) dcap -= 2 * Math.PI; if (dcap < -Math.PI) dcap += 2 * Math.PI;
+  const roulis = clamp(dcap / 0.12 * 0.055, -0.16, 0.16) * (1 - sstep(0, 0.3, u));
+  if (Math.abs(roulis) > 1e-5) {
+    const c = Math.cos(roulis), s = Math.sin(roulis);
+    const r2 = [r[0] * c - up[0] * s, r[1] * c - up[1] * s, r[2] * c - up[2] * s];
+    up = [up[0] * c + r[0] * s, up[1] * c + r[1] * s, up[2] * c + r[2] * s]; r = r2;
+  }
+  return { C, f, r, up, tete: p, grue: u, roulis };
+}
+function versCam(cam, P) { const v = V.sub(P, cam.C); return [V.dot(v, cam.r), V.dot(v, cam.up), V.dot(v, cam.f)]; }
+function proj(cam, P) {
+  const c = versCam(cam, P);
+  if (c[2] < PRES) return null;
+  return [CX + F * c[0] / c[2], CY - F * c[1] / c[2], c[2]];
+}
+// Polygone découpé au plan proche, puis projeté (sol, tuile, flèche).
+function projPoly(cam, pts) {
+  const cs = pts.map(P => versCam(cam, P)), out = [];
+  for (let i = 0; i < cs.length; i++) {
+    const a = cs[i], b = cs[(i + 1) % cs.length], ia = a[2] >= PRES, ib = b[2] >= PRES;
+    if (ia) out.push(a);
+    if (ia !== ib) { const k = (PRES - a[2]) / (b[2] - a[2]); out.push([lerp(a[0], b[0], k), lerp(a[1], b[1], k), PRES]); }
+  }
+  return out.map(c => [CX + F * c[0] / c[2], CY - F * c[1] / c[2]]);
+}
+// Polyligne 3D découpée en tronçons visibles.
+function projLigne(cam, pts) {
+  const runs = []; let cur = [];
+  for (const P of pts) { const q = proj(cam, P); if (q) cur.push(q); else if (cur.length) { runs.push(cur); cur = []; } }
+  if (cur.length) runs.push(cur);
+  return runs;
+}
+function cercleMonde(c, r, n = 72, z = 0) {
+  const pts = []; for (let i = 0; i <= n; i++) { const a = i / n * Math.PI * 2; pts.push([c[0] + r * Math.cos(a), c[1] + r * Math.sin(a), z]); }
+  return pts;
+}
+
+// La tuile de l'icône : carré arrondi (rayon 20 %), le sol de tout le film.
+const TUILE_PTS = (function () {
+  const r = TUILE * 0.2, pts = [], coins = [[TUILE - r, r, -90], [TUILE - r, TUILE - r, 0], [r, TUILE - r, 90], [r, r, 180]];
+  for (const [cx, cy, a0] of coins) for (let i = 0; i <= 14; i++) {
+    const a = (a0 + i / 14 * 90) * Math.PI / 180; pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a), 0]);
+  }
+  return pts;
+})();
+// Le champ de points au sol : une grille régulière, sans hasard.
+const POINTS = [];
+for (let i = 0; i < 43; i++) for (let j = 0; j < 43; j++) POINTS.push([120 + i * 238, 120 + j * 238, 0]);
+
+// ── Les moments (grille à 120 bpm : un temps = 0,5 s) ──────────────────
+const T_ONDES = [4.0, 4.5, 5.0];
+const RADAR = { debut: 8.5, duree: 1.5, a0: -146, pts: [[-50, 420, 'MARGES', 8.9], [10, 440, 'ORGANISATION', 9.15], [60, 300, 'VISIBILITÉ', 9.36]] };
+const T_PORTES = [16.5, 17.5, 18.5, 19.5];
+const S1 = horaire(4.0), S2 = horaire(8.5), S3 = horaire(12.2);
+
+const cv = document.getElementById('monde'), ctx = cv.getContext('2d');
+const halo = document.createElement('canvas'); halo.width = W / 2; halo.height = H / 2;
+const htx = halo.getContext('2d');
+
+function dessinerMonde(t) {
+  const cam = camera(t), u = cam.grue;
+  const tete = cam.tete, dir = [tete.tx, tete.ty, 0], sTete = horaire(t);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.filter = 'none';
+  ctx.fillStyle = '#03050A'; ctx.fillRect(0, 0, W, H);
+
+  // Horizon (vue pilote seulement) : où file un point très loin devant.
+  const loin = proj(cam, [tete.x + dir[0] * 1e6, tete.y + dir[1] * 1e6, 0]);
+  const yH = loin ? loin[1] : -500, pilote = 1 - sstep(0.0, 0.45, u);
+
+  // Le sol. En vue pilote, il s'étend à perte de vue (sinon le bord lointain
+  // de la tuile ferait une marche sous l'horizon) ; pendant la grue, ce sol
+  // infini s'efface et il ne reste que la tuile : le monde était l'icône.
+  const degradeSol = () => { const g = ctx.createLinearGradient(0, yH, 0, yH + 640);
+    g.addColorStop(0, '#03050A'); g.addColorStop(0.3, '#08122A'); g.addColorStop(1, '#0C1B38'); return g; };
+  if (pilote > 0 && loin) {
+    const infini = projPoly(cam, [[-2e5, -2e5, 0], [2e5, -2e5, 0], [2e5, 2e5, 0], [-2e5, 2e5, 0]]);
+    if (infini.length > 2) {
+      ctx.beginPath(); infini.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath();
+      ctx.globalAlpha = pilote; ctx.fillStyle = degradeSol(); ctx.fill(); ctx.globalAlpha = 1;
+    }
+  }
+  const sol = projPoly(cam, TUILE_PTS);
+  if (sol.length > 2) {
+    ctx.beginPath(); sol.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath();
+    if (loin) { ctx.fillStyle = degradeSol(); ctx.fill(); }
+    const icone = sstep(0.3, 0.85, u);
+    if (icone > 0) {
+      const a = proj(cam, [0, 0, 0]), b = proj(cam, [TUILE, TUILE, 0]);
+      if (a && b) {
+        const g = ctx.createLinearGradient(a[0], a[1], b[0], b[1]);
+        g.addColorStop(0, '#0B1730'); g.addColorStop(1, '#10295A');
+        ctx.globalAlpha = icone; ctx.fillStyle = g; ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // Le champ de points. Au sprint (20 à 24 s), chaque point s'étire en trait.
+  const fondu = 1 - sstep(0.18, 0.62, u);
+  if (fondu > 0) {
+    const v = vitesse(t), trainee = sstep(19.8, 20.6, t) * (1 - sstep(23.4, 24.2, t)) * v * 0.16;
+    ctx.fillStyle = ctx.strokeStyle = '#6F87B8';
+    for (const P of POINTS) {
+      const q = proj(cam, P); if (!q) continue;
+      if (q[0] < -20 || q[0] > W + 20 || q[1] < yH - 4 || q[1] > H + 20) continue;
+      const brume = 1 - sstep(1400, 4300, q[2]);
+      const a = 0.55 * brume * fondu; if (a < 0.01) continue;
+      const r = clamp(8 * F / q[2], 0.6, 5.5);
+      ctx.globalAlpha = a;
+      if (trainee > 4) {
+        const q2 = proj(cam, [P[0] - dir[0] * trainee, P[1] - dir[1] * trainee, 0]);
+        if (q2) { ctx.lineWidth = r * 1.4; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(q[0], q[1]); ctx.lineTo(q2[0], q2[1]); ctx.stroke(); continue; }
+      }
+      ctx.beginPath(); ctx.arc(q[0], q[1], r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // Brume d'horizon, puis une lueur marine posée par-dessus : ni l'une ni
+  // l'autre n'a de bord net (bandes en dégradé des deux côtés).
+  if (pilote > 0 && loin) {
+    let g = ctx.createLinearGradient(0, yH - 70, 0, yH + 260);
+    g.addColorStop(0, 'rgba(3,5,10,0)'); g.addColorStop(0.2, `rgba(3,5,10,${pilote})`); g.addColorStop(1, 'rgba(3,5,10,0)');
+    ctx.fillStyle = g; ctx.fillRect(-200, yH - 70, W + 400, 330);
+    g = ctx.createRadialGradient(CX, yH, 0, CX, yH, 820);
+    g.addColorStop(0, `rgba(36,66,135,${0.3 * pilote})`); g.addColorStop(1, 'rgba(36,66,135,0)');
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.setTransform(1, 0, 0, 0.42, 0, yH * 0.58);
+    ctx.fillStyle = g; ctx.fillRect(-400, yH - 900, W + 800, 1800); ctx.restore();
+  }
+
+  stations(t, cam, sTete, dir);
+  route(t, cam, sTete);
+  portes(t, cam, sTete);
+  finale(t, cam);
+}
+
+// ── Les stations ──────────────────────────────────────────────────────────
+function stations(t, cam, sTete, dir) {
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  // 01 Écouter : trois ondes au sol, une par temps.
+  const c1 = surRoute(S1), coul1 = spectre(S1 / LT);
+  for (const t0 of T_ONDES) {
+    const p = prog(t, t0, 1.9); if (p <= 0 || p >= 1) continue;
+    const r = 60 + 1150 * E.out3(p), a = 0.75 * (1 - p) ** 1.4;
+    for (const run of projLigne(cam, cercleMonde([c1.x, c1.y], r, 96))) {
+      ctx.strokeStyle = rgba(mix(coul1, BLANC, 0.35), a); ctx.lineWidth = 3.2;
+      ctx.beginPath(); run.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.stroke();
+    }
+  }
+
+  // 02 Diagnostiquer : lunette graduée, faisceau qui balaie, trois repères.
+  const vis2 = E.out3(prog(t, 8.0, 0.45)) * (1 - E.in2(prog(t, 10.9, 0.5)));
+  if (vis2 > 0) {
+    const c2 = surRoute(S2), coul2 = spectre(S2 / LT), cap = Math.atan2(c2.ty, c2.tx);
+    const R = 560 * lerp(0.86, 1, E.out3(prog(t, 8.0, 0.5)));
+    ctx.strokeStyle = rgba(mix(coul2, BLANC, 0.5), 0.5 * vis2); ctx.lineWidth = 2.4;
+    for (const run of projLigne(cam, cercleMonde([c2.x, c2.y], R, 120))) {
+      ctx.beginPath(); run.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.stroke();
+    }
+    for (let k = 0; k < 72; k++) {                        // graduations
+      const a = cap + k * Math.PI / 36, l = k % 6 === 0 ? 70 : 28;
+      const A = proj(cam, [c2.x + R * Math.cos(a), c2.y + R * Math.sin(a), 0]);
+      const B = proj(cam, [c2.x + (R - l) * Math.cos(a), c2.y + (R - l) * Math.sin(a), 0]);
+      if (!A || !B) continue;
+      ctx.globalAlpha = vis2 * (k % 6 === 0 ? 0.8 : 0.4); ctx.lineWidth = k % 6 === 0 ? 3 : 1.6;
+      ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    const pb = prog(t, RADAR.debut, RADAR.duree), ab = (RADAR.a0 + 360 * pb) * Math.PI / 180;
+    const faisceau = vis2 * (t >= RADAR.debut ? 1 - sstep(RADAR.debut + RADAR.duree, RADAR.debut + RADAR.duree + 0.35, t) : 0);
+    if (faisceau > 0) {                                  // le faisceau : 24 secteurs dégressifs
+      for (let k = 0; k < 24; k++) {
+        const a1 = cap + ab - k * 2.1 * Math.PI / 180, a2 = a1 - 2.1 * Math.PI / 180;
+        const pts = [[c2.x, c2.y, 0]];
+        for (let j = 0; j <= 4; j++) { const a = lerp(a1, a2, j / 4); pts.push([c2.x + R * Math.cos(a), c2.y + R * Math.sin(a), 0]); }
+        const poly = projPoly(cam, pts); if (poly.length < 3) continue;
+        ctx.fillStyle = rgba(mix(coul2, BLANC, 0.2), 0.3 * (1 - k / 24) ** 1.6 * faisceau);
+        ctx.beginPath(); poly.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath(); ctx.fill();
+      }
+    }
+    for (const [ang, rad, nom, tp] of RADAR.pts) {       // repères éclairés au passage du faisceau
+      const a = cap + ang * Math.PI / 180;
+      const q = proj(cam, [c2.x + rad * Math.cos(a), c2.y + rad * Math.sin(a), 0]); if (!q) continue;
+      const on = E.out3(prog(t, tp, 0.25)) * vis2; if (on <= 0) continue;
+      const flash = Math.exp(-Math.max(0, t - tp) / 0.22);
+      const g = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], 46 + 30 * flash);
+      g.addColorStop(0, rgba(mix(coul2, BLANC, 0.6), on)); g.addColorStop(1, rgba(coul2, 0));
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q[0], q[1], 46 + 30 * flash, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = rgba(BLANC, on); ctx.beginPath(); ctx.arc(q[0], q[1], 7, 0, Math.PI * 2); ctx.fill();
+      const taille = clamp(36 * 935 / q[2], 28, 44);
+      ctx.font = `700 ${taille.toFixed(1)}px Inter`; ctx.letterSpacing = '4px'; ctx.textAlign = 'center';
+      ctx.fillStyle = rgba(BLANC, on * 0.92);
+      ctx.fillText(nom, q[0], q[1] - 30 - 12 * (1 - E.out3(prog(t, tp, 0.35))));
+      ctx.letterSpacing = '0px';
+    }
+  }
+
+  // 03 Décider : un éventail de routes possibles se referme sur une seule.
+  const ouv = E.out3(prog(t, 12.05, 0.45)), ferme = E.in2(prog(t, 13.0, 0.45));
+  const vis3 = ouv * (1 - E.in2(prog(t, 14.9, 0.6)));
+  if (vis3 > 0) {
+    const c3 = surRoute(S3), cap = Math.atan2(c3.ty, c3.tx), coul3 = spectre(S3 / LT);
+    for (let k = -4; k <= 4; k++) {
+      const choisi = k === 0, a = cap + k * 11 * Math.PI / 180;
+      const alpha = choisi ? lerp(0.42, 0.9, ferme) : 0.42 * (1 - ferme) * E.out3(prog(t, 12.05 + Math.abs(k) * 0.03, 0.4));
+      if (alpha < 0.01) continue;
+      const long = choisi ? 1700 : 1500 * (1 - 0.35 * ferme), pts = [];
+      for (let j = 0; j <= 30; j++) { const d = 60 + j / 30 * long; pts.push([c3.x + d * Math.cos(a), c3.y + d * Math.sin(a), 0]); }
+      ctx.strokeStyle = rgba(mix(coul3, BLANC, choisi ? 0.55 : 0.25), alpha * vis3);
+      ctx.lineWidth = choisi ? 4 + 3 * ferme : 2.6;
+      ctx.setLineDash(choisi ? [] : [14, 16]);
+      for (const run of projLigne(cam, pts)) { ctx.beginPath(); run.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.stroke(); }
+      ctx.setLineDash([]);
+    }
+  }
+}
+
+// 04 Piloter : des portes dressées sur la route, franchies sur le temps.
+function portes(t, cam, sTete) {
+  if (t < 15.0 || t > 20.5) return;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (const tp of T_PORTES) {
+    const s = horaire(tp), p = surRoute(s), n = [-p.ty, p.tx];
+    // Une porte apparaît à l'approche et s'efface juste après son passage :
+    // plus basse que la caméra, elle ne monte jamais dans le ciel du texte.
+    const devant = s - sTete, apparait = 1 - sstep(520, 1050, devant), passe = t >= tp;
+    const flash = passe ? Math.exp(-(t - tp) / 0.22) : 0;
+    const a = clamp(apparait * (passe ? flash * (1 - sstep(tp + 0.12, tp + 0.4, t)) : 0.6));
+    if (a < 0.01) continue;
+    const L = 175, Hp = 165, pts = [];
+    const bas1 = [p.x - n[0] * L, p.y - n[1] * L], bas2 = [p.x + n[0] * L, p.y + n[1] * L];
+    pts.push([bas1[0], bas1[1], 0], [bas1[0], bas1[1], Hp], [bas2[0], bas2[1], Hp], [bas2[0], bas2[1], 0]);
+    const coul = mix(spectre(s / LT), BLANC, 0.3 + 0.6 * flash);
+    for (const run of projLigne(cam, pts)) {
+      const zc = versCam(cam, [p.x, p.y, 0])[2];
+      ctx.strokeStyle = rgba(coul, a); ctx.lineWidth = clamp(7 * F / Math.max(zc, 60), 1.5, 14);
+      ctx.beginPath(); run.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.stroke();
+    }
+  }
+}
+
+// ── La route lumineuse et sa tête ────────────────────────────────────────
+function route(t, cam, sTete) {
+  const largeur = lerp(14, 21 * K, sstep(24.3, 26.3, t));              // la ligne prend l'épaisseur du logo
+  const blanc = lerp(-600, LT + 600, E.io2(prog(t, 27.1, 0.8)));     // le spectre se vide : il reste le trait blanc
+  const lueur = 1 - sstep(27.1, 27.9, t);
+  // Traînée : elle s'assombrit loin derrière la tête et tout près de la
+  // caméra (fondu vers la couleur du sol, pas vers la transparence : des
+  // segments semi-transparents feraient des perles aux jointures).
+  const sol = [12, 27, 56], complet = sstep(0.0, 0.5, cam.grue);
+  const pas = 7, segs = [];
+  let prec = null;
+  for (let s = 0; ; s += pas) {
+    const ss = Math.min(s, sTete), p = surRoute(ss), q = proj(cam, [p.x, p.y, 0]);
+    if (q && prec) {
+      const b = 1 - sstep(blanc - 400, blanc, ss);
+      const loinDerriere = lerp(1, 0.22, sstep(1800, 5200, sTete - ss)), presCam = sstep(140, 520, q[2]);
+      const vis = lerp(loinDerriere * presCam, 1, complet);
+      segs.push([prec, q, ss, mix(spectre(ss / LT), BLANC, b), vis]);
+    }
+    prec = q;
+    if (ss >= sTete) break;
+  }
+  const larg = (q1, q2) => clamp(largeur * F / ((q1[2] + q2[2]) / 2), 1.4, lerp(30, 90, complet));
+
+  // Halo : tracé large sur un calque à mi-résolution, flouté une fois.
+  if (lueur > 0.01) {
+    htx.setTransform(0.5, 0, 0, 0.5, 0, 0); htx.clearRect(0, 0, W, H);
+    htx.lineCap = 'round';
+    for (const [a, b, s, , vis] of segs) {
+      htx.strokeStyle = rgba(mix([0, 0, 0], spectre(s / LT), vis)); htx.lineWidth = larg(a, b) * 3.4;
+      htx.beginPath(); htx.moveTo(a[0], a[1]); htx.lineTo(b[0], b[1]); htx.stroke();
+    }
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.5 * lueur; ctx.filter = 'blur(16px)';
+    ctx.drawImage(halo, 0, 0, W, H); ctx.restore();
+  }
+  // Le trait : couleur du spectre éclaircie, cœur blanc.
+  ctx.lineCap = 'round';
+  for (const [a, b, s, c, vis] of segs) {
+    ctx.strokeStyle = rgba(mix(sol, mix(c, BLANC, 0.45), vis)); ctx.lineWidth = larg(a, b);
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+  }
+  if (lueur > 0.01) {
+    ctx.globalAlpha = lueur;
+    for (const [a, b, , , vis] of segs) {
+      ctx.strokeStyle = rgba(mix(sol, BLANC, vis)); ctx.lineWidth = larg(a, b) * 0.38;
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // Le point de départ turquoise du logo.
+  const dep = projPoly(cam, cercleMonde(P0, largeur * 0.53, 28).slice(0, 28));
+  if (dep.length > 2) {
+    ctx.fillStyle = '#22D3C3';
+    ctx.beginPath(); dep.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath(); ctx.fill();
+  }
+
+  // La tête : un point de lumière, qui s'éteint quand la flèche se pose.
+  const pt = surRoute(sTete), q = proj(cam, [pt.x, pt.y, 0]);
+  const vie = 1 - sstep(25.9, 26.5, t);
+  if (q && vie > 0) {
+    const c = spectre(sTete / LT), k = clamp(F / q[2] * 0.72, 0.08, 1.2);
+    const g = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], 190 * k);
+    g.addColorStop(0, rgba(mix(c, BLANC, 0.3), 0.55 * vie)); g.addColorStop(1, rgba(c, 0));
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q[0], q[1], 190 * k, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = rgba(BLANC, vie); ctx.beginPath(); ctx.arc(q[0], q[1], 13 * k, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+// ── Finale : la flèche se pose, le liseré lumineux autour de l'icône ─────
+function finale(t, cam) {
+  if (t < 27.97) return;                                   // une image d'avance : la flèche est là sur le coup
+  const k = lerp(0.25, 1, E.back(prog(t, 27.97, 0.3), 2.2));
+  const base = [(COIN1[0] + COIN2[0]) / 2, (COIN1[1] + COIN2[1]) / 2];
+  const pts = [POINTE, COIN1, COIN2].map(p => [base[0] + (p[0] - base[0]) * k, base[1] + (p[1] - base[1]) * k, 0]);
+  const tri = projPoly(cam, pts);
+  if (tri.length > 2) {
+    ctx.fillStyle = '#FFFFFF'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 3;
+    ctx.beginPath(); tri.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath(); ctx.fill(); ctx.stroke();
+  }
+  // Liseré : le spectre en lumière autour de la tuile (sous l'icône finale).
+  const a = E.out2(prog(t, 28.0, 0.55));
+  const g = ctx.createConicGradient(-Math.PI / 2, 540, Y_ICONE);
+  SPECTRE.concat([SPECTRE[0]]).forEach((c, i, arr) => g.addColorStop(i / (arr.length - 1), rgba(c)));
+  const carre = () => { ctx.beginPath(); ctx.roundRect(540 - T_ICONE / 2, Y_ICONE - T_ICONE / 2, T_ICONE, T_ICONE, T_ICONE * 0.2); };
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.globalAlpha = 0.9 * a; ctx.filter = 'blur(24px)'; ctx.strokeStyle = g; ctx.lineWidth = 26; carre(); ctx.stroke();
+  ctx.filter = 'blur(6px)'; ctx.globalAlpha = 0.8 * a; ctx.lineWidth = 8; carre(); ctx.stroke();
+  ctx.restore();
+}
+
+// ── La typographie ────────────────────────────────────────────────────────
+// Chaque titre arrive fin et devient gras en se posant (Inter variable) :
+// c'est l'entrée de tout le film. Sortie : il file vers le haut en
+// s'effaçant, dans le sens de la caméra.
+const ciel = document.getElementById('ciel');
+const TEXTES = [];
+function texte(html, o) {
+  const el = document.createElement('div');
+  el.className = 'txt ' + (o.cls || '');
+  el.innerHTML = html;
+  el.style.top = o.top + 'px';
+  if (o.size) el.style.fontSize = o.size + 'px';
+  if (o.couleur) el.style.color = o.couleur;
+  ciel.appendChild(el);
+  const t = Object.assign({ el, w0: 200, w1: 740, dy: 44, dur: 0.55, flou: 0, s0: 1, sortieDur: 0.34 }, o);
+  TEXTES.push(t);
+  return t;
+}
+// Accroche : mot à mot.
+const Q = texte('<span class="ligne"><span class="m">Qui</span> <span class="m">pilote</span></span>'
+  + '<span class="ligne"><span class="m">votre</span> <span class="m">entreprise&nbsp;?</span></span>',
+  { top: 410, size: 116, w1: 720, entree: 0, sortie: 1.6, mots: [0.02, 0.26, 0.5, 0.74], flou: 10 });   // sortie finie à 1,94 s : aucune double impression avec « Vous. »
+// « Vous. » tombe sur le départ de la musique : il arrive déjà épais, en claquant.
+const VOUS = texte('<span class="grad">Vous.</span>', { top: 470, size: 300, w0: 540, w1: 800, entree: 1.967, sortie: 3.62, s0: 1.4, dur: 0.42, fondu: 0.07 });   // une image d'avance : visible sur l'image du départ
+texte('Avec une méthode en 4 étapes.', { cls: 'sub', top: 830, entree: 2.95, sortie: 3.62, w0: 300, w1: 500 });
+
+const CHAP = [
+  ['01', 'Écouter.', 'Un premier appel de 15 minutes.', 'Gratuit, sans engagement.', 4.0, 6.95],
+  ['02', 'Diagnostiquer.', 'Sur vos chiffres réels,', 'pas sur des impressions.', 8.0, 10.95],
+  ['03', 'Décider.', '3 à 5 priorités chiffrées.', 'Un plan d\'action réaliste.', 12.0, 14.95],
+  ['04', 'Piloter.', 'Un suivi mensuel,', 'si vous le voulez.', 16.0, 18.95],
+];
+const TITRES_CHAP = [];
+CHAP.forEach(([n, mot, l1, l2, t0, t1], i) => {
+  const s = horaire(t0 + 0.3), c = spectre(s / LT);
+  texte(n, { cls: 'idx', top: 352, couleur: rgba(mix(c, BLANC, 0.25)), entree: t0 - 0.05, sortie: t1, w0: 600, w1: 600, dy: 16 });
+  TITRES_CHAP.push(texte(mot, { top: 404, entree: t0, sortie: t1, w0: 180, w1: 760, serrage: true }));
+  texte(l1, { cls: 'sub', top: 612, entree: t0 + 1.0, sortie: t1, w0: 300, w1: 500, dy: 28 });
+  texte(l2, { cls: 'sub', top: 670, entree: t0 + 1.5, sortie: t1, w0: 300, w1: 500, dy: 28 });
+});
+const ENGAGEMENTS = [
+  ['Chiffré,', 'pas vague.'], ['Réaliste', 'sur vos moyens.'], ['Un seul', 'point de contact.'],
+  ['Vous restez', '<span class="grad">aux commandes.</span>'],
+];
+const TITRES_ENG = ENGAGEMENTS.map(([a, b], i) => texte(`<span class="ligne">${a}</span><span class="ligne">${b}</span>`,
+  { top: 430, entree: 20.0 + i, sortie: i < 3 ? 20.8 + i : 23.72, sortieDur: i < 3 ? 0.18 : 0.26, dur: 0.42, w0: 240, w1: 760, dy: 36 }));
+texte('Garder le cap,', { top: 340, size: 108, entree: 26.5, sortie: null, w0: 180, w1: 760 });
+texte('même quand la route<br>se complique.', { cls: 'sub', top: 478, size: 54, entree: 27.0, sortie: null, w0: 300, w1: 520, dy: 30 });
+
+function animerTexte(o, t) {
+  const el = o.el;
+  const fin = o.sortie === null || o.sortie === undefined ? 1e9 : o.sortie;
+  if (t < o.entree - 0.02 || t > fin + o.sortieDur + 0.02) { el.style.opacity = 0; return; }
+  const sortie = E.in2(prog(t, fin, o.sortieDur));
+  const ySortie = -58 * sortie, echSortie = 1 + 0.1 * sortie, flouSortie = 7 * sortie;
+  if (o.mots) {                                          // entrée mot à mot
+    el.style.opacity = 1 - sortie;
+    el.style.transform = `translateY(${ySortie}px) scale(${echSortie})`;
+    el.style.filter = flouSortie > 0.05 ? `blur(${flouSortie.toFixed(2)}px)` : 'none';
+    el.querySelectorAll('.m').forEach((m, i) => {
+      const t0 = o.mots[i], u = prog(t, t0, o.dur);
+      m.style.opacity = E.out2(prog(t, t0, 0.26));
+      m.style.transform = `translateY(${((1 - E.out3(u)) * o.dy).toFixed(2)}px)`;
+      m.style.fontWeight = lerp(o.w0, o.w1, E.out3(prog(t, t0, o.dur * 1.15))).toFixed(1);
+      const fl = o.flou * (1 - E.out3(prog(t, t0, 0.4)));
+      m.style.filter = fl > 0.05 ? `blur(${fl.toFixed(2)}px)` : 'none';
+    });
+    return;
+  }
+  const u = prog(t, o.entree, o.dur);
+  const op = E.out2(prog(t, o.entree, o.fondu || 0.26)) * (1 - sortie);
+  const y = (1 - E.out3(u)) * o.dy + ySortie;
+  const s = lerp(o.s0, 1, E.expo(u)) * echSortie;
+  el.style.opacity = op.toFixed(3);
+  el.style.transform = `translateY(${y.toFixed(2)}px) scale(${s.toFixed(4)})`;
+  el.style.fontWeight = lerp(o.w0, o.w1, E.out3(prog(t, o.entree, o.dur * 1.15))).toFixed(1);
+  if (o.serrage) el.style.letterSpacing = lerp(0.05, -0.035, E.out3(prog(t, o.entree, 0.7))).toFixed(4) + 'em';
+  el.style.filter = flouSortie > 0.05 ? `blur(${flouSortie.toFixed(2)}px)` : 'none';
+}
+
+// ── Finale DOM : l'icône exacte, son reflet, le nom, la pastille ────────
+const icone = document.getElementById('icone'), reflet = document.getElementById('reflet'),
+  barre = reflet.querySelector('i'), marque = document.getElementById('marque'), pastille = document.getElementById('pastille');
+function animerFinale(t) {
+  icone.style.opacity = E.out2(prog(t, 28.3, 0.4)).toFixed(3);
+  const r = prog(t, 28.35, 0.85);
+  reflet.style.opacity = t >= 28.35 && r < 1 ? 1 : 0;
+  barre.style.transform = `translateX(${lerp(-120, 320, E.io2(r)).toFixed(1)}%) skewX(-18deg)`;
+  const m = prog(t, 28.6, 0.5);
+  marque.style.opacity = E.out2(prog(t, 28.6, 0.3)).toFixed(3);
+  marque.style.transform = `translateY(${((1 - E.out3(m)) * 26).toFixed(2)}px)`;
+  const p = prog(t, 29.2, 0.5);
+  pastille.style.opacity = E.out2(prog(t, 29.2, 0.3)).toFixed(3);
+  pastille.style.transform = `translateX(-50%) translateY(${((1 - E.out3(p)) * 22).toFixed(2)}px)`;
+}
+
+// ── Ajustements à la police réelle, puis prêt ────────────────────────────
+function ajuster() {
+  // Les quatre titres de chapitre ont la même taille : celle du plus long
+  // (« Diagnostiquer. »), mesurée à sa graisse finale, pour tenir en 960 px.
+  const mesurer = (el, w) => { const s = el.style.cssText; el.style.opacity = 0; el.style.fontWeight = w; el.style.transform = 'none';
+    el.style.fontSize = '100px'; el.style.display = 'inline-block'; el.style.right = 'auto';
+    const l = el.offsetWidth; el.style.cssText = s; return l; };
+  let max = 0; TITRES_CHAP.forEach(o => { max = Math.max(max, mesurer(o.el, 760)); });
+  const taille = Math.min(150, Math.floor(960 / max * 100));
+  TITRES_CHAP.forEach(o => { o.el.style.fontSize = taille + 'px'; });
+  let maxE = 0;
+  TITRES_ENG.forEach(o => o.el.querySelectorAll('.ligne').forEach(l => {
+    const tmp = document.createElement('span'); tmp.innerHTML = l.innerHTML;
+    tmp.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-size:100px;font-weight:760;letter-spacing:-0.035em';
+    document.body.appendChild(tmp); maxE = Math.max(maxE, tmp.offsetWidth); tmp.remove();
+  }));
+  const tE = Math.min(124, Math.floor(950 / maxE * 100));
+  TITRES_ENG.forEach(o => { o.el.style.fontSize = tE + 'px'; });
+  window.TAILLES = { chapitres: taille, engagements: tE };
+}
+
+// Flou de bougé : dans les virages, le sprint et la grue, l'image est la
+// moyenne de plusieurs instants répartis sur 1/60 s (obturateur à 180°) :
+// 12 dans les virages, où le sol tourne vite, 4 ailleurs. Sans lui, les points
+// du sol stroboscopent à 30 images par seconde.
+const acc = document.createElement('canvas'); acc.width = W; acc.height = H;
+const actx = acc.getContext('2d');
+const FENETRES_FLOU = [[7.35, 8.3, 12], [11.3, 12.3, 12], [19.8, 26.45, 4]];   // début, fin, instants
+function seek(t) {
+  const fen = FENETRES_FLOU.find(([a, b]) => t >= a && t <= b);
+  if (!fen) dessinerMonde(t);
+  else {
+    const n = fen[2], obturation = 1 / 60;
+    for (let k = 0; k < n; k++) {
+      dessinerMonde(t + ((k + 0.5) / n - 0.5) * obturation);
+      actx.globalAlpha = 1 / (k + 1); actx.drawImage(cv, 0, 0);
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none';
+    ctx.globalCompositeOperation = 'copy'; ctx.drawImage(acc, 0, 0); ctx.globalCompositeOperation = 'source-over';
+  }
+  TEXTES.forEach(o => animerTexte(o, t));
+  animerFinale(t);
+}
+
+// La grille des sons : chaque bruitage est posé sur un événement de l'image.
+const SONS = {
+  duree: DUREE, bpm: BPM, depart: 2.0,
+  mots: [0.02, 0.26, 0.5, 0.74],
+  chapitres: [4.0, 8.0, 12.0, 16.0],
+  sousTitres: CHAP.flatMap(c => [c[4] + 1.0, c[4] + 1.5]),
+  virages: [[7.45, 0.7], [11.4, 0.75]],
+  ondes: T_ONDES,
+  radar: { debut: RADAR.debut, duree: RADAR.duree, points: RADAR.pts.map(p => p[3]) },
+  eventail: 12.05, fermeture: 13.0,
+  portes: T_PORTES,
+  engagements: [20.0, 21.0, 22.0, 23.0],
+  grue: 24.0, revelation: [26.5, 27.0], blanc: 27.1, fleche: 28.0, reflet: 28.35, fin: DUREE,
+};
+
+Promise.all([
+  document.fonts.load('400 40px Inter'), document.fonts.load('700 40px Inter'), document.fonts.ready,
+  ...[...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = r; i.onerror = r; })),
+]).then(() => {
+  ajuster();
+  window.FILM = { duree: DUREE, sons: SONS, seek };
+  const q = new URLSearchParams(location.search);
+  seek(q.has('t') ? parseFloat(q.get('t')) : 0);
+  window.PRET = true;
+});
+</script>
+</body>
+</html>

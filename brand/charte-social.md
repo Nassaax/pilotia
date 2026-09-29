@@ -281,3 +281,23 @@ une couverture par thème.
   bords, car Instagram n'en montre qu'un disque.
 - **Texte** : tout vient des pages du site. Si un prix change sur `offres.html`,
   regénérer les stories Tarifs et les republier.
+
+## 16. Le film n° 3 « Le cap » (motion design)
+
+`film-cap.html` (composition, 9:16, 31 s), `score-cap.py` (bande-son
+synthétisée), direction dans `film-cap-DIRECTION.md`. Il présente la méthode
+en 4 étapes, les engagements et le sens du nom, pas les services : il ne
+double ni « Le mur » ni les Reels.
+
+- **Registre :** publicité tech haut de gamme. Fond noir, sol marine, une
+  ligne de lumière ; Inter variable dont chaque titre passe du fin au gras en
+  arrivant ; le spectre de la marque en lumière seulement (la ligne, un mot par
+  titre, le liseré final).
+- **Geste signature :** le cap ne bouge jamais à l'écran, c'est le monde qui
+  tourne dans les virages ; à la fin, la caméra s'élève et la route parcourue
+  devient la ligne du logo, le sol devient la tuile de l'icône.
+- **Son :** électro à 120 bpm qui démarre sur « Vous. » et s'arrête net sur la
+  pointe de la flèche ; le logo arrive dans le silence, avec un seul son de verre.
+- **Chiffres à l'écran :** 4 étapes, 15 minutes, 3 à 5 priorités. Rien d'autre.
+- **Publication :** Reel, couverture fournie (l'accroche « Qui pilote votre
+  entreprise ? », lisible dans le recadrage 3:4 de la grille).
