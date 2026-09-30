@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Film 9 questions | PILOTIA</title>
+<link rel="icon" href="data:,">
+<!--
+  Film n° 5, « 9 questions » (9:16, 30 s, boucle parfaite).
+  Direction : film-outils-DIRECTION.md. Charte colorée de la série Services,
+  en volume : cartes épaisses en 3D, 9 extrudé, particules.
+
+  CONTRAT DE RENDU : chaque image est une fonction pure du temps
+  (window.FILM.seek). Le script de rendu lit aussi FILM.flou(t) (moyenne de
+  sous-images pour le flou de bougé) et FILM.aberration(t) (décalage des
+  canaux rouge et bleu, en pixels). La grille des sons (FILM.sons) est lue par
+  score-outils.py. L'image à 30 s est identique à l'image à 0 s.
+-->
+<style>
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;overflow:hidden}
+#scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:#FFF8EC;
+  font-family:'Inter',sans-serif;color:#0F172A;-webkit-font-smoothing:antialiased}
+canvas{position:absolute;left:0;top:0}
+#monde{position:absolute;inset:0;perspective:1600px;perspective-origin:540px 1150px;transform-style:preserve-3d}
+#pivot{position:absolute;inset:0;transform-style:preserve-3d}
+.obj{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform}
+/* Le 9 extrudé : des calques empilés en profondeur, le dernier en façade. */
+.neuf{width:1080px;height:900px;margin-left:-540px;margin-top:-450px}
+.neuf b{position:absolute;inset:0;display:block;text-align:center;font-size:900px;line-height:900px;font-weight:900;
+  letter-spacing:0;color:#0F172A}
+.neuf b.face{color:#FACC15;-webkit-text-stroke:18px #0F172A;paint-order:stroke fill}
+/* Carte d'outil : une tranche marine épaisse, une face blanche. */
+.carte{width:820px;height:440px;margin-left:-410px;margin-top:-220px}
+.carte .tranche{position:absolute;inset:0;border-radius:52px;background:#0F172A}
+.carte .face{position:absolute;inset:0;border-radius:52px;background:#fff;border:10px solid #0F172A;
+  display:flex;align-items:center;gap:40px;padding:0 54px}
+.carte .ico{flex:none;width:176px;height:176px;border-radius:44px;border:9px solid #0F172A;display:grid;place-items:center}
+.carte .ico svg{width:58%;height:58%;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.carte .nom{font-size:60px;font-weight:900;line-height:1.02;letter-spacing:-0.035em}
+.carte .gratuit{position:absolute;right:44px;top:-34px;background:#FACC15;border:7px solid #0F172A;border-radius:999px;
+  padding:10px 26px;font-size:32px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;box-shadow:6px 6px 0 #0F172A;opacity:0}
+.question{position:absolute;left:0;top:0;width:1080px;text-align:center;font-weight:900;letter-spacing:-0.045em;line-height:1.04;
+  perspective:900px;opacity:0}
+.question .l{display:block;white-space:nowrap}
+.question .m{display:inline-block;transform-origin:50% 100%}
+.surligne{background:linear-gradient(transparent 58%,#FACC15 58%,#FACC15 92%,transparent 92%);padding:0 .04em}
+#lien{position:absolute;left:540px;top:1370px;background:#FACC15;border:7px solid #0F172A;border-radius:999px;padding:14px 38px;
+  font-size:40px;font-weight:850;letter-spacing:.05em;text-transform:uppercase;box-shadow:8px 8px 0 #0F172A;white-space:nowrap;opacity:0}
+#titreAnneau{position:absolute;left:0;top:330px;width:1080px;text-align:center;font-size:112px;font-weight:900;letter-spacing:-0.045em;line-height:1;opacity:0}
+</style>
+</head>
+<body>
+<div id="scene">
+  <canvas id="fond" width="1080" height="1920"></canvas>
+  <div id="monde"><div id="pivot"></div></div>
+  <div id="titreAnneau">outils <span class="surligne">gratuits</span></div>
+  <div id="lien">Lien en bio ↓</div>
+  <canvas id="part" width="1080" height="1920"></canvas>
+</div>
+
+<script>
+'use strict';
+const W = 1080, H = 1920, BPM = 96, B = 60 / BPM, MES = 4 * B, DUREE = 30.0;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const prog = (t, a, d) => clamp((t - a) / d);
+const sstep = (a, b, x) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+const E = {
+  out2: u => 1 - (1 - u) ** 2, out3: u => 1 - (1 - u) ** 3, out4: u => 1 - (1 - u) ** 4, in2: u => u * u, in3: u => u ** 3,
+  io3: u => u < .5 ? 4 * u * u * u : 1 - (-2 * u + 2) ** 3 / 2,
+  expo: u => u >= 1 ? 1 : 1 - Math.pow(2, -10 * u),
+  back: (u, s = 1.7) => 1 + (s + 1) * (u - 1) ** 3 + s * (u - 1) ** 2,
+};
+// Pseudo-hasard déterministe (dérivé d'un indice, jamais de Math.random).
+const hash = (k, s = 1) => { const x = Math.sin(k * 127.1 + s * 311.7) * 43758.5453; return x - Math.floor(x); };
+const amorti = (d, amp, freq, tau, fin) => d <= 0 || d >= fin ? 0 : amp * Math.exp(-d / tau) * Math.sin(d * 2 * Math.PI * freq) * (1 - sstep(fin * 0.7, fin, d));
+const ENCRE = '#0F172A', CREME = '#FFF8EC', JAUNE = '#FACC15';
+
+// ── Les neuf outils (noms repris de outils.html) ─────────────────────────
+const ICONES = {
+  loupe: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/>',
+  courbe: '<path d="M4 19h16"/><path d="M5 15l4-4 3 3 6-7"/><path d="M14 7h4v4"/>',
+  etiquette: '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',
+  horloge: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/>',
+  facture: '<path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21z"/><path d="M10 8h4M10 12h4"/>',
+  personne: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/>',
+  euro: '<path d="M17 6.5a6.5 6.5 0 1 0 0 11M4 10.5h9M4 13.5h9"/>',
+  coche: '<path d="M7 3h7l5 5v13H7z"/><path d="M9.5 14l2 2 4-4.5"/>',
+  calendrier: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+};
+const OUTILS = [
+  ['Où en est|_vraiment_ mon|entreprise&nbsp;?', 'Diagnostic|express', '#7C3AED', 'loupe'],
+  ['Quel sera mon|_point&nbsp;bas_ de|trésorerie&nbsp;?', 'Plan de|trésorerie', '#0D9488', 'courbe'],
+  ['Ce produit me|_rapporte-t-il_|vraiment&nbsp;?', 'Marge &amp; seuil|de rentabilité', '#F9563B', 'etiquette'],
+  ['Combien facturer|_mon&nbsp;heure_&nbsp;?', 'Taux horaire|&amp; tarif journalier', '#16A34A', 'horloge'],
+  ["Combien d'argent|_dort_ chez|mes clients&nbsp;?", "Délai|d'encaissement", '#0891B2', 'facture'],
+  ['Combien coûte|vraiment une|_embauche_&nbsp;?', "Coût réel|d'un salarié", '#4F46E5', 'personne'],
+  ['Combien mettre|de côté pour mes|_cotisations_&nbsp;?', 'Cotisations|sociales', '#D97706', 'euro'],
+  ['Dois-je facturer|_la&nbsp;TVA_&nbsp;?', 'Franchise|TVA', '#2563EB', 'coche'],
+  ['Que _publier_|sur mes|réseaux&nbsp;?', 'Calendrier|de contenu', '#EC4899', 'calendrier'],
+];
+const T0 = i => MES * (i + 1);                // début de la mesure de l'outil i
+const TS = i => T0(i) + 2 * B;                // la carte claque : temps 3
+const T_NEUF = 2 * B;                         // le 9 se forme sur le temps 3 de l'accroche
+const T_ANNEAU = MES * 10, T_EXPLOSION = MES * 11 + 2 * B;
+const COUPS = [T_NEUF, ...OUTILS.map((_, i) => TS(i))];
+const FOUETS = [...Array(10)].map((_, k) => MES * (k + 1));   // 2,5 ; 5 ; ... ; 25
+
+// ── Construction du DOM ──────────────────────────────────────────────────
+const pivot = document.getElementById('pivot');
+function neuf() {
+  const el = document.createElement('div'); el.className = 'obj neuf';
+  for (let k = 14; k >= 0; k--) { const b = document.createElement('b'); b.textContent = '9'; if (k === 0) b.className = 'face'; b.style.transform = `translateZ(${-k * 7}px)`; el.appendChild(b); }
+  pivot.appendChild(el); return el;
+}
+const NEUF = neuf();
+const CARTES = OUTILS.map(([, nom, coul, ico]) => {
+  const el = document.createElement('div'); el.className = 'obj carte';
+  let h = '';
+  for (let k = 12; k >= 1; k--) h += `<div class="tranche" style="transform:translateZ(${-k * 3.2}px)"></div>`;
+  h += `<div class="face"><div class="ico" style="background:${coul}"><svg viewBox="0 0 24 24">${ICONES[ico]}</svg></div>`
+    + `<div class="nom">${nom.split('|').join('<br>')}</div><div class="gratuit">Gratuit</div></div>`;
+  el.innerHTML = h; pivot.appendChild(el); return el;
+});
+function question(html, top) {
+  const el = document.createElement('div'); el.className = 'question'; el.style.top = top + 'px';
+  el.innerHTML = html.split('|').map(l => '<span class="l">' + l.split(' ').map(w => { const m = w.match(/^_(.+)_(.*)$/);
+    return m ? `<span class="m"><span class="surligne">${m[1]}</span>${m[2]}</span>` : `<span class="m">${w}</span>`; }).join(' ') + '</span>').join('');
+  document.getElementById('scene').insertBefore(el, document.getElementById('titreAnneau')); return el;
+}
+const ACCROCHE = question('questions que tout|entrepreneur se pose.', 1250);
+const QUESTIONS = OUTILS.map(([q]) => question(q, 350));
+
+// ── Particules : un 9 qui se forme à partir d'une poussière colorée ─────
+const NP = 900, PALETTE = ['#7C3AED', '#0D9488', '#F9563B', '#16A34A', '#0891B2', '#4F46E5', '#D97706', '#2563EB', '#EC4899', '#FACC15'];
+const DISPERSE = [...Array(NP)].map((_, k) => [40 + hash(k, 2) * 1000, 60 + hash(k, 3) * 1800]);
+let CIBLES9 = [];
+const Y_NEUF = 860;
+function ciblesDuNeuf() {
+  // Même police, même boîte de ligne que le 9 du DOM : la ligne de base se
+  // calcule avec les métriques de la police, les deux coïncident.
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+  x.font = '900 900px Inter'; x.textAlign = 'center';
+  const m = x.measureText('9'), A = m.fontBoundingBoxAscent, D = m.fontBoundingBoxDescent;
+  const base = Y_NEUF - 450 + (900 - (A + D)) / 2 + A;
+  x.fillText('9', 540, base);
+  const d = x.getImageData(0, 0, W, H).data, pts = [];
+  for (let y = 0; y < H; y += 13) for (let xx = 0; xx < W; xx += 13) if (d[(y * W + xx) * 4 + 3] > 128) pts.push([xx, y]);
+  CIBLES9 = [...Array(NP)].map((_, k) => pts[Math.floor(hash(k, 7) * pts.length)]);
+}
+
+// ── Transformations dans le temps ────────────────────────────────────────
+function tr(x, y, z, rx, ry, rz, s) {
+  return `translate3d(${(540 + x).toFixed(2)}px,${(1150 + y).toFixed(2)}px,${z.toFixed(2)}px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg) scale(${s.toFixed(4)})`;
+}
+// Coup de fouet : sortie vers la gauche qui accélère (le pas suivant entre de la droite).
+const sortieFouet = (t, tw) => -1250 * E.in3(prog(t, tw - 0.16, 0.26));
+const entreeFouet = (t, tw) => 1250 * (1 - E.expo(prog(t, tw - 0.06, 0.42)));
+// Le temps de l'anneau (angle de rotation, en degrés), qui s'emballe à la fin.
+const angleAnneau = t => 22 * (t - T_ANNEAU) + 260 * Math.max(0, t - (T_ANNEAU + MES)) ** 2.2;
+
+function animerNeuf(t) {
+  let x = 0, y = Y_NEUF - 1150, z = 0, ry = 0, rx = 0, s = 1, op = 0;
+  if (t < MES + 0.2) {                                     // l'accroche
+    op = t >= T_NEUF ? 1 : 0;
+    const d = t - T_NEUF;
+    s = 1 + 0.1 * Math.exp(-Math.max(0, d) / 0.1) + amorti(d, 0.04, 3, 0.1, 0.5);
+    ry = lerp(-28, 14, E.out3(prog(t, T_NEUF, 0.6))) - 8 * sstep(T_NEUF + 0.6, MES, t);
+    x = sortieFouet(t, MES); ry += -40 * E.in3(prog(t, MES - 0.16, 0.26));
+  } else if (t >= T_ANNEAU - 0.1 && t < T_EXPLOSION) {     // au centre de l'anneau
+    const u = E.out4(prog(t, T_ANNEAU, 0.6));
+    op = t >= T_ANNEAU ? 1 : 0; y = -170; z = lerp(-2600, -300, u); s = 0.6;
+    ry = 18 * Math.sin((t - T_ANNEAU) * 1.6) + 360 * E.in3(prog(t, T_ANNEAU + MES, T_EXPLOSION - T_ANNEAU - MES)) * 0.5;
+  }
+  NEUF.style.opacity = op; NEUF.style.transform = tr(x, y, z, rx, ry, 0, s);
+}
+function animerCartes(t) {
+  CARTES.forEach((el, i) => {
+    let op = 0, x = 0, y = 30, z = 0, rx = 0, ry = 0, rz = 0, s = 1;
+    const ts = TS(i), fin = T0(i) + MES, gratuit = el.querySelector('.gratuit');
+    let g = 0;
+    if (t >= ts - 0.46 && t < fin + 0.2) {               // la carte de l'outil i
+      const p = prog(t, ts - 0.46, 0.46), d = t - ts;
+      op = 1;
+      z = -3400 * (1 - p);                                // vitesse constante : la perspective la fait accélérer
+      ry = 540 * (1 - E.out3(p)) + amorti(d, 5, 2.4, 0.12, 0.6);
+      rx = 26 * (1 - E.out3(p));
+      rz = -6 * (1 - E.out3(p)) + (i % 2 ? 1 : -1) * 2.5 * sstep(ts, ts + 0.5, t);
+      s = 1 + amorti(d, 0.07, 3.1, 0.09, 0.5);            // écrasement à l'impact
+      x = sortieFouet(t, fin); ry += -34 * E.in3(prog(t, fin - 0.16, 0.26));
+      g = E.back(prog(t, ts + B, 0.3), 2.4);
+    } else if (t >= T_ANNEAU - 0.1 && t < T_EXPLOSION) {  // dans l'anneau
+      const a = (i * 40 + angleAnneau(t)) * Math.PI / 180, R = 640;
+      const u = E.out4(prog(t, T_ANNEAU + i * 0.045, 0.55));
+      op = t >= T_ANNEAU + i * 0.045 ? 1 : 0;
+      x = R * Math.sin(a); z = lerp(-4200, -300 + R * Math.cos(a), u); y = -40 + 60 * Math.sin(a * 2 + 1);
+      ry = a * 180 / Math.PI + 90 * (1 - u); s = 0.48; g = 1;
+    }
+    el.style.opacity = op; el.style.transform = tr(x, y, z, rx, ry, rz, s);
+    gratuit.style.opacity = clamp(g * 3);
+    gratuit.style.transform = `scale(${lerp(1.8, 1, clamp(g)).toFixed(3)}) rotate(${lerp(-14, 6, clamp(g)).toFixed(2)}deg)`;
+  });
+}
+function animerQuestion(el, t, tin, tout, flip = true) {
+  if (t < tin - 0.1 || t > tout + 0.15) { el.style.opacity = 0; return; }
+  const x = entreeFouet(t, tin) + sortieFouet(t, tout);
+  const vit = (entreeFouet(t + 0.01, tin) + sortieFouet(t + 0.01, tout) - x) / 0.01;
+  el.style.opacity = 1;
+  el.style.transform = `translateX(${x.toFixed(1)}px) skewX(${clamp(vit / 400, -14, 14).toFixed(2)}deg)`;
+  el.querySelectorAll('.m').forEach((m, k) => {
+    const u = prog(t, tin + (flip ? k * 0.045 : 0), 0.36);
+    m.style.transform = `rotateX(${lerp(95, 0, E.back(u, 1.5)).toFixed(2)}deg)`;
+    m.style.opacity = clamp(u * 4).toFixed(3);
+  });
+}
+function ajusterQuestions() {
+  let max = 0;
+  for (const q of QUESTIONS) q.querySelectorAll('.l').forEach(l => { q.style.fontSize = '100px'; max = Math.max(max, l.getBoundingClientRect().width); });
+  const taille = Math.min(116, Math.floor(980 / max * 100));
+  for (const q of QUESTIONS) q.style.fontSize = taille + 'px';
+  ACCROCHE.style.fontSize = '82px';
+  window.TAILLES = { questions: taille };
+}
+
+// ── Fond : crème, cercles en parallaxe (bouclés), ondes de choc, confettis ─
+const fond = document.getElementById('fond'), fx = fond.getContext('2d');
+// Panoramique cumulé : 1036 px par coup de fouet, 10 coups = 10 360 px, et
+// chaque couche boucle sur une largeur qui divise son trajet : l'image de fin
+// retombe exactement sur celle du début.
+const panorama = t => FOUETS.reduce((s, tw) => s + 1036 * E.io3(prog(t, tw - 0.16, 0.42)), 0);
+const COUCHES = [[0.25, 1295], [0.5, 1726.667], [1.0, 1480]];
+const CERCLES = [...Array(14)].map((_, k) => ({ c: k % 3, x: hash(k, 11) * 1480, y: k % 2 ? 150 + hash(k, 12) * 120 : 1560 + hash(k, 12) * 260, r: 16 + hash(k, 13) * (k % 3 === 2 ? 44 : 26), col: PALETTE[k % PALETTE.length], plein: k % 4 !== 0 }));
+function dessinerFond(t) {
+  fx.setTransform(1, 0, 0, 1, 0, 0); fx.fillStyle = CREME; fx.fillRect(0, 0, W, H);
+  // grille de points très discrète
+  const pan = panorama(t);
+  fx.fillStyle = 'rgba(15,23,42,0.07)';
+  const dec = ((pan * 0.25) % 70 + 70) % 70;          // 70 divise 0,25 x 10 360 : la grille boucle aussi
+  for (let y = 35; y < H; y += 70) for (let x = 35 - dec; x < W + 70; x += 70) { fx.beginPath(); fx.arc(x, y, 3, 0, 6.3); fx.fill(); }
+  // cercles de couleur, trois profondeurs, périodiques sur 30 s
+  for (const o of CERCLES) {
+    const [f, L] = COUCHES[o.c];
+    let x = ((o.x - pan * f) % L + L) % L - 200;
+    const y = o.y + 24 * Math.sin((t / DUREE) * Math.PI * 2 + o.x);
+    fx.lineWidth = 6; fx.strokeStyle = ENCRE;
+    fx.beginPath(); fx.arc(x + 6, y + 6, o.r, 0, 6.3); fx.fillStyle = ENCRE; if (o.plein) fx.fill();
+    fx.beginPath(); fx.arc(x, y, o.r, 0, 6.3); fx.fillStyle = o.plein ? o.col : CREME; fx.fill(); fx.stroke();
+  }
+  // traits de vitesse pendant les coups de fouet
+  for (const tw of FOUETS) {
+    const a = Math.exp(-(((t - tw) / 0.12) ** 2));
+    if (a < 0.02) continue;
+    fx.strokeStyle = `rgba(15,23,42,${0.16 * a})`; fx.lineCap = 'round';
+    for (let k = 0; k < 16; k++) { const y = 150 + hash(k + tw * 10, 5) * 1650, L = 200 + hash(k, 6) * 500, x = hash(k + tw, 8) * 1080;
+      fx.lineWidth = 4 + hash(k, 9) * 8; fx.beginPath(); fx.moveTo(x, y); fx.lineTo(x + L, y); fx.stroke(); }
+  }
+  // ondes de choc et confettis à chaque impact
+  COUPS.forEach((tc, j) => {
+    const d = t - tc; if (d < 0 || d > 0.9) return;
+    const col = j === 0 ? JAUNE : OUTILS[j - 1][2];
+    const cx = 540, cy = j === 0 ? Y_NEUF : 1180, u = E.out3(d / 0.9);
+    fx.lineWidth = 26 * (1 - u) + 2; fx.strokeStyle = col; fx.globalAlpha = 1 - u;
+    fx.beginPath(); fx.arc(cx, cy, 120 + 900 * u, 0, 6.3); fx.stroke();
+    fx.lineWidth = 8 * (1 - u) + 1; fx.strokeStyle = ENCRE;
+    fx.beginPath(); fx.arc(cx, cy, 90 + 700 * u, 0, 6.3); fx.stroke();
+    for (let k = 0; k < 26; k++) {
+      const a = hash(k + j * 40, 21) * 6.283, v = 500 + hash(k + j * 40, 22) * 900, g = 1400;
+      const px = cx + Math.cos(a) * v * d, py = cy + Math.sin(a) * v * d + 0.5 * g * d * d, rot = d * (4 + 8 * hash(k, 23));
+      fx.save(); fx.translate(px, py); fx.rotate(rot); fx.fillStyle = k % 3 ? PALETTE[(k + j) % PALETTE.length] : ENCRE;
+      fx.fillRect(-9, -5, 18, 10); fx.restore();
+    }
+    fx.globalAlpha = 1;
+  });
+}
+
+// ── Particules (au-dessus de tout) ───────────────────────────────────────
+const part = document.getElementById('part'), px = part.getContext('2d');
+function positionCarteEcran(i, t) {
+  // centre projeté d'une carte de l'anneau (même calcul que le CSS)
+  const a = (i * 40 + angleAnneau(t)) * Math.PI / 180, R = 640;
+  const x = R * Math.sin(a), z = -300 + R * Math.cos(a), y = -40 + 60 * Math.sin(a * 2 + 1);
+  const k = 1600 / (1600 - z); return [540 + x * k, 1150 + y * k];
+}
+function dessinerParticules(t) {
+  px.setTransform(1, 0, 0, 1, 0, 0); px.clearRect(0, 0, W, H);
+  const debut = t < T_NEUF + 0.25, fin = t >= T_EXPLOSION;
+  if (!debut && !fin) return;
+  for (let k = 0; k < NP; k++) {
+    let x, y, a = 1;
+    const col = PALETTE[k % PALETTE.length], r = 5 + 4 * hash(k, 4);
+    if (debut) {
+      const dep = 0.1 + 0.5 * hash(k, 5), u = E.io3(prog(t, dep, T_NEUF - dep));
+      const [sx, sy] = DISPERSE[k], [cx, cy] = CIBLES9[k];
+      const tour = Math.sin(Math.PI * u) * (120 + 160 * hash(k, 6)) * (k % 2 ? 1 : -1);
+      const dx = cx - sx, dy = cy - sy, l = Math.hypot(dx, dy) || 1;
+      x = lerp(sx, cx, u) - dy / l * tour; y = lerp(sy, cy, u) + dx / l * tour;
+      a = 1 - sstep(T_NEUF, T_NEUF + 0.22, t);
+    } else {
+      // Explosion : la moitié vient du 9, l'autre des cartes ; toutes
+      // retombent à leur place de la première image.
+      let ox, oy;
+      if (k < NP / 2) { ox = CIBLES9[k][0]; oy = lerp(CIBLES9[k][1], 1090, 0.45) - 70; }
+      else { const [cx, cy] = positionCarteEcran(k % 9, T_EXPLOSION); ox = cx + (hash(k, 8) - 0.5) * 300; oy = cy + (hash(k, 9) - 0.5) * 160; }
+      const u = E.io3(prog(t, T_EXPLOSION, DUREE - 0.12 - T_EXPLOSION));
+      const [sx, sy] = DISPERSE[k];
+      const eclat = Math.sin(Math.PI * Math.min(1, u * 1.3)) * 260 * (hash(k, 10) + 0.4);
+      const ang = hash(k, 12) * 6.283;
+      x = lerp(ox, sx, u) + Math.cos(ang) * eclat; y = lerp(oy, sy, u) + Math.sin(ang) * eclat;
+    }
+    px.globalAlpha = a; px.fillStyle = col;
+    px.beginPath(); px.arc(x, y, r, 0, 6.3); px.fill();
+  }
+  px.globalAlpha = 1;
+}
+
+// ── Tremblement d'image à chaque impact ─────────────────────────────────
+function tremblement(t) {
+  let dx = 0, dy = 0;
+  COUPS.concat([T_EXPLOSION]).forEach((tc, j) => {
+    const d = t - tc, a = hash(j, 31) * 6.283, amp = tc === T_EXPLOSION ? 26 : 16;
+    const v = amorti(d, amp, 13, 0.07, 0.4); dx += Math.cos(a) * v; dy += Math.sin(a) * v;
+  });
+  return [dx, dy];
+}
+
+const monde = document.getElementById('monde'), titreAnneau = document.getElementById('titreAnneau'), lien = document.getElementById('lien');
+function seek(t) {
+  t = ((t % DUREE) + DUREE) % DUREE;
+  dessinerFond(t);
+  const [dx, dy] = tremblement(t);
+  monde.style.transform = `translate(${dx.toFixed(2)}px,${dy.toFixed(2)}px)`;
+  animerNeuf(t);
+  animerCartes(t);
+  animerQuestion(ACCROCHE, t, B, MES, true);
+  QUESTIONS.forEach((q, i) => animerQuestion(q, t, T0(i), T0(i) + MES));
+  // l'anneau : titre et lien
+  const ta = prog(t, T_ANNEAU + 0.3, 0.4), ex = t >= T_EXPLOSION;
+  titreAnneau.style.opacity = ex ? 0 : E.out2(ta);
+  titreAnneau.style.transform = `translateY(${(1 - E.back(ta, 1.6)) * 60}px) scale(${lerp(1.3, 1, E.back(ta, 1.6)).toFixed(3)})`;
+  const tl = prog(t, T_ANNEAU + 2 * B, 0.34);
+  lien.style.opacity = ex ? 0 : E.out2(clamp(tl * 3));
+  lien.style.transform = `translateX(-50%) scale(${lerp(1.7, 1, E.back(tl, 2.2)).toFixed(3)}) rotate(${lerp(-12, -3, E.back(tl, 1.8)).toFixed(2)}deg)`;
+  dessinerParticules(t);
+}
+
+// ── Pour le rendu : flou de bougé et aberration chromatique ─────────────
+function flou(t) {                               // nombre de sous-images à moyenner
+  if (FOUETS.some(tw => t > tw - 0.2 && t < tw + 0.32)) return 5;
+  if (COUPS.some(tc => t > tc - 0.46 && t < tc + 0.08)) return 5;
+  if (t > T_ANNEAU - 0.05 && t < T_ANNEAU + 0.7) return 5;
+  if (t > T_ANNEAU + MES + 0.3) return 5;
+  if (t > 0.3 && t < T_NEUF) return 3;
+  return 1;
+}
+function aberration(t) {                         // décalage rouge / bleu, en pixels
+  let a = 0;
+  FOUETS.forEach(tw => { a += 12 * Math.exp(-(((t - tw) / 0.08) ** 2)); });
+  COUPS.forEach(tc => { a += 6 * Math.exp(-(((t - tc - 0.02) / 0.05) ** 2)); });
+  a += 18 * Math.exp(-(((t - T_EXPLOSION) / 0.1) ** 2));
+  return a;
+}
+
+const SONS = {
+  duree: DUREE, bpm: BPM, temps: B, mesure: MES,
+  neuf: T_NEUF, coups: COUPS, fouets: FOUETS,
+  mots: QUESTIONS.flatMap((q, i) => [...q.querySelectorAll('.m')].map((_, k) => +(T0(i) + k * 0.045).toFixed(4))),
+  gratuits: OUTILS.map((_, i) => +(TS(i) + B).toFixed(4)),
+  anneau: T_ANNEAU, lien: T_ANNEAU + 2 * B, explosion: T_EXPLOSION,
+};
+
+Promise.all([document.fonts.load('900 100px Inter'), document.fonts.load('850 40px Inter'), document.fonts.ready]).then(() => {
+  ajusterQuestions();
+  ciblesDuNeuf();
+  window.FILM = { duree: DUREE, sons: SONS, seek, flou, aberration };
+  const q = new URLSearchParams(location.search);
+  seek(q.has('t') ? parseFloat(q.get('t')) : 0);
+  window.PRET = true;
+});
+</script>
+</body>
+</html>
