@@ -63,3 +63,14 @@ avaient à la première image.
 | 2,5 à 25 | Neuf mesures : question au temps 1, carte de l'outil au temps 3, « gratuit » au temps 4 |
 | 25 à 27,5 | Les neuf cartes en anneau autour du 9 : « outils gratuits », lien en bio |
 | 27,5 à 30 | L'anneau s'emballe, éclate en particules qui reviennent à la première image |
+
+## Journal des versions (mesuré sur les fichiers livrés)
+
+- **v1 :** −13,9 LUFS. Images conformes (flou de bougé et aberration visibles
+  sur les fouets, l'anneau et l'explosion). Défaut de son : la 808 juste avant
+  chaque carte couvrait l'impact (carte −16 dB contre −10 dB avant).
+- **v2 :** impacts sur leur propre piste, basse et mélodie creusées de 9 dB à
+  chaque impact, 808 retirée du temps 3. Mesures : 9 +7,6 dB, cartes +4 dB,
+  explosion au-dessus de l'anneau ; −14,0 LUFS, crête −1,5 dB. Synchro vérifiée
+  par numéro d'image (9 à l'image 38, carte 1 à l'image 113, explosion à
+  l'image 863) ; boucle : image 899 et image 0 identiques à l'œil.
