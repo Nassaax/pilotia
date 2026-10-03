@@ -321,3 +321,14 @@ immobilier), avec leurs accroches reprises mot pour mot des pages
   transformation, claque à chaque autocollant, une note par mot) ; fin sur un
   accord suspendu, la question « Et votre métier ? » reste ouverte.
 - **Aucun chiffre à l'écran.**
+
+## 18. Le film n° 6 « Prenez de la hauteur » (voix off, vraie 3D)
+
+Premier film avec voix off française. Une facture, tard le soir, sous une
+lampe ; sur le mot « Pilotia », elle se plie en avion de papier, décolle vers
+l'aube au-dessus d'un paysage de documents et sa traînée dessine le logo.
+Sources : `film-avion.html` (three.js), `film-avion-voix.py` (voix),
+`score-avion.py` (bande-son), journal dans `film-avion-DIRECTION.md`.
+
+**Ce film fixe le niveau minimum de toutes les vidéos suivantes** : voir
+`NORME-VIDEO.md`, à relire avant chaque nouveau film.

@@ -1,0 +1,437 @@
+{
+ "duree": 39.106,
+ "phrases": [
+  {
+   "id": "tard",
+   "texte": "Il est tard.",
+   "debut": 0.9,
+   "fin": 1.781,
+   "mots": [
+    [
+     "il",
+     1.041
+    ],
+    [
+     "ɛ",
+     1.216
+    ],
+    [
+     "tˈaʁ.",
+     1.341
+    ]
+   ]
+  },
+  {
+   "id": "boutique",
+   "texte": "La boutique est fermée, et vous êtes encore sur vos factures.",
+   "debut": 2.131,
+   "fin": 5.413,
+   "mots": [
+    [
+     "la",
+     2.273
+    ],
+    [
+     "butˈik",
+     2.448
+    ],
+    [
+     "ɛ",
+     2.873
+    ],
+    [
+     "fɛʁmˈe,",
+     2.998
+    ],
+    [
+     "e",
+     3.673
+    ],
+    [
+     "vuz",
+     3.773
+    ],
+    [
+     "ɛtz",
+     3.973
+    ],
+    [
+     "ɑ̃kˌɔʁ",
+     4.123
+    ],
+    [
+     "syʁ",
+     4.473
+    ],
+    [
+     "vo",
+     4.623
+    ],
+    [
+     "faktˈyʁ.",
+     4.773
+    ]
+   ]
+  },
+  {
+   "id": "impaye",
+   "texte": "Celle-ci attend toujours d'être payée.",
+   "debut": 5.963,
+   "fin": 7.927,
+   "mots": [
+    [
+     "sɛl",
+     6.109
+    ],
+    [
+     "sˌi",
+     6.384
+    ],
+    [
+     "atˈɑ̃",
+     6.534
+    ],
+    [
+     "tuʒˌuʁ",
+     6.909
+    ],
+    [
+     "dˈɛtʁ",
+     7.234
+    ],
+    [
+     "pɛjˈe.",
+     7.559
+    ]
+   ]
+  },
+  {
+   "id": "peppol",
+   "texte": "Et celle-là doit partir par Peppol.",
+   "debut": 8.377,
+   "fin": 10.3,
+   "mots": [
+    [
+     "e",
+     8.497
+    ],
+    [
+     "sɛl",
+     8.647
+    ],
+    [
+     "lˌa",
+     8.822
+    ],
+    [
+     "dwˈa",
+     8.922
+    ],
+    [
+     "paʁtˈiʁ",
+     9.072
+    ],
+    [
+     "paʁ",
+     9.522
+    ],
+    [
+     "pɛpˈɔl.",
+     9.722
+    ]
+   ]
+  },
+  {
+   "id": "marge",
+   "texte": "Et votre marge, vous ne la voyez plus.",
+   "debut": 10.8,
+   "fin": 13.155,
+   "mots": [
+    [
+     "e",
+     10.941
+    ],
+    [
+     "votʁ",
+     11.066
+    ],
+    [
+     "mˈaʁʒ,",
+     11.366
+    ],
+    [
+     "vu",
+     12.116
+    ],
+    [
+     "nə",
+     12.241
+    ],
+    [
+     "la",
+     12.316
+    ],
+    [
+     "vwajˈe",
+     12.466
+    ],
+    [
+     "plˈy.",
+     12.816
+    ]
+   ]
+  },
+  {
+   "id": "commandes",
+   "texte": "Et si on reprenait les commandes, ensemble ?",
+   "debut": 14.055,
+   "fin": 16.461,
+   "mots": [
+    [
+     "e",
+     14.195
+    ],
+    [
+     "sˈi",
+     14.345
+    ],
+    [
+     "ɔ̃",
+     14.52
+    ],
+    [
+     "ʁəpʁənˈɛ",
+     14.645
+    ],
+    [
+     "le",
+     14.995
+    ],
+    [
+     "kɔmˈɑ̃d,",
+     15.145
+    ],
+    [
+     "ɑ̃sˈɑ̃bl",
+     15.695
+    ]
+   ]
+  },
+  {
+   "id": "pilotia",
+   "texte": "Avec Pilotia.",
+   "debut": 17.461,
+   "fin": 18.578,
+   "mots": [
+    [
+     "avɛk",
+     17.62
+    ],
+    [
+     "pilotiˈa.",
+     17.92
+    ]
+   ]
+  },
+  {
+   "id": "chiffres",
+   "texte": "On part de vos chiffres réels.",
+   "debut": 21.178,
+   "fin": 22.722,
+   "mots": [
+    [
+     "ɔ̃",
+     21.269
+    ],
+    [
+     "pˈaʁ",
+     21.419
+    ],
+    [
+     "də",
+     21.619
+    ],
+    [
+     "vo",
+     21.744
+    ],
+    [
+     "ʃˈifʁ",
+     21.894
+    ],
+    [
+     "ʁeˈɛl.",
+     22.194
+    ]
+   ]
+  },
+  {
+   "id": "priorites",
+   "texte": "On fixe 3 à 5 priorités.",
+   "debut": 23.022,
+   "fin": 24.858,
+   "mots": [
+    [
+     "ɔ̃",
+     23.118
+    ],
+    [
+     "fˈiks",
+     23.268
+    ],
+    [
+     "tʁwˈaz",
+     23.543
+    ],
+    [
+     "a",
+     23.818
+    ],
+    [
+     "sˈɛ̃k",
+     23.943
+    ],
+    [
+     "pʁioʁitˈe.",
+     24.168
+    ]
+   ]
+  },
+  {
+   "id": "cap",
+   "texte": "Et on garde le cap, mois après mois.",
+   "debut": 25.158,
+   "fin": 27.219,
+   "mots": [
+    [
+     "e",
+     25.276
+    ],
+    [
+     "ɔ̃",
+     25.401
+    ],
+    [
+     "ɡˈaʁd",
+     25.526
+    ],
+    [
+     "lə",
+     25.826
+    ],
+    [
+     "kˈap,",
+     25.976
+    ],
+    [
+     "mwˌaz",
+     26.451
+    ],
+    [
+     "apʁˌɛ",
+     26.676
+    ],
+    [
+     "mwˈa.",
+     26.951
+    ]
+   ]
+  },
+  {
+   "id": "services",
+   "texte": "Factures, trésorerie, Peppol, visibilité : un seul interlocuteur.",
+   "debut": 27.819,
+   "fin": 31.772,
+   "mots": [
+    [
+     "faktˈyʁ,",
+     27.924
+    ],
+    [
+     "tʁezoʁʁˈi,",
+     28.474
+    ],
+    [
+     "pɛpˈɔl,",
+     29.099
+    ],
+    [
+     "vizibilitˈe",
+     29.549
+    ],
+    [
+     "ɛ̃",
+     30.424
+    ],
+    [
+     "sˈœl",
+     30.599
+    ],
+    [
+     "ɛ̃tɛʁlokytˈœʁ.",
+     30.849
+    ]
+   ]
+  },
+  {
+   "id": "appel",
+   "texte": "Votre premier appel est gratuit.",
+   "debut": 32.472,
+   "fin": 34.206,
+   "mots": [
+    [
+     "votʁ",
+     32.618
+    ],
+    [
+     "pʁəmjˈeʁ",
+     32.918
+    ],
+    [
+     "apˈɛl",
+     33.368
+    ],
+    [
+     "ɛ",
+     33.643
+    ],
+    [
+     "ɡʁatyˈi.",
+     33.693
+    ]
+   ]
+  },
+  {
+   "id": "hauteur",
+   "texte": "Prenez de la hauteur, avec Pilotia.",
+   "debut": 34.656,
+   "fin": 36.706,
+   "mots": [
+    [
+     "pʁənˈe",
+     34.754
+    ],
+    [
+     "də",
+     35.029
+    ],
+    [
+     "la",
+     35.104
+    ],
+    [
+     "otˈœʁ,",
+     35.254
+    ],
+    [
+     "avɛk",
+     35.829
+    ],
+    [
+     "pilotiˈa.",
+     36.079
+    ]
+   ]
+  }
+ ]
+}

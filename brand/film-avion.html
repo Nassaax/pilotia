@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Film Prenez de la hauteur | PILOTIA</title>
+<!--
+  FILM N° 6 « PRENEZ DE LA HAUTEUR » (voir film-avion-DIRECTION.md)
+
+  Vraie 3D (three.js, vendorisé dans vendor/three, licence MIT) rendue image
+  par image. Chaque image est une fonction PURE du temps : FILM.seek(t) recalcule
+  toute la scène depuis t, sans état ni hasard (bruit = hachage d'indices).
+
+  Tout ce qui apparaît est calé sur l'instant exact d'un mot de la voix off,
+  lu dans film-avion-voix.json (durées de phonèmes sorties du modèle de voix).
+  W('marge', 2) = début du 3e mot de la phrase « marge ».
+-->
+<style>
+@font-face{font-family:'Inter';src:url(../fonts/inter-latin.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:'Inter';src:url(../fonts/inter-latin-ext.woff2) format('woff2');font-weight:100 900;unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Calistoga';src:url(../fonts/calistoga-400-latin.woff2) format('woff2')}
+html,body{margin:0;background:#000}
+#scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:#05070d}
+#gl{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.calque{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
+/* Sous-titres mot à mot : zone sûre Instagram (au-dessus de 1450 px) */
+#sous{position:absolute;left:90px;right:90px;top:1236px;text-align:center;font:700 58px/1.18 'Inter';letter-spacing:-.022em;color:#fff}
+#sous .m{display:inline-block;white-space:pre;will-change:transform,opacity,filter}
+#sous .fort{font-family:'Calistoga';font-weight:400;letter-spacing:-.01em}
+#sous .tq{color:#5EEAD9}
+#grand{position:absolute;left:0;right:0;text-align:center;color:#fff}
+.pastille{display:inline-block;font:800 44px 'Inter';letter-spacing:-.01em;color:#06222A;background:#22D3C3;border-radius:999px;padding:18px 40px}
+#marque{position:absolute;left:0;right:0;top:1128px;text-align:center}
+#marque img{width:520px}
+#lien{position:absolute;left:0;right:0;top:1418px;text-align:center;font:600 40px 'Inter';color:#C9D5EA;letter-spacing:.01em}
+</style>
+<script type="importmap">{"imports":{"three":"./vendor/three/three.module.min.js"}}</script>
+</head>
+<body>
+<div id="scene">
+  <canvas id="gl" width="1080" height="1920"></canvas>
+  <div class="calque" id="grand"></div>
+  <div class="calque" id="fin"><div id="marque"><img src="film-cap-wordmark.png" alt=""></div><div id="lien">Lien en bio ↓</div></div>
+  <div class="calque" id="voile" style="background:linear-gradient(180deg,rgba(3,6,14,0) 56%,rgba(3,6,14,.5) 64%,rgba(3,6,14,.55) 76%,rgba(3,6,14,0) 84%)"></div>
+  <div id="sous"></div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from './vendor/three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from './vendor/three/addons/postprocessing/RenderPass.js';
+import { ShaderPass } from './vendor/three/addons/postprocessing/ShaderPass.js';
+import { BokehPass } from './vendor/three/addons/postprocessing/BokehPass.js';
+import { UnrealBloomPass } from './vendor/three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from './vendor/three/addons/postprocessing/OutputPass.js';
+
+// ── Outils ────────────────────────────────────────────────────────────────
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const prog = (t, a, d) => clamp((t - a) / d);
+const sstep = (a, b, x) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+const E = {
+  out3: u => 1 - (1 - u) ** 3, in3: u => u ** 3, io3: u => u < .5 ? 4 * u ** 3 : 1 - (-2 * u + 2) ** 3 / 2,
+  outExpo: u => u >= 1 ? 1 : 1 - 2 ** (-10 * u), ioExpo: u => u <= 0 ? 0 : u >= 1 ? 1 : u < .5 ? 2 ** (20 * u - 10) / 2 : (2 - 2 ** (-20 * u + 10)) / 2,
+  outBack: u => { const c = 1.9; return 1 + (c + 1) * (u - 1) ** 3 + c * (u - 1) ** 2; },
+};
+const hash = (i) => { const s = Math.sin(i * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+const TQ = new THREE.Color('#22D3C3');
+const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
+
+// ── La voix : instants exacts des mots ───────────────────────────────────
+const VOIX = await (await fetch('film-avion-voix.json')).json();
+const PH = Object.fromEntries(VOIX.phrases.map(p => [p.id, p]));
+const W = (id, i) => PH[id].mots[i][1];
+const DUREE = 40.0;
+await Promise.all([document.fonts.load('64px Calistoga'), document.fonts.load('700 30px Inter'), document.fonts.load('800 40px Inter'), document.fonts.load('600 22px Inter')]);
+
+// ── Rendu ─────────────────────────────────────────────────────────────────
+const canvas = document.getElementById('gl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(1); renderer.setSize(1080, 1920, false);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const camera = new THREE.PerspectiveCamera(32, 1080 / 1920, 0.05, 400);
+
+// ── Textures dessinées (aucune image externe) ────────────────────────────
+function toile(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return [c, c.getContext('2d')]; }
+function fibres(g, w, h, base, n, seed) {
+  g.fillStyle = base; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < n; i++) {
+    const x = hash(seed + i * 3.1) * w, y = hash(seed + i * 7.7) * h, l = 4 + hash(seed + i * 1.3) * 16, a = hash(seed + i * 9.9) * Math.PI;
+    g.strokeStyle = `rgba(120,100,70,${0.02 + hash(seed + i) * 0.04})`; g.lineWidth = 0.8;
+    g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke();
+  }
+}
+const barre = (g, x, y, w, h = 14, c = 'rgba(15,23,42,.22)') => { g.fillStyle = c; g.beginPath(); g.roundRect(x, y, w, h, h / 2); g.fill(); };
+// Facture : les montants sont des barres grises (aucun chiffre inventé, comme les illustrations du site).
+function facture(seed, titre = 'FACTURE') {
+  const [c, g] = toile(1024, 1448);
+  fibres(g, 1024, 1448, '#F5F0E4', 2600, seed);
+  g.fillStyle = '#0F172A'; g.font = '64px Calistoga'; g.textAlign = 'right'; g.fillText(titre, 940, 150);
+  barre(g, 700, 180, 240); barre(g, 760, 210, 180);
+  g.fillStyle = '#1B2A41'; g.beginPath(); g.roundRect(84, 92, 74, 74, 16); g.fill();
+  barre(g, 180, 104, 200, 18, 'rgba(15,23,42,.45)'); barre(g, 180, 138, 150);
+  g.textAlign = 'left'; g.font = '600 24px Inter'; g.fillStyle = 'rgba(15,23,42,.55)'; g.fillText('Client', 84, 300);
+  barre(g, 84, 320, 260); barre(g, 84, 350, 200); barre(g, 84, 380, 230);
+  g.fillStyle = 'rgba(15,23,42,.06)'; g.fillRect(84, 470, 856, 56);
+  g.font = '600 22px Inter'; g.fillStyle = 'rgba(15,23,42,.6)';
+  [['Désignation', 104], ['Qté', 560], ['Prix', 680], ['Total', 860]].forEach(([s, x]) => g.fillText(s, x, 506));
+  for (let r = 0; r < 6; r++) {
+    const y = 570 + r * 64;
+    barre(g, 104, y, 220 + hash(seed + r) * 200); barre(g, 560, y, 40); barre(g, 680, y, 90); barre(g, 840, y, 96, 14, 'rgba(15,23,42,.32)');
+    g.fillStyle = 'rgba(15,23,42,.08)'; g.fillRect(84, y + 34, 856, 2);
+  }
+  g.font = '700 30px Inter'; g.fillStyle = '#0F172A'; g.fillText('Total', 600, 1010); barre(g, 780, 990, 160, 24, 'rgba(15,23,42,.6)');
+  g.font = '600 24px Inter'; g.fillStyle = 'rgba(15,23,42,.6)'; g.fillText('Échéance', 600, 1070); barre(g, 780, 1054, 120);
+  barre(g, 84, 1300, 520, 10); barre(g, 84, 1324, 440, 10); barre(g, 84, 1348, 480, 10);
+  return c;
+}
+function tampon(texte, couleur, w = 560, h = 170, seed = 3) {
+  const [c, g] = toile(w, h);
+  g.strokeStyle = couleur; g.fillStyle = couleur; g.lineWidth = 9; g.beginPath(); g.roundRect(8, 8, w - 16, h - 16, 20); g.stroke();
+  g.lineWidth = 3; g.beginPath(); g.roundRect(22, 22, w - 44, h - 44, 12); g.stroke();
+  g.font = `800 ${Math.round(h * .36)}px Inter`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(texte, w / 2, h / 2 + 4);
+  g.globalCompositeOperation = 'destination-out';            // grain d'encre
+  for (let i = 0; i < 900; i++) { g.globalAlpha = .5 + hash(seed + i) * .5; g.beginPath(); g.arc(hash(seed + i * 2.3) * w, hash(seed + i * 5.1) * h, .6 + hash(i * 1.7) * 2.2, 0, 7); g.fill(); }
+  g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
+  return c;
+}
+const IMP = facture(11), PEP = facture(23), PILE = [facture(37), facture(41), facture(53)];
+const T_RETARD = tampon('EN RETARD', '#B42318', 560, 170, 5);
+const T_PEPPOL = tampon('VIA PEPPOL', '#1D4ED8', 560, 170, 9);
+
+// La facture qui se pliera : texture recomposée à chaque image (tampon, encre qui s'efface)
+const [cA, gA] = toile(1024, 1448), texA = new THREE.CanvasTexture(cA); texA.colorSpace = THREE.SRGBColorSpace; texA.anisotropy = 4;
+const [cEm, gEm] = toile(512, 724), texEm = new THREE.CanvasTexture(cEm); texEm.colorSpace = THREE.SRGBColorSpace;
+const [cB, gB] = toile(1024, 1448), texB = new THREE.CanvasTexture(cB); texB.colorSpace = THREE.SRGBColorSpace; texB.anisotropy = 4;
+const [cDos, gDos] = toile(512, 724); fibres(gDos, 512, 724, '#EFE9DC', 900, 77);
+const texDos = new THREE.CanvasTexture(cDos); texDos.colorSpace = THREE.SRGBColorSpace;
+function texPile(c) { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; }
+
+// Bureau en noyer, sous-main en cuir
+function bureau() {
+  const [c, g] = toile(2048, 2048);
+  g.fillStyle = '#2A1A10'; g.fillRect(0, 0, 2048, 2048);
+  for (let i = 0; i < 420; i++) {
+    const y = hash(i * 3.3) * 2048, a = .04 + hash(i * 1.9) * .1, l = hash(i * 7.1) > .5 ? '#5A3A22' : '#140B06';
+    g.strokeStyle = l; g.globalAlpha = a; g.lineWidth = 1 + hash(i * 2.2) * 6; g.beginPath();
+    for (let x = 0; x <= 2048; x += 32) g.lineTo(x, y + Math.sin(x / (180 + hash(i) * 400) + i) * (6 + hash(i * 5) * 22));
+    g.stroke();
+  }
+  g.globalAlpha = 1;
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(3, 3); t.anisotropy = 4;
+  return t;
+}
+
+// ── Scène 1 : le bureau, la nuit ─────────────────────────────────────────
+const nuit = new THREE.Scene();
+nuit.background = new THREE.Color('#05070D');
+nuit.fog = new THREE.Fog('#05070D', 9, 22);
+const sol = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ map: bureau(), roughness: .55, metalness: 0 }));
+sol.rotation.x = -Math.PI / 2; sol.receiveShadow = true; nuit.add(sol);
+const sousMain = new THREE.Mesh(new THREE.BoxGeometry(6.2, .02, 4.4), new THREE.MeshStandardMaterial({ color: '#111A2C', roughness: .8 }));
+sousMain.position.set(.1, .01, .2); sousMain.receiveShadow = true; nuit.add(sousMain);
+const lampe = new THREE.SpotLight('#FFC27A', 0, 0, .62, .75, 0);
+lampe.position.set(-2.6, 6.2, -2.2); lampe.target.position.set(.2, 0, .3);
+lampe.castShadow = true; lampe.shadow.mapSize.set(2048, 2048); lampe.shadow.bias = -.0004; lampe.shadow.normalBias = .02; lampe.shadow.radius = 4;
+lampe.shadow.camera.near = 2; lampe.shadow.camera.far = 14;
+nuit.add(lampe, lampe.target);
+const ciel = new THREE.HemisphereLight('#4A6FA8', '#1A0F08', 0); nuit.add(ciel);
+const lueur = new THREE.PointLight('#22D3C3', 0, 6, 1.6); nuit.add(lueur);
+const appoint = new THREE.DirectionalLight('#A9C8FF', 0); appoint.position.set(1.2, 8, -3.5); nuit.add(appoint);   // lumière froide de l'envol    // lumière turquoise du basculement
+// Tasse en céramique et stylo : de l'échelle et de la vie dans l'image
+const profil = [[0, 0], [.34, 0], [.38, .04], [.4, .62], [.43, .66], [.39, .66], [.36, .06], [0, .06]].map(([x, y]) => new THREE.Vector2(x, y));
+const tasse = new THREE.Mesh(new THREE.LatheGeometry(profil, 48), new THREE.MeshStandardMaterial({ color: '#E8E2D6', roughness: .35 }));
+tasse.position.set(2.45, 0, -1.15); tasse.castShadow = tasse.receiveShadow = true; nuit.add(tasse);
+const cafe = new THREE.Mesh(new THREE.CircleGeometry(.36, 32), new THREE.MeshStandardMaterial({ color: '#1B0F08', roughness: .15 }));
+cafe.rotation.x = -Math.PI / 2; cafe.position.set(2.45, .54, -1.15); nuit.add(cafe);
+const anse = new THREE.Mesh(new THREE.TorusGeometry(.17, .045, 12, 24, Math.PI * 1.2), tasse.material);
+anse.position.set(2.86, .34, -1.15); anse.rotation.z = -Math.PI * .6; anse.castShadow = true; nuit.add(anse);
+const stylo = new THREE.Group();
+const corps = new THREE.Mesh(new THREE.CylinderGeometry(.055, .055, 1.5, 20), new THREE.MeshStandardMaterial({ color: '#0F172A', roughness: .25, metalness: .3 }));
+const plume = new THREE.Mesh(new THREE.ConeGeometry(.055, .22, 20), new THREE.MeshStandardMaterial({ color: '#C69B62', roughness: .2, metalness: .9 }));
+corps.rotation.z = plume.rotation.z = Math.PI / 2; plume.rotation.z = -Math.PI / 2; plume.position.x = .86;
+stylo.add(corps, plume); stylo.position.set(-2.35, .06, 1.35); stylo.rotation.y = .5; corps.castShadow = true; nuit.add(stylo);
+
+// Feuilles simples (pile, facture Peppol) : recto imprimé, verso uni
+const W_F = 2.1, H_F = 2.97;
+const geoF = new THREE.PlaneGeometry(W_F, H_F);
+function feuille(tex) {
+  const g = new THREE.Group();
+  const recto = new THREE.Mesh(geoF, new THREE.MeshStandardMaterial({ map: tex, roughness: .9, side: THREE.FrontSide }));
+  const verso = new THREE.Mesh(geoF, new THREE.MeshStandardMaterial({ map: texDos, roughness: .9, side: THREE.BackSide }));
+  recto.castShadow = recto.receiveShadow = verso.castShadow = true;
+  g.add(recto, verso); g.rotation.x = -Math.PI / 2; return g;
+}
+const pile = PILE.map((c, i) => { const f = feuille(texPile(c)); nuit.add(f); return f; });
+const fPep = feuille(texB); nuit.add(fPep);
+// Post-it « Marge ? »
+const [cPI, gPI] = toile(400, 400);
+gPI.fillStyle = '#F4E3A1'; gPI.fillRect(0, 0, 400, 400); gPI.fillStyle = 'rgba(0,0,0,.06)'; gPI.fillRect(0, 0, 400, 60);
+gPI.fillStyle = '#3B2A12'; gPI.font = '96px Calistoga'; gPI.textAlign = 'center'; gPI.fillText('Marge', 200, 210); gPI.font = '120px Calistoga'; gPI.fillText('?', 200, 336);
+const texPI = new THREE.CanvasTexture(cPI); texPI.colorSpace = THREE.SRGBColorSpace;
+const postit = new THREE.Mesh(new THREE.PlaneGeometry(.78, .78), new THREE.MeshStandardMaterial({ map: texPI, roughness: .8, transparent: true }));
+postit.rotation.x = -Math.PI / 2; postit.castShadow = true; nuit.add(postit);
+
+// ── La feuille qui se plie : origami à facettes rigides ──────────────────
+// Repère de la feuille : x vers la droite, y vers le nez (haut de page), z = normale.
+// Chaque pli k : une droite dans la mise en page courante (tous les plis précédents
+// faits), un côté mobile, un sens. Chaque facette (polygone convexe) est rigide ;
+// sa matrice = composition des rotations des plis auxquels elle participe, l'axe
+// du pli étant attaché à une facette de référence immobile (il suit donc les
+// ouvertures ultérieures sans déchirer la feuille).
+const c0 = W_F / 2, yC = H_F - c0 * (1 + Math.SQRT2);
+const PLIS = [
+  { nom: 'A', a: [c0, H_F], b: [0, H_F - c0], test: [0.05, H_F - 0.05], sens: 1 },
+  { nom: 'B', a: [W_F, H_F - c0], b: [c0, H_F], test: [W_F - 0.05, H_F - 0.05], sens: 1 },
+  { nom: 'C', a: [c0, H_F], b: [0, yC], test: [0.02, yC + 0.2], sens: 1 },
+  { nom: 'D', a: [W_F, yC], b: [c0, H_F], test: [W_F - 0.02, yC + 0.2], sens: 1 },
+  { nom: 'E', a: [c0, 0], b: [c0, H_F], test: [0.2, 0.5], sens: -1 },
+  { nom: 'F', a: [c0 + 0.42, 0], b: [c0 + 0.07, H_F - 0.12], test: [W_F - 0.1, 0.4], sens: 1, filtre: f => !f.plis.includes(4) },
+  { nom: 'G', a: [c0 + 0.42, 0], b: [c0 + 0.07, H_F - 0.12], test: [W_F - 0.1, 0.4], sens: -1, filtre: f => f.plis.includes(4) },
+];
+const M4 = () => new THREE.Matrix4();
+function rotAxe(a, b, ang) {                       // rotation d'angle ang autour de la droite (a,b) en 3D
+  const ax = new THREE.Vector3().subVectors(b, a).normalize();
+  return M4().makeTranslation(a.x, a.y, a.z).multiply(M4().makeRotationAxis(ax, ang)).multiply(M4().makeTranslation(-a.x, -a.y, -a.z));
+}
+let UID = 0;
+let facettes = [{ poly: [[0, 0], [W_F, 0], [W_F, H_F], [0, H_F]], plis: [], uid: UID++ }];
+const PLEIN = Math.PI;
+// matrice d'une facette avec les plis < k aux angles donnés (ang[k]), décalages compris
+function matrice(f, k, ang, refs, cache) {
+  const key = f.uid + ':' + k; if (cache && cache.has(key)) return cache.get(key);
+  let m = M4();
+  for (let j = 0; j < k; j++) {
+    if (!f.plis.includes(j)) continue;
+    const r = refs[j], mr = matrice(r, j, ang, refs, cache);     // la référence est l'objet facette lui-même (les plis antérieurs d'un morceau sont ceux de son parent)
+    const a = PLIS[j].aRef.clone().applyMatrix4(mr), b = PLIS[j].bRef.clone().applyMatrix4(mr);
+    const n = new THREE.Vector3(0, 0, 1).transformDirection(mr);
+    const dec = n.multiplyScalar(PLIS[j].dir * 0.004 * (j + 1) * sstep(.5, 1, ang[j] / PLEIN));
+    m = M4().makeTranslation(dec.x, dec.y, dec.z).multiply(rotAxe(a, b, PLIS[j].sens * ang[j])).multiply(m);
+  }
+  if (cache) cache.set(key, m);
+  return m;
+}
+const ligneCote = (a, b, p) => (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0]);
+function couper(poly, a, b, garde) {               // Sutherland-Hodgman sur un demi-plan
+  const out = [];
+  for (let i = 0; i < poly.length; i++) {
+    const p = poly[i], q = poly[(i + 1) % poly.length], sp = garde * ligneCote(a, b, p), sq = garde * ligneCote(a, b, q);
+    if (sp >= -1e-9) out.push(p);
+    if ((sp > 1e-9 && sq < -1e-9) || (sp < -1e-9 && sq > 1e-9)) { const u = sp / (sp - sq); out.push([p[0] + (q[0] - p[0]) * u, p[1] + (q[1] - p[1]) * u]); }
+  }
+  return out;
+}
+const refs = [];
+PLIS.forEach((P, k) => {
+  const plein = PLIS.map(() => PLEIN);
+  const nv = [];
+  const sTest = Math.sign(ligneCote(P.a, P.b, P.test));
+  facettes.forEach((f, idx) => { f.id = idx; });
+  for (const f of facettes) {
+    const m = matrice(f, k, plein, refs, new Map()), inv = m.clone().invert();
+    const loc = (pt) => { const v = new THREE.Vector3(pt[0], pt[1], 0).applyMatrix4(inv); return [v.x, v.y]; };
+    const a = loc(P.a), b = loc(P.b), t = loc(P.test);
+    const s = Math.sign(ligneCote(a, b, t)) || 1;          // côté mobile dans les coordonnées de cette facette
+    const ok = !P.filtre || P.filtre(f);
+    const mob = couper(f.poly, a, b, s), fixe = couper(f.poly, a, b, -s);
+    const aire = (p) => Math.abs(p.reduce((s2, q, i) => s2 + q[0] * p[(i + 1) % p.length][1] - p[(i + 1) % p.length][0] * q[1], 0)) / 2;
+    if (aire(mob) > 1e-6) nv.push({ poly: mob, plis: ok ? [...f.plis, k] : [...f.plis], pli: ok ? k : -1, uid: UID++ });
+    if (aire(fixe) > 1e-6) nv.push({ poly: fixe, plis: [...f.plis], uid: UID++ });
+  }
+  facettes = nv; facettes.forEach((f, idx) => { f.id = idx; });
+  // facette de référence : immobile pour ce pli, mêmes plis antérieurs « ouvrables » que les mobiles
+  const mobiles = facettes.filter(f => f.plis.includes(k));
+  const ref = facettes.findIndex(f => !f.plis.includes(k) && (!P.filtre || P.filtre(f)) && f.plis.join() === mobiles[0].plis.filter(j => j !== k).join())
+           >= 0 ? facettes.findIndex(f => !f.plis.includes(k) && (!P.filtre || P.filtre(f)) && f.plis.join() === mobiles[0].plis.filter(j => j !== k).join())
+                : facettes.findIndex(f => !f.plis.includes(k) && (!P.filtre || P.filtre(f)));
+  refs[k] = facettes[ref];
+  const mr = matrice(refs[k], k, plein, refs, new Map()), inv = mr.clone().invert();
+  P.aRef = new THREE.Vector3(P.a[0], P.a[1], 0).applyMatrix4(inv); P.bRef = new THREE.Vector3(P.b[0], P.b[1], 0).applyMatrix4(inv);
+  // de quel côté de la feuille la partie mobile se pose (pour décaler les couches)
+  const fm = mobiles[0], cm = fm.poly.reduce((s2, q) => [s2[0] + q[0] / fm.poly.length, s2[1] + q[1] / fm.poly.length], [0, 0]);
+  const ang = PLIS.map(() => PLEIN); ang[k] = PLEIN / 2; P.dir = 1;
+  const p90 = new THREE.Vector3(cm[0], cm[1], 0).applyMatrix4(matrice(fm, k + 1, ang, refs, new Map())).applyMatrix4(mr.clone().invert());
+  P.dir = Math.sign(p90.z) || 1;
+});
+// géométrie : une paire recto/verso par facette
+const avion = new THREE.Group();            // repère « vol » (posé ensuite sur le bureau ou dans le ciel)
+const feuilleA = new THREE.Group(); avion.add(feuilleA);
+nuit.add(avion);
+const matRecto = new THREE.MeshStandardMaterial({ map: texA, emissiveMap: texEm, emissive: new THREE.Color('#ffffff'), emissiveIntensity: 1, roughness: .88, side: THREE.FrontSide });
+const matVerso = new THREE.MeshStandardMaterial({ map: texDos, emissiveMap: texEm, emissive: new THREE.Color('#ffffff'), emissiveIntensity: 1, roughness: .88, side: THREE.BackSide });
+for (const f of facettes) {
+  const pos = [], uv = [], idx = [];
+  f.poly.forEach(([x, y]) => { pos.push(x, y, 0); uv.push(x / W_F, y / H_F); });
+  for (let i = 1; i < f.poly.length - 1; i++) idx.push(0, i, i + 1);
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.setIndex(idx); g.computeVertexNormals();
+  const r = new THREE.Mesh(g, matRecto), v = new THREE.Mesh(g, matVerso);
+  for (const m of [r, v]) { m.matrixAutoUpdate = false; m.castShadow = true; m.receiveShadow = true; feuilleA.add(m); }
+  f.meshes = [r, v];
+}
+window.NB_FACETTES = facettes.length;
+window.DEBUG_PLI = (ang) => { const cache = new Map(); return facettes.map(f => { const m = matrice(f, PLIS.length, ang, refs, cache);
+  return { plis: f.plis, pts: f.poly.map(([x, y]) => { const v = new THREE.Vector3(x, y, 0).applyMatrix4(m); return [v.x, v.y, v.z]; }) }; }); };
+window.DEBUG_INFO = () => PLIS.map((P, k) => ({ nom: P.nom, ref: refs[k].uid, dir: P.dir, nmob: facettes.filter(f => f.plis.includes(k)).length }));
+
+// ── Temps clés (tous dérivés des mots de la voix) ────────────────────────
+const T_PIL = W('pilotia', 1);                    // « Pilotia » : premier pli
+const PAS = 0.27;                                 // un pli par temps
+const T_PLI = [T_PIL, T_PIL + PAS, T_PIL + 2 * PAS, T_PIL + 3 * PAS, T_PIL + 4 * PAS + .08, T_PIL + 5 * PAS + .2, T_PIL + 5 * PAS + .2];
+const D_PLI = [.24, .24, .24, .24, .34, .3, .3];
+const T_OUVRE = T_PIL + 6 * PAS + .3;             // les ailes s'ouvrent, l'avion se redresse
+const T_LEV = W('commandes', 6) - .15;            // « ensemble ? » : la feuille se soulève
+const T_DECOL = T_OUVRE + .78;                    // décollage vers la caméra
+const T_COUPE1 = T_DECOL + .5;                    // l'avion frôle l'objectif : coupe vers l'aube
+const T_COUPE2 = PH.services.fin + .1;            // coup de fouet vers le ciel du logo
+const T_LOGO0 = W('appel', 0);                    // « Votre » : le point turquoise
+const T_FLECHE = W('hauteur', 0);                 // « Prenez » : l'avion devient la flèche
+const T_MARQUE = W('hauteur', 5);                 // « Pilotia » : le nom
+function angles(t) {
+  const a = T_PLI.map((t0, k) => PLEIN * E.io3(prog(t, t0, D_PLI[k])));
+  const o = E.outBack(prog(t, T_OUVRE, .45));
+  a[4] = a[4] - .32 * o;                          // la quille s'ouvre en V
+  a[5] = lerp(a[5], PLEIN / 2 + .06, o); a[6] = lerp(a[6], PLEIN / 2 + .06, o);   // ailes à plat
+  return a;
+}
+function poserFacettes(t) {
+  const ang = angles(t), cache = new Map();
+  for (const f of facettes) { const m = matrice(f, PLIS.length, ang, refs, cache); for (const me of f.meshes) me.matrix.copy(m); }
+}
+feuilleA.position.set(-c0, -H_F / 2, 0);          // l'origine de l'avion = centre de la feuille
+window.T_PLI = T_PLI;
+
+// ── Scène 2 : l'aube au-dessus d'un paysage de documents ────────────────
+const aube = new THREE.Scene();
+aube.fog = new THREE.Fog('#E7B79A', 26, 120);
+const cielMat = new THREE.ShaderMaterial({
+  side: THREE.BackSide, depthWrite: false, fog: false,
+  uniforms: { uMontee: { value: 0 }, uNuit: { value: 0 } },
+  vertexShader: 'varying vec3 vD; void main(){ vD = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }',
+  fragmentShader: `uniform float uMontee, uNuit; varying vec3 vD;
+    void main(){ float h = vD.y; vec3 sol = normalize(vec3(0., .06 + .1*uMontee, -1.));
+      vec3 horizon = mix(vec3(.93,.62,.52), vec3(1.,.78,.58), uMontee), milieu = vec3(.62,.70,.86), zenith = vec3(.11,.18,.36);
+      vec3 c = mix(horizon, milieu, smoothstep(-.02, .22, h)); c = mix(c, zenith, smoothstep(.2, .85, h));
+      float s = max(0., dot(normalize(vD), sol)); c += vec3(1.,.84,.66) * (pow(s, 900.) * .8 + pow(s, 14.) * .12) * (.4 + .7 * uMontee);
+      c = mix(c, vec3(.03,.06,.13), uNuit); gl_FragColor = vec4(pow(c, vec3(2.2)), 1.); }` });
+aube.add(new THREE.Mesh(new THREE.SphereGeometry(300, 48, 24), cielMat));
+const solAube = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardMaterial({ color: '#2B3550', roughness: 1 }));
+solAube.rotation.x = -Math.PI / 2; solAube.position.y = -.02; aube.add(solAube);
+const hemiAube = new THREE.HemisphereLight('#B7CCF0', '#3A2C3C', 1.3); aube.add(hemiAube);
+const soleil = new THREE.DirectionalLight('#FFB98A', 1); soleil.position.set(-8, 14, -60); aube.add(soleil, soleil.target);
+const lueurAube = new THREE.PointLight('#22D3C3', 0, 9, 1.4); aube.add(lueurAube);
+// le paysage : des centaines de documents, chacun avec son ombre portée douce (pas de calcul d'ombre : un aplat sombre)
+const DOCS = [facture(61), facture(67, 'DEVIS'), facture(71, 'RELEVÉ'), facture(79, 'BILAN')].map(texPile);
+const geoDoc = new THREE.PlaneGeometry(W_F * 1.5, H_F * 1.5); geoDoc.rotateX(-Math.PI / 2);
+const ombreDoc = new THREE.InstancedMesh(geoDoc, new THREE.MeshBasicMaterial({ color: '#000', transparent: true, opacity: .28, depthWrite: false }), 600);
+const docs = DOCS.map(tx => new THREE.InstancedMesh(geoDoc, new THREE.MeshStandardMaterial({ map: tx, roughness: .9 }), 160));
+{
+  const n = [0, 0, 0, 0], m = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(); let k = 0;
+  for (let r = 0; r < 30; r++) for (let c = 0; c < 18; c++) {
+    const i = r * 18 + c, x = -40 + c * 4.7 + (hash(i * 2.1) - .5) * 1.8, z = 24 - r * 5.4 + (hash(i * 3.7) - .5) * 1.8;
+    e.set(0, (hash(i * 5.3) - .5) * .9, 0); q.setFromEuler(e);
+    m.compose(V3(x, .01 + hash(i) * .03, z), q, V3(1, 1, 1)); const d = Math.floor(hash(i * 9.1) * 4);
+    if (n[d] < 160) { docs[d].setMatrixAt(n[d]++, m); m.compose(V3(x + .25, .005, z + .3), q, V3(1.02, 1, 1.02)); if (k < 600) ombreDoc.setMatrixAt(k++, m); }
+  }
+  docs.forEach((d, i) => { d.count = n[i]; aube.add(d); }); ombreDoc.count = k; aube.add(ombreDoc);
+}
+// 3 à 5 priorités : des faisceaux turquoise qui s'allument sur le paysage
+const geoFais = new THREE.CylinderGeometry(.16, .16, 34, 16, 1, true); geoFais.translate(0, 17, 0);
+const FAIS = [[-7.5, -44], [1.5, -50], [8.5, -41], [-2.5, -60], [11, -57]].map(([x, z], i) => {
+  const g = new THREE.Group();
+  const coeur = new THREE.Mesh(geoFais, new THREE.MeshBasicMaterial({ color: TQ, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
+  const halo = new THREE.Mesh(new THREE.CylinderGeometry(.7, .7, 34, 16, 1, true).translate(0, 17, 0), new THREE.MeshBasicMaterial({ color: TQ, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+  const anneau = new THREE.Mesh(new THREE.RingGeometry(.5, .9, 48).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: TQ, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
+  anneau.position.y = .06; g.add(coeur, halo, anneau); g.position.set(x, 0, z); aube.add(g);
+  return { g, coeur, halo, anneau, t0: i < 3 ? W('priorites', 2) + i * .09 : W('priorites', 4) + (i - 3) * .09 };
+});
+// le cap : un trait turquoise tiré au sol, de l'avion vers l'horizon
+const cap = new THREE.Mesh(new THREE.PlaneGeometry(.28, 1).rotateX(-Math.PI / 2).translate(0, 0, -.5), new THREE.MeshBasicMaterial({ color: TQ, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
+cap.position.y = .08; aube.add(cap);
+// quatre cartes en papier qui escortent l'avion : les quatre casse-têtes
+function carte(mot) {
+  const [c, g] = toile(768, 300); fibres(g, 768, 300, '#F7F2E6', 500, mot.length * 13);
+  g.fillStyle = '#22D3C3'; g.beginPath(); g.arc(70, 150, 18, 0, 7); g.fill();
+  g.fillStyle = '#0F172A'; g.font = '104px Calistoga'; g.textBaseline = 'middle'; g.fillText(mot, 112, 158);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(2.3, .9), new THREE.MeshStandardMaterial({ map: t, emissiveMap: t, emissive: new THREE.Color('#ffffff'), emissiveIntensity: .55, roughness: .85, side: THREE.DoubleSide }));
+  aube.add(m); return m;
+}
+const CARTES = [['Factures', 0, [-2.4, 1.15, -1.9]], ['Trésorerie', 1, [-1.1, 2.0, 1.3]], ['Peppol', 2, [-3.3, -.35, .5]], ['Visibilité', 3, [-.7, -1.05, -2.8]]]
+  .map(([mot, i, off]) => ({ m: carte(mot), t0: W('services', i), off: V3(...off) }));
+
+// ── Scène 3 : le ciel du logo (marine de l'icône) ────────────────────────
+const logoSc = new THREE.Scene();
+logoSc.add(new THREE.Mesh(new THREE.SphereGeometry(200, 32, 16), new THREE.ShaderMaterial({ side: THREE.BackSide, depthWrite: false,
+  vertexShader: 'varying vec3 vD; void main(){ vD = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }',
+  fragmentShader: `varying vec3 vD; void main(){ float r = length(vD.xy); vec3 c = mix(vec3(.086,.157,.302), vec3(.027,.051,.11), smoothstep(.0, .6, r)); gl_FragColor = vec4(pow(c, vec3(2.2)),1.); }` })));
+logoSc.add(new THREE.HemisphereLight('#DCE6FA', '#1B2A41', 2.2));
+const cle = new THREE.DirectionalLight('#FFFFFF', 1.6); cle.position.set(2, 3, 8); logoSc.add(cle);
+const S_ICO = 0.00654, Y_LOGO = 1.19;
+const ico = (X, Y, z = 0) => V3((X - 256) * S_ICO, -(Y - 256) * S_ICO + Y_LOGO, z);
+// la ligne du logo (relevée sur icon-512.png) : segments + virages arrondis
+const P0 = [115, 365], P1 = [193, 287], P2 = [260, 331], PB = [352.5, 198.5], POINTE = [398, 131], COIN1 = [322, 178], COIN2 = [383, 219];
+const chemin = new THREE.CurvePath();
+{
+  const R = 14, u = (a, b) => { const l = Math.hypot(b[0] - a[0], b[1] - a[1]); return [(b[0] - a[0]) / l, (b[1] - a[1]) / l]; };
+  const virage = (av, p, ap) => { const a = u(av, p), b = u(p, ap), th = Math.acos(clamp(a[0] * b[0] + a[1] * b[1], -1, 1)), T = R * Math.tan(th / 2);
+    return [[p[0] - a[0] * T, p[1] - a[1] * T], [p[0] + b[0] * T, p[1] + b[1] * T]]; };
+  const [a1, b1] = virage(P0, P1, P2), [a2, b2] = virage(P1, P2, PB);
+  const L = (a, b) => chemin.add(new THREE.LineCurve3(ico(...a), ico(...b))), Q = (a, c, b) => chemin.add(new THREE.QuadraticBezierCurve3(ico(...a), ico(...c), ico(...b)));
+  L(P0, a1); Q(a1, P1, b1); L(b1, a2); Q(a2, P2, b2); L(b2, PB);
+}
+const N_TUBE = 600;
+const trait = new THREE.Mesh(new THREE.TubeGeometry(chemin, N_TUBE, 10.5 * S_ICO, 16, false), new THREE.MeshBasicMaterial({ color: '#FFFFFF', toneMapped: false }));
+logoSc.add(trait);
+const boutTrait = new THREE.Mesh(new THREE.SphereGeometry(10.5 * S_ICO, 16, 12), trait.material); logoSc.add(boutTrait);
+const point = new THREE.Mesh(new THREE.CircleGeometry(12.5 * S_ICO, 48), new THREE.MeshBasicMaterial({ color: TQ, toneMapped: false })); point.position.copy(ico(...P0, .02)); logoSc.add(point);
+const onde = new THREE.Mesh(new THREE.RingGeometry(1, 1.12, 64), new THREE.MeshBasicMaterial({ color: TQ, transparent: true, opacity: 0, toneMapped: false, depthWrite: false })); onde.position.copy(ico(...P0, .01)); logoSc.add(onde);
+const formeFleche = new THREE.Shape([POINTE, COIN1, COIN2].map(([X, Y]) => new THREE.Vector2((X - 256) * S_ICO, -(Y - 256) * S_ICO + Y_LOGO)));
+const fleche = new THREE.Mesh(new THREE.ShapeGeometry(formeFleche), new THREE.MeshBasicMaterial({ color: '#FFFFFF', toneMapped: false, transparent: true, opacity: 0 })); fleche.position.z = .03; logoSc.add(fleche);
+const formeTuile = new THREE.Shape(); { const a = 236 * S_ICO, r = 60 * S_ICO, y0 = Y_LOGO;
+  formeTuile.moveTo(-a + r, y0 - a); formeTuile.lineTo(a - r, y0 - a); formeTuile.quadraticCurveTo(a, y0 - a, a, y0 - a + r); formeTuile.lineTo(a, y0 + a - r);
+  formeTuile.quadraticCurveTo(a, y0 + a, a - r, y0 + a); formeTuile.lineTo(-a + r, y0 + a); formeTuile.quadraticCurveTo(-a, y0 + a, -a, y0 + a - r);
+  formeTuile.lineTo(-a, y0 - a + r); formeTuile.quadraticCurveTo(-a, y0 - a, -a + r, y0 - a); }
+const tuile = new THREE.Mesh(new THREE.ShapeGeometry(formeTuile, 24), new THREE.MeshBasicMaterial({ color: '#13244A', transparent: true, opacity: 0, toneMapped: false, depthWrite: false }));
+tuile.position.z = -.06; logoSc.add(tuile);
+const bordTuile = new THREE.Mesh(new THREE.ShapeGeometry(formeTuile, 24), new THREE.MeshBasicMaterial({ color: '#2D4F86', transparent: true, opacity: 0, toneMapped: false, depthWrite: false }));
+bordTuile.position.z = -.07; bordTuile.scale.setScalar(1.012); logoSc.add(bordTuile);
+
+// ── Composition (rendu + effets) ─────────────────────────────────────────
+const composer = new EffectComposer(renderer);
+const passeRendu = new RenderPass(nuit, camera); composer.addPass(passeRendu);
+const bokeh = new BokehPass(nuit, camera, { focus: 5, aperture: 0.0006, maxblur: 0.012 }); composer.addPass(bokeh);
+const bloom = new UnrealBloomPass(new THREE.Vector2(540, 960), .5, .55, .86); composer.addPass(bloom);
+// Grade final : grain lié au numéro d'image, vignette, légère aberration chromatique sur les bords
+const grade = new ShaderPass({
+  uniforms: { tDiffuse: { value: null }, uGrain: { value: .04 }, uVig: { value: .42 }, uFrame: { value: 0 }, uAb: { value: .0012 }, uFlash: { value: 0 } },
+  vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }',
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uGrain, uVig, uFrame, uAb, uFlash; varying vec2 vUv;
+    float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)) + uFrame*0.6180339) * 43758.5453); }
+    void main(){ vec2 d = vUv - .5; float r2 = dot(d,d);
+      vec3 c = vec3(texture2D(tDiffuse, vUv + d*uAb*r2*8.).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - d*uAb*r2*8.).b);
+      c *= 1. - uVig * smoothstep(.12, .62, r2*1.6);
+      c = mix(c, vec3(1.), uFlash);
+      c += (h(vUv*vec2(1080.,1920.)) - .5) * uGrain;
+      gl_FragColor = vec4(c, 1.); }` });
+composer.addPass(new OutputPass());
+composer.addPass(grade);
+
+// ── Typographie : sous-titres mot à mot, titre de fin, pastille ─────────
+// [phrase, [mot affiché, indice du mot dans la voix, style]]
+const SOUS = [
+  ['tard', [['Il', 0], ['est', 1], ['tard.', 2, 'fort']]],
+  ['boutique', [['La', 0], ['boutique', 1], ['est', 2], ['fermée,', 3], ['et', 4], ['vous', 5], ['êtes', 6], ['encore', 7], ['sur', 8], ['vos', 9], ['factures.', 10, 'fort']]],
+  ['impaye', [['Celle-ci', 0], ['attend', 2], ['toujours', 3], ["d'être", 4], ['payée.', 5, 'fort']]],
+  ['peppol', [['Et', 0], ['celle-là', 1], ['doit', 3], ['partir', 4], ['par', 5], ['Peppol.', 6, 'fort']]],
+  ['marge', [['Et', 0], ['votre', 1], ['marge,', 2, 'fort'], ['vous', 3], ['ne', 4], ['la', 5], ['voyez', 6], ['plus.', 7]]],
+  ['commandes', [['Et', 0], ['si', 1], ['on', 2], ['reprenait', 3], ['les', 4], ['commandes,', 5, 'fort'], ['ensemble ?', 6]]],
+  ['pilotia', [['Avec', 0], ['Pilotia.', 1, 'fort tq']]],
+  ['chiffres', [['On', 0], ['part', 1], ['de', 2], ['vos', 3], ['chiffres', 4, 'fort'], ['réels.', 5, 'fort']]],
+  ['priorites', [['On', 0], ['fixe', 1], ['3', 2, 'fort tq'], ['à', 3], ['5', 4, 'fort tq'], ['priorités.', 5]]],
+  ['cap', [['Et', 0], ['on', 1], ['garde', 2], ['le', 3], ['cap,', 4, 'fort tq'], ['mois', 5], ['après', 6], ['mois.', 7]]],
+  ['services', [['Factures,', 0], ['trésorerie,', 1], ['Peppol,', 2], ['visibilité :', 3], ['un', 4], ['seul', 5, 'fort tq'], ['interlocuteur.', 6]]],
+  ['appel', [['Votre', 0], ['premier', 1], ['appel', 2], ['est', 3], ['gratuit.', 4, 'fort tq']]],
+];
+function mots(div, id, liste) {
+  return liste.map(([m, i, cls], k) => { const s = document.createElement('span'); s.className = 'm ' + (cls || ''); s.textContent = m + (k < liste.length - 1 ? ' ' : ''); div.appendChild(s); return [s, W(id, i)]; });
+}
+const sous = document.getElementById('sous');
+const LIGNES = SOUS.map(([id, liste]) => {
+  const div = document.createElement('div'); div.style.position = 'absolute'; div.style.left = div.style.right = '0';
+  const spans = mots(div, id, liste); sous.appendChild(div);
+  return { div, spans, debut: W(id, liste[0][1]), fin: id === 'appel' ? W('appel', 4) + .3 : PH[id].fin };
+});
+function apparaitre(s, t0, t, dy = 26) {
+  const u = E.outBack(prog(t, t0 - .03, .26)), a = prog(t, t0 - .03, .12);
+  s.style.opacity = a; s.style.transform = `translateY(${(1 - u) * dy}px) scale(${.92 + .08 * u})`; s.style.filter = `blur(${(1 - a) * 6}px)`;
+}
+function sousTitres(t) {
+  LIGNES.forEach((L, n) => {
+    const suivante = LIGNES[n + 1], sortie = Math.min(L.fin + .55, suivante ? suivante.debut - .05 : 1e9);
+    const visible = t >= L.debut - .05 && t < sortie + .25;
+    L.div.style.display = visible ? 'block' : 'none'; if (!visible) return;
+    const so = E.in3(prog(t, sortie, .22));
+    L.div.style.opacity = 1 - so; L.div.style.transform = `translateY(${-18 * so}px)`;
+    for (const [s, t0] of L.spans) apparaitre(s, t0, t);
+  });
+}
+// titre de fin, mot à mot : « Prenez de la hauteur, avec Pilotia. »
+const grand = document.getElementById('grand');
+grand.innerHTML = '<div id="titre1" style="position:absolute;left:0;right:0;top:250px;font:400 104px/1.05 Calistoga;letter-spacing:-.02em"></div>'
+  + '<div id="titre2" style="position:absolute;left:0;right:0;top:372px;font:700 60px Inter;letter-spacing:-.02em;color:#C9D5EA"></div>'
+  + '<div id="cta" style="position:absolute;left:0;right:0;top:1298px"><span class="pastille">Premier appel gratuit</span></div>';
+const T1 = mots(document.getElementById('titre1'), 'hauteur', [['Prenez', 0], ['de', 1], ['la', 2], ['hauteur,', 3]]);
+const T2 = mots(document.getElementById('titre2'), 'hauteur', [['avec', 4], ['Pilotia.', 5, 'tq']]);
+const CTA = document.querySelector('#cta .pastille');
+const FIN = document.getElementById('fin'), MARQUE = document.querySelector('#marque img'), LIEN = document.getElementById('lien');
+function finale(t) {
+  grand.style.display = t > T_COUPE2 ? 'block' : 'none';
+  for (const [s, t0] of [...T1, ...T2]) apparaitre(s, t0, t, 34);
+  const p = E.outBack(prog(t, W('appel', 4) - .02, .4)); CTA.style.opacity = prog(t, W('appel', 4) - .02, .1); CTA.style.transform = `scale(${.6 + .4 * p}) rotate(${(1 - p) * -6}deg)`;
+  FIN.style.display = t > T_MARQUE - .1 ? 'block' : 'none';
+  const m = E.out3(prog(t, T_MARQUE, .6)); MARQUE.style.opacity = prog(t, T_MARQUE, .3); MARQUE.style.transform = `translateY(${(1 - m) * 30}px)`; MARQUE.style.filter = `blur(${(1 - prog(t, T_MARQUE, .3)) * 8}px)`;
+  LIEN.style.opacity = prog(t, T_MARQUE + .6, .4);
+}
+
+// ── Caméra ───────────────────────────────────────────────────────────────
+function cam(pos, vise, fov = 32) { camera.position.copy(pos); camera.up.set(0, 1, 0); camera.lookAt(vise); camera.fov = fov; camera.updateProjectionMatrix(); }
+function interp(cles, t) {       // [t, valeur(V3 ou nombre)] lissé (io3) entre clés
+  if (t <= cles[0][0]) return cles[0][1].isVector3 ? cles[0][1].clone() : cles[0][1];
+  for (let i = 0; i < cles.length - 1; i++) {
+    const [t0, a] = cles[i], [t1, b] = cles[i + 1];
+    if (t <= t1) { const u = E.io3((t - t0) / (t1 - t0)); return a.isVector3 ? a.clone().lerp(b, u) : lerp(a, b, u); }
+  }
+  const d = cles[cles.length - 1][1]; return d.isVector3 ? d.clone() : d;
+}
+const secousse = (t, t0, amp) => { const u = t - t0; if (u < 0 || u > .35) return V3(0, 0, 0); const k = Math.exp(-u * 14) * amp;
+  return V3(Math.sin(u * 90) * k, 0, Math.cos(u * 77) * k); };
+
+// ── L'avion : pose dans le temps ─────────────────────────────────────────
+const qBase = new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 2, 0, 0));
+const AX = V3(1, 0, 0), AY = V3(0, 1, 0), AZ = V3(0, 0, 1);
+const qAxe = (ax, a) => new THREE.Quaternion().setFromAxisAngle(ax, a);
+const qVol = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(V3(0, 1, 0), V3(0, 0, -1), V3(-1, 0, 0)));
+const V_VOL = 7.5, ALT = 9;
+function avionAube(t) {           // position et orientation dans le ciel de l'aube
+  const u = t - T_COUPE1, z = -V_VOL * u - .12 * u * u;
+  const bank = .1 * Math.sin(u * .9) + .35 * Math.sin(Math.PI * prog(t, W('cap', 2) - .4, 1.4)) * -1;
+  const x = .8 * Math.sin(u * .45) + 1.6 * E.io3(prog(t, W('cap', 2) - .4, 1.4));
+  const y = ALT + .35 * Math.sin(u * 1.3) + 1.2 * E.io3(prog(t, PH.services.debut - .5, 2.5));
+  const q = qAxe(AY, -.06 * Math.cos(u * .45)).multiply(qVol.clone()).multiply(qAxe(AY, bank)).multiply(qAxe(AZ, .04 * Math.sin(u * 1.7)));
+  return { p: V3(x, y, z), q };
+}
+const LONG = chemin.getLength();
+function progresTrait(t) {        // fraction de la ligne tracée, calée : P0 sur « Votre », la base de la flèche avant « Prenez »
+  const u = prog(t, T_LOGO0, T_FLECHE - .2 - T_LOGO0); return lerp(u, E.io3(u), .45);
+}
+function poserAvion(t) {
+  if (t < T_COUPE1) {
+    const lev = E.io3(prog(t, T_LEV, 1.6)), roule = E.io3(prog(t, T_OUVRE, .5));
+    const flotte = lev * (.05 * Math.sin((t - T_LEV) * 2.3));
+    let p = V3(0, .042 + lev * 1.25 + flotte, 0);
+    let q = qBase.clone().multiply(qAxe(AX, lev * .28 * (1 - roule))).multiply(qAxe(AY, -Math.PI / 2 * roule));
+    // décollage : le nez se lève, l'avion fonce vers la caméra (côté -z) et la frôle
+    const d = prog(t, T_DECOL, T_COUPE1 - T_DECOL), dd = d ** 2.2;
+    p.add(V3(1.0 * dd, .82 * dd + .22 * Math.sin(Math.PI * d), -4.55 * dd - .25 * d));
+    q = qAxe(AX, .22 * Math.sin(Math.PI * Math.min(1, d * 1.6))).multiply(q);
+    avion.position.copy(p); avion.quaternion.copy(q); avion.scale.setScalar(1);
+    return 'nuit';
+  }
+  if (t < T_COUPE2) { const { p, q } = avionAube(t); avion.position.copy(p); avion.quaternion.copy(q); avion.scale.setScalar(1); return 'aube'; }
+  // le logo : l'avion, réduit, suit la ligne vue de dessus ; avant « Votre », il arrive d'en bas à gauche
+  avion.scale.setScalar(.2);
+  const pr = progresTrait(t), dir0 = chemin.getTangentAt(0);
+  let p, tg;
+  if (t < T_LOGO0) { const a = 1 - E.out3(prog(t, T_COUPE2, T_LOGO0 - T_COUPE2)); p = chemin.getPointAt(0).clone().addScaledVector(dir0, -6 * a); tg = dir0.clone(); }
+  else if (t < T_FLECHE - .2) { p = chemin.getPointAt(pr); tg = chemin.getTangentAt(pr); }
+  else { // de la base de la flèche à la pointe
+    const a = E.out3(prog(t, T_FLECHE - .2, .28)), base = ico(...PB), bout = ico((COIN1[0] + COIN2[0]) / 2 * .0 + POINTE[0] * 1, POINTE[1]);
+    tg = bout.clone().sub(base).normalize(); p = base.clone().lerp(ico(...POINTE).addScaledVector(tg, -.32), a);
+  }
+  // nez le long de la tangente, dessus de l'avion vers la caméra : on le voit en silhouette de flèche
+  const ey = tg.clone().normalize(), ex = V3(0, 0, 1), ez = ex.clone().cross(ey);
+  const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(ex, ey, ez));
+  // l'origine de l'avion est le centre de la feuille : on recule pour que le nez soit sur le point
+  avion.quaternion.copy(q); avion.position.copy(p).addScaledVector(ey, -.2 * H_F * .32);
+  avion.position.z = .05;
+  return 'logo';
+}
+
+// ── Recompositions de textures ───────────────────────────────────────────
+function dessinerA(t) {
+  gA.drawImage(IMP, 0, 0);
+  const tT = W('impaye', 5), u = prog(t, tT - .08, .16), efface = sstep(W('commandes', 6) - .1, W('commandes', 6) + .9, t);
+  if (u > 0 && efface < 1) {
+    gA.save(); gA.translate(560, 820); gA.rotate(-.21); const s = lerp(1.9, 1, E.out3(u));
+    gA.scale(s, s); gA.globalAlpha = Math.min(1, u * 1.6) * (1 - efface) * .92; gA.drawImage(T_RETARD, -280, -85); gA.restore();
+  }
+  texA.needsUpdate = true;
+  // carte émissive : balayage turquoise sur « ensemble ? », puis les plis s'allument un instant
+  gEm.fillStyle = '#000'; gEm.fillRect(0, 0, 512, 724);
+  const bal = prog(t, W('commandes', 6) - .1, 1.1);
+  if (bal > 0 && bal < 1) {
+    const y = lerp(760, -40, E.io3(bal)), gr = gEm.createLinearGradient(0, y - 90, 0, y + 90);
+    gr.addColorStop(0, 'rgba(34,211,195,0)'); gr.addColorStop(.5, 'rgba(34,211,195,.8)'); gr.addColorStop(1, 'rgba(34,211,195,0)');
+    gEm.fillStyle = gr; gEm.fillRect(0, y - 90, 512, 180);
+  }
+  const pl = T_PLI.reduce((m, t0) => Math.max(m, Math.exp(-Math.max(0, t - t0 - .2) * 6) * (t > t0 + .1 ? 1 : 0)), 0);
+  if (pl > .01) { gEm.strokeStyle = `rgba(34,211,195,${.55 * pl})`; gEm.lineWidth = 7; gEm.strokeRect(0, 0, 512, 724); }
+  texEm.needsUpdate = true;
+}
+function dessinerB(t) {
+  gB.drawImage(PEP, 0, 0);
+  const u = prog(t, W('peppol', 6) - .06, .16);
+  if (u > 0) { gB.save(); gB.translate(540, 780); gB.rotate(.08); const s = lerp(1.7, 1, E.out3(u)); gB.scale(s, s); gB.globalAlpha = Math.min(1, u * 1.6) * .9; gB.drawImage(T_PEPPOL, -280, -85); gB.restore(); }
+  texB.needsUpdate = true;
+}
+
+// ── Studio de contrôle (jamais utilisé dans le film) ─────────────────────
+const studio = new THREE.Scene(); studio.background = new THREE.Color('#d9dee8');
+studio.add(new THREE.HemisphereLight('#ffffff', '#8892a6', 2.2)); const sd = new THREE.DirectionalLight('#ffffff', 2); sd.position.set(3, 5, 4); studio.add(sd);
+function vueStudio(t, c) {
+  poserFacettes(t); dessinerA(t); studio.add(avion); avion.position.set(0, 0, 0); avion.quaternion.identity(); avion.scale.setScalar(1);
+  cam(V3(...c.pos), V3(...c.vise), c.fov || 35); renderer.render(studio, camera); nuit.add(avion);
+}
+window.STUDIO = null;
+
+// ── Le film : FILM.seek(t) ───────────────────────────────────────────────
+let IMAGE = 0;
+const SCENES = { nuit, aube, logo: logoSc };
+function seek(t) {
+  if (window.STUDIO) { vueStudio(t, window.STUDIO); return; }
+  IMAGE = Math.round(t * 30);
+  grade.uniforms.uFrame.value = IMAGE % 997;
+  poserFacettes(t); dessinerA(t);
+  const ou = poserAvion(t), sc = SCENES[ou];
+  if (avion.parent !== sc) sc.add(avion);
+  passeRendu.scene = sc; bokeh.scene = sc;
+  let pos, vise, fov = 30, focus = null, ouv = .0004, flouMax = .006, flash = 0;
+
+  if (ou === 'nuit') {
+    // lumières : la lampe s'allume (clic) puis vacille avant la question
+    const tClic = 0.35, vac = (t > W('marge', 7) + .35 && t < W('commandes', 0) - .1) ? (hash(Math.floor(t * 24)) > .55 ? .5 : 1) : 1;
+    lampe.intensity = (t < tClic ? 0 : lerp(.2, 3.1, E.outExpo(prog(t, tClic, .25)))) * vac;
+    ciel.intensity = lerp(0, 1.3, prog(t, tClic, .6));
+    appoint.intensity = 2.0 * sstep(T_LEV, T_LEV + 1.4, t);
+    lueur.position.set(0, 2.6, -.4);
+    lueur.intensity = 1.4 * sstep(T_LEV, T_LEV + 1, t) * (1 - sstep(T_OUVRE, T_OUVRE + .8, t)) + 2.2 * Math.exp(-(((t - T_PIL) / .14) ** 2));
+    dessinerB(t);
+    // la pile : trois factures glissent sous la lampe sur « factures »
+    const tPile = W('boutique', 10);
+    pile.forEach((f, i) => {
+      const u = E.out3(prog(t, tPile - .45 + i * .12, .55)), part = E.in3(prog(t, W('commandes', 3) + i * .06, .7));
+      f.position.set(lerp(-6 + i * 1.5, -.55 + i * .5, u) - part * (6 + i), .024 + i * .002, lerp(-3.5, .15 - i * .22, u) + part * 1.5);
+      f.rotation.set(-Math.PI / 2, 0, lerp(-.8, .2 - i * .17, u) + part * .5);
+    });
+    // la facture Peppol glisse depuis la droite sur « celle-là »
+    const tP = W('peppol', 1), uP = E.out3(prog(t, tP - .1, .6)), partP = E.in3(prog(t, W('commandes', 3) + .1, .7));
+    fPep.position.set(lerp(6.5, .95, uP) + partP * 7, .05, lerp(1.4, .5, uP) + partP * .8); fPep.rotation.set(-Math.PI / 2, 0, lerp(.6, -.18, uP) - partP * .4);
+    // le post-it « Marge ? » claque sur « marge »
+    const tM = W('marge', 2), uM = E.outBack(prog(t, tM - .12, .4)), partM = E.in3(prog(t, W('commandes', 3) + .15, .7));
+    postit.position.set(lerp(-.2, -.48, uM) - partM * 5, lerp(1.6, .07, E.out3(prog(t, tM - .12, .32))), lerp(-.2, -.75, uM) - partM * 1.2);
+    postit.rotation.set(-Math.PI / 2, 0, .22 - .1 * uM); postit.material.opacity = prog(t, tM - .14, .06);
+    // caméra : plongée, poussée sur chaque facture, puis orbite autour de la feuille qui se soulève
+    pos = interp([[0, V3(0, 9.2, 1.3)], [4.6, V3(.05, 8.3, 1.25)], [W('impaye', 0), V3(-.1, 5.6, .95)], [W('peppol', 1) - .2, V3(.1, 5.7, .95)],
+      [W('peppol', 3), V3(.85, 5.0, 1.45)], [W('peppol', 6) + .3, V3(.95, 4.7, 1.4)], [W('marge', 2), V3(-.3, 4.7, .75)], [W('commandes', 3), V3(0, 6.4, 2.0)],
+      [T_LEV + .9, V3(4.2, 4.4, 3.4)], [T_PIL - .1, V3(2.2, 6.3, -2.4)], [T_PLI[4], V3(1.5, 5.9, -3.4)], [T_OUVRE + .3, V3(1.2, 3.3, -4.9)], [T_DECOL, V3(1.0, 2.15, -5.4)]], t);
+    vise = interp([[0, V3(0, 0, -.05)], [W('impaye', 0), V3(-.05, 0, -.05)], [W('peppol', 3), V3(.9, 0, .45)], [W('peppol', 6) + .3, V3(.95, 0, .5)], [W('marge', 2), V3(-.3, 0, -.15)],
+      [W('commandes', 3), V3(0, 0, 0)], [T_LEV + .9, V3(0, 1.0, 0)], [T_PIL, V3(0, 1.3, 0)], [T_DECOL, V3(.1, 1.35, -.2)]], t);
+    pos.add(secousse(t, W('impaye', 5), .06)).add(secousse(t, W('peppol', 6), .035)).add(secousse(t, W('marge', 2), .025));
+    // le passage de l'avion : la caméra le suit et se fait frôler
+    if (t > T_DECOL) { const d = E.in3(prog(t, T_DECOL + .1, T_COUPE1 - T_DECOL - .1)); vise.lerp(avion.position, .55 * d); pos.y += .3 * d; }
+    fov = interp([[0, 30], [T_LEV, 30], [T_PIL, 38], [T_DECOL, 40]], t);
+    // mise au point : « vous ne la voyez plus » brouille tout
+    const flou = sstep(W('marge', 6) - .15, W('marge', 7) + .2, t) * (1 - sstep(W('commandes', 0) - .2, W('commandes', 3), t));
+    focus = (t > T_LEV ? pos.distanceTo(avion.position) : pos.distanceTo(vise)) + flou * 3.5;   // caméra de CETTE image (pas de mémoire)
+    ouv = .00022 + flou * .006; flouMax = .004 + flou * .03;
+  } else if (ou === 'aube') {
+    const { p } = avionAube(t);
+    const mont = sstep(W('cap', 5) - .3, W('cap', 7) + .6, t) * .6 + .4 * prog(t, T_COUPE1, T_COUPE2 - T_COUPE1);
+    cielMat.uniforms.uMontee.value = mont; soleil.intensity = .7 + 2.0 * mont; soleil.target.position.copy(p);
+    hemiAube.intensity = 1.1 + .4 * mont;
+    // faisceaux des priorités
+    for (const F of FAIS) { let a = E.outExpo(prog(t, F.t0, .35)); const pulse = 1 + .25 * Math.exp(-(t - F.t0) * 5) * (t > F.t0 ? 1 : 0);
+      const eteint = 1 - sstep(W('cap', 0) - .4, W('cap', 2), t); a *= 1; F.coeur.material.opacity = .9 * a * eteint; F.halo.material.opacity = .12 * a * pulse * eteint; F.anneau.material.opacity = .9 * a * eteint; F.anneau.scale.setScalar(1 + 2.4 * E.out3(prog(t, F.t0, .8)) * (1 - .6 * a) + .2 * a);
+      F.coeur.scale.y = F.halo.scale.y = a; }
+    // le cap : un trait se déroule devant l'avion, sur « cap »
+    const c = E.outExpo(prog(t, W('cap', 4) - .05, .7)); cap.material.opacity = .85 * c; cap.scale.z = 1 + 140 * c; cap.position.set(p.x, .08, p.z - 1.5);
+    // caméra liée à l'avion
+    const off = interp([[T_COUPE1, V3(.5, 1.0, 4.0)], [W('chiffres', 4), V3(1.6, 4.6, 9)], [W('priorites', 1), V3(3.2, 9.5, 11)], [W('priorites', 5) + .4, V3(2.5, 9, 10.5)],
+      [W('cap', 2), V3(.2, 1.0, 4.6)], [W('cap', 7) + .3, V3(-.2, 1.2, 5.0)], [W('services', 0) - .2, V3(8.6, 2.4, -6.4)], [W('services', 5), V3(7.6, 1.8, -5.2)], [T_COUPE2, V3(6.4, .8, -4.2)]], t);
+    const regard = interp([[T_COUPE1, V3(0, 0, -3)], [W('chiffres', 4), V3(0, -3, -15)], [W('priorites', 1), V3(0, -8, -30)], [W('priorites', 5) + .4, V3(0, -8, -32)],
+      [W('cap', 2), V3(0, .2, -30)], [W('cap', 7) + .3, V3(0, .3, -30)], [W('services', 0) - .2, V3(0, .1, 0)], [W('services', 5), V3(0, .1, 0)], [T_COUPE2, V3(0, 3.5, -.5)]], t);
+    // coup de fouet final : la caméra bascule vers le ciel
+    const fouet = E.in3(prog(t, T_COUPE2 - .3, .3)); regard.y += 14 * fouet;
+    pos = p.clone().add(off); vise = p.clone().add(regard); fov = 40;
+    focus = pos.distanceTo(p); ouv = .00025; flouMax = .008;
+    cam(pos, vise, fov);
+    // escorte : les quatre cartes apparaissent sur leur mot, puis s'engouffrent dans l'avion sur « seul »
+    const tSeul = W('services', 5), q = avionAube(t).q;
+    for (const C of CARTES) {
+      const a = E.outBack(prog(t, C.t0 - .04, .45)), v = E.in3(prog(t, tSeul - .05, .42));
+      const off = C.off.clone().applyQuaternion(qAxe(AY, 0)); const bob = V3(0, .12 * Math.sin(t * 2.2 + C.t0), 0);
+      C.m.position.copy(p).add(off.add(bob).multiplyScalar(1 - v)); C.m.visible = t > C.t0 - .05 && v < .999;
+      C.m.scale.setScalar(Math.max(.001, a * (1 - v)));
+      C.m.quaternion.copy(camera.quaternion).multiply(qAxe(AY, (1 - a) * 2.4 + .18 * Math.sin(t * 1.3 + C.t0)));
+    }
+    lueurAube.position.copy(p); lueurAube.intensity = 9 * Math.exp(-(((t - tSeul - .42) / .18) ** 2));
+    flash = .0;
+  } else {
+    // le logo : la ligne se trace derrière l'avion, la flèche se pose, l'icône se forme
+    const pr = progresTrait(t), cnt = Math.floor(pr * N_TUBE) * 16 * 6;
+    trait.geometry.setDrawRange(0, t < T_LOGO0 ? 0 : cnt); trait.visible = t >= T_LOGO0;
+    boutTrait.visible = t >= T_LOGO0 && pr < 1; boutTrait.position.copy(chemin.getPointAt(pr));
+    const ap = E.outBack(prog(t, T_LOGO0 - .03, .35)); point.scale.setScalar(Math.max(.001, ap)); point.visible = t >= T_LOGO0 - .03;
+    onde.scale.setScalar(.15 + .75 * E.out3(prog(t, T_LOGO0, .9))); onde.material.opacity = .8 * (1 - prog(t, T_LOGO0, .9)) * (t > T_LOGO0 ? 1 : 0);
+    // « Prenez » : l'avion se pose sur la pointe et devient la flèche
+    const m = E.io3(prog(t, T_FLECHE + .02, .26));
+    fleche.material.opacity = m; avion.visible = m < .99;
+    avion.traverse(o => { if (o.material) { o.material.transparent = m > 0; o.material.opacity = 1 - m; } });
+    flash = .12 * Math.exp(-(((t - T_FLECHE - .15) / .07) ** 2));
+    const tu = E.out3(prog(t, T_FLECHE + .25, .8)); tuile.material.opacity = .95 * tu; bordTuile.material.opacity = .9 * tu; tuile.scale.setScalar(.9 + .1 * tu); bordTuile.scale.setScalar(.912 + .1 * tu);
+    // caméra : face au plan du logo, légère poussée, immobile à la fin
+    const z = interp([[T_COUPE2, 25], [T_LOGO0, 21], [T_FLECHE + .4, 20], [T_MARQUE + 1.4, 19.2]], t);
+    const dx = interp([[T_COUPE2, -.9], [T_FLECHE, 0]], t);
+    pos = V3(dx, .1, z); vise = V3(dx * .5, 0, 0); fov = 32;
+    focus = z; ouv = .0002; flouMax = .004;
+  }
+  if (ou !== 'logo') { avion.visible = true; avion.traverse(o => { if (o.material) { o.material.opacity = 1; o.material.transparent = false; } }); }
+  cam(pos, vise, fov);
+  if (window.CAM_CONTROLE) { const c = window.CAM_CONTROLE; cam(V3(...c.pos), V3(...c.vise), c.fov || 30); }
+  bokeh.enabled = ou === 'nuit';      // la profondeur de champ ne sert que sur le bureau (et coûte un second rendu)
+  bokeh.uniforms.focus.value = focus; bokeh.uniforms.aperture.value = ouv; bokeh.uniforms.maxblur.value = flouMax;
+  grade.uniforms.uFlash.value = flash;
+  document.getElementById('voile').style.opacity = ou === 'logo' ? 0 : 1 - prog(t, T_COUPE2 - .2, .2);
+  renderer.toneMapping = ou === 'logo' ? THREE.NoToneMapping : THREE.ACESFilmicToneMapping;   // couleurs exactes de la marque à la fin
+  bloom.strength = ou === 'logo' ? .22 : ou === 'aube' ? .32 : .38; bloom.threshold = ou === 'logo' ? .93 : ou === 'aube' ? .93 : .97;
+  sousTitres(t); finale(t);
+  composer.render();
+}
+// sous-images de flou de bougé (moyennées par le moteur de rendu) : là où ça va vite
+function flou(t) {
+  if (t > T_DECOL - .05 && t < T_COUPE1 + .25) return 8;
+  if (t > T_COUPE2 - .35 && t < T_COUPE2 + .3) return 8;
+  if (t > T_PIL - .05 && t < T_DECOL) return 3;
+  if (t > T_COUPE1 && t < T_COUPE2) return 2;
+  if (t > T_LOGO0 - .4 && t < T_FLECHE + .5) return 2;
+  return 1;
+}
+const VAC = []; { let dans = false, d0 = 0; for (let i = Math.floor((W('marge', 7) + .35) * 24); i <= Math.ceil((W('commandes', 0) - .1) * 24); i++) {
+  const v = hash(i) > .55; if (v && !dans) { dans = true; d0 = i / 24; } if (!v && dans) { dans = false; VAC.push([d0, i / 24]); } } if (dans) VAC.push([d0, W('commandes', 0) - .1]); }
+const SONS = {
+  duree: DUREE, tempo: 60 / (2 * PAS), lampe: .35, pile: [0, 1, 2].map(i => W('boutique', 10) - .45 + i * .12 + .42),
+  tampon: W('impaye', 5) - .02, glissePep: W('peppol', 1) - .1, tamponPep: W('peppol', 6) - .02, postit: W('marge', 2) - .12 + .3,
+  flou: W('marge', 6) - .15, flouFin: W('commandes', 3), vacille: VAC, depart: W('commandes', 3), balayage: W('commandes', 6) - .1, lev: T_LEV,
+  pilotia: T_PIL, plis: T_PLI.slice(0, 6).map((t0, k) => t0 + D_PLI[k] * .85), ouvre: T_OUVRE, decol: T_DECOL, coupe1: T_COUPE1,
+  faisceaux: FAIS.map(F => F.t0), cap: W('cap', 4), mois: [W('cap', 5), W('cap', 6), W('cap', 7)], cartes: CARTES.map(C => C.t0), seul: W('services', 5) + .37,
+  coupe2: T_COUPE2, point: T_LOGO0, traceFin: T_FLECHE - .2, fleche: T_FLECHE + .1, marque: T_MARQUE, cta: W('appel', 4),
+  aube: T_COUPE1, logo: T_COUPE2,
+};
+window.POSITION_AVION = () => { const b = new THREE.Box3().setFromObject(avion); const c = b.getCenter(new THREE.Vector3()); return [c.x, c.y, c.z]; };   // contrôle (couverture)
+window.FILM = { sons: SONS, duree: DUREE, seek, flou, aberration: () => 0, temps: { T_PIL, T_LEV, T_OUVRE, T_DECOL, T_COUPE1, T_COUPE2, T_LOGO0, T_FLECHE, T_MARQUE } };
+await document.fonts.ready;
+window.PRET = true;
+</script>
+</body>
+</html>
