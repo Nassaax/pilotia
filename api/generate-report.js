@@ -86,8 +86,11 @@ async function callClaude(userPrompt) {
     },
     body: JSON.stringify({
       model: process.env.ANTHROPIC_MODEL || "claude-sonnet-5",
-      max_tokens: 1600,
-      temperature: 0.6,
+      // Pas de `temperature` : les modèles Claude actuels la refusent (erreur 400).
+      // La réflexion du modèle compte dans max_tokens : on laisse de la marge,
+      // avec un effort bas, suffisant pour un rapport de deux pages.
+      max_tokens: 8000,
+      output_config: { effort: "low" },
       system: SYSTEM_PROMPT,
       messages: [{ role: "user", content: userPrompt }],
     }),
@@ -99,7 +102,12 @@ async function callClaude(userPrompt) {
   }
 
   const data = await res.json();
-  const text = (data.content || []).map(function (block) { return block.text || ""; }).join("\n");
+  if (data.stop_reason === "max_tokens" || data.stop_reason === "refusal") {
+    throw new Error("Réponse de Claude incomplète (" + data.stop_reason + ").");
+  }
+  const text = (data.content || [])
+    .filter(function (block) { return block.type === "text"; })
+    .map(function (block) { return block.text; }).join("\n");
   if (!text.trim()) {
     throw new Error("Réponse vide de Claude.");
   }
