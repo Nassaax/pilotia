@@ -106,9 +106,10 @@
 
     <h2 id="stockage">2. Ce qui est tout de même enregistré sur votre appareil</h2>
     <p>
-      Une seule information est conservée dans le stockage local
-      (<code>localStorage</code>) de votre navigateur. Ce n&rsquo;est pas un cookie : elle n&rsquo;est
-      jamais jointe aux requêtes réseau et ne quitte jamais votre appareil.
+      Trois informations peuvent être conservées dans le stockage local
+      (<code>localStorage</code>) de votre navigateur, jusqu&rsquo;à ce que vous les effaciez. Ce ne
+      sont pas des cookies : elles ne sont jamais jointes aux requêtes réseau et ne quittent
+      jamais votre appareil. La page <a href="mon-espace.html">Mon espace</a> vous les montre.
     </p>
     <div class="table-defile" role="region" tabindex="0" aria-label="Stockage local utilisé, tableau défilant horizontalement">
 <table>
@@ -123,8 +124,20 @@
       <tbody>
         <tr>
           <td><code>pilotia-diagnostic</code></td>
-          <td>Vos réponses au diagnostic express et le score obtenu</td>
-          <td>Reporter vos réponses sur la page de rapport détaillé sans vous faire tout ressaisir</td>
+          <td>Vos réponses au diagnostic express, le score obtenu et la date du test</td>
+          <td>Reporter vos réponses sur la page de rapport détaillé sans vous faire tout ressaisir, et afficher votre score dans Mon espace</td>
+          <td>Non, strictement nécessaire au service que vous venez de demander</td>
+        </tr>
+        <tr>
+          <td><code>pilotia-tresorerie</code></td>
+          <td>Votre plan de trésorerie : soldes, encaissements, décaissements et factures</td>
+          <td>Retrouver votre plan d&rsquo;une visite à l&rsquo;autre</td>
+          <td>Non, strictement nécessaire au service que vous venez de demander</td>
+        </tr>
+        <tr>
+          <td><code>pilotia-tresorerie-resume</code></td>
+          <td>Le point bas de votre plan (montant et mois) et sa date de mise à jour, enregistrés seulement si vous avez modifié le plan</td>
+          <td>Afficher ce point bas dans Mon espace</td>
           <td>Non, strictement nécessaire au service que vous venez de demander</td>
         </tr>
       </tbody>
@@ -139,8 +152,10 @@
 
     <h2 id="effacer">3. Comment l&rsquo;effacer</h2>
     <p>
-      Vous pouvez la supprimer à tout moment, sans autre conséquence que l&rsquo;oubli de vos
-      réponses au diagnostic :
+      Le plus simple : le bouton « Effacer les données de cet appareil » de la page
+      <a href="mon-espace.html">Mon espace</a> les supprime toutes les trois. Vous pouvez aussi
+      les supprimer depuis votre navigateur, sans autre conséquence que l&rsquo;oubli de vos
+      réponses au diagnostic et de votre plan de trésorerie :
     </p>
     <ul>
       <li><strong>Chrome / Edge</strong> : Paramètres → Confidentialité et sécurité → Cookies et autres données des sites → Voir toutes les données → rechercher ce site → Supprimer.</li>
@@ -176,7 +191,7 @@
     </p>
 
     <p class="legal-updated">
-      Dernière mise à jour : 20 septembre 2026. Voir aussi la
+      Dernière mise à jour : 12 octobre 2026. Voir aussi la
       <a href="confidentialite.html">politique de confidentialité</a>.
     </p>
   </div>

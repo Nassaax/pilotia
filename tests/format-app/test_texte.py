@@ -8,7 +8,24 @@ from aide import REFERENCE, morceaux, pages_du_site, source
 
 # Passages réécrits volontairement (tâche 9 : le stockage local passe d'une
 # clé à trois). Chacun est un morceau exact du texte d'origine.
-REECRITS = {}
+REECRITS = {
+    'cookies.html': [
+        'Une seule information est conservée dans le stockage local (',
+        ') de votre navigateur. Ce n’est pas un cookie : elle n’est jamais jointe aux requêtes'
+        ' réseau et ne quitte jamais votre appareil.',
+        'Vos réponses au diagnostic express et le score obtenu',
+        'Vous pouvez la supprimer à tout moment, sans autre conséquence que l’oubli de vos'
+        ' réponses au diagnostic :',
+        'Dernière mise à jour : 20 septembre 2026. Voir aussi la',
+    ],
+    'confidentialite.html': [
+        'Le site n’utilise aucun cookie. Il enregistre en revanche un élément dans le stockage'
+        ' local (',
+        ') de votre navigateur :',
+        'Vos réponses au diagnostic express et votre score',
+        'Dernière mise à jour : 20 septembre 2026.',
+    ],
+}
 
 
 def _sans_espaces(t):
