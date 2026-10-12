@@ -23,3 +23,17 @@ def test_mentions_legales(telephone, ordinateur, base_url):
     page, _ = ouvrir(ordinateur, base_url, 'mentions-legales.html')
     assert page.locator('.repli-bouton, .repli-groupe').count() == 0
     assert erreurs == []
+
+
+def test_page_de_service_peppol(telephone, ordinateur, base_url):
+    page, erreurs = ouvrir(telephone, base_url, 'facturation-electronique.html')
+    assert page.locator('.essentiel li').count() == 3
+    # L'encadré vient juste avant les boutons du haut de page : « puis le bouton d'action ».
+    assert page.evaluate("document.querySelector('.hero .essentiel').nextElementSibling.className") == 'btn-row'
+    assert page.locator('.repli-bouton').count() == 4
+    assert page.locator('.replis-tout').count() == 1
+    assert visible(page, '.annonce') and visible(page, '.banner')
+    assert not visible(page, '.faq details')
+    page, _ = ouvrir(ordinateur, base_url, 'facturation-electronique.html')
+    assert visible(page, '.essentiel') and visible(page, '.faq details')
+    assert erreurs == []

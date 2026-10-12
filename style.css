@@ -1171,3 +1171,15 @@ section.section-app{padding:0 0 clamp(48px,7vw,96px)}
   #espace-resultats > .titre-groupe,#espace-resultats > .liste-app,#espace-resultats > .effacer{grid-column:1 / -1}
   #espace-resultats > .effacer{justify-self:start}
 }
+
+/* Encadré « L'essentiel » (pages de service et articles) : trois points au
+   plus, tirés de la page, juste avant les boutons du haut de page s'il y en
+   a. Visible partout, y compris sur ordinateur. */
+.essentiel{margin:26px 0 0;max-width:62ch;padding:16px 18px 14px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--svc-vif,var(--accent));border-radius:var(--radius);font-family:var(--font-body)}
+.essentiel-titre{display:flex;align-items:center;gap:7px;margin:0 0 6px;color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.essentiel-titre svg{flex:none;width:17px;height:17px}
+.essentiel ul{list-style:none;margin:0;padding:0}
+.essentiel li{display:flex;gap:9px;padding:5px 0;color:var(--ink);font-size:15px;line-height:1.45}
+.essentiel li svg{flex:none;width:18px;height:18px;margin-top:2px;color:var(--accent)}
+.js .hero .essentiel{animation:hero-fade-in .5s ease-out .15s both}
+@media (prefers-reduced-motion: reduce){.js .hero .essentiel{animation:none}}
