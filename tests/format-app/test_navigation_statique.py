@@ -90,3 +90,9 @@ def test_le_generateur_est_a_jour():
     r = subprocess.run(['python3', 'scripts/navigation-app.py', '--verifier'], cwd=RACINE,
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
+
+
+@pytest.mark.parametrize('nom', PAGES)
+def test_liens_internes_valides(nom):
+    for href in re.findall(r'href="([^"#?:]+\.html)(?:[#?][^"]*)?"', source(nom)):
+        assert (RACINE / href).exists(), href
