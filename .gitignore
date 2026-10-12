@@ -11,3 +11,6 @@ skills-lock.json
 # Fichier temporaire des rendus SVG
 brand/_preview.html
 brand/_theme_test.html
+
+# Caches Python des tests
+__pycache__/
