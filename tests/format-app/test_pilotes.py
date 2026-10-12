@@ -50,3 +50,21 @@ def test_article_facture_impayee(telephone, ordinateur, base_url):
     page, _ = ouvrir(ordinateur, base_url, 'conseils-facture-impayee.html')
     assert page.locator('.repli-bouton').count() == 0 and visible(page, '.essentiel')
     assert erreurs == []
+
+
+def test_calculateur_de_marge(telephone, base_url):
+    page, erreurs = ouvrir(telephone, base_url, 'calculateur-marge.html')
+    modes = page.eval_on_selector_all('input[type="number"]', 'els => els.map(e => e.inputMode)')
+    assert modes == ['decimal'] * 4
+    assert page.evaluate("getComputedStyle(document.getElementById('prixVente')).fontSize") == '16px'
+    assert page.locator('.repli-bouton').count() == 1  # l'étape 2 est repliée
+    assert not visible(page, '#fraisFixes')
+    page.fill('#prixVente', '20')
+    page.fill('#coutRevient', '5')
+    page.get_by_role('button', name='Calculer la marge →').click()
+    expect(page.locator('#margeEuro')).to_have_text('15,00 € de marge')
+    assert page.get_attribute('#resultatMarge', 'aria-live') == 'polite'
+    # L'écran est descendu jusqu'au résultat, au-dessus de la barre d'onglets.
+    page.wait_for_function("""() => document.getElementById('resultatMarge').getBoundingClientRect().bottom
+        <= document.querySelector('.onglets').getBoundingClientRect().top""", timeout=3000)
+    assert erreurs == []

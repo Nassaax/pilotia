@@ -1183,3 +1183,11 @@ section.section-app{padding:0 0 clamp(48px,7vw,96px)}
 .essentiel li svg{flex:none;width:18px;height:18px;margin-top:2px;color:var(--accent)}
 .js .hero .essentiel{animation:hero-fade-in .5s ease-out .15s both}
 @media (prefers-reduced-motion: reduce){.js .hero .essentiel{animation:none}}
+
+/* Formulaires au pouce et résultats de calcul mis en valeur (mode app).
+   16 px au moins : l'iPhone ne zoome plus à la saisie. */
+@media (max-width:1080px){
+  input:not([type="radio"]):not([type="checkbox"]),select,textarea{font-size:16px;min-height:48px}
+  .resultat{padding:14px 16px;border-radius:14px;background:var(--accent-soft);scroll-margin-top:72px;scroll-margin-bottom:calc(var(--hauteur-onglets) + 24px)}
+  .resultat > p:last-child{margin-bottom:0}
+}
