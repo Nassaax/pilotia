@@ -1199,3 +1199,24 @@ section.section-app{padding:0 0 clamp(48px,7vw,96px)}
   .rdv-carte .btn{width:100%}
   .duree{display:inline-flex;align-items:center;margin:0 0 10px;padding:5px 11px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:700 12.5px var(--font-body)}
 }
+
+/* Accueil en mode app : quatre accès rapides à la place des deux boutons du
+   haut (leurs actions restent dans les accès et le bouton Rendez-vous), puis
+   les piliers, les parcours et les avis en cartes à faire glisser. */
+@media (max-width:1080px){
+  .page-accueil .hero-accueil .btn-row{display:none}
+  /* section.… : plus précis que « .hero + section ». */
+  section.acces-rapide{display:block;padding:0 0 32px}
+  .acces-titre{margin:0 0 12px;font-family:var(--font-body);font-size:20px;font-weight:700;letter-spacing:-.02em}
+  .acces-grille{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .acces{display:flex;flex-direction:column;justify-content:space-between;gap:12px;height:100%;min-height:96px;padding:13px 12px 14px;background:var(--card);border-radius:16px;border-top:4px solid var(--svc-vif,var(--accent));color:var(--ink);text-decoration:none;font-family:var(--font-body);font-size:15px;font-weight:700;line-height:1.25}
+  .acces-icone{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent)}
+  .acces-icone svg{width:20px;height:20px}
+}
+@media (min-width:600px) and (max-width:1080px){.acces-grille{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:760px){
+  .page-accueil .triangle-grid,.page-accueil .path-cards,.page-accueil .avis{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin-left:-24px;margin-right:-24px;padding:4px 24px 14px;scroll-padding:0 24px;scrollbar-width:none}
+  .page-accueil .triangle-grid::-webkit-scrollbar,.page-accueil .path-cards::-webkit-scrollbar,.page-accueil .avis::-webkit-scrollbar{display:none}
+  .page-accueil .triangle-grid > *,.page-accueil .triangle-base > *,.page-accueil .path-cards > *,.page-accueil .avis > *{flex:0 0 84%;scroll-snap-align:start}
+  .page-accueil .avis:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+}

@@ -87,3 +87,20 @@ def test_rendez_vous(telephone, ordinateur, base_url):
     page, _ = ouvrir(ordinateur, base_url, 'contact.html')
     assert visible(page, '#contact-form') and not page.locator('.duree').is_visible()
     assert erreurs == []
+
+
+def test_accueil(telephone, ordinateur, base_url):
+    page, erreurs = ouvrir(telephone, base_url, 'index.html')
+    acces = page.eval_on_selector_all('.acces-rapide a', 'els => els.map(a => a.getAttribute("href"))')
+    assert acces == ['diagnostic.html', 'plan-tresorerie.html',
+                     'facturation-electronique.html', 'independants.html']
+    assert page.locator('.acces-rapide').is_visible()
+    assert not page.locator('.hero-accueil .btn-row').is_visible()
+    for sel in ('.triangle-grid', '.path-cards', '.avis'):
+        defile = page.evaluate("""s => { const e = document.querySelector(s);
+            return getComputedStyle(e).overflowX === 'auto' && e.scrollWidth > e.clientWidth; }""", sel)
+        assert defile, sel  # cartes à faire glisser
+    page, _ = ouvrir(ordinateur, base_url, 'index.html')
+    assert not page.locator('.acces-rapide').is_visible()
+    assert page.locator('.hero-accueil .btn-row').is_visible()
+    assert erreurs == []
