@@ -1063,3 +1063,43 @@ a.card:hover .card-icon,a.path-card:hover .card-icon,.path-card:hover .card-icon
   .replis-tout{min-height:48px;padding:0 4px;background:none;border:none;color:var(--accent);font:600 14.5px var(--font-body);cursor:pointer}
 }
 @media (max-width:760px) and (prefers-reduced-motion: reduce){.repli-chevron{transition:none}}
+
+/* Écrans Services et Mon espace : tuiles, lignes à toucher, pastilles. Sur
+   ordinateur, la même page en grille. */
+.hero-app{padding:clamp(36px,6vw,88px) 0 clamp(16px,3vw,32px)}
+.hero-app h1{font-size:clamp(32px,5vw,56px);margin-bottom:8px}
+.hero-app .lead{margin-top:6px}
+/* section.… : plus précis que « .hero + section », qui ajouterait un grand vide. */
+section.section-app{padding:0 0 clamp(48px,7vw,96px)}
+.titre-groupe{margin:22px 0 10px;font-family:var(--font-body);font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.tuiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tuile{display:flex;flex-direction:column;gap:5px;height:100%;padding:16px 14px 18px;background:var(--card);border-radius:var(--radius);border-top:4px solid var(--svc-vif,var(--accent));color:var(--ink);text-decoration:none;font-family:var(--font-body)}
+.tuile-icone{width:40px;height:40px;margin-bottom:6px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent)}
+.tuile-icone svg{width:22px;height:22px}
+.tuile-titre{font-size:16px;font-weight:700;line-height:1.25}
+.tuile-texte{font-size:13.5px;line-height:1.4;color:var(--ink-soft)}
+.liste-app{list-style:none;margin:0;padding:0;background:var(--card);border-radius:var(--radius);overflow:hidden}
+.liste-app li + li{border-top:1px solid var(--line)}
+.ligne-app{display:flex;align-items:center;gap:13px;min-height:64px;padding:10px 16px;color:var(--ink);text-decoration:none;font-family:var(--font-body)}
+.ligne-icone{flex:none;width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent)}
+.ligne-icone svg{width:21px;height:21px}
+.ligne-texte{flex:1;min-width:0}
+.ligne-titre{display:block;font-size:16px;font-weight:600;line-height:1.3}
+.ligne-sous{display:block;margin-top:2px;font-size:13.5px;line-height:1.4;color:var(--ink-soft)}
+.ligne-app > svg{flex:none;width:18px;height:18px;color:var(--ink-soft)}
+.puces{list-style:none;margin:0;padding:0 0 4px;display:flex;flex-wrap:wrap;gap:8px}
+.puces a{display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font:600 15px var(--font-body)}
+.carte-pas-sur{margin-top:28px;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);font-family:var(--font-body)}
+.carte-pas-sur p{margin:0 0 12px}
+@media (min-width:761px){
+  .liste-app{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:none;border-radius:0;overflow:visible}
+  .liste-app li{background:var(--card);border-radius:var(--radius)}
+  .liste-app li + li{border-top:none}
+  .carte-pas-sur{display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .carte-pas-sur p{margin:0}
+}
+@media (max-width:760px){
+  .puces{flex-wrap:nowrap;overflow-x:auto;margin:0 -24px;padding:0 24px 6px;scrollbar-width:none}
+  .puces::-webkit-scrollbar{display:none}
+  .puces li{flex:none}
+}
