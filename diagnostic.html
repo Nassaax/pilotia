@@ -318,6 +318,7 @@ function showResult(){
   // évite de refaire remplir le quiz sur l'autre page.
   try {
     localStorage.setItem('pilotia-diagnostic', JSON.stringify({
+      date: new Date().toISOString(),
       total: total,
       pill: pill,
       themes: themes,

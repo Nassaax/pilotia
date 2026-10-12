@@ -16,6 +16,10 @@
   if (!racine) return;
 
   var CLE = "pilotia-tresorerie";
+  // Résumé lu par « Mon espace » (mon-espace.js). Écrit seulement quand la
+  // personne a modifié son plan : le plan d'exemple chargé à la première
+  // visite ne doit pas s'afficher comme si c'était le sien.
+  var CLE_RESUME = "pilotia-tresorerie-resume";
   var VERSION = 3;
 
   // Catégories pré-remplies au rythme belge : les cotisations sociales et la
@@ -56,6 +60,17 @@
 
   var etat = charger();
   var prochainId = calculerProchainId();
+
+  // Toute saisie ou action dans le plan le rend « modifié » (voir noterResume).
+  // Exporter n'est pas modifier ; effacer repart de l'exemple.
+  function marquerModifie(e) {
+    var bouton = e.target.closest && e.target.closest("button");
+    if (e.type === "click" && (!bouton || /^treso-(export|csv|reset)$/.test(bouton.id))) return;
+    etat.modifie = true;
+  }
+  racine.addEventListener("input", marquerModifie, true);
+  racine.addEventListener("change", marquerModifie, true);
+  racine.addEventListener("click", marquerModifie, true);
 
   // Les lignes, les factures et les mois réalisés puisent dans le même
   // compteur. Le calculer à partir des seules lignes, comme c'était le cas,
@@ -98,6 +113,18 @@
 
   function sauver() {
     try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) {}
+  }
+
+  function noterResume(bas) {
+    if (!etat.modifie) return;
+    try {
+      localStorage.setItem(CLE_RESUME, JSON.stringify({
+        montant: Math.round(bas.fin),
+        mois: MOIS_LONGS[bas.mois],
+        annee: bas.annee,
+        maj: new Date().toISOString()
+      }));
+    } catch (e) {}
   }
 
   function pad(n) { return (n < 10 ? "0" : "") + n; }
@@ -185,6 +212,7 @@
     // l'information que le solde bancaire du jour ne donne jamais.
     var bas = mois[0];
     mois.forEach(function (m) { if (m.fin < bas.fin) bas = m; });
+    noterResume(bas);
     var fin = mois[mois.length - 1];
 
     maj("kpi-depart", euros(etat.soldeDepart));
@@ -738,6 +766,7 @@
     var mois = calculer();
     var bas = mois[0];
     mois.forEach(function (m) { if (m.fin < bas.fin) bas = m; });
+    noterResume(bas);
     var fin = mois[mois.length - 1];
     maj("kpi-bas", euros(bas.fin));
     maj("kpi-bas-note", "fin " + MOIS_LONGS[bas.mois] + " " + bas.annee);
@@ -794,6 +823,7 @@
         var d = JSON.parse(lecteur.result);
         if (!d || d.version !== VERSION || !Array.isArray(d.lignes)) throw new Error("format");
         etat = d;
+        etat.modifie = true;
         prochainId = calculerProchainId();
         rendre();
         msg.textContent = "Plan restauré.";
@@ -809,7 +839,7 @@
 
   document.getElementById("treso-reset").addEventListener("click", function () {
     if (!window.confirm("Effacer votre plan et repartir de l'exemple ? Cette action est définitive. Pensez à exporter d'abord.")) return;
-    try { localStorage.removeItem(CLE); } catch (e) {}
+    try { localStorage.removeItem(CLE); localStorage.removeItem(CLE_RESUME); } catch (e) {}
     etat = charger();
     prochainId = calculerProchainId();
     synchroniserParametres();
