@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Essai des sections repliables</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<main id="contenu" data-replis>
+<section class="hero"><div class="wrap"><h1>Essai</h1></div></section>
+<section data-repli id="s1">
+  <div class="wrap">
+    <div class="eyebrow" id="e1">Sur-titre un</div>
+    <h2 class="section-title">Première section</h2>
+    <p id="p1">Texte de la première section.</p>
+  </div>
+</section>
+<section class="section-sombre" data-repli id="s2">
+  <div class="wrap">
+    <h2 class="section-title">Deuxième section</h2>
+    <p id="p2">Texte de la deuxième section, avec <span id="ancre">une ancre</span>.</p>
+  </div>
+</section>
+<section>
+  <div class="wrap" data-replis-h2>
+    <p id="intro">Introduction hors des groupes.</p>
+    <h2 id="t3">Troisième partie</h2>
+    <p id="p3">Texte trois, avec le mot zéphyrin.</p>
+    <h2 id="t4">Quatrième partie</h2>
+    <p id="p4">Texte quatre.</p>
+  </div>
+</section>
+</main>
+<script src="/animations.js" defer></script>
+<script src="/app.js" defer></script>
+</body>
+</html>

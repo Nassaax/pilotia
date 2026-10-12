@@ -1040,3 +1040,26 @@ a.card:hover .card-icon,a.path-card:hover .card-icon,.path-card:hover .card-icon
   .onglets,.plus,.app-retour,.segment-cadre,.replis-outils{display:none !important}
   body{padding-bottom:0}
 }
+
+/* Sections repliables (app.js), sur téléphone seulement : au-delà de 760 px
+   le script retire ses enveloppes et la page reste celle d'origine. */
+@media (max-width:760px){
+  section.repli-actif{padding:0 !important;background:none !important;border:none !important}
+  section.repli-actif > .wrap{padding:0;margin:0 24px 10px;background:var(--card);border-radius:16px}
+  .repli-actif:not(section){padding:0;margin:0 0 10px;background:var(--card);border-radius:16px}
+  /* h2.… : passe devant « .legal-page h2 » et « .card h2 », de même poids mais plus anciennes. */
+  h2.repli-titre{margin:0;max-width:none;font-family:var(--font-body);font-size:17px;font-weight:600;line-height:1.3;letter-spacing:-.01em}
+  .repli-titre .mot{opacity:1;transform:none;transition:none}
+  .repli-bouton{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:56px;padding:12px 16px;background:none;border:none;border-radius:16px;color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .repli-chevron{flex:none;width:20px;height:20px;color:var(--ink-soft);transition:transform .2s ease}
+  .repli-ouvert .repli-bouton{color:var(--accent)}
+  .repli-ouvert .repli-chevron{transform:rotate(180deg);color:var(--accent)}
+  .repli-corps:not([hidden]){padding:0 16px 16px}
+  .repli-corps > .eyebrow{margin:2px 0 14px}
+  .repli-corps .card{padding:18px;background:var(--paper-alt)}
+  .repli-actif [id]{scroll-margin-top:72px}
+  .replis-outils{display:flex;justify-content:flex-end;margin:0 24px 4px}
+  .wrap > .replis-outils{margin:0 0 4px}
+  .replis-tout{min-height:48px;padding:0 4px;background:none;border:none;color:var(--accent);font:600 14.5px var(--font-body);cursor:pointer}
+}
+@media (max-width:760px) and (prefers-reduced-motion: reduce){.repli-chevron{transition:none}}
