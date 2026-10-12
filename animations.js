@@ -49,20 +49,11 @@
   els.forEach(function (el) { observer.observe(el); });
 })();
 
-/* Menu mobile (hamburger) + menu déroulant "Découvrir" — navigation de base,
-   ne dépend pas de prefers-reduced-motion (ce n'est pas une animation décorative). */
+/* Menu déroulant "Découvrir" (ordinateur) : navigation de base, qui ne dépend
+   pas de prefers-reduced-motion. Sur les écrans étroits, le bouton ☰ ouvre le
+   panneau « Plus » : voir app.js. */
 (function () {
   "use strict";
-
-  var toggle = document.getElementById("navToggle");
-  var navLinks = document.getElementById("navLinks");
-
-  if (toggle && navLinks) {
-    toggle.addEventListener("click", function () {
-      var open = navLinks.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-  }
 
   var dropdowns = document.querySelectorAll(".dropdown");
 
@@ -93,10 +84,6 @@
       var trigger = dropdown.querySelector(".dropdown-trigger");
       if (trigger) trigger.setAttribute("aria-expanded", "false");
     });
-    if (navLinks && navLinks.classList.contains("is-open")) {
-      navLinks.classList.remove("is-open");
-      if (toggle) toggle.setAttribute("aria-expanded", "false");
-    }
   });
 })();
 
