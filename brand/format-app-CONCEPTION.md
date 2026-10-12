@@ -3,6 +3,9 @@
 Conception validée par le fondateur le 12 octobre 2026, partie par partie,
 sur maquettes (dossier `format-app/`). Ce document fait foi pour le plan de
 travail et pour la future app : toute divergence se corrige ici d'abord.
+Précisé le même jour avec les décisions prises en rédigeant le plan de
+l'étape 1 (`format-app-PLAN-etape1.md`, « Décisions prises en rédigeant ce
+plan ») : § 3.3, 4.2, 4.3, 5.1 et 5.2.
 
 ## 1. Objectif et périmètre
 
@@ -95,8 +98,8 @@ Le bouton ☰ actuel (`#navToggle`) est conservé et ouvre désormais ce panneau
   - **Informations :** Mentions légales, Confidentialité, Cookies,
     Conditions générales, Accessibilité.
 - **Sur ordinateur (plus de 1 080 px) :** le menu actuel ne change pas, sauf
-  deux entrées ajoutées au menu « Découvrir » : « Tous les services » et
-  « Mon espace ».
+  deux entrées ajoutées au menu « Découvrir » : « Tous les services » (en
+  tête) et « Mon espace » (en fin), actives sur leur propre page.
 
 ### 3.4 Transitions entre pages
 
@@ -131,11 +134,14 @@ Données lues dans le stockage local du navigateur, sans aucun envoi :
 - `pilotia-diagnostic` (existant : score sur 16, libellé, scores par thème
   sur 4, réponses). Le diagnostic y ajoutera la date du test.
 - `pilotia-tresorerie-resume` (nouveau) : écrit par le plan de trésorerie à
-  chaque calcul, il contient le montant du point bas, son mois et la date de
+  chaque calcul, dès que la personne a modifié son plan (le plan d'exemple
+  chargé à la première visite n'est pas le sien et ne doit pas s'afficher
+  comme tel). Il contient le montant du point bas, son mois et la date de
   mise à jour. Le plan complet reste dans `pilotia-tresorerie` (existant).
 
-Affichage :
-- En haut, toujours : « Enregistré sur ce téléphone uniquement. Rien n'est
+Affichage (« cet appareil » plutôt que « ce téléphone » : la page s'affiche
+aussi sur ordinateur) :
+- En haut, toujours : « Enregistré sur cet appareil uniquement. Rien n'est
   envoyé. »
 - **Carte Diagnostic :** score sur 16, libellé, une barre par thème, date.
   Boutons « Refaire » (vers `diagnostic.html`) et « Rapport détaillé » (vers
@@ -152,7 +158,7 @@ Affichage :
 
   En cas d'égalité, l'ordre de priorité est : Trésorerie, Finances,
   Personnel, Présence. Ensuite, toujours, l'appel gratuit.
-- **Effacer les données de ce téléphone :** demande une confirmation, puis
+- **Effacer les données de cet appareil :** demande une confirmation, puis
   supprime `pilotia-diagnostic`, `pilotia-tresorerie` et
   `pilotia-tresorerie-resume`.
 - **Sans donnée, ou sans JavaScript :** le HTML livré affiche trois points de
@@ -170,15 +176,20 @@ Affichage :
   description limitée à deux lignes). Le texte complet de chaque carte reste
   dans la page et s'affiche entièrement sur ordinateur.
 - **`conseils.html` et `ressources.html` :** même principe de lignes à toucher
-  pour les articles et les documents.
+  pour les articles et les documents. Chaque document de `ressources.html`
+  garde son formulaire d'envoi par email : il devient une ligne compacte, pas
+  un lien sur toute la ligne.
 
 ## 5. Format app des pages existantes (maquettes 3A et 3B)
 
 ### 5.1 Les briques communes
 
 - **Encadré « L'essentiel » :**
-  - trois points au maximum, puis le bouton d'action principal de la page
-    s'il en a un ;
+  - trois points au maximum, placés juste avant les boutons du haut de page
+    s'il y en a : ce sont eux qui portent l'action principale, sans bouton en
+    double ;
+  - ses points ne répètent pas la phrase d'introduction affichée juste
+    au-dessus ;
   - chaque affirmation et chaque nombre existent déjà dans la page (contrôle
     automatique des nombres) ;
   - pas de tiret long ;
@@ -186,7 +197,10 @@ Affichage :
 - **Sections repliables :**
   - chaque grande section (`h2`) de la page devient repliable sous 760 px
     (téléphones), et toutes sont fermées par défaut ;
-  - au-delà de 760 px, tout reste ouvert, sans bouton ;
+  - au-delà de 760 px, tout reste ouvert, sans bouton : le script retire ses
+    enveloppes et le HTML reste exactement celui d'origine ;
+  - le sur-titre d'une section s'affiche à l'ouverture, en tête de son
+    contenu ;
   - le titre reste un vrai `h2`, qui contient un `<button aria-expanded>` ; le
     corps est masqué avec `hidden="until-found"`, pour que la recherche dans
     la page puisse l'ouvrir ;
@@ -213,7 +227,7 @@ Affichage :
 
 | Famille | Traitement |
 |---|---|
-| Accueil | Message d'accueil intact, quatre accès rapides (Diagnostic express, Plan de trésorerie, Facture Peppol, Devenir indépendant), puis les sections actuelles en cartes à faire glisser (piliers, film, parcours, avis clients). |
+| Accueil | Message d'accueil intact, quatre accès rapides (Diagnostic express, Plan de trésorerie, Facture Peppol, Devenir indépendant) à la place des deux boutons du haut, comme sur la maquette, puis les sections actuelles en cartes à faire glisser (piliers, parcours, avis clients ; le film reste en place). |
 | Services et métiers | « L'essentiel », puis sections repliables. |
 | Outils (diagnostic, calculateurs, plan de trésorerie, générateur) | Calculs inchangés ; formulaires au pouce ; résultat mis en valeur ; étapes suivantes en cartes. |
 | Conseils (articles) | « L'essentiel », puis chaque partie de l'article repliable sous son titre exact. |
