@@ -145,6 +145,21 @@ Audit réalisé le 20 septembre 2026 sur l'ensemble des 34 pages.
 8. Faire vérifier les chiffres légaux restants (INASTI, TVA, ONSS) par un professionnel avant toute communication commerciale — ce sont des estimations pédagogiques basées sur des barèmes publics, pas des avis fiscaux.
 9. Faire relire le contenu généré par `api/generate-report.js` sur quelques cas réels avant de pousser le trafic dessus — c'est un prompt système qui encadre le ton et interdit le conseil fiscal/comptable, mais une relecture humaine reste utile au lancement.
 
+## Format app (téléphone et tablette)
+
+Sous 1 080 px de large, le site se comporte comme une app : barre d'onglets
+(Accueil, Services, Rendez-vous, Outils, Mon espace), lien retour sur les
+pages de détail, panneau « Plus », sections repliables sous 760 px. Sur
+ordinateur, le rendu ne change pas. Conception : `brand/format-app-CONCEPTION.md` ;
+fiche pour la future app : `brand/charte-app.md`.
+
+- La navigation est écrite dans chaque page par `python3 scripts/navigation-app.py`
+  (à relancer après toute création de page ; `--verifier` échoue si une page
+  n'est pas à jour). Une nouvelle page se crée avec `scripts/nouvelle-page.py`.
+- Comportements : `app.js` ; écran Mon espace : `mon-espace.js`.
+- Tests : `pip install -q pytest`, puis `python3 -m pytest tests/format-app -q`
+  (le dossier `tests` n'est pas publié, voir `.vercelignore`).
+
 ## Vocabulaire retenu
 
 Décidé avec le client, appliqué sur l'ensemble du site :
