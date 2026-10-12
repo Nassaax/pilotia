@@ -939,3 +939,104 @@ a.card:hover .card-icon,a.path-card:hover .card-icon,.path-card:hover .card-icon
   .etapes .step-num{transition:none}
   .etapes .step-num.atteinte{transform:none}
 }
+
+/* ─── Format app (téléphone et tablette) ──────────────────────────────────
+   brand/format-app-CONCEPTION.md. Le mode app commence à 1 080 px, le seuil
+   où le menu du haut se repliait déjà. Rien dans cette section ne change le
+   rendu sur ordinateur, sauf l'encadré « L'essentiel ». */
+:root{--hauteur-onglets:64px}
+.onglets,.app-retour,.segment-cadre,.acces-rapide,.duree{display:none}
+
+@media (max-width:1080px){
+  body{padding-bottom:calc(var(--hauteur-onglets) + env(safe-area-inset-bottom))}
+
+  /* En-tête : logo, ou lien retour sur les pages de détail, et bouton ☰. */
+  .nav-links{display:none !important}
+  .nav-toggle{width:48px;height:48px;padding:12px}
+  .site-header{view-transition-name:entete}
+  .site-header.a-retour .brand{display:none}
+  .app-retour{
+    display:inline-flex;align-items:center;gap:2px;min-height:48px;padding:0 12px 0 2px;margin-left:-10px;
+    color:var(--accent);font-family:var(--font-body);font-size:17px;font-weight:600;text-decoration:none;
+  }
+  .app-retour svg{flex:none;width:26px;height:26px}
+
+  /* Barre d'onglets. Elle garde les couleurs de la marque sur toutes les
+     pages, même celles qui prennent la couleur d'un service (valeurs des
+     jetons de :root, clair puis sombre). */
+  .onglets{
+    --accent:#0369A1;--accent-soft:#E1EEF6;--accent-ink:#FFFFFF;
+    display:flex;justify-content:space-around;align-items:flex-start;
+    position:fixed;left:0;right:0;bottom:0;z-index:30;
+    height:calc(var(--hauteur-onglets) + env(safe-area-inset-bottom));
+    padding:6px max(4px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(4px, env(safe-area-inset-left));
+    background:var(--card);border-top:1px solid var(--line);
+    font-family:var(--font-body);view-transition-name:onglets;
+  }
+  .onglet{
+    flex:1 1 0;min-width:48px;max-width:96px;min-height:52px;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;
+    color:var(--ink-soft);text-decoration:none;font-size:11.5px;font-weight:600;line-height:16px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .onglet-icone{width:56px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;transition:background .18s ease}
+  .onglet svg{width:24px;height:24px}
+  .onglet[aria-current]{color:var(--accent)}
+  .onglet[aria-current] .onglet-icone{background:var(--accent-soft)}
+  .onglet-libelle{white-space:nowrap}
+  .onglet-centre{position:relative;color:var(--ink);font-weight:700}
+  .onglet-rond{
+    position:absolute;top:-24px;left:50%;margin-left:-30px;width:60px;height:60px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--accent);color:var(--accent-ink);border:2px solid var(--trait);box-shadow:3px 3px 0 var(--trait);
+  }
+  .onglet-rond svg{width:28px;height:28px}
+  .onglet-centre[aria-current]{color:var(--accent)}
+  .onglet-centre[aria-current] .onglet-rond{box-shadow:3px 3px 0 var(--trait),0 0 0 5px var(--accent-soft)}
+  .onglet:focus-visible{outline:3px solid var(--accent);outline-offset:-3px;border-radius:12px}
+  .saisie .onglets{display:none}
+
+  /* Panneau « Plus » : un <dialog> qui monte du bas de l'écran. */
+  .plus{
+    position:fixed;inset:auto 0 0 0;margin:0;width:100%;max-width:100%;max-height:min(85vh,640px);
+    border:none;border-radius:24px 24px 0 0;padding:10px 0 calc(20px + env(safe-area-inset-bottom));
+    background:var(--card);color:var(--ink);overflow-y:auto;font-family:var(--font-body);
+    box-shadow:0 -10px 40px rgba(15,23,42,.25);
+  }
+  .plus::backdrop{background:rgba(15,23,42,.45)}
+  .plus[open]{animation:plus-monte .22s cubic-bezier(.2,.8,.2,1)}
+  .plus-poignee{width:40px;height:5px;border-radius:3px;background:var(--line-strong);opacity:.6;margin:0 auto 6px}
+  .plus-tete{display:flex;align-items:center;justify-content:space-between;padding:0 10px 4px 22px}
+  .plus-titre{margin:0;font-family:var(--font-body);font-size:20px;font-weight:700}
+  .plus-fermer{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:none;border:none;border-radius:12px;color:var(--ink);cursor:pointer}
+  .plus-fermer svg{width:24px;height:24px}
+  .plus-groupe{margin:14px 22px 2px;font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .plus-liste{list-style:none;margin:0;padding:0 22px}
+  .plus-liste li{border-bottom:1px solid var(--line)}
+  .plus-liste li:last-child{border-bottom:none}
+  .plus-liste a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:50px;color:var(--ink);text-decoration:none;font-size:16.5px;font-weight:500}
+  .plus-liste a[aria-current]{color:var(--accent);font-weight:600}
+  .plus-liste svg{flex:none;width:18px;height:18px;color:var(--ink-soft)}
+
+  /* Correctif : une liste déroulante au libellé long élargissait le
+     formulaire au-delà de l'écran (calculateurs de cotisations et du coût
+     d'un salarié, en 360 et 390 px). */
+  form{grid-template-columns:minmax(0,1fr)}
+  select{max-width:100%}
+}
+@media (max-width:1080px) and (prefers-color-scheme: dark){
+  .onglets{--accent:#4CA9E0;--accent-soft:#16283D;--accent-ink:#08131F}
+}
+@keyframes plus-monte{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+
+/* Fondu entre deux pages ; les deux barres restent en place. */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.18s}
+@media (prefers-reduced-motion: reduce){
+  @view-transition{navigation:none}
+  .plus[open]{animation:none}
+}
+@media print{
+  .onglets,.plus,.app-retour,.segment-cadre,.replis-outils{display:none !important}
+  body{padding-bottom:0}
+}
