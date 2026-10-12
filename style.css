@@ -1191,3 +1191,11 @@ section.section-app{padding:0 0 clamp(48px,7vw,96px)}
   .resultat{padding:14px 16px;border-radius:14px;background:var(--accent-soft);scroll-margin-top:72px;scroll-margin-bottom:calc(var(--hauteur-onglets) + 24px)}
   .resultat > p:last-child{margin-bottom:0}
 }
+
+/* Rendez-vous (contact.html) : la réservation passe en premier. */
+@media (max-width:1080px){
+  .rdv-carte{padding:20px 18px;background:var(--card);border:2px solid var(--trait);border-radius:var(--radius);box-shadow:4px 4px 0 var(--trait)}
+  .rdv-carte .section-title{margin-bottom:8px;font-size:22px}
+  .rdv-carte .btn{width:100%}
+  .duree{display:inline-flex;align-items:center;margin:0 0 10px;padding:5px 11px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:700 12.5px var(--font-body)}
+}

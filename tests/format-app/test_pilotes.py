@@ -68,3 +68,22 @@ def test_calculateur_de_marge(telephone, base_url):
     page.wait_for_function("""() => document.getElementById('resultatMarge').getBoundingClientRect().bottom
         <= document.querySelector('.onglets').getBoundingClientRect().top""", timeout=3000)
     assert erreurs == []
+
+
+def test_rendez_vous(telephone, ordinateur, base_url):
+    page, erreurs = ouvrir(telephone, base_url, 'contact.html')
+    carte = page.locator('.rdv-carte')
+    assert carte.is_visible()
+    lien = carte.locator('a.btn')
+    assert lien.get_attribute('href') == 'https://cal.com/pilotia/call'
+    assert lien.get_attribute('target') == '_blank'
+    assert page.locator('.duree').inner_text() == '15 min · gratuit'
+    assert page.locator('.onglet-centre').get_attribute('aria-current') == 'page'
+    assert not visible(page, '#contact-form')
+    page.get_by_role('button', name='Ou laissez-nous un message').click()
+    assert visible(page, '#contact-form')
+    remplissage = page.eval_on_selector_all('#nom, #entreprise, #email', 'els => els.map(e => e.autocomplete)')
+    assert remplissage == ['name', 'organization', 'email']
+    page, _ = ouvrir(ordinateur, base_url, 'contact.html')
+    assert visible(page, '#contact-form') and not page.locator('.duree').is_visible()
+    assert erreurs == []
