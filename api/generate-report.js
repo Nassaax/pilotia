@@ -17,7 +17,7 @@
 // et ne générer le rapport qu'après confirmation.
 
 const PDFDocument = require("pdfkit");
-const { isConfigured: brevoConfigured, isValidEmail, upsertContact, sendTransactionalEmail } = require("./_brevo");
+const { isConfigured: brevoConfigured, isValidEmail, upsertContact, sendTransactionalEmail, alerterFondateur } = require("./_brevo");
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
@@ -261,6 +261,12 @@ module.exports = async (req, res) => {
       } catch (emailErr) {
         console.error("generate-report: envoi email/Brevo a échoué (non bloquant) :", emailErr);
       }
+      await alerterFondateur({
+        sujet: `Nouveau rapport diagnostic : ${prenom}`,
+        lignes: [["Prénom", prenom], ["Email", email], ["Secteur", secteur], ["Taille", taille || "(non précisée)"],
+          ["Difficulté principale", difficulte], ["Score", `${diagnostic.total} / 16`]],
+        replyTo: { email, name: prenom },
+      });
     }
 
     res.setHeader("Content-Type", "application/pdf");

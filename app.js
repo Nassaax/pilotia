@@ -257,3 +257,13 @@
     fermesAvantImpression = null;
   });
 })();
+
+/* Site installable (manifest.webmanifest) et page « hors connexion » (sw.js).
+   Seulement en https : en local, les tests voient toujours le réseau. */
+(function () {
+  "use strict";
+  if (!("serviceWorker" in navigator) || location.protocol !== "https:") return;
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("/sw.js").catch(function () {});
+  });
+})();

@@ -1,8 +1,8 @@
 # Les tests et leurs pages d'essai ne sont pas publiés.
 tests
-# Documents de travail (conceptions, plans, maquettes) : pas publiés non plus.
-# Les fichiers de brand/ utilisés par le site, comme l'avatar de la page
-# À propos, restent en ligne.
-brand/*.md
-brand/format-app
-brand/espace-client
+# Fichiers de travail (scripts, notes, kit réseaux sociaux) : pas publiés non
+# plus, comme pour LALLAT. Seul l'avatar de la page À propos sort de brand/.
+scripts
+README.md
+brand/*
+!brand/avatar-pilotia.svg

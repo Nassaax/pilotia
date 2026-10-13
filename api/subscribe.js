@@ -5,7 +5,7 @@
 // Body attendu (JSON) : { "email": "...", "resource": "guide-independant-pdf" }
 // Réponse : { "ok": true } ou { "ok": false, "error": "..." }
 
-const { isConfigured, isValidEmail, upsertContact } = require("./_brevo");
+const { isConfigured, isValidEmail, upsertContact, alerterFondateur } = require("./_brevo");
 
 module.exports = async (req, res) => {
   res.setHeader("Content-Type", "application/json");
@@ -30,14 +30,20 @@ module.exports = async (req, res) => {
     return;
   }
 
+  const ressource = typeof resource === "string" ? resource.slice(0, 100) : "inconnue";
   try {
     await upsertContact({
       email,
       attributes: {
         SOURCE: "site-pilotia",
-        RESSOURCE: typeof resource === "string" ? resource.slice(0, 100) : "inconnue",
+        RESSOURCE: ressource,
         DATE_INSCRIPTION: new Date().toISOString().slice(0, 10),
       },
+    });
+    await alerterFondateur({
+      sujet: `Nouvelle inscription : ${ressource}`,
+      lignes: [["Email", email], ["Guide demandé", ressource]],
+      replyTo: { email },
     });
     res.status(200).json({ ok: true });
   } catch (err) {

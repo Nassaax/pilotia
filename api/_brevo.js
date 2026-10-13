@@ -99,4 +99,29 @@ async function sendTransactionalEmail({ to, toName, subject, htmlContent, attach
   return true;
 }
 
-module.exports = { isConfigured, isValidEmail, upsertContact, sendTransactionalEmail };
+function echapper(texte) {
+  return String(texte == null ? "" : texte)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+// Prévient le fondateur qu'un formulaire du site vient d'arriver, à l'adresse
+// CONTACT_RECIPIENT (à défaut, l'adresse d'expédition). lignes : paires
+// [libellé, valeur], affichées échappées. Ne lève jamais d'erreur : une
+// alerte perdue est journalisée, sans faire échouer la demande du visiteur.
+async function alerterFondateur({ sujet, lignes, replyTo }) {
+  const destinataire = process.env.CONTACT_RECIPIENT || process.env.BREVO_SENDER_EMAIL;
+  if (!isConfigured() || !destinataire) return false;
+  const html = "<p><strong>" + echapper(sujet) + "</strong></p><p>" +
+    lignes.map(([libelle, valeur]) => "<strong>" + echapper(libelle) + " :</strong> " + echapper(valeur)).join("<br>") +
+    "</p>";
+  try {
+    await sendTransactionalEmail({ to: destinataire, subject: sujet, htmlContent: html, replyTo });
+    return true;
+  } catch (err) {
+    console.error("alerte fondateur non envoyée :", err.message);
+    return false;
+  }
+}
+
+module.exports = { isConfigured, isValidEmail, upsertContact, sendTransactionalEmail, alerterFondateur };

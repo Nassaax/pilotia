@@ -183,3 +183,10 @@ Le site reste **majoritairement statique** (HTML/CSS/JS vanilla, aucun build), m
 - `api/_brevo.js` — helper partagé.
 
 `package.json` liste la seule dépendance (`pdfkit`) ; Vercel l'installe automatiquement au déploiement. En local, `npm install` puis un serveur de dev capable de servir `/api/*.js` (ex. `vercel dev`) sont nécessaires pour tester ces routes — le reste du site continue de fonctionner en pur statique (`file://` ou n'importe quel serveur de fichiers). Tous les liens internes ont été vérifiés (aucun lien cassé), et les deux flux serveur ont été testés en simulant leurs réponses API (succès et erreur) via Playwright.
+
+### Alertes, hébergement et site installable
+
+- **Alerte à chaque formulaire :** contact, inscription à un guide et rapport diagnostic envoient chacun un email au fondateur (Brevo), avec l'adresse de la personne en « Répondre à ». L'adresse qui reçoit ces alertes se règle dans Vercel avec la variable `CONTACT_RECIPIENT` (Production) ; sans elle, les alertes partent vers `BREVO_SENDER_EMAIL`. Une alerte perdue ne fait jamais échouer la demande du visiteur (`api/_brevo.js`, `alerterFondateur`).
+- **Région :** les fonctions `api/` tournent à Francfort (`"regions": ["fra1"]` dans `vercel.json`), comme pour LALLAT.
+- **Fichiers non publiés :** `.vercelignore` écarte les tests, les scripts, ce README et tout `brand/` sauf l'avatar de la page À propos ; `package.json` et `package-lock.json` redirigent vers l'accueil.
+- **Site installable :** `manifest.webmanifest` (annoncé sur chaque page), `sw.js` (le réseau d'abord, une copie des pages déjà ouvertes pour l'usage sans réseau, jamais `/api`) et `offline.html`. Le service worker ne s'inscrit qu'en https : les tests locaux voient toujours le réseau. Après une modification de `sw.js`, changer `VERSION` pour vider les anciennes copies.

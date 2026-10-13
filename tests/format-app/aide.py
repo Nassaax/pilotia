@@ -38,7 +38,7 @@ ARTICLES = ['conseils-chiffrer-chantier.html', 'conseils-facture-electronique-pe
             'conseils-taux-horaire-independant.html']
 PLUS = ['a-propos.html', 'methode.html', 'statistiques.html', 'parrainage.html',
         'mentions-legales.html', 'confidentialite.html', 'cookies.html', 'cgv.html',
-        'accessibilite.html', '404.html']
+        'accessibilite.html', '404.html', 'offline.html']
 
 
 def attendu(nom):
