@@ -15,6 +15,7 @@ CHANGEMENTS_PREVUS = {
     'facturation-electronique.html', 'conseils-facture-impayee.html',  # encadré « L'essentiel »
     'cookies.html', 'confidentialite.html',  # les trois clés du stockage local
     'services.html', 'mon-espace.html',  # pages nouvelles
+    'calculateur-marge.html',  # « 66,7 % » au lieu de « 66.7 % »
 }
 
 

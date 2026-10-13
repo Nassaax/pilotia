@@ -165,7 +165,7 @@ function calculerMarge(){
   var margeEuro = pv - cr;
   var margePct = pv > 0 ? (margeEuro / pv) * 100 : 0;
   document.getElementById('margeEuro').textContent = margeEuro.toLocaleString('fr-BE',{style:'currency',currency:'EUR'}).replace(/\u202f/g, '\u00a0') + ' de marge';
-  document.getElementById('margePct').textContent = 'Soit un taux de marge de ' + margePct.toFixed(1) + ' % du prix de vente.';
+  document.getElementById('margePct').textContent = 'Soit un taux de marge de ' + margePct.toFixed(1).replace('.', ',') + ' % du prix de vente.';
   document.getElementById('margeUnitaire').value = margeEuro.toFixed(2);
 }
 

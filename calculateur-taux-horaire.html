@@ -286,7 +286,7 @@ function calculerTarif(){
     'soit ' + eur(jour / heures) + ' de l\'heure sur ' + heures + ' h facturées par jour.';
   document.getElementById('outTravaillables').textContent = travaillables + ' jours';
   document.getElementById('outFactures').textContent =
-    factures + ' jours (' + occ + ' % de ' + travaillables + ')';
+    factures + ' jours (' + String(occ).replace('.', ',') + ' % de ' + travaillables + ')';
   document.getElementById('outRnp').textContent = eur(rnp);
   document.getElementById('outCotis').textContent = eur(cotis);
   document.getElementById('outFrais').textContent = eur(frais);
