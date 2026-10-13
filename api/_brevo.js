@@ -56,9 +56,9 @@ async function upsertContact({ email, attributes }) {
   return true;
 }
 
-// Envoie un email transactionnel, avec pièce jointe PDF optionnelle
-// (attachmentBase64 = contenu du fichier encodé en base64).
-async function sendTransactionalEmail({ to, toName, subject, htmlContent, attachmentBase64, attachmentName, replyTo }) {
+// Envoie un email transactionnel, avec version texte et pièce jointe PDF
+// optionnelles (attachmentBase64 = contenu du fichier encodé en base64).
+async function sendTransactionalEmail({ to, toName, subject, htmlContent, textContent, attachmentBase64, attachmentName, replyTo }) {
   const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) {
     throw new Error("BREVO_API_KEY manquante.");
@@ -70,6 +70,7 @@ async function sendTransactionalEmail({ to, toName, subject, htmlContent, attach
     subject,
     htmlContent,
   };
+  if (textContent) payload.textContent = textContent;
 
   // Pour une notification de formulaire, l'expéditeur reste Pilotia (contrainte
   // SPF/DKIM du domaine vérifié) : c'est replyTo qui permet de répondre

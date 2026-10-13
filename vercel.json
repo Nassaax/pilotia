@@ -1,7 +1,12 @@
 {
+  "regions": ["fra1"],
   "functions": {
-    "api/generate-report.js": { "maxDuration": 60 }
+    "api/generate-report.js": { "maxDuration": 60 },
+    "api/menage.js": { "maxDuration": 60 }
   },
+  "crons": [
+    { "path": "/api/menage", "schedule": "17 3 * * *" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

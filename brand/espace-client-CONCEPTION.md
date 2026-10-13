@@ -6,6 +6,48 @@ de travail : toute divergence se corrige ici d'abord. Il prolonge le format
 app (`format-app-CONCEPTION.md`), dont l'onglet « Mon espace » avait été
 prévu pour accueillir la connexion « le jour venu, au même endroit ».
 
+> **Mis de côté le 13 octobre 2026.** Le fondateur a décidé de ne pas
+> introduire d'espace client pour l'instant : trop lourd pour démarrer.
+> Cette branche garde de quoi reprendre le jour venu :
+> - cette conception et ses maquettes (`espace-client/`) ;
+> - un premier jet du code, déroulé à blanc jusqu'à la tâche 8 et vérifié
+>   (138 tests de l'espace client et 829 du format app passent) :
+>   - l'outillage de test (`tests/espace-client` : base PostgreSQL en
+>     mémoire, emails interceptés) ;
+>   - les fonctions `api/compte.js`, `api/donnees.js` et `api/menage.js`,
+>     avec leurs aides ;
+>   - les pages `connexion.html`, `ma-fiche.html` (sans son script) et
+>     `conditions-espace.html`, et `connexion.js` ;
+>   - `compte.js` : la synchronisation entre appareils.
+>
+> **Restent à faire :** Mon espace connecté (§ 3.3 et 3.6), le script de
+> la fiche (§ 3.4), le pré-remplissage des calculateurs (§ 3.5), la ligne
+> d'état du plan de trésorerie (§ 3.8), les vérifications transversales
+> (§ 9), la documentation, le plan de travail et les textes d'ouverture
+> (§ 8). Rien de cette branche n'est sur main.
+>
+> **Précisions apportées pendant le déroulé à blanc,** à reporter dans ce
+> document à la reprise :
+> - `api/_brevo.js` accepte une version texte de l'email ;
+> - les tables se créent d'elles-mêmes à la première vraie requête ;
+> - la page de connexion s'intitule « Créer mon espace ou me connecter » et
+>   son titre suit l'étape ; le code se saisit dans un seul champ, validé
+>   au sixième chiffre ;
+> - confirmation du navigateur pour la déconnexion et le changement de
+>   compte ; feuilles pour les deux versions du plan et la suppression ;
+> - l'empreinte du plan ne porte que sur son état (le résumé est réécrit à
+>   chaque affichage) et se calcule sur des clés triées, car la base ne
+>   garde pas leur ordre ;
+> - effacé sur l'appareil mais modifié ailleurs : la version de l'espace
+>   l'emporte ;
+> - Échap sur la feuille du plan ne tranche pas : la question revient à la
+>   page suivante ;
+> - un élément refusé pour sa taille ne repart pas tant qu'il ne change
+>   pas ; espace refermé, rien ne part avant la lecture suivante ;
+> - Mon espace devra reposer la marque de l'appareil quand la connexion est
+>   valable mais le stockage vide (Safari l'efface après 7 jours sans
+>   visite du site).
+
 ## 1. Objectif et périmètre
 
 Permettre à un client de créer, s'il le souhaite, un espace personnel où il

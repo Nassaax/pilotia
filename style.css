@@ -1220,3 +1220,41 @@ section.section-app{padding:0 0 clamp(48px,7vw,96px)}
   .page-accueil .triangle-grid > *,.page-accueil .triangle-base > *,.page-accueil .path-cards > *,.page-accueil .avis > *{flex:0 0 84%;scroll-snap-align:start}
   .page-accueil .avis:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 }
+
+/* ─── Espace client (brand/espace-client-CONCEPTION.md) ─────────────────── */
+/* Connexion par code (connexion.html) : formulaires étroits, au pouce. */
+.espace-formulaire{max-width:560px}
+.espace-formulaire form{max-width:none}
+/* « form » est en grille sur tout le site : l'attribut hidden doit gagner. */
+.espace-formulaire [hidden]{display:none !important}
+.espace-formulaire .btn{min-height:48px}
+.espace-formulaire .lead{margin:0 0 4px}
+.connexion-etape .btn{justify-self:start}
+.connexion-etape input.code-cases{font:700 28px/1.1 var(--font-body);letter-spacing:.45em;text-align:center;font-variant-numeric:tabular-nums;padding-left:calc(14px + .45em)}
+.espace-petit{display:flex;gap:8px;align-items:flex-start;margin:0;font:400 13.5px/1.45 var(--font-body);color:var(--ink-soft)}
+.espace-petit svg{flex:none;width:16px;height:16px;margin-top:2px}
+.espace-erreur{margin:0;font:600 14px/1.45 var(--font-body);color:var(--danger)}
+.espace-erreur:empty{display:none}
+.lien-bouton{display:inline-flex;align-items:center;min-height:48px;padding:0;background:none;border:none;color:var(--accent);font:600 15px var(--font-body);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.lien-bouton:disabled{color:var(--ink-soft);text-decoration:none;cursor:default}
+.lead .lien-bouton{min-height:0;font-size:inherit}
+.espace-renvoi{justify-self:center}
+.espace-facultatif{font-weight:500;color:var(--ink-soft)}
+.espace-import{padding:14px 16px;background:var(--card);border-radius:14px;border-left:4px solid var(--accent);font-family:var(--font-body)}
+.espace-import p{margin:0;font-size:14px;color:var(--ink-soft)}
+.espace-import .espace-import-titre{font-weight:700;color:var(--ink)}
+.espace-import ul{list-style:none;margin:8px 0 0;padding:0}
+.espace-import li{position:relative;padding:3px 0 3px 24px;font-size:14.5px}
+.espace-import li::before{content:"";position:absolute;left:2px;top:9px;width:12px;height:7px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+#connexion-ferme .btn{margin-top:12px}
+@media (max-width:760px){.connexion-etape .btn{justify-self:stretch}}
+/* Feuilles de choix (compte.js) : en bas de l'écran sur téléphone, au
+   centre sur ordinateur (maquette E3). */
+dialog.feuille{width:min(100%,520px);max-width:100%;margin:auto auto 0;padding:14px 20px calc(24px + env(safe-area-inset-bottom));border:none;border-radius:24px 24px 0 0;background:var(--card);color:var(--ink);font-family:var(--font-body)}
+dialog.feuille::backdrop{background:rgba(15,23,42,.45)}
+dialog.feuille::before{content:"";display:block;width:40px;height:5px;margin:0 auto 14px;border-radius:3px;background:var(--line-strong)}
+dialog.feuille h2{margin:0 0 8px;font-family:var(--font-body);font-size:21px;line-height:1.25;letter-spacing:-.015em;color:var(--ink)}
+dialog.feuille p{margin:0 0 8px;font-size:15px;line-height:1.5;color:var(--ink-soft)}
+dialog.feuille .btn{display:flex;width:100%;min-height:48px;margin-top:10px}
+dialog.feuille .feuille-note{margin-top:12px;font-size:13.5px}
+@media (min-width:761px){dialog.feuille{margin:auto;padding:24px;border-radius:var(--radius)}dialog.feuille::before{display:none}}

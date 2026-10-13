@@ -1,2 +1,8 @@
 # Les tests et leurs pages d'essai ne sont pas publiés.
 tests
+# Documents de travail (conceptions, plans, maquettes) : pas publiés non plus.
+# Les fichiers de brand/ utilisés par le site, comme l'avatar de la page
+# À propos, restent en ligne.
+brand/*.md
+brand/format-app
+brand/espace-client

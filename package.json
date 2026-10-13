@@ -5,6 +5,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@neondatabase/serverless": "1.1.0",
     "pdfkit": "^0.15.0"
   }
 }

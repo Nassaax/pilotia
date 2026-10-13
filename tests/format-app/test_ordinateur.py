@@ -15,6 +15,7 @@ CHANGEMENTS_PREVUS = {
     'facturation-electronique.html', 'conseils-facture-impayee.html',  # encadré « L'essentiel »
     'cookies.html', 'confidentialite.html',  # les trois clés du stockage local
     'services.html', 'mon-espace.html',  # pages nouvelles
+    'connexion.html', 'ma-fiche.html', 'conditions-espace.html',  # pages de l'espace client
 }
 
 

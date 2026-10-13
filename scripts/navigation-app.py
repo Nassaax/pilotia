@@ -44,9 +44,12 @@ SERVICES = ('entreprises.html', 'independants.html', 'facturation-electronique.h
             'affacturage.html', 'marketing-digital.html', 'offres.html')
 OUTILS = ('diagnostic.html', 'rapport-diagnostic.html', 'plan-tresorerie.html',
           'generateur-calendrier-contenu.html')
+# Pages de l'espace client (brand/espace-client-CONCEPTION.md, § 6).
+ESPACE = ('connexion.html', 'ma-fiche.html', 'conditions-espace.html')
 RETOURS = {'services': ('services.html', 'Services'),
            'outils': ('outils.html', 'Outils'),
-           'conseils': ('conseils.html', 'Conseils')}
+           'conseils': ('conseils.html', 'Conseils'),
+           'espace': ('mon-espace.html', 'Mon espace')}
 PLUS_PILOTIA = [('a-propos.html', 'À propos'), ('methode.html', 'Notre méthode'),
                 ('statistiques.html', 'Statistiques'), ('parrainage.html', 'Parrainage')]
 PLUS_INFOS = [('mentions-legales.html', 'Mentions légales'),
@@ -74,6 +77,8 @@ def placer(nom):
         return 'outils', 'conseils'
     if nom == 'mon-espace.html':
         return 'espace', None
+    if nom in ESPACE:
+        return 'espace', 'espace'
     return None, None
 
 

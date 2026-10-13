@@ -39,6 +39,8 @@ ARTICLES = ['conseils-chiffrer-chantier.html', 'conseils-facture-electronique-pe
 PLUS = ['a-propos.html', 'methode.html', 'statistiques.html', 'parrainage.html',
         'mentions-legales.html', 'confidentialite.html', 'cookies.html', 'cgv.html',
         'accessibilite.html', '404.html']
+# Pages de l'espace client (brand/espace-client-CONCEPTION.md, § 6).
+ESPACE = ['connexion.html', 'ma-fiche.html', 'conditions-espace.html']
 
 
 def attendu(nom):
@@ -56,6 +58,8 @@ def attendu(nom):
         return 'outils.html', 'true', ('outils.html', 'Outils')
     if nom in ARTICLES:
         return 'outils.html', 'true', ('conseils.html', 'Conseils')
+    if nom in ESPACE:
+        return 'mon-espace.html', 'true', ('mon-espace.html', 'Mon espace')
     if nom in PLUS:
         return None, None, None
     raise KeyError(f'{nom} : page absente du tableau du § 3.2 de la conception')
@@ -92,6 +96,19 @@ class _Serveur(socketserver.ThreadingMixIn, http.server.HTTPServer):
 class _Silencieux(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass
+
+    def do_GET(self):
+        # Le site comme en production, espace client fermé : l'état répond
+        # « pas ouvert » au lieu d'une erreur 404 (brand/espace-client-CONCEPTION.md, § 7).
+        if self.path.startswith('/api/compte'):
+            corps = b'{"ouvert": false}'
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(corps)))
+            self.end_headers()
+            self.wfile.write(corps)
+            return
+        super().do_GET()
 
 
 def servir(dossier):

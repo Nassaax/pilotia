@@ -1,0 +1,8 @@
+{
+  "name": "pilotia-tests-espace-client",
+  "private": true,
+  "description": "Base PostgreSQL en mémoire pour les tests de l’espace client (jamais publiée).",
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
+}
