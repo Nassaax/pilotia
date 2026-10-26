@@ -13,7 +13,7 @@ import threading
 from html.parser import HTMLParser
 
 RACINE = pathlib.Path(__file__).resolve().parents[2]
-CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
+CHROME = '/opt/pw-browsers/chromium'  # lien stable vers le Chromium installé
 # Le site avant le format app : référence du texte et du rendu sur ordinateur.
 REFERENCE = '3433103'
 

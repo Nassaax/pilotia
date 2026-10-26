@@ -17,6 +17,8 @@ CHANGEMENTS_PREVUS = {
     'services.html', 'mon-espace.html',  # pages nouvelles
     'calculateur-marge.html',  # « 66,7 % » au lieu de « 66.7 % »
     'offline.html',  # page hors connexion, nouvelle
+    'mentions-legales.html', 'cgv.html', 'accessibilite.html',  # notes au fondateur retirées
+    'offres.html', 'statistiques.html',
 }
 
 
