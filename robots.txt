@@ -40,7 +40,7 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://pilotia.be/sitemap.xml
+Sitemap: https://www.pilotia.be/sitemap.xml
 
 # Résumé structuré du site à destination des modèles de langage :
-# https://pilotia.be/llms.txt
+# https://www.pilotia.be/llms.txt

@@ -13,7 +13,7 @@ import re
 import sys
 
 RACINE = pathlib.Path(__file__).resolve().parent.parent
-SITE = 'https://pilotia.be/'
+SITE = 'https://www.pilotia.be/'
 
 
 def creer(nom, titre, description, contenu):
