@@ -64,6 +64,7 @@ REECRITS = {
         ', en qualité de représentant légal de l’éditeur.',
     ],
     'offres.html': [
+        'Appel de 15 minutes, sans engagement.',  # précisé : par téléphone ou en visio
         'Tarifs indicatifs à valider selon votre positionnement réel, vos coûts et la concurrence locale. Ils servent ici de point de départ crédible plutôt que de "sur devis" partout, qui freine souvent la prise de contact. Pensez à d\'éventuels forfaits par secteur (restauration / bâtiment / commerce) et à une politique de remise pour indépendants en lancement.',
     ],
     'statistiques.html': [
