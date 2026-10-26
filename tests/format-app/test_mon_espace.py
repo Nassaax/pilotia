@@ -97,8 +97,8 @@ def test_effacer(telephone, base_url):
 
 
 def test_mon_espace_reference():
-    assert 'https://pilotis-murex.vercel.app/mon-espace.html' in source('sitemap.xml')
-    assert 'https://pilotis-murex.vercel.app/mon-espace.html' in source('llms.txt')
+    assert 'https://pilotia.be/mon-espace.html' in source('sitemap.xml')
+    assert 'https://pilotia.be/mon-espace.html' in source('llms.txt')
 
 
 @pytest.mark.parametrize('schema', ['light', 'dark'])

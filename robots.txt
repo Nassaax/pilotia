@@ -40,7 +40,7 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://pilotis-murex.vercel.app/sitemap.xml
+Sitemap: https://pilotia.be/sitemap.xml
 
 # Résumé structuré du site à destination des modèles de langage :
-# https://pilotis-murex.vercel.app/llms.txt
+# https://pilotia.be/llms.txt

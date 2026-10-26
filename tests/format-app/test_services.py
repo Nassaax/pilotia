@@ -22,10 +22,10 @@ def test_les_liens_de_services():
 
 def test_services_reference():
     html = source('services.html')
-    assert '<link rel="canonical" href="https://pilotis-murex.vercel.app/services.html">' in html
-    assert '<meta property="og:url" content="https://pilotis-murex.vercel.app/services.html">' in html
-    assert 'https://pilotis-murex.vercel.app/services.html' in source('sitemap.xml')
-    assert 'https://pilotis-murex.vercel.app/services.html' in source('llms.txt')
+    assert '<link rel="canonical" href="https://pilotia.be/services.html">' in html
+    assert '<meta property="og:url" content="https://pilotia.be/services.html">' in html
+    assert 'https://pilotia.be/services.html' in source('sitemap.xml')
+    assert 'https://pilotia.be/services.html' in source('llms.txt')
 
 
 def test_services_sur_telephone(telephone, base_url):

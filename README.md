@@ -96,7 +96,7 @@ Légal & technique
 - **`BREVO_API_KEY` et `ANTHROPIC_API_KEY`** — variables d'environnement à créer dans Vercel pour activer la capture d'email et le rapport IA (voir `.env.example`). Sans elles, ces fonctionnalités répondent une erreur claire plutôt que de planter silencieusement.
 - **Paiement du rapport diagnostic (19 €)** — le flux technique est prêt (formulaire → IA → PDF → email) mais le paiement Stripe n'est pas branché ; le rapport est actuellement généré gratuitement, avec une mention "version test" visible sur la page.
 - **Identité légale** — les pages juridiques sont rédigées mais comportent des marqueurs `[À COMPLÉTER]` bien visibles : dénomination exacte, forme juridique, numéro BCE, siège, email professionnel. À remplir dès l'immatriculation, **avant** toute prestation payante.
-- Domaine réel : `robots.txt`, `sitemap.xml`, `llms.txt`, le JSON-LD et les balises `og:url`/`og:image` utilisent `pilotis-murex.vercel.app`, qui est le **vrai domaine Vercel actuel** (vérifié via l'API Vercel). À remplacer partout une fois `pilotia.be` actif.
+- Domaine réel : `robots.txt`, `sitemap.xml`, `llms.txt`, le JSON-LD et les balises `og:url`/`og:image` utilisent `https://pilotia.be` (domaine acheté chez OVHcloud, DNS chez Vercel ; `www.pilotia.be` redirige vers lui). L'ancienne adresse `pilotis-murex.vercel.app` redirige aussi vers `pilotia.be`.
 
 ## Conformité, vie privée et accessibilité
 

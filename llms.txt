@@ -28,61 +28,61 @@ comme indépendant.
 
 ## Pages principales
 
-- [Accueil](https://pilotis-murex.vercel.app/index.html) : positionnement, trois volets d'accompagnement, parcours possibles.
-- [Entreprises](https://pilotis-murex.vercel.app/entreprises.html) : accompagnement des PME et commerces déjà en activité.
-- [Services](https://pilotis-murex.vercel.app/services.html) : tous les services Pilotia, par situation (entreprise en activité, futur indépendant), par service et par métier.
-- [Mon espace](https://pilotis-murex.vercel.app/mon-espace.html) : les résultats du visiteur (dernier diagnostic express, point bas de son plan de trésorerie), enregistrés sur son appareil uniquement.
-- [Devenir indépendant](https://pilotis-murex.vercel.app/independants.html) : étapes de lancement d'une activité indépendante en Belgique.
-- [Facture électronique Peppol et encaissements](https://pilotis-murex.vercel.app/facturation-electronique.html) : mise en conformité avec l'obligation de facturation électronique entre entreprises (1er janvier 2026), conditions de paiement, suivi des encaissements et relances amiables B2B. Ni tenue de comptabilité, ni déclaration TVA, ni recouvrement judiciaire.
-- [Affacturage](https://pilotis-murex.vercel.app/affacturage.html) : étude gratuite et mise en relation, en qualité d'apporteur d'affaires, avec un partenaire d'affacturage pour des factures entre entreprises. Pilotia n'accorde aucun financement et ne décide pas de l'acceptation des dossiers.
-- [Présence digitale](https://pilotis-murex.vercel.app/marketing-digital.html) : visibilité en ligne, réseaux sociaux, avis clients.
-- [Offres](https://pilotis-murex.vercel.app/offres.html) : formules d'accompagnement et tarifs.
-- [Méthode](https://pilotis-murex.vercel.app/methode.html) : déroulé concret d'un accompagnement.
-- [À propos](https://pilotis-murex.vercel.app/a-propos.html) : parcours et approche du fondateur.
-- [Contact](https://pilotis-murex.vercel.app/contact.html) : réservation d'un appel découverte gratuit de 15 minutes.
+- [Accueil](https://pilotia.be/index.html) : positionnement, trois volets d'accompagnement, parcours possibles.
+- [Entreprises](https://pilotia.be/entreprises.html) : accompagnement des PME et commerces déjà en activité.
+- [Services](https://pilotia.be/services.html) : tous les services Pilotia, par situation (entreprise en activité, futur indépendant), par service et par métier.
+- [Mon espace](https://pilotia.be/mon-espace.html) : les résultats du visiteur (dernier diagnostic express, point bas de son plan de trésorerie), enregistrés sur son appareil uniquement.
+- [Devenir indépendant](https://pilotia.be/independants.html) : étapes de lancement d'une activité indépendante en Belgique.
+- [Facture électronique Peppol et encaissements](https://pilotia.be/facturation-electronique.html) : mise en conformité avec l'obligation de facturation électronique entre entreprises (1er janvier 2026), conditions de paiement, suivi des encaissements et relances amiables B2B. Ni tenue de comptabilité, ni déclaration TVA, ni recouvrement judiciaire.
+- [Affacturage](https://pilotia.be/affacturage.html) : étude gratuite et mise en relation, en qualité d'apporteur d'affaires, avec un partenaire d'affacturage pour des factures entre entreprises. Pilotia n'accorde aucun financement et ne décide pas de l'acceptation des dossiers.
+- [Présence digitale](https://pilotia.be/marketing-digital.html) : visibilité en ligne, réseaux sociaux, avis clients.
+- [Offres](https://pilotia.be/offres.html) : formules d'accompagnement et tarifs.
+- [Méthode](https://pilotia.be/methode.html) : déroulé concret d'un accompagnement.
+- [À propos](https://pilotia.be/a-propos.html) : parcours et approche du fondateur.
+- [Contact](https://pilotia.be/contact.html) : réservation d'un appel découverte gratuit de 15 minutes.
 
 ## Diagnostic et rapport
 
-- [Diagnostic express](https://pilotis-murex.vercel.app/diagnostic.html) : questionnaire gratuit de 3 minutes, entièrement exécuté dans le navigateur.
-- [Rapport détaillé](https://pilotis-murex.vercel.app/rapport-diagnostic.html) : rapport PDF personnalisé rédigé à partir des réponses au diagnostic.
+- [Diagnostic express](https://pilotia.be/diagnostic.html) : questionnaire gratuit de 3 minutes, entièrement exécuté dans le navigateur.
+- [Rapport détaillé](https://pilotia.be/rapport-diagnostic.html) : rapport PDF personnalisé rédigé à partir des réponses au diagnostic.
 
 ## Outils de calcul (gratuits, sans inscription)
 
-- [Plan de trésorerie prévisionnel](https://pilotis-murex.vercel.app/plan-tresorerie.html) : projection du solde sur 3, 6 ou 12 mois, point bas anticipé, seuil de sécurité, plan mensuel exportable, factures engagées et comparaison des moyennes prévues aux mois déjà réalisés. Saisie manuelle, aucune connexion bancaire, données conservées dans le navigateur du visiteur. Ne tient pas de comptabilité et ne remplace pas un comptable agréé.
-- [Cotisations sociales indépendant](https://pilotis-murex.vercel.app/calculateur-cotisations-independant.html) : estimation trimestrielle sur base du barème INASTI.
-- [Coût réel d'un salarié](https://pilotis-murex.vercel.app/calculateur-cout-salarie.html) : du brut mensuel au coût employeur.
-- [Calculateur de marge](https://pilotis-murex.vercel.app/calculateur-marge.html) : marge unitaire et seuil de rentabilité.
-- [Calculateur de taux horaire](https://pilotis-murex.vercel.app/calculateur-taux-horaire.html) : prix plancher d'un indépendant, à partir du revenu visé.
-- [Calculateur de délai d'encaissement](https://pilotis-murex.vercel.app/calculateur-delai-encaissement.html) : décalage de trésorerie entre dépense et paiement.
-- [Franchise TVA](https://pilotis-murex.vercel.app/calculateur-tva-franchise.html) : position par rapport au seuil de franchise.
-- [Générateur de calendrier de contenu](https://pilotis-murex.vercel.app/generateur-calendrier-contenu.html) : planning de publication par secteur.
+- [Plan de trésorerie prévisionnel](https://pilotia.be/plan-tresorerie.html) : projection du solde sur 3, 6 ou 12 mois, point bas anticipé, seuil de sécurité, plan mensuel exportable, factures engagées et comparaison des moyennes prévues aux mois déjà réalisés. Saisie manuelle, aucune connexion bancaire, données conservées dans le navigateur du visiteur. Ne tient pas de comptabilité et ne remplace pas un comptable agréé.
+- [Cotisations sociales indépendant](https://pilotia.be/calculateur-cotisations-independant.html) : estimation trimestrielle sur base du barème INASTI.
+- [Coût réel d'un salarié](https://pilotia.be/calculateur-cout-salarie.html) : du brut mensuel au coût employeur.
+- [Calculateur de marge](https://pilotia.be/calculateur-marge.html) : marge unitaire et seuil de rentabilité.
+- [Calculateur de taux horaire](https://pilotia.be/calculateur-taux-horaire.html) : prix plancher d'un indépendant, à partir du revenu visé.
+- [Calculateur de délai d'encaissement](https://pilotia.be/calculateur-delai-encaissement.html) : décalage de trésorerie entre dépense et paiement.
+- [Franchise TVA](https://pilotia.be/calculateur-tva-franchise.html) : position par rapport au seuil de franchise.
+- [Générateur de calendrier de contenu](https://pilotia.be/generateur-calendrier-contenu.html) : planning de publication par secteur.
 
 ## Pages par métier
 
-- [Restaurant](https://pilotis-murex.vercel.app/coaching-restaurant.html)
-- [Boulangerie](https://pilotis-murex.vercel.app/coaching-boulangerie.html)
-- [Coiffeur](https://pilotis-murex.vercel.app/coaching-coiffeur.html)
-- [Institut de beauté](https://pilotis-murex.vercel.app/coaching-esthetique.html)
-- [Agent immobilier](https://pilotis-murex.vercel.app/coaching-agent-immobilier.html)
+- [Restaurant](https://pilotia.be/coaching-restaurant.html)
+- [Boulangerie](https://pilotia.be/coaching-boulangerie.html)
+- [Coiffeur](https://pilotia.be/coaching-coiffeur.html)
+- [Institut de beauté](https://pilotia.be/coaching-esthetique.html)
+- [Agent immobilier](https://pilotia.be/coaching-agent-immobilier.html)
 
 ## Contenus et ressources
 
-- [Conseils](https://pilotis-murex.vercel.app/conseils.html) : articles de fond sur la gestion quotidienne.
-- [Marge en restauration](https://pilotis-murex.vercel.app/conseils-marge-restaurant.html)
-- [Chiffrer un chantier](https://pilotis-murex.vercel.app/conseils-chiffrer-chantier.html)
-- [Se lancer comme indépendant](https://pilotis-murex.vercel.app/conseils-lancer-independant.html)
-- [Facture impayée : que faire](https://pilotis-murex.vercel.app/conseils-facture-impayee.html)
-- [Indépendant complémentaire : les trois seuils](https://pilotis-murex.vercel.app/conseils-independant-complementaire.html)
-- [Combien facturer de l'heure](https://pilotis-murex.vercel.app/conseils-taux-horaire-independant.html)
-- [Statistiques](https://pilotis-murex.vercel.app/statistiques.html) : chiffres sur les PME et indépendants belges, avec sources.
-- [Ressources](https://pilotis-murex.vercel.app/ressources.html) : guides téléchargeables.
-- [Outils](https://pilotis-murex.vercel.app/outils.html) : index des calculateurs.
-- [Parrainage](https://pilotis-murex.vercel.app/parrainage.html) : programme de recommandation.
+- [Conseils](https://pilotia.be/conseils.html) : articles de fond sur la gestion quotidienne.
+- [Marge en restauration](https://pilotia.be/conseils-marge-restaurant.html)
+- [Chiffrer un chantier](https://pilotia.be/conseils-chiffrer-chantier.html)
+- [Se lancer comme indépendant](https://pilotia.be/conseils-lancer-independant.html)
+- [Facture impayée : que faire](https://pilotia.be/conseils-facture-impayee.html)
+- [Indépendant complémentaire : les trois seuils](https://pilotia.be/conseils-independant-complementaire.html)
+- [Combien facturer de l'heure](https://pilotia.be/conseils-taux-horaire-independant.html)
+- [Statistiques](https://pilotia.be/statistiques.html) : chiffres sur les PME et indépendants belges, avec sources.
+- [Ressources](https://pilotia.be/ressources.html) : guides téléchargeables.
+- [Outils](https://pilotia.be/outils.html) : index des calculateurs.
+- [Parrainage](https://pilotia.be/parrainage.html) : programme de recommandation.
 
 ## Informations légales
 
-- [Mentions légales](https://pilotis-murex.vercel.app/mentions-legales.html) : éditeur, régime TVA, hébergeur, activités non réglementées.
-- [Politique de confidentialité](https://pilotis-murex.vercel.app/confidentialite.html) : traitements, bases légales, durées, droits RGPD.
-- [Politique de cookies](https://pilotis-murex.vercel.app/cookies.html) : aucun cookie déposé, stockage local documenté.
-- [Conditions générales de vente](https://pilotis-murex.vercel.app/cgv.html) : CGV B2B, droit belge.
-- [Déclaration d'accessibilité](https://pilotis-murex.vercel.app/accessibilite.html) : niveau WCAG 2.1 AA visé, limites connues.
+- [Mentions légales](https://pilotia.be/mentions-legales.html) : éditeur, régime TVA, hébergeur, activités non réglementées.
+- [Politique de confidentialité](https://pilotia.be/confidentialite.html) : traitements, bases légales, durées, droits RGPD.
+- [Politique de cookies](https://pilotia.be/cookies.html) : aucun cookie déposé, stockage local documenté.
+- [Conditions générales de vente](https://pilotia.be/cgv.html) : CGV B2B, droit belge.
+- [Déclaration d'accessibilité](https://pilotia.be/accessibilite.html) : niveau WCAG 2.1 AA visé, limites connues.

@@ -13,7 +13,7 @@ import re
 import sys
 
 RACINE = pathlib.Path(__file__).resolve().parent.parent
-SITE = 'https://pilotis-murex.vercel.app/'
+SITE = 'https://pilotia.be/'
 
 
 def creer(nom, titre, description, contenu):
