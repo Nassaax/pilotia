@@ -104,7 +104,7 @@ def test_aucun_tiret_long_dans_les_ajouts(nom):
     html = source(nom)
     ajouts = []
     for classe in ('essentiel', 'onglets', 'plus', 'app-retour', 'segment-cadre',
-                   'acces-rapide', 'duree'):
+                   'acces-rapide', 'duree', 'prelancement', 'prelancement-note'):
         ajouts += morceaux(html, zone='body', exclure=(), seulement=classe)
     if nom in ('services.html', 'mon-espace.html'):
         ajouts += morceaux(html, exclure=())

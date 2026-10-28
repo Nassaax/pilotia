@@ -83,6 +83,14 @@ html{scroll-behavior:smooth}
   font-family:var(--font-body);font-size:15px;font-weight:600;text-decoration:none;
 }
 .skip-link:focus{left:0}
+/* Bandeau de pré-lancement (temporaire) : avant l'en-tête, il défile avec la page
+   pour ne pas réduire la zone utile sur téléphone. À retirer à l'ouverture. */
+.prelancement{background:var(--accent-soft);color:var(--ink);border-bottom:1px solid var(--line);font-family:var(--font-body);font-size:14px;line-height:1.5}
+.prelancement p{max-width:var(--max);margin:0 auto;padding:10px 24px;text-align:center}
+.prelancement a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.prelancement a::after{content:" →"}
+@media (max-width:640px){.prelancement-detail{display:none}}
+.prelancement-note{margin-top:14px;font-size:15px;color:var(--ink-soft);font-weight:600}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
