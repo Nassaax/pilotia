@@ -27,6 +27,9 @@ REECRITS = {
         'À COMPLÉTER : nom légal, siège, numéro BCE',
         'À COMPLÉTER : email de contact',
         'À VÉRIFIER : confirmer ce point dans le contrat Anthropic avant la mise en service payante',
+        # Prestataires ajoutés (Cal.com, OVHcloud, Google) et rapport IA envoyé sans relecture.
+        'Vercel et Anthropic sont établis aux États-Unis. Les données qui leur sont transmises le sont sur la base des garanties appropriées prévues au chapitre V du RGPD (clauses contractuelles types de la Commission européenne et/ou certification au',
+        'à votre égard au sens de l’article 22 RGPD. Le contenu généré reste une analyse indicative, relue et assumée par l’éditeur, et ne remplace pas un avis professionnel.',
     ],
     # Notes au fondateur retirées des pages (À COMPLÉTER, À VÉRIFIER, consignes de tarifs).
     'accessibilite.html': [
