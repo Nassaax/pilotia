@@ -32,7 +32,7 @@ Une section **"Ce que Pilotia n'est pas"** a été ajoutée à `a-propos.html`, 
 
 ```
 Cœur du site
-  index.html            Accueil — aiguillage vers les 2 parcours, témoignages, 3 leviers
+  index.html            Accueil — 3 piliers, aiguillage vers les 2 parcours, Peppol, 3 témoignages
   entreprises.html       Parcours PME existantes
   independants.html      Parcours futurs indépendants
   marketing-digital.html  Pilier présence digitale & réseaux sociaux (diagnostic, offre, FAQ)

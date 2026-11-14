@@ -70,6 +70,27 @@ REECRITS = {
     'statistiques.html': [
         'Chiffres collectés en septembre 2026 et sujets à mise à jour. À vérifier auprès des sources avant toute communication officielle ou commerciale.',
     ],
+    # Accueil épuré : les deux films partent (« Prenez de la hauteur » passe
+    # sur la page À propos) et seuls trois avis restent ; les deux autres
+    # figurent sur leurs pages métier.
+    'index.html': [
+        'En 30 secondes',
+        'Huit casse-têtes, un seul interlocuteur',
+        "Facture Peppol, client qui paie en retard, trésorerie qui se tend, visibilité en ligne : chaque casse-tête d'entrepreneur a sa réponse. Pilotia les porte toutes.",
+        'Votre navigateur ne peut pas lire cette vidéo.',
+        'Télécharger le film (MP4)',
+        'Le film, en texte.',
+        "Un mur de huit cartes grises, chacune portant un casse-tête d'entrepreneur. Un carton annonce : « 8 casse-têtes d'entrepreneur. Pilotia les retourne. » La caméra passe ensuite de carte en carte, et chacune se retourne pour montrer sa réponse, dans une couleur différente. « Je me lance. Par où commencer ? » devient « Un cadre clair pour démarrer » (devenir indépendant). « Mes factures PDF ne comptent plus ? » devient « Mis en règle avec Peppol » (facture Peppol). « Ce client paie toujours en retard » devient « Des relances planifiées, sans gêne » (mauvais payeurs). « Payé dans 60 jours, les salaires c'est demain » devient « Payé sans attendre l'échéance » (affacturage). « Où part mon argent ? » devient « Le diagnostic, en 3 minutes » (diagnostic express). « Personne ne me trouve sur Google » devient « Une fiche Google à jour » (présence digitale). « Ma banque ne montre que le passé » devient « Mon point bas, repéré d'avance » (outils gratuits). « Seul face à mes chiffres » devient « Un point chaque mois, ensemble » (accompagnement). La caméra recule sur le mur entièrement coloré, et un dernier carton se colle : « Huit casse-têtes. Un seul interlocuteur. Premier appel gratuit. » La musique, entièrement synthétisée, ne porte aucune information.",
+        'Voir les offres',
+        'En 40 secondes, avec le son',
+        'Prenez de la hauteur',
+        'Une facture, tard le soir. Au mot « Pilotia », elle se plie en avion de papier et prend son envol. Notre façon de travailler, racontée en un film.',
+        "Une voix de femme raconte, sur des images en trois dimensions. « Il est tard. La boutique est fermée, et vous êtes encore sur vos factures. » Une facture sous une lampe de bureau. « Celle-ci attend toujours d'être payée. » Un tampon rouge « En retard ». « Et celle-là doit partir par Peppol. » Un tampon bleu « Via Peppol ». « Et votre marge, vous ne la voyez plus. » Un post-it « Marge ? », puis l'image devient floue. « Et si on reprenait les commandes, ensemble ? Avec Pilotia. » La facture se soulève et se plie en avion de papier, qui décolle. « On part de vos chiffres réels. On fixe 3 à 5 priorités. Et on garde le cap, mois après mois. » L'avion survole à l'aube un paysage de documents ; des faisceaux turquoise s'allument, un trait se dessine vers l'horizon. « Factures, trésorerie, Peppol, visibilité : un seul interlocuteur. » Quatre cartes portant ces mots rejoignent l'avion. « Votre premier appel est gratuit. Prenez de la hauteur, avec Pilotia. » La traînée de l'avion dessine le logo Pilotia et l'avion devient sa flèche. La voix est synthétisée ; la musique, entièrement synthétisée, ne porte aucune information.",
+        "Aide précieuse pour le démarrage de mon entreprise. On a cadré l'offre, le positionnement, la cible et le modèle de revenus. J'ai évité beaucoup d'erreurs et j'ai gagné un temps énorme. Je recommande à toute personne qui lance son activité et veut partir sur des bases solides.",
+        'Farah, agent immobilier',
+        "Accompagnement complet et très rassurant : diagnostic de départ, plan de lancement, puis suivi des chiffres et ajustements. J'ai apprécié la méthode, la disponibilité et la capacité à transformer des idées en actions. J'ai démarré plus vite, avec une communication plus claire et une gestion mieux structurée.",
+        'Lucas, restaurateur',
+    ],
 }
 
 

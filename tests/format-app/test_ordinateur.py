@@ -19,6 +19,7 @@ CHANGEMENTS_PREVUS = {
     'offline.html',  # page hors connexion, nouvelle
     'mentions-legales.html', 'cgv.html', 'accessibilite.html',  # notes au fondateur retirées
     'offres.html', 'statistiques.html',
+    'index.html', 'a-propos.html',  # accueil épuré, film déplacé
 }
 
 
