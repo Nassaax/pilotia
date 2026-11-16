@@ -51,6 +51,10 @@ def capturer(navigateur, url, chemin):
         # Le bandeau de pré-lancement est temporaire et le même sur toutes les
         # pages : il est retiré de la capture, le reste doit rester identique.
         page.evaluate("document.querySelectorAll('.prelancement').forEach(e => e.remove())")
+        # Les libellés du menu changent sur tout le site (Particuliers à la place
+        # de Facture Peppol) : le menu est masqué sur les deux captures, sa place
+        # et le reste de la page doivent rester identiques.
+        page.evaluate("document.querySelectorAll('.nav-links').forEach(e => e.style.visibility = 'hidden')")
         page.screenshot(path=str(chemin), full_page=True, animations='disabled')
     finally:
         ctx.close()
