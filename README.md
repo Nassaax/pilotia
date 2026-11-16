@@ -84,7 +84,7 @@ Légal & technique
 - Statistiques PME/faillites Belgique (SPF Économie, Statbel, UCM, GraydonCreditsafe) — voir sources dans `statistiques.html`.
 - Bio du fondateur (`a-propos.html`) : Nasser Yasini, bachelier en comptabilité, expérience en fiduciaire, gestion des salaires et immobilier — pas de titre de comptable agréé revendiqué.
 - Témoignages clients (`index.html` contient 5 vrais retours clients, attribués par prénom et métier : Sylvain coiffeur, Sarah esthéticienne, Gabriel boulanger, Farah agent immobilier, Lucas restaurateur).
-- Prise de contact : `contact.html` propose un bouton WhatsApp (lien `wa.me`, numéro à compléter dans la page) et le formulaire par email (`api/contact.js`). L'ancien agenda Cal.com n'est plus utilisé.
+- Prise de contact : `contact.html` propose le formulaire par email (`api/contact.js`). Un bouton WhatsApp est prêt en commentaire dans la page, masqué tant que le numéro n'est pas choisi. L'ancien agenda Cal.com n'est plus utilisé.
 - Logo réel (fourni par le client) : favicon/apple-touch-icon, image de partage réseaux sociaux, en-tête du PDF de lancement, et header/footer du site (bascule automatique clair/sombre).
 - Bouton de bascule thème clair/sombre dans le header (toutes pages), indépendant du réglage système, préférence mémorisée par visiteur.
 - **Capture d'email réelle sur les lead magnets** (`ressources.html`, `outils.html`) : le guide PDF "Les étapes pour devenir indépendant" est maintenant derrière un formulaire email → `api/subscribe.js` → contact ajouté dans Brevo, puis téléchargement immédiat. Nécessite `BREVO_API_KEY` (voir `.env.example`) ; sans elle, le formulaire répond une erreur claire au lieu de faire semblant.

@@ -490,6 +490,7 @@ th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);font-size
 th{font-family:var(--font-body);font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
 
 form{display:grid;gap:14px;max-width:520px}
+#contact-form input:not([type="checkbox"]),#contact-form select,#contact-form textarea{width:100%}
 label{font-family:var(--font-body);font-size:14px;font-weight:600;display:block;margin-bottom:6px}
 input:not([type="radio"]):not([type="checkbox"]),select,textarea{
   font-family:var(--font-body);font-size:15px;padding:12px 14px;min-height:44px;

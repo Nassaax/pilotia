@@ -103,6 +103,7 @@ REECRITS = {
         'Réserver un créneau',
         "Choisissez directement un créneau de 15 minutes dans l'agenda, avec confirmation immédiate par email.",
         'Voir les créneaux disponibles →',
+        'Ou laissez-nous un message',
     ],
     # Expérience immobilière mise en avant pour l'aide aux particuliers.
     'a-propos.html': [
