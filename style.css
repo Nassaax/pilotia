@@ -788,6 +788,8 @@ sup{line-height:0;font-size:.62em}
 .svc-presence   {--svc:#BE185D;--svc-soft:#FCE7F3;--svc-fonce:#9D174D;--svc-vif:#EC4899;--svc-d:#F472B6;--svc-d-soft:#2E1426;--svc-d-fonce:#F9A8D4}
 .svc-independant{--svc:#AD4F0A;--svc-soft:#FEF3C7;--svc-fonce:#92400E;--svc-vif:#F59E0B;--svc-d:#FBBF24;--svc-d-soft:#2B2211;--svc-d-fonce:#FCD34D}
 .svc-pilotage   {--svc:#4338CA;--svc-soft:#E0E7FF;--svc-fonce:#3730A3;--svc-vif:#4F46E5;--svc-d:#818CF8;--svc-d-soft:#1B1D40;--svc-d-fonce:#A5B4FC}
+.svc-particuliers{--svc:#0369A1;--svc-soft:#E0F2FE;--svc-fonce:#075985;--svc-vif:#0EA5E9;--svc-d:#38BDF8;--svc-d-soft:#0C2533;--svc-d-fonce:#7DD3FC}
+.svc-projets    {--svc:#0E7490;--svc-soft:#CFFAFE;--svc-fonce:#155E75;--svc-vif:#06B6D4;--svc-d:#22D3EE;--svc-d-soft:#0B2A30;--svc-d-fonce:#67E8F9}
 .svc-outils     {--svc:#0F766E;--svc-soft:#CCFBF1;--svc-fonce:#115E59;--svc-vif:#0D9488;--svc-d:#2DD4BF;--svc-d-soft:#0E2A29;--svc-d-fonce:#5EEAD4}
 .svc{--accent:var(--svc);--accent-soft:var(--svc-soft);--accent-fonce:var(--svc-fonce)}
 @media (prefers-color-scheme: dark){

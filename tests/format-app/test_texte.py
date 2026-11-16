@@ -77,6 +77,9 @@ REECRITS = {
     # sur la page À propos) et seuls trois avis restent ; les deux autres
     # figurent sur leurs pages métier.
     'index.html': [
+        # Ouverture aux particuliers et troisième parcours.
+        'Pilotia accompagne les petites entreprises et les futurs indépendants à trouver leurs points faibles, structurer leur gestion et développer leur visibilité, avec un regard extérieur clair, chiffré et sans jargon.',
+        'Deux parcours, une même exigence',
         'En 30 secondes',
         'Huit casse-têtes, un seul interlocuteur',
         "Facture Peppol, client qui paie en retard, trésorerie qui se tend, visibilité en ligne : chaque casse-tête d'entrepreneur a sa réponse. Pilotia les porte toutes.",
@@ -93,6 +96,17 @@ REECRITS = {
         'Farah, agent immobilier',
         "Accompagnement complet et très rassurant : diagnostic de départ, plan de lancement, puis suivi des chiffres et ajustements. J'ai apprécié la méthode, la disponibilité et la capacité à transformer des idées en actions. J'ai démarré plus vite, avec une communication plus claire et une gestion mieux structurée.",
         'Lucas, restaurateur',
+    ],
+    # Prise de contact par WhatsApp au lieu de l'agenda Cal.com.
+    'contact.html': [
+        'Parlons de votre entreprise.',
+        'Réserver un créneau',
+        "Choisissez directement un créneau de 15 minutes dans l'agenda, avec confirmation immédiate par email.",
+        'Voir les créneaux disponibles →',
+    ],
+    # Expérience immobilière mise en avant pour l'aide aux particuliers.
+    'a-propos.html': [
+        "Bachelier en comptabilité de formation, j'ai travaillé plusieurs années en fiduciaire, puis comme gestionnaire de salaires, avant une courte expérience comme agent immobilier. Ce parcours m'a mis au contact quotidien des chiffres, des obligations administratives et du fonctionnement réel des petites entreprises belges. Je connais les rouages du système entrepreneurial belge de l'intérieur.",
     ],
 }
 

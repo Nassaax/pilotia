@@ -26,6 +26,8 @@ Une section **"Ce que Pilotia n'est pas"** a été ajoutée à `a-propos.html`, 
 - **Deux parcours, à égalité :**
   - Entreprises déjà en activité (`entreprises.html`) — diagnostic simple, gestion du personnel, marges, présence digitale
   - Futurs indépendants (`independants.html`) — démarches, repères financiers simples, documents de lancement
+  - Particuliers (`particuliers.html`) — budget, papiers administratifs, projet d'achat, de rénovation ou de reconversion
+  - Accompagnement de projet (`accompagnement-projet.html`) — méthode en cinq étapes, pour tout type de projet
 - **Modèle économique :** freemium — ressources/documents/outils gratuits en haut de tunnel, coaching payant (diagnostic ponctuel ou suivi mensuel) en conversion, plus deux automatisations de revenu/capture ajoutées ci-dessous.
 
 ## Arborescence du site (25 pages)
@@ -35,6 +37,8 @@ Cœur du site
   index.html            Accueil — 3 piliers, aiguillage vers les 2 parcours, Peppol, 3 témoignages
   entreprises.html       Parcours PME existantes
   independants.html      Parcours futurs indépendants
+  particuliers.html      Aide aux particuliers
+  accompagnement-projet.html  Accompagnement de projet
   marketing-digital.html  Pilier présence digitale & réseaux sociaux (diagnostic, offre, FAQ)
   methode.html            Méthode en 4 étapes (écouter / diagnostiquer / décider / piloter)
   offres.html              Tarifs et formules (grille indicative chiffrée, incl. présence digitale)
@@ -80,7 +84,7 @@ Légal & technique
 - Statistiques PME/faillites Belgique (SPF Économie, Statbel, UCM, GraydonCreditsafe) — voir sources dans `statistiques.html`.
 - Bio du fondateur (`a-propos.html`) : Nasser Yasini, bachelier en comptabilité, expérience en fiduciaire, gestion des salaires et immobilier — pas de titre de comptable agréé revendiqué.
 - Témoignages clients (`index.html` contient 5 vrais retours clients, attribués par prénom et métier : Sylvain coiffeur, Sarah esthéticienne, Gabriel boulanger, Farah agent immobilier, Lucas restaurateur).
-- Réservation d'appel : `contact.html` renvoie vers le vrai lien Cal.com (https://cal.com/pilotia/call), créneaux de 15 minutes.
+- Prise de contact : `contact.html` propose un bouton WhatsApp (lien `wa.me`, numéro à compléter dans la page) et le formulaire par email (`api/contact.js`). L'ancien agenda Cal.com n'est plus utilisé.
 - Logo réel (fourni par le client) : favicon/apple-touch-icon, image de partage réseaux sociaux, en-tête du PDF de lancement, et header/footer du site (bascule automatique clair/sombre).
 - Bouton de bascule thème clair/sombre dans le header (toutes pages), indépendant du réglage système, préférence mémorisée par visiteur.
 - **Capture d'email réelle sur les lead magnets** (`ressources.html`, `outils.html`) : le guide PDF "Les étapes pour devenir indépendant" est maintenant derrière un formulaire email → `api/subscribe.js` → contact ajouté dans Brevo, puis téléchargement immédiat. Nécessite `BREVO_API_KEY` (voir `.env.example`) ; sans elle, le formulaire répond une erreur claire au lieu de faire semblant.

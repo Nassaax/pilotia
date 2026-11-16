@@ -25,6 +25,7 @@ LARGEURS = [360, 390, 768, 1280]
 ONGLETS = ['index.html', 'services.html', 'contact.html', 'outils.html', 'mon-espace.html']
 SERVICES = ['entreprises.html', 'independants.html', 'facturation-electronique.html',
             'affacturage.html', 'marketing-digital.html', 'offres.html',
+            'particuliers.html', 'accompagnement-projet.html',
             'coaching-agent-immobilier.html', 'coaching-boulangerie.html',
             'coaching-coiffeur.html', 'coaching-esthetique.html', 'coaching-restaurant.html']
 OUTILS = ['diagnostic.html', 'rapport-diagnostic.html', 'plan-tresorerie.html',

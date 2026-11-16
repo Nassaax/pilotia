@@ -75,7 +75,9 @@ def test_rendez_vous(telephone, ordinateur, base_url):
     carte = page.locator('.rdv-carte')
     assert carte.is_visible()
     lien = carte.locator('a.btn')
-    assert lien.get_attribute('href') == 'https://cal.com/pilotia/call'
+    # Le numéro WhatsApp doit être réel avant la mise en ligne : format belge
+    # international, sans le +.
+    assert re.fullmatch(r'https://wa\.me/32\d{8,9}\?text=.+', lien.get_attribute('href'))
     assert lien.get_attribute('target') == '_blank'
     assert page.locator('.duree').inner_text() == '15 min · gratuit'
     assert page.locator('.onglet-centre').get_attribute('aria-current') == 'page'

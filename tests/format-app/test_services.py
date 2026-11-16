@@ -7,7 +7,8 @@ import pytest
 from aide import RACINE, TELEPHONE, ouvrir, source
 from test_coquille import BOITES, CONTRASTE
 
-LIENS = ['entreprises.html', 'independants.html', 'facturation-electronique.html',
+LIENS = ['entreprises.html', 'independants.html', 'particuliers.html',
+         'accompagnement-projet.html', 'facturation-electronique.html',
          'affacturage.html', 'marketing-digital.html', 'offres.html',
          'coaching-restaurant.html', 'coaching-boulangerie.html', 'coaching-coiffeur.html',
          'coaching-esthetique.html', 'coaching-agent-immobilier.html', 'diagnostic.html']

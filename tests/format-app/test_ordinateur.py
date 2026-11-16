@@ -20,6 +20,8 @@ CHANGEMENTS_PREVUS = {
     'mentions-legales.html', 'cgv.html', 'accessibilite.html',  # notes au fondateur retirées
     'offres.html', 'statistiques.html',
     'index.html', 'a-propos.html',  # accueil épuré, film déplacé
+    'contact.html', 'entreprises.html',  # WhatsApp ; administratif délégué et renfort
+    'particuliers.html', 'accompagnement-projet.html',  # pages nouvelles
 }
 
 

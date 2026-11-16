@@ -41,7 +41,8 @@ ONGLETS = [('accueil', 'index.html', 'Accueil'),
            ('outils', 'outils.html', 'Outils'),
            ('espace', 'mon-espace.html', 'Mon espace')]
 SERVICES = ('entreprises.html', 'independants.html', 'facturation-electronique.html',
-            'affacturage.html', 'marketing-digital.html', 'offres.html')
+            'affacturage.html', 'marketing-digital.html', 'offres.html',
+            'particuliers.html', 'accompagnement-projet.html')
 OUTILS = ('diagnostic.html', 'rapport-diagnostic.html', 'plan-tresorerie.html',
           'generateur-calendrier-contenu.html')
 RETOURS = {'services': ('services.html', 'Services'),
