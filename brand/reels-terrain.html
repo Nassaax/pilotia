@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Reels terrain | calque de texte</title>
+<link rel="icon" href="data:,">
+<!-- Série « Reels terrain » : des plans filmés libres de droits, recadrés en 9:16,
+     et ce calque de texte par-dessus. Le calque est rendu image par image sur fond
+     transparent (fonction pure du temps), puis composé sur la vidéo par
+     scripts/reels-terrain.py. Habillage repris de la série Services (cartes crème,
+     contour marine, ombre franche, surligné jaune) pour que le compte se reconnaisse.
+     Règles : aucun chiffre inventé, aucun avis, aucun visage présenté comme client,
+     pas de tiret long. Textes de service repris des pages du site. -->
+<style>
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+:root{--encre:#0F172A;--encre-douce:#334155;--papier:#FFF8EC;--jaune:#FACC15}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:transparent;width:1080px;height:1920px;overflow:hidden}
+#scene{position:relative;width:1080px;height:1920px;font-family:'Inter',sans-serif;color:var(--encre)}
+.el{position:absolute;left:90px;right:90px;will-change:transform,opacity}
+.pastille{display:inline-block;background:var(--jaune);border:5px solid var(--encre);border-radius:999px;
+  padding:14px 30px;font-size:34px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;
+  box-shadow:7px 7px 0 var(--encre)}
+.carte{background:var(--papier);border:6px solid var(--encre);border-radius:38px;box-shadow:14px 14px 0 var(--encre);
+  padding:40px 46px;font-size:64px;font-weight:850;line-height:1.08;letter-spacing:-0.03em}
+.carte.petite{font-size:48px;font-weight:750;line-height:1.2;letter-spacing:-0.015em}
+.carte.geante{font-size:96px;letter-spacing:-0.045em;line-height:1}
+.surligne{background:linear-gradient(transparent 58%,var(--jaune) 58%,var(--jaune) 92%,transparent 92%);
+  box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.puce{display:flex;align-items:center;gap:22px;background:var(--papier);border:5px solid var(--encre);border-radius:26px;
+  box-shadow:9px 9px 0 var(--encre);padding:20px 30px;font-size:46px;font-weight:800;margin-bottom:22px;width:max-content;max-width:100%}
+.puce b{display:inline-flex;align-items:center;justify-content:center;width:62px;height:62px;border-radius:50%;
+  background:var(--c1);color:#fff;font-size:34px;font-weight:850;border:4px solid var(--encre);flex:none}
+#voile{position:absolute;inset:0;background:#0B1220}
+.fin{position:absolute;left:90px;right:90px;top:560px;background:var(--papier);border:6px solid var(--encre);border-radius:44px;
+  box-shadow:16px 16px 0 var(--encre);padding:64px 56px 58px;text-align:center}
+.fin img{height:78px}
+.fin .service{display:inline-block;margin-top:44px;background:var(--c1);color:#fff;border:5px solid var(--encre);border-radius:999px;
+  padding:16px 36px;font-size:42px;font-weight:850;box-shadow:7px 7px 0 var(--encre)}
+.fin .phrase{margin-top:40px;font-size:52px;font-weight:850;line-height:1.1;letter-spacing:-0.03em}
+.fin .site{margin-top:30px;font-size:40px;font-weight:700;color:var(--encre-douce)}
+</style>
+</head>
+<body>
+<div id="scene"></div>
+<script>
+// Chaque Reel : une couleur de service (c1, assez sombre pour un texte blanc),
+// une durée, et des éléments datés. Un élément vit de t0 à t1 ; y est son haut,
+// toujours dans la zone sûre d'Instagram (300 à 1450).
+var REELS = {
+  'administratif': {c1:'#4338CA', duree:30, fin:24.6, service:'Administratif délégué', elements:[
+    {type:'pastille', t0:0.15, t1:5.8, y:960, texte:'Dimanche, 23 h'},
+    {type:'carte', t0:0.55, t1:5.8, y:1080, texte:'« Je fais ma compta <span class="surligne">vite fait</span>. »'},
+    {type:'pastille', t0:3.4, t1:5.8, y:1350, rot:3, texte:'Lundi, 1 h 30'},
+    {type:'carte', t0:6.1, t1:8.9, y:1080, texte:'Les factures, elles, n\'ont <span class="surligne">pas fini.</span>'},
+    {type:'carte', cls:'geante', t0:9.2, t1:17.8, y:420, texte:'Entrepreneur.<br>Pas <span class="surligne">secrétaire.</span>'},
+    {type:'carte', cls:'petite', t0:12.2, t1:17.8, y:900, texte:'Votre temps vaut mieux qu\'une pile de papiers un dimanche soir.'},
+    {type:'pastille', t0:18.1, t1:24.4, y:330, texte:'Administratif délégué'},
+    {type:'puces', t0:18.5, t1:24.4, y:470, pas:0.6, items:['Factures classées','Échéances suivies','Courriers aux administrations']},
+    {type:'carte', cls:'petite', t0:20.8, t1:24.4, y:900, texte:'La comptabilité reste chez votre comptable&nbsp;: il reçoit des documents <span class="surligne">en ordre.</span>'}
+  ]},
+  'papiers': {c1:'#0369A1', duree:30, fin:24.6, service:'Papiers administratifs', elements:[
+    {type:'pastille', t0:0.15, t1:5.8, y:940, texte:'Le classeur « À trier »'},
+    {type:'carte', t0:0.6, t1:5.8, y:1060, texte:'Ouvert depuis…'},
+    {type:'carte', cls:'geante', t0:2.9, t1:5.8, y:1250, rot:-2, texte:'<span class="surligne">longtemps.</span>'},
+    {type:'pastille', t0:6.1, t1:13.8, y:900, texte:'Dedans'},
+    {type:'puces', t0:6.5, t1:13.8, y:1010, pas:1.4, items:['Une facture déjà payée&nbsp;?','Un contrat à renouveler&nbsp;?','Un courrier officiel… pas ouvert.']},
+    {type:'carte', t0:14.2, t1:24.4, y:420, texte:'Factures, contrats, courriers officiels&nbsp;: on <span class="surligne">trie</span>, on <span class="surligne">classe</span>.'},
+    {type:'carte', cls:'petite', t0:17.2, t1:24.4, y:880, texte:'Et on met en place un système simple pour ne plus rien laisser passer.'},
+    {type:'carte', cls:'petite', t0:20.4, t1:24.4, y:1180, rot:1.5, texte:'Pour les particuliers <span class="surligne">comme pour les indépendants.</span>'}
+  ]},
+  'budget': {c1:'#0369A1', duree:30, fin:24.6, service:'Aide aux particuliers', elements:[
+    {type:'pastille', t0:0.15, t1:5.8, y:330, texte:'Fin du mois'},
+    {type:'carte', t0:0.55, t1:5.8, y:470, texte:'Ouvrir l\'appli de la banque…'},
+    {type:'carte', cls:'geante', t0:2.9, t1:5.8, y:720, rot:2, texte:'…d\'un seul <span class="surligne">œil.</span>'},
+    {type:'carte', t0:6.1, t1:14.8, y:470, texte:'Et se demander où est passé…'},
+    {type:'carte', cls:'geante', t0:8.9, t1:14.8, y:720, rot:-2, texte:'<span class="surligne">le reste.</span>'},
+    {type:'carte', t0:15.2, t1:24.4, y:420, texte:'Où part votre argent&nbsp;? Ce qui peut bouger&nbsp;?'},
+    {type:'puces', t0:18.2, t1:24.4, y:820, pas:0.7, items:['Vos dépenses, enfin claires','Une réserve pour les imprévus','Un budget que vous tenez vraiment']}
+  ]},
+  'renfort': {c1:'#0F766E', duree:30, fin:24.6, service:'Renfort temporaire', elements:[
+    {type:'pastille', t0:0.15, t1:7.8, y:960, texte:'Lundi, 9 h'},
+    {type:'carte', t0:0.55, t1:7.8, y:1080, texte:'La seule personne qui sait où sont les factures…'},
+    {type:'carte', cls:'geante', t0:3.4, t1:7.8, y:330, rot:-2, texte:'…est en <span class="surligne">congé.</span>'},
+    {type:'carte', t0:8.2, t1:14.8, y:1060, texte:'Le mot de passe du logiciel&nbsp;?'},
+    {type:'carte', cls:'geante', t0:10.8, t1:14.8, y:1250, rot:2, texte:'<span class="surligne">Mystère.</span>'},
+    {type:'carte', t0:15.2, t1:24.4, y:420, texte:'Maladie, congé, pic d\'activité&nbsp;?'},
+    {type:'carte', cls:'petite', t0:17.8, t1:24.4, y:740, texte:'Pilotia prend le relais de votre administratif, <span class="surligne">le temps qu\'il faut</span>, sans recrutement.'}
+  ]},
+  'projet': {c1:'#0E7490', duree:30, fin:24.6, service:'Accompagnement de projet', elements:[
+    {type:'pastille', t0:0.15, t1:7.8, y:330, texte:'Votre projet'},
+    {type:'carte', t0:0.55, t1:7.8, y:470, texte:'Avoir l\'idée&nbsp;: <span class="surligne">facile.</span>'},
+    {type:'carte', t0:3.2, t1:7.8, y:720, rot:2, texte:'La mener au bout&nbsp;: <span class="surligne">moins.</span>'},
+    {type:'carte', t0:8.2, t1:13.8, y:470, texte:'Le budget&nbsp;? Les démarches&nbsp;? Les aides&nbsp;?'},
+    {type:'carte', cls:'geante', t0:10.6, t1:13.8, y:820, rot:-2, texte:'Par où <span class="surligne">commencer&nbsp;?</span>'},
+    {type:'puces', t0:14.2, t1:24.4, y:360, pas:0.6, items:['Clarifier','Chiffrer','Planifier','Démarches et aides','Suivre']},
+    {type:'carte', cls:'petite', t0:18.0, t1:24.4, y:1080, texte:'Créer une activité, ouvrir un commerce, acheter, rénover, <span class="surligne">changer de métier…</span>'}
+  ], phrase:'De l\'idée à la ligne d\'arrivée.'}
+};
+
+var id = new URLSearchParams(location.search).get('r') || 'administratif';
+var R = REELS[id];
+document.documentElement.style.setProperty('--c1', R.c1);
+var scene = document.getElementById('scene');
+
+function borne(x){ return Math.max(0, Math.min(1, x)); }
+// Arrivée avec un léger rebond, comme un autocollant qu'on claque.
+function rebond(p){ var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); }
+
+function poser(el, t, t0, t1, rot){
+  var a = borne((t - t0) / 0.32), d = borne((t1 - t) / 0.22);
+  var echelle = 0.82 + 0.18 * rebond(a);
+  var o = Math.min(borne(a * 2.2), d);
+  var dy = (1 - a) * 40 - (1 - d) * 30;
+  el.style.opacity = o;
+  el.style.transform = 'translateY(' + dy + 'px) rotate(' + (rot || 0) + 'deg) scale(' + echelle + ')';
+  el.style.visibility = o > 0.001 ? 'visible' : 'hidden';
+}
+
+var noeuds = R.elements.map(function (e, i) {
+  var n = document.createElement('div');
+  n.className = 'el';
+  n.style.top = e.y + 'px';
+  n.style.transformOrigin = '20% 50%';
+  if (e.type === 'pastille') n.innerHTML = '<span class="pastille">' + e.texte + '</span>';
+  else if (e.type === 'carte') n.innerHTML = '<div class="carte ' + (e.cls || '') + '">' + e.texte + '</div>';
+  else if (e.type === 'puces') n.innerHTML = e.items.map(function (x, k) { return '<div class="puce"><b>' + (k + 1) + '</b>' + x + '</div>'; }).join('');
+  scene.appendChild(n);
+  return n;
+});
+
+var voile = document.createElement('div'); voile.id = 'voile'; scene.appendChild(voile);
+var fin = document.createElement('div'); fin.className = 'fin';
+fin.innerHTML = '<img src="../logo-header-light.png" alt="Pilotia"><div><span class="service">' + R.service + '</span></div>' +
+  '<div class="phrase">' + (R.phrase || 'Premier échange <span class="surligne">gratuit.</span>') + '</div>' +
+  (R.phrase ? '<div class="site">Premier échange gratuit</div>' : '') + '<div class="site">www.pilotia.be</div>';
+fin.style.transformOrigin = '50% 50%';
+scene.appendChild(fin);
+
+window.rendre = function (t) {
+  R.elements.forEach(function (e, i) {
+    var n = noeuds[i];
+    if (e.type === 'puces') {
+      n.style.opacity = 1; n.style.transform = 'none'; n.style.visibility = 'visible';
+      [].forEach.call(n.children, function (p, k) { poser(p, t, e.t0 + k * e.pas, e.t1, 0); });
+    } else poser(n, t, e.t0, e.t1, e.rot || -1.5);
+  });
+  voile.style.opacity = 0.72 * borne((t - R.fin + 0.2) / 0.5);
+  poser(fin, t, R.fin, R.duree + 1, 0);
+};
+window.DUREE = R.duree; window.FIN = R.fin;
+window.IMPACTS = R.elements.reduce(function (l, e) {
+  if (e.type === 'puces') e.items.forEach(function (x, k) { l.push(+(e.t0 + k * e.pas).toFixed(2)); });
+  else l.push(e.t0);
+  return l;
+}, []);
+window.rendre(0);
+</script>
+</body>
+</html>
