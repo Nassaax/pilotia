@@ -124,6 +124,11 @@ l'y ajouter ensuite.
 | Facture impayée : professionnel ou particulier | Carrousel série Services (pédagogique) | `carrousel-edu-impaye.html` |
 | Les 3 fuites de marge d'un restaurant | Carrousel série Services (pédagogique) | `carrousel-edu-marge-restaurant.html` |
 | Chiffrer un chantier | Carrousel série Services (pédagogique) | `carrousel-edu-chantier.html` |
+| Administratif délégué (« Je fais ma compta vite fait ») | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=administratif` |
+| Papiers administratifs (le classeur « À trier ») | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=papiers` |
+| Budget du ménage (l'appli de la banque d'un seul œil) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=budget` |
+| Renfort temporaire (la seule qui sait où sont les factures) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=renfort` |
+| Accompagnement de projet (l'idée, puis la méthode en 5 étapes) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=projet` |
 
 ## 9. Cohérence de série
 
@@ -332,3 +337,28 @@ Sources : `film-avion.html` (three.js), `film-avion-voix.py` (voix),
 
 **Ce film fixe le niveau minimum de toutes les vidéos suivantes** : voir
 `NORME-VIDEO.md`, à relire avant chaque nouveau film.
+
+## 19. La série « Reels terrain » (plans filmés, ton humoristique)
+
+Des plans filmés libres de droits (fournis par le fondateur, non versionnés),
+recadrés en 9:16 avec un lent panoramique, et un calque de texte à
+l'habillage de la série Services : cartes crème, contour marine, ombre franche,
+surligné jaune, une couleur de service pour la carte de fin.
+
+- **Ton :** une situation que tout entrepreneur reconnaît, racontée avec
+  humour en deux cartes (l'accroche, puis la chute), puis la réponse de
+  Pilotia reprise des pages du site, et une carte de fin unique : logo,
+  service, « Premier échange gratuit », www.pilotia.be.
+- **Volontairement muets :** pas de voix off (le moteur de voix n'était pas
+  joignable depuis l'environnement de production) ; tout le sens est à l'écran,
+  dans la zone sûre. Bande-son synthétisée (`score-terrain.py`) : groove pop à
+  112 bpm, une claque d'autocollant par carte, un carillon sur la fin.
+- **Visages :** les personnes filmées illustrent une situation, jamais un
+  client. Aucune citation ne leur est attribuée comme un avis.
+- **Production :** `reels-terrain.html` (calque, fonction pure du temps),
+  `reels-terrain-calque.js` (rendu image par image), `reels-terrain.py`
+  (recadrage, montage, master à -14 LUFS et crête vraie -1 dBTP, couverture).
+- **Écart à la norme vidéo :** ni voix off ni 3D. C'est un format de fil
+  Instagram, distinct des films de marque ; il ne remplace pas la norme
+  pour un nouveau film.
+
