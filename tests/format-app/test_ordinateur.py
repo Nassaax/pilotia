@@ -11,18 +11,9 @@ from PIL import Image, ImageChops
 
 from aide import ORDINATEUR, RACINE, REFERENCE, pages_du_site, servir
 
-CHANGEMENTS_PREVUS = {
-    'facturation-electronique.html', 'conseils-facture-impayee.html',  # encadré « L'essentiel »
-    'cookies.html', 'confidentialite.html',  # les trois clés du stockage local
-    'services.html', 'mon-espace.html',  # pages nouvelles
-    'calculateur-marge.html',  # « 66,7 % » au lieu de « 66.7 % »
-    'offline.html',  # page hors connexion, nouvelle
-    'mentions-legales.html', 'cgv.html', 'accessibilite.html',  # notes au fondateur retirées
-    'offres.html', 'statistiques.html',
-    'index.html', 'a-propos.html',  # accueil épuré, film déplacé
-    'contact.html', 'entreprises.html',  # WhatsApp ; administratif délégué et renfort
-    'particuliers.html', 'accompagnement-projet.html',  # pages nouvelles
-}
+# Le site de référence est la charte colorée (novembre 2026) : les changements
+# prévus d'avant sont tous dedans. Ajouter ici une page dont le rendu doit changer.
+CHANGEMENTS_PREVUS = set()
 
 
 @pytest.fixture(scope='module')
@@ -51,10 +42,6 @@ def capturer(navigateur, url, chemin):
         # Le bandeau de pré-lancement est temporaire et le même sur toutes les
         # pages : il est retiré de la capture, le reste doit rester identique.
         page.evaluate("document.querySelectorAll('.prelancement').forEach(e => e.remove())")
-        # Les libellés du menu changent sur tout le site (Particuliers à la place
-        # de Facture Peppol) : le menu est masqué sur les deux captures, sa place
-        # et le reste de la page doivent rester identiques.
-        page.evaluate("document.querySelectorAll('.nav-links').forEach(e => e.style.visibility = 'hidden')")
         page.screenshot(path=str(chemin), full_page=True, animations='disabled')
     finally:
         ctx.close()

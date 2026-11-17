@@ -15,7 +15,7 @@ from html.parser import HTMLParser
 RACINE = pathlib.Path(__file__).resolve().parents[2]
 CHROME = '/opt/pw-browsers/chromium'  # lien stable vers le Chromium installé
 # Le site avant le format app : référence du texte et du rendu sur ordinateur.
-REFERENCE = '3433103'
+REFERENCE = 'e7c5f6d'
 
 TELEPHONE = dict(viewport={'width': 390, 'height': 844}, device_scale_factor=2,
                  is_mobile=True, has_touch=True)
