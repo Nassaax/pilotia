@@ -1231,3 +1231,32 @@ section.section-app{padding:0 0 clamp(48px,7vw,96px)}
   .page-accueil .triangle-grid > *,.page-accueil .triangle-base > *,.page-accueil .path-cards > *,.page-accueil .avis > *{flex:0 0 84%;scroll-snap-align:start}
   .page-accueil .avis:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 }
+
+/* ─── Charte colorée (direction B, novembre 2026) ──────────────────────────
+   La base reste claire et sobre ; on y pose les signes des posts Instagram,
+   à des endroits choisis : logo multicolore, un mot surligné en jaune dans
+   les grands titres, sur-titres en pastille « autocollant », cartes
+   principales à contour marine et ombre franche, et la couleur du service
+   en tête de chaque page de service. */
+:root{--surligne:#FACC15}
+@media (prefers-color-scheme: dark){:root{--surligne:rgba(250,204,21,.4)}}
+.surligne{
+  background:linear-gradient(transparent 60%,var(--surligne) 60%,var(--surligne) 92%,transparent 92%);
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 .04em;
+}
+/* Sur-titre : pastille jaune inclinée, comme sur les carrousels. Sur une page
+   de service, elle prend la couleur du service (texte blanc, 4,5:1 au moins). */
+.eyebrow{
+  background:#FACC15;color:#0F172A;border:2px solid var(--trait);border-radius:999px;
+  box-shadow:3px 3px 0 var(--trait);transform:rotate(-1.5deg);transform-origin:left center;
+}
+.svc .eyebrow{background:var(--svc);color:#FFFFFF}
+@media (prefers-color-scheme: dark){.svc .eyebrow{background:var(--svc-d);color:#0B1220}}
+/* Cartes principales : contour marine et ombre franche. */
+.triangle-card,.path-card,body.svc .card,.annonce{
+  border:2px solid var(--trait);box-shadow:5px 5px 0 var(--trait);
+}
+a.triangle-card:hover,.path-card:hover,body.svc a.card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--trait)}
+/* En-tête des pages de service : un voile de la couleur du service. */
+body.svc .hero{background:linear-gradient(180deg,var(--accent-soft) 0%,var(--paper) 88%)}
+@media (prefers-reduced-motion: reduce){.eyebrow{transform:none}}
