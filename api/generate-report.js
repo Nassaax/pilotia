@@ -160,8 +160,13 @@ function buildPdf({ prenom, sections }) {
       doc.on("end", function () { resolve(Buffer.concat(chunks)); });
       doc.on("error", reject);
 
-      // En-tête de marque (texte, pas d'image — simple et robuste en serverless)
-      doc.fillColor(BRAND_NAVY).font("Helvetica-Bold").fontSize(20).text("PILOTIA", { characterSpacing: 1 });
+      // En-tête de marque (texte, pas d'image — simple et robuste en serverless),
+      // une couleur par lettre comme le logo du site.
+      var LETTRES = ["#2563EB", "#F9563B", "#16A34A", "#7C3AED", "#EC4899", "#F59E0B", "#4F46E5"];
+      doc.font("Helvetica-Bold").fontSize(20);
+      "PILOTIA".split("").forEach(function (lettre, i) {
+        doc.fillColor(LETTRES[i]).text(lettre, { characterSpacing: 1, continued: i < 6 });
+      });
       doc.moveDown(0.2);
       doc.fillColor(BRAND_GOLD).font("Helvetica").fontSize(10)
         .text("RAPPORT DIAGNOSTIC PERSONNALISÉ".toUpperCase(), { characterSpacing: 1.5 });
