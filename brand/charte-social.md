@@ -129,6 +129,7 @@ l'y ajouter ensuite.
 | Budget du ménage (l'appli de la banque d'un seul œil) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=budget` |
 | Renfort temporaire (la seule qui sait où sont les factures) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=renfort` |
 | Accompagnement de projet (l'idée, puis la méthode en 5 étapes) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=projet` |
+| Partage de comptes (abonnement, like, activité en commentaire, repartage en story) | Carrousel série Services (communauté) | `carrousel-partage-comptes.html` |
 
 ## 9. Cohérence de série
 
