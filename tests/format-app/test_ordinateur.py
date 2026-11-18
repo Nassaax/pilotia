@@ -11,9 +11,9 @@ from PIL import Image, ImageChops
 
 from aide import ORDINATEUR, RACINE, REFERENCE, pages_du_site, servir
 
-# Le site de référence est la charte colorée (novembre 2026) : les changements
+# Le site de référence est l'écran d'ouverture (novembre 2026) : les changements
 # prévus d'avant sont tous dedans. Ajouter ici une page dont le rendu doit changer.
-CHANGEMENTS_PREVUS = {'cookies.html', 'confidentialite.html'}  # écran d'ouverture déclaré
+CHANGEMENTS_PREVUS = set()
 
 
 @pytest.fixture(scope='module')
