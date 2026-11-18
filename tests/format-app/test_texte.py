@@ -17,6 +17,7 @@ REECRITS = {
         'Vous pouvez la supprimer à tout moment, sans autre conséquence que l’oubli de vos'
         ' réponses au diagnostic :',
         'Dernière mise à jour : 20 septembre 2026. Voir aussi la',
+        'Dernière mise à jour : 12 octobre 2026. Voir aussi la',
     ],
     'confidentialite.html': [
         'Le site n’utilise aucun cookie. Il enregistre en revanche un élément dans le stockage'
@@ -24,6 +25,7 @@ REECRITS = {
         ') de votre navigateur :',
         'Vos réponses au diagnostic express et votre score',
         'Dernière mise à jour : 20 septembre 2026.',
+        'Dernière mise à jour : 16 novembre 2026.',
         'À COMPLÉTER : nom légal, siège, numéro BCE',
         'À COMPLÉTER : email de contact',
         'À VÉRIFIER : confirmer ce point dans le contrat Anthropic avant la mise en service payante',

@@ -1260,3 +1260,53 @@ a.triangle-card:hover,.path-card:hover,body.svc a.card:hover{transform:translate
 /* En-tête des pages de service : un voile de la couleur du service. */
 body.svc .hero{background:linear-gradient(180deg,var(--accent-soft) 0%,var(--paper) 88%)}
 @media (prefers-reduced-motion: reduce){.eyebrow{transform:none}}
+
+/* ─── Écran d'ouverture (une fois par visite) ──────────────────────────────
+   Source : scripts/ecran-ouverture.html, posé par scripts/navigation-app.py.
+   Sans la classe « intro » sur <html> (posée par le script du <head>), l'écran
+   reste caché : pas de flash, rien sans JavaScript ni en mouvement réduit.
+   Chorégraphie (≈ 2,9 s) : la tuile arrive de gauche et la flèche de droite en
+   se dessinant (0,15 → 1,15 s) ; à leur rencontre, la pointe et le point
+   apparaissent et le symbole bat (1,1 s) ; le logo glisse à sa place pendant que
+   le nom arrive (1,2 → 1,95 s) ; la phrase monte (1,55 s) ; tout s'efface (2,35 s). */
+.intro-ecran{display:none}
+html.intro .intro-ecran{
+  display:flex;position:fixed;inset:0;z-index:1000;
+  flex-direction:column;align-items:center;justify-content:center;gap:clamp(22px,4vh,34px);
+  padding:24px;cursor:pointer;
+  background:radial-gradient(ellipse at 50% 50%,#132B5C 0%,#0B1220 72%);
+  animation:intro-sortie .6s cubic-bezier(.7,0,.3,1) 2.35s forwards;
+}
+html.intro .intro-ecran.passe{animation:intro-sortie .3s cubic-bezier(.7,0,.3,1) forwards}
+@keyframes intro-sortie{to{opacity:0;visibility:hidden}}
+.intro-logo{
+  display:block;width:min(78vw,440px);height:auto;overflow:visible;
+  transform:translateX(37.5%);  /* le symbole au centre de l'écran au départ */
+  animation:intro-glisse .75s cubic-bezier(.16,1,.3,1) 1.2s forwards;
+}
+@keyframes intro-glisse{to{transform:translateX(0)}}
+.intro-logo g{transform-box:view-box}
+.intro-forme1{animation:intro-gauche 1s cubic-bezier(.65,0,.35,1) .15s both}
+.intro-forme2{animation:intro-droite 1s cubic-bezier(.65,0,.35,1) .15s both}
+@keyframes intro-gauche{0%{opacity:0;transform:translateX(-120px)}25%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes intro-droite{0%{opacity:0;transform:translateX(120px)}25%{opacity:1}100%{opacity:1;transform:none}}
+.intro-trace{stroke-dasharray:1;stroke-dashoffset:1;animation:intro-trace 1s cubic-bezier(.65,0,.35,1) .15s forwards}
+@keyframes intro-trace{to{stroke-dashoffset:0}}
+.intro-lien{opacity:0;animation:intro-apparait .18s linear 1.1s forwards}
+@keyframes intro-apparait{to{opacity:1}}
+.intro-symbole{transform-origin:184px 184px;animation:intro-battement .55s cubic-bezier(.34,1.56,.64,1) 1.1s both}
+@keyframes intro-battement{0%,100%{transform:scale(1)}45%{transform:scale(1.14)}}
+.intro-nom{opacity:0;animation:intro-nom .75s cubic-bezier(.16,1,.3,1) 1.2s forwards}
+@keyframes intro-nom{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+.intro-phrase{
+  margin:0;font-family:var(--font-body);font-size:clamp(16px,4.4vw,21px);font-weight:600;
+  letter-spacing:.01em;color:#E2E8F0;text-align:center;
+  opacity:0;transform:translateY(8px);animation:intro-phrase .7s cubic-bezier(.16,1,.3,1) 1.55s forwards;
+}
+.intro-phrase span{color:#22D3C3}
+@keyframes intro-phrase{to{opacity:1;transform:none}}
+/* Pendant l'écran, les animations d'entrée de la page attendent : elles
+   repartent de zéro dès qu'il est retiré (ou passé d'un clic). */
+/* !important : les raccourcis « animation » des règles d'entrée, plus précises,
+   remettraient sinon l'état à « running ». */
+html.intro .hero,html.intro .hero *{animation-play-state:paused !important}

@@ -56,6 +56,16 @@ PLUS_INFOS = [('mentions-legales.html', 'Mentions légales'),
 SEGMENT = [('outils.html', 'Outils'), ('conseils.html', 'Conseils'),
            ('ressources.html', 'Guides')]
 
+# Écran d'ouverture (scripts/ecran-ouverture.html). Le script du <head> décide avant
+# tout affichage : une seule fois par visite (sessionStorage), jamais si l'appareil
+# demande moins d'animations, rien sans JavaScript (l'écran reste en display:none).
+INTRO_TETE = ('<script>try{if(!sessionStorage.getItem("pilotia-intro")&&'
+              '!matchMedia("(prefers-reduced-motion: reduce)").matches){'
+              'sessionStorage.setItem("pilotia-intro","vue");'
+              'document.documentElement.classList.add("intro")}}catch(e){}</script>')
+INTRO = re.sub(r'^<!--.*?-->\n', '', (RACINE / 'scripts' / 'ecran-ouverture.html')
+               .read_text(encoding='utf-8'), count=1, flags=re.S).strip()
+
 
 def placer(nom):
     """(onglet allumé, lien retour) d'une page ; None quand il n'y en a pas."""
@@ -177,6 +187,10 @@ def traiter(texte, nom):
     t = t.replace('aria-controls="navLinks" aria-label="Ouvrir le menu"',
                   'aria-controls="panneauPlus" aria-haspopup="dialog" aria-label="Ouvrir le menu"')
     t = menu(t, nom)
+    t = poser(t, 'intro-tete', INTRO_TETE,
+              apres='<script>document.documentElement.classList.add("js");</script>')
+    corps = re.search(r'<body[^>]*>', t).group(0)
+    t = poser(t, 'intro', '\n' + INTRO + '\n', apres=corps)
     marque = re.search(r'<a href="index.html" class="brand">.*?</a>', t, re.S).group(0)
     t = poser(t, 'retour', retour(cle_retour), apres=marque)
     t = poser(t, 'onglets', barre(nom, onglet), apres='</header>')
