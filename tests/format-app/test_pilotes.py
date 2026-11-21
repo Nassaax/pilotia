@@ -71,18 +71,19 @@ def test_calculateur_de_marge(telephone, base_url):
 
 
 def test_rendez_vous(telephone, ordinateur, base_url):
-    # WhatsApp est masqué tant que le numéro n'est pas choisi : le formulaire
-    # par email est le moyen de contact, ouvert d'emblée.
+    # Deux moyens de contact : WhatsApp en premier, le formulaire par email
+    # replié sur téléphone, ouvert d'un geste.
     page, erreurs = ouvrir(telephone, base_url, 'contact.html')
     assert page.locator('.onglet-centre').get_attribute('aria-current') == 'page'
-    assert visible(page, '#contact-form')
-    assert page.locator('.repli-bouton').count() == 0
+    liens = page.eval_on_selector_all('a[href*="wa.me"]', 'els => els.map(a => a.href)')
+    assert len(liens) == 1
+    # Numéro belge au format international sans le +, message déjà rédigé.
+    assert re.fullmatch(r'https://wa\.me/32\d{8,9}\?text=Bonjour.+', liens[0])
+    assert page.locator('a[href*="wa.me"]').is_visible()
     remplissage = page.eval_on_selector_all('#nom, #entreprise, #email', 'els => els.map(e => e.autocomplete)')
     assert remplissage == ['name', 'organization', 'email']
-    # Si le bouton WhatsApp revient, son numéro doit être réel : format belge
-    # international, sans le +.
-    for lien in page.eval_on_selector_all('a[href*="wa.me"]', 'els => els.map(a => a.href)'):
-        assert re.fullmatch(r'https://wa\.me/32\d{8,9}\?text=.+', lien)
+    page.locator('.repli-bouton').first.click()
+    assert visible(page, '#contact-form')
     page, _ = ouvrir(ordinateur, base_url, 'contact.html')
     assert visible(page, '#contact-form')
     assert erreurs == []

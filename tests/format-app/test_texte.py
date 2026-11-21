@@ -113,6 +113,23 @@ REECRITS = {
     ],
 }
 
+# Contact par WhatsApp activé, Peppol retiré des titres de carte, Cal.com en pause.
+for _nom, _passages in {
+    'contact.html': ['Laissez-nous un message',
+                     'Décrivez votre situation en quelques mots : je vous réponds personnellement,'
+                     ' et on fixe ensemble un appel de 15 minutes, gratuit.'],
+    'index.html': ['Gestion administrative & Peppol →'],
+    'entreprises.html': ['2. Gestion administrative & Peppol →'],
+    'cookies.html': ['Certains liens mènent vers des sites externes : l’outil de réservation Cal.com,'
+                     ' le SPF Économie, l’INASTI. Une fois sur ces sites, leurs propres politiques'
+                     ' de cookies s’appliquent, sur lesquelles nous n’avons aucune maîtrise.'],
+    'mentions-legales.html': ['Ce site renvoie vers des ressources tierces (SPF Économie, INASTI, guichets'
+                              ' d’entreprises, outil de réservation Cal.com). Ces sites disposent de leurs'
+                              ' propres politiques et l’éditeur n’exerce aucun contrôle sur leur contenu ni'
+                              ' sur les données qu’ils collectent.'],
+}.items():
+    REECRITS.setdefault(_nom, []).extend(_passages)
+
 
 def _sans_espaces(t):
     return re.sub(r'\s+', '', t)

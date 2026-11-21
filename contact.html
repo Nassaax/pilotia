@@ -116,20 +116,16 @@
 
 <section>
   <div class="wrap">
-    <!-- WhatsApp masqué en attendant le choix du numéro. Pour le réactiver : remettre ce bloc
-         dans une <div class="grid grid-2"> avec le formulaire, remettre data-repli sur le
-         bloc du formulaire et le titre « Ou laissez-nous un message ».
+    <div class="grid grid-2">
       <div class="rdv-carte">
         <p class="duree">15 min · gratuit</p>
         <h2 class="section-title">Écrire sur WhatsApp</h2>
-        <p>Une question, un rendez-vous&nbsp;? Envoyez-moi un message&nbsp;: je vous réponds personnellement, et on fixe ensemble un appel de 15 minutes, gratuit.</p>
-        ( Numéro WhatsApp à compléter (format international sans le +, ex. 32470123456). )
-        <a href="https://wa.me/NUMERO-A-COMPLETER?text=Bonjour%20Pilotia%2C%20je%20souhaite%20un%20premier%20%C3%A9change%20de%2015%20minutes." class="btn btn-primary" target="_blank" rel="noopener">Écrire sur WhatsApp →</a>
+        <p>Une question, un rendez-vous&nbsp;? Le message est déjà prêt&nbsp;: complétez-le en une phrase et envoyez. Je vous réponds personnellement, et on fixe ensemble un appel de 15 minutes, gratuit.</p>
+        <a href="https://wa.me/32483445931?text=Bonjour%20Pilotia%2C%20je%20viens%20du%20site%20pilotia.be%20et%20j%27aimerais%20un%20premier%20%C3%A9change%20de%2015%20minutes.%20Mon%20projet%20en%20quelques%20mots%20%3A%20" class="btn btn-primary" target="_blank" rel="noopener">Écrire sur WhatsApp →</a>
       </div>
-    -->
-    <div style="max-width:640px">
-        <h2 class="section-title">Laissez-nous un message</h2>
-        <p>Décrivez votre situation en quelques mots&nbsp;: je vous réponds personnellement, et on fixe ensemble un appel de 15 minutes, gratuit.</p>
+      <div data-repli>
+        <h2 class="section-title">Ou laissez-nous un message</h2>
+        <p>Vous préférez l'email&nbsp;? Décrivez votre situation en quelques mots&nbsp;: je vous réponds personnellement par email.</p>
         <form id="contact-form" novalidate>
           <div>
             <label for="nom">Nom <span aria-hidden="true">*</span></label>
@@ -171,6 +167,7 @@
           <p id="contact-msg" role="status" aria-live="polite" style="font-family:var(--font-body);font-size:14px;margin:0;min-height:1.3em"></p>
           <p style="font-family:var(--font-body);font-size:13px;color:var(--ink-soft);margin:0"><span aria-hidden="true">*</span> Champs obligatoires.</p>
         </form>
+      </div>
     </div>
   </div>
 </section>
