@@ -85,7 +85,7 @@ Légal & technique
 - Bio du fondateur (`a-propos.html`) : Nasser Yasini, bachelier en comptabilité, expérience en fiduciaire, gestion des salaires et immobilier — pas de titre de comptable agréé revendiqué.
 - Témoignages clients (`index.html` contient 5 vrais retours clients, attribués par prénom et métier : Sylvain coiffeur, Sarah esthéticienne, Gabriel boulanger, Farah agent immobilier, Lucas restaurateur).
 - Écran d'ouverture animé (≈ 2,9 s, une fois par visite) : source unique `scripts/ecran-ouverture.html`, posée sur toutes les pages par `scripts/navigation-app.py` (bloc `app:intro` juste après `<body>`, et `app:intro-tete` dans le `<head>`). Animations en CSS pur (`style.css`, section « Écran d'ouverture »). Jamais sans JavaScript ni en mouvement réduit ; clic ou toucher pour passer ; retrait de sécurité à 4 s. Mémoire : clé `pilotia-intro` du `sessionStorage`, déclarée dans les pages cookies et confidentialité. Les tests sautent l'écran (`conftest.py`).
-- Pied de page : chaque page se termine par le crédit « Site réalisé par Nayas Visuals » et son logo (`nayas-visuals.png`, 72 px).
+- Pied de page : chaque page se termine par la ligne « Création digitale en collaboration avec Nayas Visuals » (voir la section Collaboration ci-dessous).
 - Prise de contact : `contact.html` propose le formulaire par email (`api/contact.js`). Le bouton WhatsApp ouvre la conversation avec un message déjà rédigé (lien `wa.me`, numéro au format international sans le +). L'agenda Cal.com est en pause et n'est plus relié au site.
 - Logo réel (fourni par le client) : favicon/apple-touch-icon, image de partage réseaux sociaux, en-tête du PDF de lancement, et header/footer du site (bascule automatique clair/sombre).
 - Bouton de bascule thème clair/sombre dans le header (toutes pages), indépendant du réglage système, préférence mémorisée par visiteur.
@@ -196,3 +196,23 @@ Le site reste **majoritairement statique** (HTML/CSS/JS vanilla, aucun build), m
 - **Région :** les fonctions `api/` tournent à Francfort (`"regions": ["fra1"]` dans `vercel.json`), comme pour LALLAT.
 - **Fichiers non publiés :** `.vercelignore` écarte les tests, les scripts, ce README et tout `brand/` sauf l'avatar de la page À propos ; `package.json` et `package-lock.json` redirigent vers l'accueil.
 - **Site installable :** `manifest.webmanifest` (annoncé sur chaque page), `sw.js` (le réseau d'abord, une copie des pages déjà ouvertes pour l'usage sans réseau, jamais `/api`) et `offline.html`. Le service worker ne s'inscrit qu'en https : les tests locaux voient toujours le réseau. Après une modification de `sw.js`, changer `VERSION` pour vider les anciennes copies.
+
+## Collaboration avec Nayas Visuals
+
+Pilotia accompagne les entrepreneurs (diagnostic, organisation, démarches, stratégie de présence en ligne). Pour la création (logo et identité visuelle, site web pensé pour le téléphone, visuels pour les réseaux sociaux), Pilotia collabore avec le studio Nayas Visuals.
+
+Où elle apparaît :
+- `marketing-digital.html`, section `#creation-nayas-visuals` (présentation complète) ;
+- `offres.html`, bloc `.collab-nv` sous les formules de présence digitale ;
+- `index.html`, carte « Présence digitale » (`.carte-collab`) ;
+- le pied de page de toutes les pages (`.credit-site`) ;
+- le carrousel Instagram `brand/carrousel-collaboration-nayas-visuals.html`.
+
+Règles :
+- Message : chacun apporte son expertise pour un résultat de qualité, de la stratégie jusqu'aux fichiers prêts à publier. On parle de collaboration et de l'expertise de chacun.
+- Ne pas écrire que les deux marques ont le même fondateur. Ne pas inventer de chiffres, d'avis ni de projets réalisés ensemble.
+- Chaque mention de Nayas Visuals porte son logo (`img/nayas-visuals-logo.svg` sur fond clair, `img/nayas-visuals-logo-fonce.svg` sur fond sombre, classes `.logo-nv-clair` / `.logo-nv-fonce`) ou au minimum un lien.
+- Lien actuel : https://www.instagram.com/nayas.visuals/ (à remplacer par le site de Nayas Visuals quand son adresse sera définitive : chercher `instagram.com/nayas.visuals` dans le dépôt).
+- Couleurs : la charte Pilotia partout ; l'orange de Nayas Visuals (#FF5B2E) seulement dans son logo.
+- `tests/format-app/test_credit.py` vérifie le pied de page, le logo ou le lien à chaque mention, et l'absence de l'orange hors du logo.
+

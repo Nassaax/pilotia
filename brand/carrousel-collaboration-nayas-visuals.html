@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr" class="theme-presence">
+<head>
+<meta charset="UTF-8">
+<title>Carrousel | Collaboration Pilotia et Nayas Visuals</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="services.css">
+<style>
+/* Composants propres à ce carrousel ; les valeurs viennent des jetons de services.css. */
+.duo{display:flex;align-items:center;gap:26px;margin:64px 10px 0}
+.duo-carte{flex:1;height:190px;display:grid;place-items:center;padding:28px 34px}
+.duo-carte img{display:block;width:100%;height:auto;max-height:86px;object-fit:contain}
+.duo-x{flex:none;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;
+  background:var(--c3);border:5px solid var(--encre);font-size:50px;font-weight:900;line-height:1}
+.expertise{display:flex;flex-direction:column}
+.expertise .tete{height:62px;display:flex;align-items:center}
+.expertise .tete img{display:block;height:46px;width:auto;max-width:100%}
+.expertise h3{margin-top:22px}
+.expertise ul{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:14px}
+.expertise li{display:flex;gap:14px;font-size:29px;font-weight:600;line-height:1.3;color:var(--encre-douce)}
+.expertise li::before{content:"";flex:none;width:18px;height:18px;margin-top:10px;border-radius:50%;
+  background:var(--c1);border:3px solid var(--encre)}
+.signature{display:flex;align-items:center;gap:28px;margin:52px 0 0 8px;align-self:flex-start;transform:rotate(-2deg)}
+.signature img{display:block;height:64px;width:auto}
+.signature span{font-size:32px;font-weight:800;color:var(--encre)}
+</style>
+</head>
+<body class="theme-presence">
+
+<!-- Annonce de la collaboration : Pilotia pour la stratégie, Nayas Visuals pour la
+     création. Message : chacun apporte son expertise pour un résultat de qualité.
+     Aucun chiffre, aucun avis, aucun projet commun présenté comme réalisé.
+     L'orange de Nayas Visuals n'apparaît que dans son logo. -->
+
+<div class="planche" data-nom="01-couverture">
+  <div class="deco rond" style="width:560px;height:560px;right:-200px;bottom:-200px;background:var(--c1)"></div>
+  <div class="deco rond" style="width:130px;height:130px;right:96px;top:96px;background:var(--c2)"></div>
+  <div class="deco points" style="width:300px;height:210px;left:60px;bottom:150px"></div>
+  <span class="pastille">Collaboration</span>
+  <div class="h1">La stratégie <span class="surligne">et</span> la création.</div>
+  <div class="texte">Pour votre logo, votre site et vos visuels, Pilotia collabore avec le studio <strong>Nayas Visuals</strong>.</div>
+  <div class="duo">
+    <div class="carte duo-carte" style="transform:rotate(-3deg)"><img src="../logo-header-light.png" alt="Pilotia"></div>
+    <span class="duo-x" aria-hidden="true">×</span>
+    <div class="carte duo-carte" style="transform:rotate(2deg)"><img src="../img/nayas-visuals-logo.svg" alt="Nayas Visuals"></div>
+  </div>
+  <div class="espace"></div>
+  <div class="pied"><img class="logo" src="../logo-header-light.png" alt="Pilotia"><span class="glisser">Glisser →</span></div>
+</div>
+
+<div class="planche" data-nom="02-expertises">
+  <div class="deco points" style="width:240px;height:150px;right:60px;top:60px"></div>
+  <span class="pastille">Qui fait quoi</span>
+  <div class="h2">Chacun son <span class="surligne">expertise</span></div>
+  <div class="bloc">
+    <div class="grille">
+      <div class="carte expertise">
+        <div class="tete"><img src="../logo-header-light.png" alt="Pilotia"></div>
+        <h3>La stratégie</h3>
+        <ul><li>Diagnostic</li><li>Organisation</li><li>Démarches</li><li>Stratégie de présence en ligne</li></ul>
+      </div>
+      <div class="carte expertise">
+        <div class="tete"><img src="../img/nayas-visuals-logo.svg" alt="Nayas Visuals"></div>
+        <h3>La création</h3>
+        <ul><li>Logo et identité visuelle</li><li>Site web pensé pour le téléphone</li><li>Visuels pour les réseaux sociaux</li></ul>
+      </div>
+    </div>
+    <div class="texte" style="max-width:none">De la stratégie jusqu'aux fichiers <strong>prêts à publier</strong>.</div>
+  </div>
+  <div class="pied"><img class="logo" src="../logo-header-light.png" alt="Pilotia"><span class="compteur">02 / 03</span></div>
+</div>
+
+<div class="planche pleine" data-nom="03-resultat">
+  <div class="deco rond" style="width:640px;height:640px;right:-260px;top:-260px;background:var(--c2);opacity:.55"></div>
+  <div class="deco rond" style="width:150px;height:150px;right:110px;top:1010px;background:var(--c3);border:5px solid var(--encre)"></div>
+  <span class="pastille">Ensemble</span>
+  <div class="h1" style="font-size:100px">Un résultat de qualité.</div>
+  <div class="texte">Chacun apporte son expertise, de la stratégie jusqu'aux fichiers prêts à publier.</div>
+  <div class="carte signature"><img src="../img/nayas-visuals-logo.svg" alt="Nayas Visuals"><span>@nayas.visuals</span></div>
+  <span class="appel">Découvrez @nayas.visuals →</span>
+  <div class="espace"></div>
+  <div class="pied"><img class="logo" src="../logo-header-light.png" alt="Pilotia"><span class="compteur">03 / 03</span></div>
+</div>
+
+</body>
+</html>

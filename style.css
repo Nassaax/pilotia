@@ -864,10 +864,24 @@ a.card:hover,.path-card:hover{
 .mot-insta .mot-pilotia{font-size:22px}
 .mot-insta:hover .mot-pilotia{text-decoration:none}
 .mot-insta:hover .mot-suite{color:var(--accent);text-decoration:underline}
-/* Crédit de réalisation du site, discret, sous les liens du pied de page. */
-.credit-site{display:flex;align-items:center;gap:8px;margin:18px 0 0;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft)}
-.credit-site img{width:24px;height:24px;border-radius:50%;flex:none}
-.credit-site span{font-weight:600;color:var(--ink)}
+/* Collaboration création avec Nayas Visuals. Son logo garde ses propres couleurs
+   (l'orange n'apparaît que là) ; une version pour fond clair, une pour fond sombre. */
+.logo-nv{display:inline-block;height:auto;vertical-align:middle}
+.logo-nv-fonce{display:none}
+@media (prefers-color-scheme: dark){
+  .logo-nv-clair{display:none}
+  .logo-nv-fonce{display:inline-block}
+}
+.credit-site{display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;margin:18px 0 0;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft)}
+.credit-site a{display:inline-flex;align-items:center;min-height:44px}
+.credit-site .logo-nv{width:100px;height:20px}
+.carte-collab{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft)}
+.carte-collab .logo-nv{width:80px;height:16px}
+.collab-nv{display:flex;align-items:center;gap:16px 24px;margin-top:20px;padding:18px 22px;border:1px solid var(--line);border-radius:16px;background:var(--paper)}
+.collab-nv p{margin:0;font-size:15px}
+.collab-nv-logo{flex:none;display:inline-flex;align-items:center;min-height:44px}
+.collab-nv .logo-nv{width:140px;height:28px}
+@media (max-width:640px){.collab-nv{flex-direction:column;align-items:flex-start}}
 .mot-pilotia-grand{display:block;font-size:clamp(56px,11vw,120px);margin-bottom:28px;letter-spacing:.04em}
 .mot-pilotia-grand span{-webkit-text-stroke:3px var(--trait);paint-order:stroke fill;text-shadow:5px 5px 0 var(--trait)}
 

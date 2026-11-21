@@ -130,6 +130,7 @@ l'y ajouter ensuite.
 | Renfort temporaire (la seule qui sait où sont les factures) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=renfort` |
 | Accompagnement de projet (l'idée, puis la méthode en 5 étapes) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=projet` |
 | Partage de comptes (abonnement, like, activité en commentaire, repartage en story) | Carrousel série Services (communauté) | `carrousel-partage-comptes.html` |
+| Collaboration avec Nayas Visuals (stratégie et création, chacun son expertise) | Carrousel série Services (annonce) | `carrousel-collaboration-nayas-visuals.html` |
 
 ## 9. Cohérence de série
 
