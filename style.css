@@ -864,6 +864,10 @@ a.card:hover,.path-card:hover{
 .mot-insta .mot-pilotia{font-size:22px}
 .mot-insta:hover .mot-pilotia{text-decoration:none}
 .mot-insta:hover .mot-suite{color:var(--accent);text-decoration:underline}
+/* Crédit de réalisation du site, discret, sous les liens du pied de page. */
+.credit-site{display:flex;align-items:center;gap:8px;margin:18px 0 0;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft)}
+.credit-site img{width:24px;height:24px;border-radius:50%;flex:none}
+.credit-site span{font-weight:600;color:var(--ink)}
 .mot-pilotia-grand{display:block;font-size:clamp(56px,11vw,120px);margin-bottom:28px;letter-spacing:.04em}
 .mot-pilotia-grand span{-webkit-text-stroke:3px var(--trait);paint-order:stroke fill;text-shadow:5px 5px 0 var(--trait)}
 

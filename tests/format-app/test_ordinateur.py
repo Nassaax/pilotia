@@ -41,7 +41,7 @@ def capturer(navigateur, url, chemin):
         page.evaluate("document.querySelectorAll('video').forEach(v => v.removeAttribute('controls'))")
         # Le bandeau de pré-lancement est temporaire et le même sur toutes les
         # pages : il est retiré de la capture, le reste doit rester identique.
-        page.evaluate("document.querySelectorAll('.prelancement').forEach(e => e.remove())")
+        page.evaluate("document.querySelectorAll('.prelancement, .credit-site').forEach(e => e.remove())")
         page.screenshot(path=str(chemin), full_page=True, animations='disabled')
     finally:
         ctx.close()
