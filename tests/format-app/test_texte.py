@@ -17,6 +17,7 @@ REECRITS = {
         'Vous pouvez la supprimer à tout moment, sans autre conséquence que l’oubli de vos'
         ' réponses au diagnostic :',
         'Dernière mise à jour : 20 septembre 2026. Voir aussi la',
+        'Dernière mise à jour : 12 octobre 2026. Voir aussi la',
     ],
     'confidentialite.html': [
         'Le site n’utilise aucun cookie. Il enregistre en revanche un élément dans le stockage'
@@ -24,9 +25,13 @@ REECRITS = {
         ') de votre navigateur :',
         'Vos réponses au diagnostic express et votre score',
         'Dernière mise à jour : 20 septembre 2026.',
+        'Dernière mise à jour : 16 novembre 2026.',
         'À COMPLÉTER : nom légal, siège, numéro BCE',
         'À COMPLÉTER : email de contact',
         'À VÉRIFIER : confirmer ce point dans le contrat Anthropic avant la mise en service payante',
+        # Prestataires ajoutés (Cal.com, OVHcloud, Google) et rapport IA envoyé sans relecture.
+        'Vercel et Anthropic sont établis aux États-Unis. Les données qui leur sont transmises le sont sur la base des garanties appropriées prévues au chapitre V du RGPD (clauses contractuelles types de la Commission européenne et/ou certification au',
+        'à votre égard au sens de l’article 22 RGPD. Le contenu généré reste une analyse indicative, relue et assumée par l’éditeur, et ne remplace pas un avis professionnel.',
     ],
     # Notes au fondateur retirées des pages (À COMPLÉTER, À VÉRIFIER, consignes de tarifs).
     'accessibilite.html': [
@@ -74,6 +79,9 @@ REECRITS = {
     # sur la page À propos) et seuls trois avis restent ; les deux autres
     # figurent sur leurs pages métier.
     'index.html': [
+        # Ouverture aux particuliers et troisième parcours.
+        'Pilotia accompagne les petites entreprises et les futurs indépendants à trouver leurs points faibles, structurer leur gestion et développer leur visibilité, avec un regard extérieur clair, chiffré et sans jargon.',
+        'Deux parcours, une même exigence',
         'En 30 secondes',
         'Huit casse-têtes, un seul interlocuteur',
         "Facture Peppol, client qui paie en retard, trésorerie qui se tend, visibilité en ligne : chaque casse-tête d'entrepreneur a sa réponse. Pilotia les porte toutes.",
@@ -91,7 +99,36 @@ REECRITS = {
         "Accompagnement complet et très rassurant : diagnostic de départ, plan de lancement, puis suivi des chiffres et ajustements. J'ai apprécié la méthode, la disponibilité et la capacité à transformer des idées en actions. J'ai démarré plus vite, avec une communication plus claire et une gestion mieux structurée.",
         'Lucas, restaurateur',
     ],
+    # Prise de contact par WhatsApp au lieu de l'agenda Cal.com.
+    'contact.html': [
+        'Parlons de votre entreprise.',
+        'Réserver un créneau',
+        "Choisissez directement un créneau de 15 minutes dans l'agenda, avec confirmation immédiate par email.",
+        'Voir les créneaux disponibles →',
+        'Ou laissez-nous un message',
+    ],
+    # Expérience immobilière mise en avant pour l'aide aux particuliers.
+    'a-propos.html': [
+        "Bachelier en comptabilité de formation, j'ai travaillé plusieurs années en fiduciaire, puis comme gestionnaire de salaires, avant une courte expérience comme agent immobilier. Ce parcours m'a mis au contact quotidien des chiffres, des obligations administratives et du fonctionnement réel des petites entreprises belges. Je connais les rouages du système entrepreneurial belge de l'intérieur.",
+    ],
 }
+
+# Contact par WhatsApp activé, Peppol retiré des titres de carte, Cal.com en pause.
+for _nom, _passages in {
+    'contact.html': ['Laissez-nous un message',
+                     'Décrivez votre situation en quelques mots : je vous réponds personnellement,'
+                     ' et on fixe ensemble un appel de 15 minutes, gratuit.'],
+    'index.html': ['Gestion administrative & Peppol →'],
+    'entreprises.html': ['2. Gestion administrative & Peppol →'],
+    'cookies.html': ['Certains liens mènent vers des sites externes : l’outil de réservation Cal.com,'
+                     ' le SPF Économie, l’INASTI. Une fois sur ces sites, leurs propres politiques'
+                     ' de cookies s’appliquent, sur lesquelles nous n’avons aucune maîtrise.'],
+    'mentions-legales.html': ['Ce site renvoie vers des ressources tierces (SPF Économie, INASTI, guichets'
+                              ' d’entreprises, outil de réservation Cal.com). Ces sites disposent de leurs'
+                              ' propres politiques et l’éditeur n’exerce aucun contrôle sur leur contenu ni'
+                              ' sur les données qu’ils collectent.'],
+}.items():
+    REECRITS.setdefault(_nom, []).extend(_passages)
 
 
 def _sans_espaces(t):
@@ -125,7 +162,7 @@ def test_aucun_tiret_long_dans_les_ajouts(nom):
     html = source(nom)
     ajouts = []
     for classe in ('essentiel', 'onglets', 'plus', 'app-retour', 'segment-cadre',
-                   'acces-rapide', 'duree', 'prelancement', 'prelancement-note'):
+                   'acces-rapide', 'duree', 'prelancement', 'prelancement-note', 'credit-site'):
         ajouts += morceaux(html, zone='body', exclure=(), seulement=classe)
     if nom in ('services.html', 'mon-espace.html'):
         ajouts += morceaux(html, exclure=())

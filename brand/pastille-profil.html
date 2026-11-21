@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Pastille de profil Pilotia</title>
+<!-- Photo de profil des réseaux (Instagram, LinkedIn, Facebook, fiche Google).
+     Les réseaux la découpent en rond : tout l'utile tient dans le cercle.
+     ?v=anneau : la flèche du logo dans un disque marine, entouré d'un anneau
+     aux sept couleurs de la mosaïque (version conseillée).
+     ?v=autocollant : l'icône du logo posée en autocollant sur fond jaune. -->
+<style>
+html,body{margin:0;background:transparent}
+svg{display:block;width:1080px;height:1080px}
+</style>
+</head>
+<body>
+<svg id="pastille" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+var COULEURS = ['#2563EB', '#F9563B', '#16A34A', '#7C3AED', '#EC4899', '#F59E0B', '#4F46E5'];
+var v = new URLSearchParams(location.search).get('v') || 'anneau';
+var svg = document.getElementById('pastille');
+
+// La flèche du logo, relevée sur l'icône (tuile de 340 px de côté).
+function fleche(s, cx, cy) {
+  var ox = cx - 170.5 * s, oy = cy - 164 * s;
+  var P = function (x, y) { return (ox + x * s).toFixed(1) + ',' + (oy + y * s).toFixed(1); };
+  return '<polyline points="' + [P(76, 242), P(127, 189), P(172, 223), P(240, 127)].join(' ') +
+    '" fill="none" stroke="#FFFFFF" stroke-width="' + (14 * s) + '" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<polygon points="' + [P(265, 86), P(212, 116), P(255, 147)].join(' ') + '" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="' + (4 * s) + '" stroke-linejoin="round"/>' +
+    '<circle cx="' + (ox + 76 * s) + '" cy="' + (oy + 242 * s) + '" r="' + (9 * s) + '" fill="#22D3C3"/>';
+}
+
+var defs = '<defs><linearGradient id="nuit" x1="0" y1="0" x2="1" y2="1">' +
+  '<stop offset="0" stop-color="#0B1430"/><stop offset="1" stop-color="#132B5C"/></linearGradient></defs>';
+
+if (v === 'anneau') {
+  // Sept arcs égaux, séparés par un fin trait marine.
+  var arcs = '', r = 505, ep = 70, n = COULEURS.length;
+  for (var i = 0; i < n; i++) {
+    var a0 = (i / n) * 2 * Math.PI - Math.PI / 2, a1 = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2;
+    var x0 = 540 + r * Math.cos(a0), y0 = 540 + r * Math.sin(a0), x1 = 540 + r * Math.cos(a1), y1 = 540 + r * Math.sin(a1);
+    arcs += '<path d="M' + x0 + ',' + y0 + ' A' + r + ',' + r + ' 0 0 1 ' + x1 + ',' + y1 + '" fill="none" stroke="' + COULEURS[i] + '" stroke-width="' + ep + '"/>';
+  }
+  for (var j = 0; j < n; j++) {
+    var a = (j / n) * 2 * Math.PI - Math.PI / 2;
+    arcs += '<line x1="' + (540 + 465 * Math.cos(a)) + '" y1="' + (540 + 465 * Math.sin(a)) + '" x2="' + (540 + 545 * Math.cos(a)) + '" y2="' + (540 + 545 * Math.sin(a)) + '" stroke="#0F172A" stroke-width="10"/>';
+  }
+  svg.innerHTML = defs + '<circle cx="540" cy="540" r="540" fill="#0F172A"/>' + arcs +
+    '<circle cx="540" cy="540" r="466" fill="url(#nuit)" stroke="#0F172A" stroke-width="10"/>' + fleche(2.55, 540, 548);
+} else {
+  // Fond jaune ; l'icône en tuile marine, contour et ombre franche, légèrement inclinée.
+  svg.innerHTML = defs + '<rect width="1080" height="1080" fill="#FACC15"/>' +
+    '<g transform="rotate(-6 540 540)">' +
+    '<rect x="262" y="262" width="580" height="580" rx="132" fill="#0F172A"/>' +
+    '<rect x="238" y="238" width="580" height="580" rx="132" fill="url(#nuit)" stroke="#0F172A" stroke-width="14"/>' +
+    fleche(2.0, 528, 534) + '</g>';
+}
+</script>
+</body>
+</html>

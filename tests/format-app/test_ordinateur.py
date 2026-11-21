@@ -11,16 +11,9 @@ from PIL import Image, ImageChops
 
 from aide import ORDINATEUR, RACINE, REFERENCE, pages_du_site, servir
 
-CHANGEMENTS_PREVUS = {
-    'facturation-electronique.html', 'conseils-facture-impayee.html',  # encadré « L'essentiel »
-    'cookies.html', 'confidentialite.html',  # les trois clés du stockage local
-    'services.html', 'mon-espace.html',  # pages nouvelles
-    'calculateur-marge.html',  # « 66,7 % » au lieu de « 66.7 % »
-    'offline.html',  # page hors connexion, nouvelle
-    'mentions-legales.html', 'cgv.html', 'accessibilite.html',  # notes au fondateur retirées
-    'offres.html', 'statistiques.html',
-    'index.html', 'a-propos.html',  # accueil épuré, film déplacé
-}
+# Le site de référence est l'écran d'ouverture (novembre 2026) : les changements
+# prévus d'avant sont tous dedans. Ajouter ici une page dont le rendu doit changer.
+CHANGEMENTS_PREVUS = {'contact.html', 'index.html', 'entreprises.html', 'cookies.html', 'mentions-legales.html'}
 
 
 @pytest.fixture(scope='module')
@@ -48,7 +41,7 @@ def capturer(navigateur, url, chemin):
         page.evaluate("document.querySelectorAll('video').forEach(v => v.removeAttribute('controls'))")
         # Le bandeau de pré-lancement est temporaire et le même sur toutes les
         # pages : il est retiré de la capture, le reste doit rester identique.
-        page.evaluate("document.querySelectorAll('.prelancement').forEach(e => e.remove())")
+        page.evaluate("document.querySelectorAll('.prelancement, .credit-site').forEach(e => e.remove())")
         page.screenshot(path=str(chemin), full_page=True, animations='disabled')
     finally:
         ctx.close()

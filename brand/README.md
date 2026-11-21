@@ -15,6 +15,7 @@ mesure pour Pilotia.
 
 | Fichier | À quoi il sert |
 |---|---|
+| `pastille-profil.html` | **Photo de profil des réseaux** (Instagram, LinkedIn, Facebook, fiche Google) : la flèche du logo dans un disque marine cerclé des sept couleurs (`?v=anneau`, conseillée), ou l'icône en autocollant sur fond jaune (`?v=autocollant`). Capturée en PNG 1080 × 1080. |
 | `avatar-pilotia.svg` | Version ronde, fond bleu clair cerclé de bronze. **La source à modifier.** |
 | `avatar-pilotia-transparent.svg` | Même personnage, sans fond. Pour poser sur une couleur, une photo, un bandeau. |
 | `avatar-pilotia-512.png` | Photo de profil réseaux sociaux (LinkedIn, Facebook, Instagram). |

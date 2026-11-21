@@ -12,3 +12,10 @@ def test_les_trois_cles_sont_declarees(nom):
         assert f'<td><code>{cle}</code></td>' in html, cle
     assert 'href="mon-espace.html"' in html
     assert 'Dernière mise à jour : 20 septembre 2026' not in html
+
+
+@pytest.mark.parametrize('nom', ['cookies.html', 'confidentialite.html'])
+def test_le_stockage_de_session_de_l_ecran_d_ouverture_est_declare(nom):
+    html = source(nom)
+    assert '<code>pilotia-intro</code>' in html
+    assert 'sessionStorage' in html or 'stockage de session' in html

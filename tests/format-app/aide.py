@@ -15,7 +15,7 @@ from html.parser import HTMLParser
 RACINE = pathlib.Path(__file__).resolve().parents[2]
 CHROME = '/opt/pw-browsers/chromium'  # lien stable vers le Chromium installé
 # Le site avant le format app : référence du texte et du rendu sur ordinateur.
-REFERENCE = '3433103'
+REFERENCE = 'fbb48dc'
 
 TELEPHONE = dict(viewport={'width': 390, 'height': 844}, device_scale_factor=2,
                  is_mobile=True, has_touch=True)
@@ -25,6 +25,7 @@ LARGEURS = [360, 390, 768, 1280]
 ONGLETS = ['index.html', 'services.html', 'contact.html', 'outils.html', 'mon-espace.html']
 SERVICES = ['entreprises.html', 'independants.html', 'facturation-electronique.html',
             'affacturage.html', 'marketing-digital.html', 'offres.html',
+            'particuliers.html', 'accompagnement-projet.html',
             'coaching-agent-immobilier.html', 'coaching-boulangerie.html',
             'coaching-coiffeur.html', 'coaching-esthetique.html', 'coaching-restaurant.html']
 OUTILS = ['diagnostic.html', 'rapport-diagnostic.html', 'plan-tresorerie.html',

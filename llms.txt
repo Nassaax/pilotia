@@ -33,6 +33,8 @@ comme indépendant.
 - [Services](https://www.pilotia.be/services.html) : tous les services Pilotia, par situation (entreprise en activité, futur indépendant), par service et par métier.
 - [Mon espace](https://www.pilotia.be/mon-espace.html) : les résultats du visiteur (dernier diagnostic express, point bas de son plan de trésorerie), enregistrés sur son appareil uniquement.
 - [Devenir indépendant](https://www.pilotia.be/independants.html) : étapes de lancement d'une activité indépendante en Belgique.
+- [Particuliers](https://www.pilotia.be/particuliers.html) : budget du ménage, papiers administratifs, projet d'achat, de rénovation ou de reconversion (pas d'intermédiation immobilière ni de crédit, pas de conseil en placements).
+- [Accompagnement de projet](https://www.pilotia.be/accompagnement-projet.html) : méthode en cinq étapes (clarifier, chiffrer, planifier, démarches et aides, suivre) pour tout type de projet.
 - [Facture électronique Peppol et encaissements](https://www.pilotia.be/facturation-electronique.html) : mise en conformité avec l'obligation de facturation électronique entre entreprises (1er janvier 2026), conditions de paiement, suivi des encaissements et relances amiables B2B. Ni tenue de comptabilité, ni déclaration TVA, ni recouvrement judiciaire.
 - [Affacturage](https://www.pilotia.be/affacturage.html) : étude gratuite et mise en relation, en qualité d'apporteur d'affaires, avec un partenaire d'affacturage pour des factures entre entreprises. Pilotia n'accorde aucun financement et ne décide pas de l'acceptation des dossiers.
 - [Présence digitale](https://www.pilotia.be/marketing-digital.html) : visibilité en ligne, réseaux sociaux, avis clients.
