@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Reel lancement | calque motion design</title>
+<link rel="icon" href="data:,">
+<!-- Reel « Bienvenue chez Pilotia » (30 s, 9:16) pour le démarrage du compte Instagram.
+     Calque rendu image par image sur fond transparent (rendre(t) est une fonction pure
+     du temps), composé sur les plans filmés par brand/reel-lancement.py.
+     Déroulé : accroche (0-4 s), avalanche de tâches (4-8 s), « Respirez » (8-12 s),
+     cinq savoir-faire en motion design (12-22 s), publics (22-25,5 s), abonnement (25,5-30 s).
+     Tempo de la bande-son : 120 bpm, un temps = 0,5 s ; les coupes tombent sur les temps.
+     Règles : aucun chiffre inventé (seuls « 3 minutes », « gratuit », « janvier 2027 »,
+     repris du site), aucun avis, aucun visage présenté comme client, pas de tiret long.
+     Nayas Visuals est cité avec son logo ; son orange ne sort pas de son logo. -->
+<style>
+@font-face{font-family:'Inter';src:url('../fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:block}
+:root{--encre:#0F172A;--encre-douce:#334155;--papier:#FFF8EC;--jaune:#FACC15;
+  --bleu:#2563EB;--corail:#F9563B;--vert:#16A34A;--violet:#7C3AED;--rose:#EC4899;--ambre:#F59E0B;--indigo:#4F46E5}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:transparent;width:1080px;height:1920px;overflow:hidden}
+#scene{position:relative;width:1080px;height:1920px;font-family:'Inter',sans-serif;color:var(--encre);overflow:hidden}
+.el{position:absolute;left:90px;right:90px;will-change:transform,opacity;visibility:hidden}
+.pastille{display:inline-flex;align-items:center;gap:14px;background:var(--jaune);border:5px solid var(--encre);border-radius:999px;
+  padding:14px 30px;font-size:34px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;box-shadow:7px 7px 0 var(--encre)}
+.pastille.couleur{color:#fff}
+.pastille .num{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#fff;color:var(--encre);
+  border:4px solid var(--encre);font-size:24px;letter-spacing:0}
+.carte{background:var(--papier);border:6px solid var(--encre);border-radius:38px;box-shadow:14px 14px 0 var(--encre);
+  padding:40px 46px;font-size:64px;font-weight:850;line-height:1.08;letter-spacing:-0.03em}
+.carte.petite{font-size:46px;font-weight:750;line-height:1.2;letter-spacing:-0.015em;padding:34px 42px}
+.carte.geante{font-size:100px;letter-spacing:-0.045em;line-height:1}
+.surligne{background:linear-gradient(transparent 58%,var(--jaune) 58%,var(--jaune) 92%,transparent 92%);
+  box-decoration-break:clone;-webkit-box-decoration-break:clone}
+/* Avalanche de tâches */
+.tache{display:inline-flex;align-items:center;gap:20px;background:#fff;border:5px solid var(--encre);border-radius:24px;
+  box-shadow:8px 8px 0 var(--encre);padding:16px 30px;font-size:54px;font-weight:850;letter-spacing:-.02em}
+.tache i{width:32px;height:32px;border-radius:50%;border:4px solid var(--encre);flex:none}
+.tache s{text-decoration-thickness:9px;text-decoration-color:var(--corail)}
+/* Transitions : barres aux couleurs du logo, bandeau en biais entre deux savoir-faire */
+.barre{position:absolute;top:0;height:3840px;width:156px;border-left:4px solid var(--encre);will-change:transform}
+.bandeau{position:absolute;top:-200px;height:2320px;width:900px;border-left:8px solid var(--encre);border-right:8px solid var(--encre);
+  transform-origin:50% 50%;will-change:transform}
+/* Cadre des démonstrations */
+.widget{position:relative;background:#fff;border:6px solid var(--encre);border-radius:40px;box-shadow:14px 14px 0 var(--encre);
+  height:560px;overflow:hidden}
+.ligne{position:absolute;display:flex;align-items:center;gap:18px;font-size:40px;font-weight:800;will-change:transform,opacity}
+.coche{width:54px;height:54px;border-radius:16px;border:4px solid var(--encre);display:grid;place-items:center;flex:none}
+.coche svg{width:32px;height:32px;stroke:var(--encre);stroke-width:3.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.noeud{position:absolute;top:150px;width:250px;height:250px;border:5px solid var(--encre);border-radius:34px;background:var(--papier);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font-size:36px;font-weight:850;text-align:center;line-height:1.1}
+.noeud svg{width:84px;height:84px;stroke:var(--encre);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.doc{position:absolute;top:205px;width:120px;height:150px;background:#fff;border:5px solid var(--encre);border-radius:14px;
+  box-shadow:6px 6px 0 var(--encre);padding:22px 16px;will-change:transform}
+.doc b{display:block;height:12px;border-radius:6px;background:#CBD5E1;margin-bottom:14px}
+.doc b:first-child{background:var(--bleu);width:60%}
+.badge{position:absolute;display:inline-flex;align-items:center;gap:12px;background:var(--vert);color:#fff;border:5px solid var(--encre);
+  border-radius:999px;padding:12px 26px;font-size:34px;font-weight:850;box-shadow:6px 6px 0 var(--encre);will-change:transform,opacity}
+.telephone{position:absolute;left:60px;top:28px;width:290px;height:500px;border:6px solid var(--encre);border-radius:44px;background:var(--papier);
+  padding:56px 18px 18px;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:78px;gap:10px}
+.telephone:before{content:"";position:absolute;top:18px;left:50%;width:80px;height:14px;margin-left:-40px;border-radius:7px;background:var(--encre)}
+.tuile{border:3px solid var(--encre);border-radius:12px;will-change:transform,opacity}
+.puce{position:absolute;left:420px;display:inline-flex;align-items:center;gap:16px;background:var(--papier);border:5px solid var(--encre);
+  border-radius:999px;padding:14px 28px;font-size:36px;font-weight:850;box-shadow:6px 6px 0 var(--encre);will-change:transform,opacity}
+.puce i{width:26px;height:26px;border-radius:50%;border:4px solid var(--encre)}
+.coeur{position:absolute;left:230px;top:360px;width:120px;height:120px;will-change:transform,opacity}
+.fenetre{position:absolute;inset:26px 26px 26px 26px;border:5px solid var(--encre);border-radius:26px;background:var(--papier);overflow:hidden}
+.fenetre .barre-nav{height:58px;border-bottom:5px solid var(--encre);display:flex;align-items:center;gap:12px;padding:0 20px;background:#fff}
+.fenetre .barre-nav i{width:20px;height:20px;border-radius:50%;border:3px solid var(--encre)}
+.bloc{position:absolute;border:4px solid var(--encre);border-radius:14px;will-change:transform,opacity}
+.signe-nv{position:absolute;right:34px;bottom:34px;display:flex;align-items:center;gap:16px;background:#fff;border:5px solid var(--encre);
+  border-radius:22px;padding:16px 24px;box-shadow:8px 8px 0 var(--encre);font-size:32px;font-weight:800;will-change:transform,opacity}
+.signe-nv img{height:44px;display:block}
+.tampon{display:inline-block;color:#fff;border:6px solid var(--encre);border-radius:28px;padding:20px 44px;font-size:76px;font-weight:900;
+  letter-spacing:-.03em;box-shadow:12px 12px 0 var(--encre)}
+#voile{position:absolute;inset:0;background:#0B1220;opacity:0}
+.fin{position:absolute;left:90px;right:90px;top:430px;background:var(--papier);border:6px solid var(--encre);border-radius:44px;
+  box-shadow:16px 16px 0 var(--encre);padding:60px 50px 54px;text-align:center;visibility:hidden}
+.fin img.logo{height:82px}
+.fin .phrase{margin-top:34px;font-size:56px;font-weight:850;line-height:1.08;letter-spacing:-0.03em}
+.bouton{position:relative;display:inline-flex;align-items:center;gap:14px;margin-top:40px;background:var(--bleu);color:#fff;border:5px solid var(--encre);
+  border-radius:999px;padding:22px 52px;font-size:48px;font-weight:900;box-shadow:9px 9px 0 var(--encre)}
+.onde{position:absolute;left:50%;top:50%;width:80px;height:80px;margin:-40px 0 0 -40px;border-radius:50%;border:6px solid var(--encre);opacity:0}
+.fin .infos{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.fin .infos span{display:inline-block;border:4px solid var(--encre);border-radius:999px;padding:10px 26px;font-size:34px;font-weight:800;background:#fff}
+.fin .infos span.jaune{background:var(--jaune)}
+</style>
+</head>
+<body>
+<div id="scene"></div>
+<script>
+var PALETTE = ['#2563EB', '#F9563B', '#16A34A', '#7C3AED', '#EC4899', '#F59E0B', '#4F46E5'];
+var DUREE = 30, FIN = 25.5;
+var scene = document.getElementById('scene');
+
+function borne(x){ return Math.max(0, Math.min(1, x)); }
+function rebond(p){ var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); }
+function douce(p){ p = borne(p); return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+function sortie(p){ p = borne(p); return 1 - Math.pow(1 - p, 3); }
+function creer(html, cls, y){
+  var n = document.createElement('div'); n.className = cls || 'el'; if (y !== undefined) n.style.top = y + 'px';
+  n.innerHTML = html; scene.appendChild(n); return n;
+}
+function voir(el, o){ el.style.opacity = o; el.style.visibility = o > 0.001 ? 'visible' : 'hidden'; }
+// Arrivée d'autocollant : petit rebond, puis sortie en glissant.
+function poser(el, t, t0, t1, rot, dx){
+  var a = borne((t - t0) / 0.3), d = borne((t1 - t) / 0.2);
+  var o = Math.min(borne(a * 2.4), d);
+  voir(el, o);
+  el.style.transform = 'translate(' + ((dx || 0) * (1 - sortie(a))) + 'px,' + ((1 - a) * 40 - (1 - d) * 30) + 'px) rotate(' + (rot || 0) + 'deg) scale(' + (0.8 + 0.2 * rebond(a)) + ')';
+}
+// Tampon : arrive trop grand, s'écrase sur place.
+function tamponner(el, t, t0, t1, rot){
+  var a = borne((t - t0) / 0.22), d = borne((t1 - t) / 0.2);
+  voir(el, Math.min(borne(a * 3), d));
+  el.style.transform = 'rotate(' + rot + 'deg) scale(' + (1.7 - 0.7 * sortie(a)) + ')';
+}
+var IMPACTS = [], WHOOSH = [7.7, 12, 14, 16, 18, 20, 22, 25.3];
+
+// ── 1. Accroche (0 à 4 s) ─────────────────────────────────────────────────
+var accroche = [
+  {n: creer('<div class="carte">Vous gérez votre activité…</div>', 'el', 400), t0: .15, t1: 3.85, rot: -1.5},
+  {n: creer('<div class="carte geante">…ou c\'est elle qui <span class="surligne">vous gère&nbsp;?</span></div>', 'el', 640), t0: 1.5, t1: 3.85, rot: 2}
+];
+accroche.forEach(function (e) { IMPACTS.push(e.t0); });
+
+// ── 2. Avalanche de tâches (4 à 8 s), une par temps ──────────────────────
+var TACHES = ['Factures', 'Peppol', 'Relances', 'Trésorerie', 'Réseaux sociaux', 'Site web', 'Démarches', '<s>Dormir</s>'];
+var POS = [[0, 330, -4], [380, 455, 3], [40, 590, 2], [300, 720, -3], [0, 860, -2], [420, 990, 4], [60, 1130, -3], [330, 1270, 5]];
+var taches = TACHES.map(function (x, i) {
+  var n = creer('<span class="tache"><i style="background:' + PALETTE[i % 7] + '"></i>' + x + '</span>', 'el', POS[i][1]);
+  n.style.left = (90 + POS[i][0]) + 'px'; n.style.right = 'auto';
+  IMPACTS.push(4 + i * .5);
+  return n;
+});
+
+// ── 3. Barres de transition aux couleurs du logo ─────────────────────────
+var barres = PALETTE.map(function (c, i) {
+  var b = document.createElement('div'); b.className = 'barre'; b.style.left = (i * 154.3 - 2) + 'px'; b.style.background = c;
+  scene.appendChild(b); return b;
+});
+function balayer(t, centre){
+  // Les barres montent, couvrent l'écran pile sur la coupe, puis repartent par le haut.
+  barres.forEach(function (b, i) {
+    // Barres de 3 840 px : toutes couvrent l'écran au moment de la coupe.
+    var p = (t - (centre - .45 + Math.abs(i - 3) * .02)) / .9;
+    var y = p <= 0 ? 1920 : p >= 1 ? -3840 : 1920 - 5760 * douce(p);
+    b.style.transform = 'translateY(' + y + 'px)';
+  });
+}
+
+// ── 4. « Respirez » (8 à 12 s) ───────────────────────────────────────────
+var respire = [
+  {n: creer('<div class="carte geante">Respirez.</div>', 'el', 400), t0: 8.25, t1: 11.8, rot: -2},
+  {n: creer('<div class="carte" style="display:flex;align-items:center;gap:26px;flex-wrap:wrap"><img src="../logo-header-light.png" alt="Pilotia" style="height:74px">s\'en occupe, <span class="surligne">avec vous.</span></div>', 'el', 660), t0: 9.25, t1: 11.8, rot: 1.5},
+  {n: creer('<div class="carte petite">Papiers, factures, trésorerie, visibilité&nbsp;: <span class="surligne">un seul copilote.</span></div>', 'el', 1010), t0: 10.25, t1: 11.8, rot: -1}
+];
+respire.forEach(function (e) { IMPACTS.push(e.t0); });
+
+// ── 5. Cinq savoir-faire (12 à 22 s), deux secondes chacun ───────────────
+var COCHE = '<svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+var MODULES = [
+  {t: 12, couleur: '#7C3AED', titre: 'Diagnostic express', legende: 'Où en est <span class="surligne">vraiment</span> votre entreprise&nbsp;?',
+   html: '<svg viewBox="0 0 320 320" style="position:absolute;left:46px;top:110px;width:330px;height:330px">' +
+         '<circle cx="160" cy="160" r="128" fill="none" stroke="#EDE9FE" stroke-width="40"/>' +
+         '<circle class="anneau" cx="160" cy="160" r="128" fill="none" stroke="#7C3AED" stroke-width="40" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 160 160)"/>' +
+         '<circle cx="160" cy="160" r="149" fill="none" stroke="#0F172A" stroke-width="5"/><circle cx="160" cy="160" r="107" fill="none" stroke="#0F172A" stroke-width="5"/>' +
+         '<text x="160" y="152" text-anchor="middle" font-size="64" font-weight="900" fill="#0F172A" font-family="Inter">3 min</text>' +
+         '<text x="160" y="200" text-anchor="middle" font-size="30" font-weight="700" fill="#334155" font-family="Inter">en ligne</text></svg>' +
+         '<div class="ligne" style="left:430px;top:170px"><span class="coche" style="background:#EDE9FE">' + COCHE + '</span>8 questions</div>' +
+         '<div class="ligne" style="left:430px;top:270px"><span class="coche" style="background:#FACC15">' + COCHE + '</span>4 thèmes</div>' +
+         '<div class="ligne" style="left:430px;top:370px"><span class="coche" style="background:#DCFCE7">' + COCHE + '</span>Gratuit</div>'},
+  {t: 14, couleur: '#2563EB', titre: 'Facture Peppol', legende: 'Facture électronique&nbsp;: on vous <span class="surligne">met en règle.</span>',
+   html: '<div class="noeud" style="left:40px"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c.8-3.6 3.9-6 7.5-6s6.7 2.4 7.5 6"/></svg>Vous</div>' +
+         '<div class="noeud" style="right:40px"><svg viewBox="0 0 24 24"><path d="M3 21V9l9-5 9 5v12"/><path d="M9 21v-6h6v6"/></svg>Votre client</div>' +
+         '<svg viewBox="0 0 888 548" style="position:absolute;inset:0"><path d="M300 275 H588" stroke="#0F172A" stroke-width="6" stroke-dasharray="14 14" fill="none"/></svg>' +
+         '<div class="doc"><b></b><b></b><b></b><b style="width:70%"></b></div>' +
+         '<div class="badge" style="left:300px;top:430px">' + COCHE.replace('<svg', '<svg style="width:34px;height:34px;stroke:#fff;stroke-width:3.6;fill:none;stroke-linecap:round;stroke-linejoin:round"') + 'Envoyée via Peppol</div>'},
+  {t: 16, couleur: '#15803D', titre: 'Plan de trésorerie', legende: 'Votre banque montre le passé. <span class="surligne">Voyez venir.</span>',
+   html: '<div style="position:absolute;left:44px;top:34px;font-size:36px;font-weight:850">Les six prochains mois</div>' +
+         '<svg viewBox="0 0 888 548" style="position:absolute;inset:0">' +
+         '<path d="M70 470 H820" stroke="#0F172A" stroke-width="6" fill="none"/>' +
+         '<path class="aire" d="M90 400 L230 360 L370 380 L510 290 L650 240 L790 170 L790 470 L90 470 Z" fill="#DCFCE7" opacity="0"/>' +
+         '<path class="courbe" d="M90 400 L230 360 L370 380 L510 290 L650 240 L790 170" stroke="#16A34A" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>' +
+         [[90, 400], [230, 360], [370, 380], [510, 290], [650, 240], [790, 170]].map(function (p, k) {
+           return '<circle class="point" data-k="' + k + '" cx="' + p[0] + '" cy="' + p[1] + '" r="18" fill="#FACC15" stroke="#0F172A" stroke-width="5"/>';
+         }).join('') + '</svg>'},
+  {t: 18, couleur: '#BE185D', titre: 'Présence digitale', legende: 'Être trouvé en ligne, <span class="surligne">sans y passer vos soirées.</span>',
+   html: '<div class="telephone">' + PALETTE.concat(['#FACC15', '#22D3C3']).map(function (c) { return '<div class="tuile" style="background:' + c + '"></div>'; }).join('') + '</div>' +
+         '<svg class="coeur" viewBox="0 0 24 24"><path d="M12 20.5s-8-4.9-8-11a4.5 4.5 0 0 1 8-2.9 4.5 4.5 0 0 1 8 2.9c0 6.1-8 11-8 11z" fill="#EC4899" stroke="#0F172A" stroke-width="1.6" stroke-linejoin="round"/></svg>' +
+         '<div class="puce" style="top:110px"><i style="background:#2563EB"></i>Fiche Google</div>' +
+         '<div class="puce" style="top:240px"><i style="background:#EC4899"></i>Réseaux</div>' +
+         '<div class="puce" style="top:370px"><i style="background:#FACC15"></i>Avis</div>'},
+  {t: 20, couleur: '#4F46E5', titre: 'Création', legende: 'Logo, site web, visuels&nbsp;: <span class="surligne">avec Nayas Visuals.</span>',
+   html: '<div class="fenetre"><div class="barre-nav"><i></i><i></i><i></i></div>' +
+         '<div class="bloc" style="left:30px;top:90px;width:300px;height:44px;background:#0F172A"></div>' +
+         '<div class="bloc" style="left:30px;top:160px;width:500px;height:150px;background:#4F46E5"></div>' +
+         '<div class="bloc" style="left:30px;top:336px;width:200px;height:60px;background:#FACC15;border-radius:30px"></div>' +
+         '<div class="bloc" style="left:560px;top:160px;width:236px;height:236px;background:#22D3C3"></div></div>' +
+         '<div class="signe-nv">avec<img src="../img/nayas-visuals-logo.svg" alt="Nayas Visuals"></div>'}
+];
+var bandeaux = [];
+MODULES.forEach(function (m, i) {
+  m.pastille = creer('<span class="pastille couleur" style="background:' + m.couleur + '"><span class="num">0' + (i + 1) + '</span>' + m.titre + '</span>', 'el', 320);
+  m.widget = creer('<div class="widget">' + m.html + '</div>', 'el', 450);
+  m.carte = creer('<div class="carte petite">' + m.legende + '</div>', 'el', 1100);
+  IMPACTS.push(m.t + .15, m.t + .45);
+  var b = document.createElement('div'); b.className = 'bandeau'; b.style.background = m.couleur; b.style.left = '90px';
+  scene.appendChild(b); bandeaux.push(b);
+});
+function animerModule(m, i, t){
+  var t0 = m.t, t1 = m.t + 2;
+  poser(m.pastille, t, t0 + .12, t1 - .05, -2, 0);
+  poser(m.widget, t, t0 + .1, t1 - .05, 0, 260);
+  poser(m.carte, t, t0 + .45, t1 - .05, -1.2, -200);
+  var w = m.widget, r = t - t0;
+  if (i === 0) {
+    w.querySelector('.anneau').setAttribute('stroke-dashoffset', 1 - douce((r - .3) / 1.1));
+    [].forEach.call(w.querySelectorAll('.ligne'), function (l, k) { poser(l, t, t0 + .7 + k * .25, t1, 0, 60); });
+  } else if (i === 1) {
+    // La facture part de « Vous », traverse et rentre dans « Votre client ».
+    var p = douce((r - .35) / .9), entre = borne((r - 1.15) / .2);
+    var doc = w.querySelector('.doc');
+    doc.style.opacity = 1 - entre;
+    doc.style.transform = 'translate(' + (105 + 560 * p) + 'px,' + (-Math.sin(p * Math.PI) * 70) + 'px) rotate(' + (-8 + 16 * p) + 'deg) scale(' + (1 - .5 * entre) + ')';
+    poser(w.querySelector('.badge'), t, t0 + 1.3, t1, -2, 0);
+  } else if (i === 2) {
+    var q = douce((r - .3) / 1.1);
+    w.querySelector('.courbe').setAttribute('stroke-dashoffset', 1 - q);
+    w.querySelector('.aire').setAttribute('opacity', .9 * borne((r - 1.1) / .4));
+    [].forEach.call(w.querySelectorAll('.point'), function (c, k) {
+      var a = borne((q - k / 5.2) * 8);
+      c.setAttribute('r', 18 * (k / 5 <= q + .001 ? rebond(a) : 0));
+    });
+  } else if (i === 3) {
+    [].forEach.call(w.querySelectorAll('.tuile'), function (tu, k) {
+      var a = borne((r - .3 - k * .08) / .25); tu.style.opacity = borne(a * 2); tu.style.transform = 'scale(' + (.4 + .6 * rebond(a)) + ')';
+    });
+    [].forEach.call(w.querySelectorAll('.puce'), function (pu, k) { poser(pu, t, t0 + .6 + k * .25, t1, k % 2 ? 2 : -2, 80); });
+    var h = borne((r - 1.25) / .3), hs = r < 1.25 ? 0 : (1.4 - .4 * sortie(h)) * (1 - borne((r - 1.75) / .2) * .2);
+    var coeur = w.querySelector('.coeur'); coeur.style.opacity = borne(h * 3); coeur.style.transform = 'scale(' + hs + ')';
+  } else {
+    [].forEach.call(w.querySelectorAll('.bloc'), function (bl, k) {
+      var a = borne((r - .3 - k * .14) / .3); bl.style.opacity = borne(a * 2);
+      bl.style.transform = 'translateY(' + (1 - sortie(a)) * 60 + 'px) scale(' + (.85 + .15 * rebond(a)) + ')';
+    });
+    poser(w.querySelector('.signe-nv'), t, t0 + .5, t1, -3, 0);
+  }
+}
+function balayerBandeau(b, t, centre){
+  // Un bandeau de la couleur du savoir-faire suivant traverse l'écran en biais.
+  var p = (t - (centre - .22)) / .44;
+  if (p <= 0 || p >= 1) { b.style.visibility = 'hidden'; return; }
+  b.style.visibility = 'visible';
+  b.style.transform = 'translateX(' + (1400 - 2800 * douce(p)) + 'px) skewX(-14deg)';
+}
+
+// ── 6. Publics (22 à 25,5 s) ─────────────────────────────────────────────
+var publics = [
+  {n: creer('<span class="tampon" style="background:#2563EB">Indépendants</span>', 'el', 360), t0: 22.25, rot: -4},
+  {n: creer('<span class="tampon" style="background:#7C3AED">PME</span>', 'el', 540), t0: 22.75, rot: 3},
+  {n: creer('<span class="tampon" style="background:#BE185D">Particuliers</span>', 'el', 720), t0: 23.25, rot: -2},
+  {n: creer('<div class="carte geante">Pilotez votre <span class="surligne">succès.</span></div>', 'el', 960), t0: 23.9, rot: 1.5, carte: true}
+];
+publics[1].n.style.left = '330px';
+publics.forEach(function (e) { IMPACTS.push(e.t0); });
+
+// ── 7. Abonnement (25,5 à 30 s) ──────────────────────────────────────────
+var voile = document.createElement('div'); voile.id = 'voile'; scene.appendChild(voile);
+var fin = document.createElement('div'); fin.className = 'fin';
+fin.innerHTML = '<span class="pastille" style="transform:rotate(-2deg)">Nouveau compte</span>' +
+  '<div style="margin-top:34px"><img class="logo" src="../logo-header-light.png" alt="Pilotia"></div>' +
+  '<div class="phrase">Suivez le lancement, <span class="surligne">abonnez-vous.</span></div>' +
+  '<div><span class="bouton"><span class="libelle">S\'abonner</span><span class="onde"></span></span></div>' +
+  '<div class="infos"><span class="jaune">Diagnostic gratuit en 3 minutes</span><span>www.pilotia.be</span><span>Ouverture en janvier 2027</span></div>';
+scene.appendChild(fin);
+var bouton = fin.querySelector('.bouton'), libelle = fin.querySelector('.libelle'), onde = fin.querySelector('.onde');
+var infos = fin.querySelectorAll('.infos span');
+IMPACTS.push(FIN + .1, 27.2, 27.9, 28.25, 28.6);
+
+window.rendre = function (t) {
+  accroche.forEach(function (e) { poser(e.n, t, e.t0, e.t1, e.rot); });
+  // Les tâches s'empilent, puis tout tremble avant la coupure.
+  var secousse = borne((t - 6.9) / .8);
+  taches.forEach(function (n, i) {
+    poser(n, t, 4 + i * .5, 7.95, POS[i][2], 0);
+    if (t > 6.9 && t < 7.95) {
+      var j = Math.sin(t * 71 + i * 1.7) * 14 * secousse, k = Math.cos(t * 59 + i) * 10 * secousse;
+      n.style.transform = 'translate(' + j + 'px,' + k + 'px) rotate(' + (POS[i][2] + j / 4) + 'deg)';
+    }
+  });
+  respire.forEach(function (e) { poser(e.n, t, e.t0, e.t1, e.rot); });
+  MODULES.forEach(function (m, i) { animerModule(m, i, t); });
+  // Le premier savoir-faire arrive avec les barres ; les suivants avec un bandeau.
+  bandeaux.forEach(function (b, i) { if (i) balayerBandeau(b, t, MODULES[i].t); else b.style.visibility = 'hidden'; });
+  publics.forEach(function (e) {
+    if (e.carte) poser(e.n, t, e.t0, FIN + .1, e.rot); else tamponner(e.n, t, e.t0, FIN + .1, e.rot);
+  });
+  // Barres : avant « Respirez », avant les savoir-faire, avant l'abonnement.
+  var centre = t < 10 ? 8 : t < 17 ? 12 : FIN - .1;
+  balayer(t, centre);
+  voile.style.opacity = .72 * borne((t - FIN + .1) / .4);
+  poser(fin, t, FIN + .05, DUREE + 1, 0);
+  // Le bouton « S'abonner » est touché, puis devient « Abonné ».
+  var appui = t - 27.2;
+  bouton.style.transform = 'scale(' + (appui > 0 && appui < .25 ? .9 : 1) + ')';
+  var abonne = t >= 27.35;
+  libelle.textContent = abonne ? 'Abonné ✓' : 'S\'abonner';
+  bouton.style.background = abonne ? '#16A34A' : '#2563EB';
+  var po = borne(appui / .6);
+  onde.style.opacity = appui > 0 ? (1 - po) : 0;
+  onde.style.transform = 'scale(' + (1 + po * 5) + ')';
+  [].forEach.call(infos, function (s, k) { poser(s, t, 27.9 + k * .35, DUREE + 1, k % 2 ? 1.5 : -1.5); });
+};
+window.DUREE = DUREE; window.FIN = FIN;
+window.IMPACTS = IMPACTS.map(function (x) { return +x.toFixed(2); }).sort(function (a, b) { return a - b; });
+window.WHOOSH = WHOOSH;
+window.rendre(0);
+</script>
+</body>
+</html>

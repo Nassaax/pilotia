@@ -131,6 +131,7 @@ l'y ajouter ensuite.
 | Accompagnement de projet (l'idée, puis la méthode en 5 étapes) | Reel terrain 9:16 (30 s) | `reels-terrain.html?r=projet` |
 | Partage de comptes (abonnement, like, activité en commentaire, repartage en story) | Carrousel série Services (communauté) | `carrousel-partage-comptes.html` |
 | Collaboration avec Nayas Visuals (stratégie et création, chacun son expertise) | Carrousel série Services (annonce) | `carrousel-collaboration-nayas-visuals.html` |
+| Bienvenue chez Pilotia : accroche, avalanche de tâches, cinq savoir-faire en motion design, appel à s'abonner | Reel 9:16 (30 s), motion design sur plans filmés | `reel-lancement.html`, `reel-lancement.py` |
 
 ## 9. Cohérence de série
 
@@ -363,4 +364,27 @@ surligné jaune, une couleur de service pour la carte de fin.
 - **Écart à la norme vidéo :** ni voix off ni 3D. C'est un format de fil
   Instagram, distinct des films de marque ; il ne remplace pas la norme
   pour un nouveau film.
+
+## 20. Le Reel « Bienvenue chez Pilotia » (motion design sur plans filmés)
+
+Le Reel du démarrage du compte : faire comprendre en 30 s ce que fait Pilotia et
+donner envie de s'abonner.
+
+- **Rythme.** 120 bpm, un temps = 0,5 s. Toutes les coupes tombent sur un temps :
+  une par seconde dans l'accroche, deux secondes par savoir-faire ensuite.
+- **Déroulé.** Accroche (« Vous gérez votre activité… ou c'est elle qui vous
+  gère ? »), avalanche de tâches qui tremble (et « Dormir » barré), barres aux sept
+  couleurs du logo, « Respirez. Pilotia s'en occupe, avec vous. », cinq
+  savoir-faire animés (diagnostic express, facture Peppol, plan de trésorerie,
+  présence digitale, création avec Nayas Visuals), trois publics tamponnés,
+  carte d'abonnement dont le bouton est touché.
+- **Motion design.** Les démonstrations sont des schémas, jamais des captures
+  d'écran : anneau qui se remplit, facture qui voyage, courbe sans montants, grille
+  de publications. Aucun chiffre en dehors de ceux du site (3 minutes, 8 questions,
+  4 thèmes, janvier 2027).
+- **Nayas Visuals** apparaît avec son logo, sur le module « Création ».
+- **Fichiers.** `reel-lancement.html` (calque, fonction pure du temps),
+  `reels-terrain-calque.js` (rendu image par image, avec le nom de la page en
+  dernier argument), `score-lancement.py` (bande-son synthétisée), `reel-lancement.py`
+  (montage). Une version sans musique est livrée pour poser un son d'Instagram.
 
