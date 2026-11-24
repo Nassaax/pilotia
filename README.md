@@ -216,3 +216,13 @@ Règles :
 - Couleurs : la charte Pilotia partout ; l'orange de Nayas Visuals (#FF5B2E) seulement dans son logo.
 - `tests/format-app/test_credit.py` vérifie le pied de page, le logo ou le lien à chaque mention, et l'absence de l'orange hors du logo.
 
+## Composants d'interface (icônes et effets)
+
+Un seul endroit par composant : le style dans `style.css`, le comportement dans `animations.js`, le menu dans `scripts/navigation-app.py`. Animations en CSS, désactivées si l'appareil demande moins d'animations.
+
+- **Menu « Découvrir »** (en-tête, ordinateur) : généré depuis la liste `DECOUVRIR` de `scripts/navigation-app.py`, une icône par ligne, « Tous les services » en dernière ligne sous un filet. Ouverture au survol (souris) et au clic (tactile, clavier) ; fermeture par Échap, clic extérieur ou sortie au clavier ; `aria-expanded` à jour.
+- **Choix en tuiles** (`.choix`, `.choix-tuile`) : un vrai bouton radio invisible couvre la tuile. `.choix-type` (grille de 3, de 2 sur téléphone) pour « Vous êtes » sur `contact.html` ; `.choix-ligne` pour les réponses du diagnostic express, qui passe seul à la question suivante après un choix.
+- **Deux anneaux** (`[data-anneaux]`, `marketing-digital.html`) : Pilotia, la stratégie, et Nayas Visuals, la création, se tracent à l'entrée à l'écran ; « Un résultat de qualité » au croisement.
+- **Cartes photo** (`.cartes-photo`, `entreprises.html`) : les cinq métiers, photos 4:5 en WebP (`img/metier-*-640.webp`), zoom doux au survol.
+- Tests : `tests/format-app/test_effets.py`.
+

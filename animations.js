@@ -56,33 +56,52 @@
   "use strict";
 
   var dropdowns = document.querySelectorAll(".dropdown");
+  // Souris : ouverture au survol. Tactile et clavier : au clic. Fermeture par
+  // Échap, clic à l'extérieur ou quand le focus clavier quitte le menu.
+  var souris = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  function regler(dropdown, ouvert) {
+    dropdown.classList.toggle("is-open", ouvert);
+    var trigger = dropdown.querySelector(".dropdown-trigger");
+    if (trigger) trigger.setAttribute("aria-expanded", ouvert ? "true" : "false");
+  }
 
   dropdowns.forEach(function (dropdown) {
     var trigger = dropdown.querySelector(".dropdown-trigger");
     if (!trigger) return;
+    var minuterie = null;
 
     trigger.addEventListener("click", function () {
-      var open = dropdown.classList.toggle("is-open");
-      trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      regler(dropdown, !dropdown.classList.contains("is-open"));
+    });
+    dropdown.addEventListener("mouseenter", function () {
+      if (!souris || !souris.matches) return;
+      clearTimeout(minuterie);
+      regler(dropdown, true);
+    });
+    dropdown.addEventListener("mouseleave", function () {
+      if (!souris || !souris.matches) return;
+      clearTimeout(minuterie);
+      minuterie = setTimeout(function () { regler(dropdown, false); }, 160);
+    });
+    dropdown.addEventListener("focusout", function (e) {
+      if (!e.relatedTarget || !dropdown.contains(e.relatedTarget)) regler(dropdown, false);
     });
   });
 
   document.addEventListener("click", function (e) {
     dropdowns.forEach(function (dropdown) {
-      if (!dropdown.contains(e.target)) {
-        dropdown.classList.remove("is-open");
-        var trigger = dropdown.querySelector(".dropdown-trigger");
-        if (trigger) trigger.setAttribute("aria-expanded", "false");
-      }
+      if (!dropdown.contains(e.target)) regler(dropdown, false);
     });
   });
 
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
     dropdowns.forEach(function (dropdown) {
-      dropdown.classList.remove("is-open");
-      var trigger = dropdown.querySelector(".dropdown-trigger");
-      if (trigger) trigger.setAttribute("aria-expanded", "false");
+      if (!dropdown.classList.contains("is-open")) return;
+      var dedans = dropdown.contains(document.activeElement);
+      regler(dropdown, false);
+      if (dedans) dropdown.querySelector(".dropdown-trigger").focus();
     });
   });
 })();
@@ -228,6 +247,12 @@
     return el ? el.value.trim() : "";
   }
 
+  // Choix par tuiles (boutons radio) : la valeur cochée, ou rien.
+  function choix(nom) {
+    var coche = form.querySelector('input[name="' + nom + '"]:checked');
+    return coche ? coche.value : "";
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -235,7 +260,7 @@
       nom: val("nom"),
       email: val("email"),
       entreprise: val("entreprise"),
-      profil: val("profil"),
+      profil: choix("profil"),
       message: val("message"),
       consent: document.getElementById("consent").checked,
       website: val("website"),
@@ -435,3 +460,25 @@
     io.observe(el);
   });
 })();
+
+/* Deux anneaux qui se dessinent (marketing-digital.html) : la classe .vu lance
+   le tracé quand le schéma entre à l'écran. Sans IntersectionObserver, tout
+   s'affiche d'emblée. */
+(function () {
+  "use strict";
+  var schemas = document.querySelectorAll("[data-anneaux]");
+  if (!schemas.length) return;
+  if (!("IntersectionObserver" in window)) {
+    schemas.forEach(function (s) { s.classList.add("vu"); });
+    return;
+  }
+  var obs = new IntersectionObserver(function (entrees) {
+    entrees.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("vu");
+      obs.unobserve(e.target);
+    });
+  }, { threshold: 0.35 });
+  schemas.forEach(function (s) { obs.observe(s); });
+})();
+

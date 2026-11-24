@@ -14,7 +14,7 @@ from aide import ORDINATEUR, RACINE, REFERENCE, pages_du_site, servir
 # Le site de référence est l'écran d'ouverture (novembre 2026) : les changements
 # prévus d'avant sont tous dedans. Ajouter ici une page dont le rendu doit changer.
 CHANGEMENTS_PREVUS = {'contact.html', 'index.html', 'entreprises.html', 'cookies.html', 'mentions-legales.html',
-                      'offres.html', 'marketing-digital.html'}
+                      'offres.html', 'marketing-digital.html', 'diagnostic.html'}
 
 
 @pytest.fixture(scope='module')

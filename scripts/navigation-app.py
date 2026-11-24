@@ -26,6 +26,17 @@ ICONES = {
     'chevron': '<path d="m9 6 6 6-6 6"/>',
     'externe': '<path d="M7 17 17 7M9 7h8v8"/>',
     'fermer': '<path d="M6 6l12 12M18 6L6 18"/>',
+    # Menu « Découvrir » (ordinateur)
+    'facture': '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 15.5h6M9.5 9h2.5"/>',
+    'projet': '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+    'loupe': '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/>',
+    'affacturage': '<rect x="3" y="6" width="18" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 9.5v.01M17.5 14.5v.01"/>',
+    'ressources': '<path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/>',
+    'methode': '<path d="M4 18h4v-4h4v-4h4V6h4"/>',
+    'statistiques': '<path d="M4 20V10M10 20V4M16 20v-7M3 20.5h18"/>',
+    'conseils': '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+    'apropos': '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/>',
+    'grille': '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>',
 }
 
 
@@ -40,6 +51,20 @@ ONGLETS = [('accueil', 'index.html', 'Accueil'),
            ('rdv', 'contact.html', 'Rendez-vous'),
            ('outils', 'outils.html', 'Outils'),
            ('espace', 'mon-espace.html', 'Mon espace')]
+# Menu « Découvrir » de l'en-tête (ordinateur) : une ligne par lien avec son icône,
+# puis « Tous les services » en dernière ligne, sous un filet.
+DECOUVRIR = [('facturation-electronique.html', 'Facture Peppol', 'facture'),
+             ('accompagnement-projet.html', 'Accompagnement de projet', 'projet'),
+             ('diagnostic.html', 'Diagnostic express', 'loupe'),
+             ('affacturage.html', 'Affacturage', 'affacturage'),
+             ('outils.html', 'Outils', 'outils'),
+             ('ressources.html', 'Ressources', 'ressources'),
+             ('methode.html', 'Méthode', 'methode'),
+             ('statistiques.html', 'Statistiques', 'statistiques'),
+             ('conseils.html', 'Conseils', 'conseils'),
+             ('a-propos.html', 'À propos', 'apropos'),
+             ('mon-espace.html', 'Mon espace', 'espace')]
+TOUT_VOIR = ('services.html', 'Tous les services', 'grille')
 SERVICES = ('entreprises.html', 'independants.html', 'facturation-electronique.html',
             'affacturage.html', 'marketing-digital.html', 'offres.html',
             'particuliers.html', 'accompagnement-projet.html')
@@ -141,23 +166,25 @@ def segment(nom):
 
 
 def menu(t, nom):
-    """Menu « Découvrir » (ordinateur) : « Tous les services » en tête et
-    « Mon espace » en fin, actifs sur leur propre page. Les deux entrées sont
-    retirées puis reposées, ce qui rend l'opération répétable."""
-    m = re.search(r'(<ul class="dropdown-menu">)(.*?)(\n[ \t]*</ul>)', t, re.S)
-    retrait = re.search(r'\n([ \t]*)<li>', m.group(2)).group(1)
-    entrees = [li for li in re.findall(r'<li>.*?</li>', m.group(2))
-               if 'href="services.html"' not in li and 'href="mon-espace.html"' not in li]
+    """Menu « Découvrir » (ordinateur), entièrement réécrit depuis DECOUVRIR :
+    une icône par ligne, « Tous les services » en dernière ligne sous un filet.
+    L'entrée de la page courante porte la classe active."""
+    m = re.search(r'(<ul class="dropdown-menu"[^>]*>)(.*?)(\n[ \t]*</ul>)', t, re.S)
+    retrait = re.search(r'\n([ \t]*)<li', m.group(2)).group(1)
 
-    def entree(href, libelle):
-        actif = ' class="active"' if href == nom else ''
-        return f'<li><a href="{href}"{actif}>{libelle}</a></li>'
-    entrees = ([entree('services.html', 'Tous les services')] + entrees
-               + [entree('mon-espace.html', 'Mon espace')])
-    bloc = m.group(1) + ''.join('\n' + retrait + li for li in entrees) + m.group(3)
+    def entree(href, libelle, icone, classe_li=''):
+        actif = ' class="active" aria-current="page"' if href == nom else ''
+        return (f'<li{classe_li}><a href="{href}"{actif}><span class="dropdown-icone">{svg(icone)}</span>'
+                f'{libelle}</a></li>')
+    entrees = [entree(*e) for e in DECOUVRIR] + [entree(*TOUT_VOIR, classe_li=' class="dropdown-tout"')]
+    bloc = '<ul class="dropdown-menu" id="menuDecouvrir">' + ''.join('\n' + retrait + li for li in entrees) + m.group(3)
     t = t[:m.start()] + bloc + t[m.end():]
-    if nom in ('services.html', 'mon-espace.html'):
-        t = t.replace('class="dropdown-trigger" ', 'class="dropdown-trigger active" ', 1)
+    t = t.replace('aria-expanded="false" aria-haspopup="true">Découvrir',
+                  'aria-expanded="false" aria-controls="menuDecouvrir">Découvrir', 1)
+    # Le bouton est actif sur les pages du menu ; les sous-pages (calculateurs,
+    # conseils) gardent l'état actif déjà écrit dans leur gabarit.
+    if nom in [h for h, _, _ in DECOUVRIR] + [TOUT_VOIR[0]]:
+        t = t.replace('class="dropdown-trigger"', 'class="dropdown-trigger active"', 1)
     return t
 
 

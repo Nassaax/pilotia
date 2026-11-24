@@ -64,13 +64,17 @@ def test_panneau_plus_et_scripts(nom):
 
 @pytest.mark.parametrize('nom', PAGES)
 def test_menu_ordinateur_complete(nom):
-    menu = re.search(r'<ul class="dropdown-menu">(.*?)</ul>', source(nom), re.S).group(1)
-    liens = re.findall(r'<li><a href="([^"]+)"( class="active")?>([^<]+)</a></li>', menu)
-    assert (liens[0][0], liens[0][2]) == ('services.html', 'Tous les services')
-    assert (liens[-1][0], liens[-1][2]) == ('mon-espace.html', 'Mon espace')
-    assert [h for h, _, _ in liens].count('services.html') == 1
-    assert [h for h, _, _ in liens].count('mon-espace.html') == 1
-    for href, actif, _ in (liens[0], liens[-1]):
+    # Menu « Découvrir » : une icône par ligne, « Mon espace » en avant-dernier,
+    # « Tous les services » en dernière ligne sous un filet ; la page courante active.
+    menu = re.search(r'<ul class="dropdown-menu" id="menuDecouvrir">(.*?)</ul>', source(nom), re.S).group(1)
+    liens = re.findall(r'<li( class="dropdown-tout")?><a href="([^"]+)"( class="active" aria-current="page")?>'
+                       r'<span class="dropdown-icone"><svg [^>]*aria-hidden="true"[^>]*>.*?</svg></span>([^<]+)</a></li>',
+                       menu, re.S)
+    assert len(liens) == menu.count('<li')
+    assert (liens[-1][0], liens[-1][1], liens[-1][3]) == (' class="dropdown-tout"', 'services.html', 'Tous les services')
+    assert (liens[-2][1], liens[-2][3]) == ('mon-espace.html', 'Mon espace')
+    assert [h for _, h, _, _ in liens].count('services.html') == 1
+    for _, href, actif, _ in liens:
         assert bool(actif) == (href == nom)
 
 

@@ -57,3 +57,5 @@ que la licence Pexels autorise.
 
 Noter ici la source et la licence **avant** de les publier. Une image dont on
 ne sait plus d'où elle vient est une image qu'il faudra retirer.
+| `metier-*-640.webp` | `entreprises.html` (cartes photo « Quel que soit votre métier ») | 4:5, 640 × 800, qualité 78, découpés dans les `secteur-*` ci-dessus ; cadrés pour qu'aucun visage n'apparaisse (coiffure : la tondeuse et la main ; esthétique : l'appareil) |
+
