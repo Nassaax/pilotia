@@ -132,3 +132,19 @@ def test_accueil(telephone, ordinateur, base_url):
     page.wait_for_url('**/diagnostic.html?reponse=1')
     assert page.locator('#progress').inner_text() == 'Question 2 sur 8'
     assert erreurs == []
+
+
+METIERS = ['coaching-restaurant.html', 'coaching-boulangerie.html', 'coaching-coiffeur.html',
+           'coaching-esthetique.html', 'coaching-agent-immobilier.html']
+
+
+def test_cas_types_des_pages_metier(telephone, base_url):
+    # Pas d'avis client inventé : un cas type, présenté comme un exemple.
+    for nom in METIERS:
+        page, erreurs = ouvrir(telephone, base_url, nom)
+        assert page.locator('.avis, blockquote').count() == 0, nom
+        assert page.locator('.section-cas-type .cas-type-etape').count() == 3, nom
+        note = page.text_content('.cas-type-note')
+        assert "Ce n'est pas le témoignage d'un client." in note, nom
+        assert page.evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth') == 0
+        assert erreurs == [], nom

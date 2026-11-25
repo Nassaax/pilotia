@@ -1536,3 +1536,13 @@ html.js .anneau-suite{transition:opacity .6s ease 1.3s}
 }
 @media (prefers-reduced-motion: reduce){.carte-photo img{transition:none}.carte-photo:hover img{transform:none}}
 
+/* ── Cas type (pages métier) : une situation fréquente en trois temps, à la
+   place des avis d'exemple retirés. Présenté comme un exemple, jamais comme
+   le témoignage d'un client. */
+.cas-type{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+.cas-type-etape h3{margin-top:12px;font-size:18px}
+.cas-type-etape p{margin-top:8px}
+.cas-type-num{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-family:var(--font-body);font-size:15px;font-weight:800}
+.cas-type-note{margin-top:16px;font-family:var(--font-body);font-size:13px;color:var(--ink-soft)}
+@media (max-width:860px){.cas-type{grid-template-columns:minmax(0,1fr)}}
+
