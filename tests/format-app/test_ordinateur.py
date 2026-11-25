@@ -14,7 +14,11 @@ from aide import ORDINATEUR, RACINE, REFERENCE, pages_du_site, servir
 # Le site de référence est l'écran d'ouverture (novembre 2026) : les changements
 # prévus d'avant sont tous dedans. Ajouter ici une page dont le rendu doit changer.
 CHANGEMENTS_PREVUS = {'contact.html', 'index.html', 'entreprises.html', 'cookies.html', 'mentions-legales.html',
-                      'offres.html', 'marketing-digital.html'}
+                      'offres.html', 'marketing-digital.html',
+                      # Planche « Pilotia améliorations » (novembre 2026) : diagnostic une
+                      # question par écran, et témoignages d'exemple retirés des pages métier.
+                      'diagnostic.html', 'coaching-agent-immobilier.html', 'coaching-boulangerie.html',
+                      'coaching-coiffeur.html', 'coaching-esthetique.html', 'coaching-restaurant.html'}
 
 
 @pytest.fixture(scope='module')
@@ -43,6 +47,9 @@ def capturer(navigateur, url, chemin):
         # Le bandeau de pré-lancement est temporaire et le même sur toutes les
         # pages : il est retiré de la capture, le reste doit rester identique.
         page.evaluate("document.querySelectorAll('.prelancement, .credit-site').forEach(e => e.remove())")
+        # Le menu du haut a été simplifié sur toutes les pages (novembre 2026) : il
+        # est masqué dans les deux captures (sa place reste), le reste doit rester identique.
+        page.evaluate("document.querySelectorAll('.nav-links').forEach(e => e.style.visibility = 'hidden')")
         page.screenshot(path=str(chemin), full_page=True, animations='disabled')
     finally:
         ctx.close()

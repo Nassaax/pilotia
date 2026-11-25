@@ -64,14 +64,18 @@ def test_panneau_plus_et_scripts(nom):
 
 @pytest.mark.parametrize('nom', PAGES)
 def test_menu_ordinateur_complete(nom):
+    # Menu simplifié (novembre 2026) : les services dans un menu déroulant,
+    # puis quatre entrées et l'appel gratuit.
     menu = re.search(r'<ul class="dropdown-menu">(.*?)</ul>', source(nom), re.S).group(1)
     liens = re.findall(r'<li><a href="([^"]+)"( class="active")?>([^<]+)</a></li>', menu)
     assert (liens[0][0], liens[0][2]) == ('services.html', 'Tous les services')
-    assert (liens[-1][0], liens[-1][2]) == ('mon-espace.html', 'Mon espace')
     assert [h for h, _, _ in liens].count('services.html') == 1
-    assert [h for h, _, _ in liens].count('mon-espace.html') == 1
-    for href, actif, _ in (liens[0], liens[-1]):
-        assert bool(actif) == (href == nom)
+    actifs = [h for h, a, _ in liens if a]
+    attendu_actif = 'entreprises.html' if nom.startswith('coaching-') else nom
+    assert actifs == ([attendu_actif] if attendu_actif in [h for h, _, _ in liens] else [])
+    haut = re.search(r'</ul>\s*</li>(.*?)</ul>', source(nom)[source(nom).index('class="nav-links"'):], re.S).group(1)
+    assert re.findall(r'<li><a href="([^"]+)"', haut) == [
+        'outils.html', 'methode.html', 'a-propos.html', 'mon-espace.html', 'contact.html']
 
 
 @pytest.mark.parametrize('nom', ['outils.html', 'conseils.html', 'ressources.html'])

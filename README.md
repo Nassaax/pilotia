@@ -34,7 +34,7 @@ Une section **"Ce que Pilotia n'est pas"** a été ajoutée à `a-propos.html`, 
 
 ```
 Cœur du site
-  index.html            Accueil — 3 piliers, aiguillage vers les 2 parcours, Peppol, 3 témoignages
+  index.html            Accueil — aperçu du diagnostic, 3 parcours, 3 piliers, Peppol, outils gratuits (avis retirés en novembre 2026 : aucun client réel avant l'ouverture)
   entreprises.html       Parcours PME existantes
   independants.html      Parcours futurs indépendants
   particuliers.html      Aide aux particuliers

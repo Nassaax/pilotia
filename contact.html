@@ -68,28 +68,24 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="entreprises.html">Entreprises</a></li>
-      <li><a href="independants.html">Devenir indépendant</a></li>
-      <li><a href="particuliers.html">Particuliers</a></li>
-      <li><a href="marketing-digital.html">Présence digitale</a></li>
-      <li><a href="offres.html">Offres</a></li>
       <li class="dropdown">
-        <button type="button" class="dropdown-trigger" aria-expanded="false" aria-haspopup="true">Découvrir <span class="dropdown-caret" aria-hidden="true">▾</span></button>
+        <button type="button" class="dropdown-trigger" aria-expanded="false" aria-haspopup="true">Services <span class="dropdown-caret" aria-hidden="true">▾</span></button>
         <ul class="dropdown-menu">
           <li><a href="services.html">Tous les services</a></li>
-          <li><a href="facturation-electronique.html">Facture Peppol</a></li>
+          <li><a href="entreprises.html">Entreprises</a></li>
+          <li><a href="independants.html">Devenir indépendant</a></li>
+          <li><a href="particuliers.html">Particuliers</a></li>
           <li><a href="accompagnement-projet.html">Accompagnement de projet</a></li>
-          <li><a href="diagnostic.html">Diagnostic express</a></li>
+          <li><a href="marketing-digital.html">Présence digitale</a></li>
+          <li><a href="facturation-electronique.html">Facture Peppol</a></li>
           <li><a href="affacturage.html">Affacturage</a></li>
-          <li><a href="outils.html">Outils</a></li>
-          <li><a href="ressources.html">Ressources</a></li>
-          <li><a href="methode.html">Méthode</a></li>
-          <li><a href="statistiques.html">Statistiques</a></li>
-          <li><a href="conseils.html">Conseils</a></li>
-          <li><a href="a-propos.html">À propos</a></li>
-          <li><a href="mon-espace.html">Mon espace</a></li>
+          <li><a href="offres.html">Offres</a></li>
         </ul>
       </li>
+      <li><a href="outils.html">Outils gratuits</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="mon-espace.html">Mon espace</a></li>
       <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
     </ul>
   </div>
@@ -117,11 +113,52 @@
 <section>
   <div class="wrap">
     <div class="grid grid-2">
-      <div class="rdv-carte">
+      <div class="rdv-carte" id="rdv">
         <p class="duree">15 min · gratuit</p>
         <h2 class="section-title">Écrire sur WhatsApp</h2>
         <p>Une question, un rendez-vous&nbsp;? Le message est déjà prêt&nbsp;: complétez-le en une phrase et envoyez. Je vous réponds personnellement, et on fixe ensemble un appel de 15 minutes, gratuit.</p>
-        <a href="https://wa.me/32483445931?text=Bonjour%20Pilotia%2C%20je%20viens%20du%20site%20pilotia.be%20et%20j%27aimerais%20un%20premier%20%C3%A9change%20de%2015%20minutes.%20Mon%20projet%20en%20quelques%20mots%20%3A%20" class="btn btn-primary" target="_blank" rel="noopener">Écrire sur WhatsApp →</a>
+        <div class="rdv-suivi" aria-hidden="true"><span></span><span></span><span></span></div>
+        <p class="rdv-compteur" id="rdv-compteur" aria-live="polite"></p>
+        <form class="rdv-etapes" id="rdv-form" novalidate>
+          <fieldset class="rdv-etape" data-etape="1">
+            <legend>Vous êtes…</legend>
+            <label class="rdv-choix"><input type="radio" name="rdv-profil" value="Une entreprise déjà en activité"><span>Une entreprise déjà en activité</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-profil" value="Un futur indépendant"><span>Un futur indépendant</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-profil" value="Un particulier"><span>Un particulier</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-profil" value="Un porteur de projet"><span>Un porteur de projet</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-profil" value="Autre"><span>Autre</span></label>
+          </fieldset>
+          <fieldset class="rdv-etape" data-etape="2">
+            <legend>De quoi voulez-vous parler&nbsp;?</legend>
+            <label class="rdv-choix"><input type="radio" name="rdv-sujet" value="Diagnostic et gestion"><span>Diagnostic et gestion</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-sujet" value="Facture Peppol"><span>Facture Peppol</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-sujet" value="Présence digitale"><span>Présence digitale</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-sujet" value="Devenir indépendant"><span>Devenir indépendant</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-sujet" value="Autre chose"><span>Autre chose</span></label>
+          </fieldset>
+          <fieldset class="rdv-etape" data-etape="3">
+            <legend>Quand préférez-vous être appelé&nbsp;?</legend>
+            <div class="rdv-moments">
+            <label class="rdv-choix"><input type="radio" name="rdv-moment" value="le matin"><span>Le matin</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-moment" value="le midi"><span>Le midi</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-moment" value="en fin de journée"><span>En fin de journée</span></label>
+            <label class="rdv-choix"><input type="radio" name="rdv-moment" value="peu importe" checked><span>Peu importe</span></label>
+            </div>
+            <p class="rdv-apercu-titre">Votre message</p>
+            <p class="rdv-apercu" id="rdv-apercu">Bonjour Pilotia, je viens du site pilotia.be et j'aimerais un premier échange de 15 minutes.</p>
+            <div class="consent-row">
+              <input type="checkbox" id="rdv-consent">
+              <label for="rdv-consent">J'accepte que mon message et mon numéro WhatsApp soient utilisés pour me répondre. Ils ne serviront à rien d'autre et ne seront pas ajoutés à une liste de diffusion. Voir la <a href="confidentialite.html">politique de confidentialité</a>.</label>
+            </div>
+          </fieldset>
+          <p class="rdv-alerte" id="rdv-alerte" role="alert"></p>
+          <div class="rdv-actions">
+            <button type="button" class="btn btn-secondary" id="rdv-retour">← Retour</button>
+            <button type="button" class="btn btn-primary" id="rdv-suite">Continuer →</button>
+            <a href="https://wa.me/32483445931?text=Bonjour%20Pilotia%2C%20je%20viens%20du%20site%20pilotia.be%20et%20j%27aimerais%20un%20premier%20%C3%A9change%20de%2015%20minutes.%20Mon%20projet%20en%20quelques%20mots%20%3A%20" class="btn btn-primary" id="rdv-whatsapp" target="_blank" rel="noopener">Écrire sur WhatsApp →</a>
+          </div>
+        </form>
+        <p class="rdv-email"><a href="#contact-form">Je préfère l'email</a></p>
       </div>
       <div data-repli>
         <h2 class="section-title">Ou laissez-nous un message</h2>
@@ -203,6 +240,81 @@
   <ul class="plus-liste"><li><a href="mentions-legales.html">Mentions légales<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></a></li><li><a href="confidentialite.html">Confidentialité<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></a></li><li><a href="cookies.html">Cookies<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></a></li><li><a href="cgv.html">Conditions générales<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></a></li><li><a href="accessibilite.html">Accessibilité<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></a></li></ul>
 </dialog>
 <!-- /app:plus -->
+<script>
+/* Prise de rendez-vous en trois gestes : profil, sujet, moment préféré. Le
+   message WhatsApp se remplit au fur et à mesure ; il ne part qu'avec le
+   consentement coché. Sans JavaScript, les trois questions restent visibles
+   et le lien ouvre WhatsApp avec le message de départ. */
+(function () {
+  "use strict";
+  var carte = document.getElementById("rdv");
+  if (!carte) return;
+  var form = document.getElementById("rdv-form");
+  var etapes = carte.querySelectorAll(".rdv-etape");
+  var suivi = carte.querySelectorAll(".rdv-suivi span");
+  var compteur = document.getElementById("rdv-compteur");
+  var alerte = document.getElementById("rdv-alerte");
+  var retour = document.getElementById("rdv-retour");
+  var suite = document.getElementById("rdv-suite");
+  var lien = document.getElementById("rdv-whatsapp");
+  var apercu = document.getElementById("rdv-apercu");
+  var consent = document.getElementById("rdv-consent");
+  var base = lien.href.split("?")[0];
+  var debut = "Bonjour Pilotia, je viens du site pilotia.be et j'aimerais un premier échange de 15 minutes.";
+  var etape = 1;
+  carte.classList.add("rdv-pas-a-pas");
+
+  function choix(nom) {
+    var c = form.querySelector('input[name="' + nom + '"]:checked');
+    return c ? c.value : "";
+  }
+  function message() {
+    var lignes = [debut];
+    if (choix("rdv-profil")) lignes.push("Je suis : " + choix("rdv-profil").toLowerCase() + ".");
+    if (choix("rdv-sujet")) lignes.push("Je voudrais parler de : " + choix("rdv-sujet").toLowerCase() + ".");
+    if (choix("rdv-moment") && choix("rdv-moment") !== "peu importe") lignes.push("Je préfère être appelé " + choix("rdv-moment") + ".");
+    lignes.push("Mon projet en quelques mots : ");
+    return lignes.join("\n");
+  }
+  function maj() {
+    var texte = message();
+    apercu.textContent = texte;
+    lien.href = base + "?text=" + encodeURIComponent(texte);
+  }
+  function afficher(focus) {
+    etapes.forEach(function (f) { f.hidden = Number(f.getAttribute("data-etape")) !== etape; });
+    suivi.forEach(function (s, i) { s.className = i < etape ? "fait" : ""; });
+    compteur.textContent = "Étape " + etape + " sur 3";
+    retour.hidden = etape === 1;
+    suite.hidden = etape === 3;
+    lien.hidden = etape !== 3;
+    alerte.textContent = "";
+    maj();
+    if (focus) {
+      var l = etapes[etape - 1].querySelector("legend");
+      l.setAttribute("tabindex", "-1");
+      l.focus({preventScroll: true});
+    }
+  }
+  suite.addEventListener("click", function () {
+    var noms = {1: "rdv-profil", 2: "rdv-sujet"};
+    if (!choix(noms[etape])) { alerte.textContent = "Choisissez une réponse pour continuer."; return; }
+    etape++;
+    afficher(true);
+  });
+  retour.addEventListener("click", function () { etape--; afficher(true); });
+  form.addEventListener("change", function () { alerte.textContent = ""; maj(); });
+  form.addEventListener("submit", function (e) { e.preventDefault(); });
+  lien.addEventListener("click", function (e) {
+    if (!consent.checked) {
+      e.preventDefault();
+      alerte.textContent = "Cochez la case de consentement pour envoyer votre message.";
+      consent.focus();
+    }
+  });
+  afficher(false);
+})();
+</script>
 <script src="animations.js" defer></script>
 <script src="app.js" defer></script>
 </body>

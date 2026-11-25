@@ -71,15 +71,32 @@ def test_calculateur_de_marge(telephone, base_url):
 
 
 def test_rendez_vous(telephone, ordinateur, base_url):
-    # Deux moyens de contact : WhatsApp en premier, le formulaire par email
-    # replié sur téléphone, ouvert d'un geste.
+    # Rendez-vous en trois gestes (profil, sujet, moment) : le message WhatsApp
+    # se remplit, et ne part qu'avec le consentement coché. Le formulaire par
+    # email reste en secours, replié sur téléphone, ouvert d'un geste.
     page, erreurs = ouvrir(telephone, base_url, 'contact.html')
     assert page.locator('.onglet-centre').get_attribute('aria-current') == 'page'
-    liens = page.eval_on_selector_all('a[href*="wa.me"]', 'els => els.map(a => a.href)')
-    assert len(liens) == 1
+    lien = page.locator('a[href*="wa.me"]')
+    assert lien.count() == 1
+    assert page.locator('#rdv-compteur').inner_text() == 'Étape 1 sur 3'
+    assert not lien.is_visible()
+    page.click('#rdv-suite')  # rien de choisi : on reste à l'étape 1
+    assert page.locator('#rdv-alerte').inner_text() != ''
+    page.check('input[name="rdv-profil"][value="Un futur indépendant"]')
+    page.click('#rdv-suite')
+    page.check('input[name="rdv-sujet"][value="Facture Peppol"]')
+    page.click('#rdv-suite')
+    page.check('input[name="rdv-moment"][value="le matin"]')
+    assert lien.is_visible()
+    href = lien.get_attribute('href')
     # Numéro belge au format international sans le +, message déjà rédigé.
-    assert re.fullmatch(r'https://wa\.me/32\d{8,9}\?text=Bonjour.+', liens[0])
-    assert page.locator('a[href*="wa.me"]').is_visible()
+    assert re.fullmatch(r'https://wa\.me/32\d{8,9}\?text=Bonjour.+', href)
+    texte = page.evaluate('h => decodeURIComponent(h.split("text=")[1])', href)
+    assert 'un futur indépendant' in texte and 'facture peppol' in texte and 'le matin' in texte
+    # Sans consentement, le lien ne s'ouvre pas.
+    lien.click()
+    assert len(telephone.pages) == 1
+    assert 'consentement' in page.locator('#rdv-alerte').inner_text()
     remplissage = page.eval_on_selector_all('#nom, #entreprise, #email', 'els => els.map(e => e.autocomplete)')
     assert remplissage == ['name', 'organization', 'email']
     page.locator('.repli-bouton').first.click()
@@ -95,12 +112,23 @@ def test_accueil(telephone, ordinateur, base_url):
     assert acces == ['diagnostic.html', 'plan-tresorerie.html',
                      'facturation-electronique.html', 'independants.html']
     assert page.locator('.acces-rapide').is_visible()
+    assert page.locator('.appel-rapide').is_visible()
     assert not page.locator('.hero-accueil .btn-row').is_visible()
-    for sel in ('.triangle-grid', '.path-cards', '.avis'):
-        defile = page.evaluate("""s => { const e = document.querySelector(s);
-            return getComputedStyle(e).overflowX === 'auto' && e.scrollWidth > e.clientWidth; }""", sel)
-        assert defile, sel  # cartes à faire glisser
+    assert not page.locator('.apercu-diag').is_visible()
+    defile = page.evaluate("""() => { const e = document.querySelector('.path-cards');
+        return getComputedStyle(e).overflowX === 'auto' && e.scrollWidth > e.clientWidth; }""")
+    assert defile  # parcours en cartes à faire glisser
+    # Aucun avis client : rien n'est inventé avant l'ouverture.
+    assert page.locator('.avis, blockquote').count() == 0
     page, _ = ouvrir(ordinateur, base_url, 'index.html')
     assert not page.locator('.acces-rapide').is_visible()
+    assert not page.locator('.appel-rapide').is_visible()
     assert page.locator('.hero-accueil .btn-row').is_visible()
+    assert page.locator('.apercu-diag').is_visible()
+    outils = page.eval_on_selector_all('.outils-grille a', 'els => els.map(a => a.getAttribute("href"))')
+    assert len(outils) == 6 and all(page.evaluate('h => fetch(h).then(r => r.ok)', h) for h in outils)
+    # Une réponse de l'aperçu ouvre le diagnostic à la deuxième question.
+    page.click('.apercu-reponses a >> nth=1')
+    page.wait_for_url('**/diagnostic.html?reponse=1')
+    assert page.locator('#progress').inner_text() == 'Question 2 sur 8'
     assert erreurs == []

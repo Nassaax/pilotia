@@ -140,25 +140,47 @@ def segment(nom):
             f'aria-label="Rubriques de l\'onglet Outils">{liens}</nav></div>\n')
 
 
-def menu(t, nom):
-    """Menu « Découvrir » (ordinateur) : « Tous les services » en tête et
-    « Mon espace » en fin, actifs sur leur propre page. Les deux entrées sont
-    retirées puis reposées, ce qui rend l'opération répétable."""
-    m = re.search(r'(<ul class="dropdown-menu">)(.*?)(\n[ \t]*</ul>)', t, re.S)
-    retrait = re.search(r'\n([ \t]*)<li>', m.group(2)).group(1)
-    entrees = [li for li in re.findall(r'<li>.*?</li>', m.group(2))
-               if 'href="services.html"' not in li and 'href="mon-espace.html"' not in li]
+# Menu du haut (ordinateur), simplifié en novembre 2026 : les services sous un
+# seul menu déroulant, puis les quatre entrées les plus demandées et l'appel.
+MENU_SERVICES = [('services.html', 'Tous les services'), ('entreprises.html', 'Entreprises'),
+                 ('independants.html', 'Devenir indépendant'), ('particuliers.html', 'Particuliers'),
+                 ('accompagnement-projet.html', 'Accompagnement de projet'),
+                 ('marketing-digital.html', 'Présence digitale'),
+                 ('facturation-electronique.html', 'Facture Peppol'),
+                 ('affacturage.html', 'Affacturage'), ('offres.html', 'Offres')]
+MENU_HAUT = [('outils.html', 'Outils gratuits'), ('methode.html', 'Méthode'),
+             ('a-propos.html', 'À propos'), ('mon-espace.html', 'Mon espace')]
 
-    def entree(href, libelle):
-        actif = ' class="active"' if href == nom else ''
-        return f'<li><a href="{href}"{actif}>{libelle}</a></li>'
-    entrees = ([entree('services.html', 'Tous les services')] + entrees
-               + [entree('mon-espace.html', 'Mon espace')])
-    bloc = m.group(1) + ''.join('\n' + retrait + li for li in entrees) + m.group(3)
-    t = t[:m.start()] + bloc + t[m.end():]
-    if nom in ('services.html', 'mon-espace.html'):
-        t = t.replace('class="dropdown-trigger" ', 'class="dropdown-trigger active" ', 1)
-    return t
+
+def menu(t, nom):
+    """Réécrit tout le menu du haut (ordinateur). La page courante est marquée
+    « active » ; les pages métier allument « Entreprises », les outils et les
+    conseils allument « Outils gratuits ». Répétable : le bloc est réécrit."""
+    onglet, _ = placer(nom)
+    debut = t.index('<ul class="nav-links" id="navLinks">')
+    cta = t.index('class="nav-cta"', debut)
+    fin = t.index('</ul>', cta) + len('</ul>')
+    retrait = re.search(r'\n([ \t]*)<ul class="nav-links"', t[:debut + 40]).group(1)
+    r1, r2, r3 = retrait + '  ', retrait + '    ', retrait + '      '
+
+    def classe(actif):
+        return ' class="active"' if actif else ''
+    metier = 'entreprises.html' if nom.startswith('coaching-') else nom
+    services = ''.join(f'\n{r3}<li><a href="{h}"{classe(h == metier)}>{l}</a></li>'
+                       for h, l in MENU_SERVICES)
+    declencheur = 'dropdown-trigger active' if onglet == 'services' else 'dropdown-trigger'
+    lignes = [f'<li class="dropdown">',
+              f'  <button type="button" class="{declencheur}" aria-expanded="false" '
+              'aria-haspopup="true">Services <span class="dropdown-caret" aria-hidden="true">▾</span></button>',
+              f'  <ul class="dropdown-menu">{services}\n{r2}</ul>',
+              '</li>']
+    for h, l in MENU_HAUT:
+        actif = h == nom or (h == 'outils.html' and onglet == 'outils')
+        lignes.append(f'<li><a href="{h}"{classe(actif)}>{l}</a></li>')
+    lignes.append('<li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>')
+    bloc = ('<ul class="nav-links" id="navLinks">' + ''.join(f'\n{r1}{x}' for x in lignes)
+            + f'\n{retrait}</ul>')
+    return t[:debut] + bloc + t[fin:]
 
 
 def poser(html, nom, contenu, apres=None, avant=None):

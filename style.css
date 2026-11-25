@@ -906,28 +906,6 @@ a.card:hover,.path-card:hover{
   .film-vertical{max-width:300px}
 }
 
-/* 2. Tracé du logo dans le hero de l'accueil : le point turquoise part, la
-   ligne se dessine, la flèche se pose. Une seule fois, 1,6 s. Décoratif
-   (aria-hidden) et réservé aux écrans larges, où la droite du hero est vide. */
-.hero-accueil .wrap{position:relative}
-.hero-trace{display:none}
-@media (min-width:1000px){
-  .hero-trace{
-    display:block;position:absolute;right:0;top:46%;
-    width:clamp(200px,20vw,300px);height:auto;transform:translateY(-50%);
-    overflow:visible;pointer-events:none;
-  }
-}
-.hero-trace .trace-ligne{fill:none;stroke:var(--ink);stroke-width:21;stroke-linecap:round;stroke-linejoin:round}
-.hero-trace .trace-fleche{fill:var(--ink)}
-.hero-trace .trace-point{fill:#22D3C3}
-.js .hero-trace .trace-point{animation:trace-point .35s cubic-bezier(.34,1.56,.64,1) .35s both;transform-origin:115px 365px}
-.js .hero-trace .trace-ligne{stroke-dasharray:1;animation:trace-ligne 1.05s cubic-bezier(.55,.1,.3,1) .55s both}
-.js .hero-trace .trace-fleche{animation:trace-fleche .4s cubic-bezier(.34,1.56,.64,1) 1.5s both;transform-origin:352px 198px}
-@keyframes trace-point{from{transform:scale(0)}to{transform:scale(1)}}
-@keyframes trace-ligne{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
-@keyframes trace-fleche{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
-
 /* 3. Micro-interactions.
    Icône de carte : un petit saut au survol d'une carte cliquable. */
 a.card:hover .card-icon,a.path-card:hover .card-icon,.path-card:hover .card-icon{animation:icone-saut .5s cubic-bezier(.34,1.56,.64,1)}
@@ -960,10 +938,8 @@ a.card:hover .card-icon,a.path-card:hover .card-icon,.path-card:hover .card-icon
 .etapes .step:not(:last-child)::after{background:var(--accent);transform-origin:top;transform:scaleY(var(--trace,1))}
 
 @media (prefers-reduced-motion: reduce){
-  .js .hero-trace .trace-point,.js .hero-trace .trace-ligne,.js .hero-trace .trace-fleche,
   a.card:hover .card-icon,a.path-card:hover .card-icon,.path-card:hover .card-icon,
   .js .card.is-visible .pill{animation:none}
-  .js .hero-trace .trace-ligne{stroke-dasharray:none}
   .section-title .mot{opacity:1;transform:none;transition:none}
   .etapes .step-num{transition:none}
   .etapes .step-num.atteinte{transform:none}
@@ -1328,3 +1304,164 @@ html.intro .intro-ecran.passe{animation:intro-sortie .3s cubic-bezier(.7,0,.3,1)
 /* !important : les raccourcis « animation » des règles d'entrée, plus précises,
    remettraient sinon l'état à « running ». */
 html.intro .hero,html.intro .hero *{animation-play-state:paused !important}
+
+/* ─── Accueil repensé (novembre 2026) ──────────────────────────────────────
+   Planche « Pilotia améliorations » validée par Nasser. Sur ordinateur : le
+   texte à gauche et, à droite, la vraie première question du diagnostic à la
+   place de la photo d'illustration. En mode app : les accès rapides
+   détaillés, puis l'appel en un geste. Les piliers deviennent une liste
+   numérotée, l'annonce Peppol un bandeau sombre, et les outils gratuits ont
+   leur propre bloc. */
+.hero-garanties{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--font-body);font-size:14.5px;color:var(--ink-soft)}
+.hero-garanties li{display:inline-flex;align-items:center;gap:8px}
+.hero-garanties svg{width:16px;height:16px;flex:none;color:var(--vert)}
+.apercu-diag{display:none}
+@media (min-width:1081px){
+  .hero-duo{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:center}
+  .apercu-diag{
+    display:flex;flex-direction:column;gap:16px;padding:28px;border-radius:24px;
+    background:var(--ink-fixed);color:#F1F5F9;
+    border:2px solid var(--trait);box-shadow:6px 6px 0 var(--trait);
+  }
+}
+.apercu-tete{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 12px}
+.apercu-titre{display:inline-flex;align-items:center;gap:8px;margin:0;font-family:var(--font-body);font-size:15px;font-weight:600;letter-spacing:0;color:#F1F5F9}
+.apercu-titre svg{width:20px;height:20px;color:#4FD1E8}
+.apercu-duree{font-family:var(--font-body);font-size:13px;color:#94A3B8}
+.apercu-progression{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}
+.apercu-progression span{height:5px;border-radius:3px;background:#22304A}
+.apercu-progression span:first-child{background:#4FD1E8}
+.apercu-theme{margin:4px 0 0;font-family:var(--font-body);font-size:12.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#4FD1E8}
+.apercu-question{margin:0;font-family:var(--font-display);font-size:21px;font-weight:700;line-height:1.3;letter-spacing:-.01em;color:#F1F5F9}
+.apercu-reponses{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.apercu-reponses a{
+  display:flex;align-items:center;min-height:48px;padding:0 16px;border-radius:12px;
+  background:#16223A;border:1px solid #2C3D5C;color:#F1F5F9;text-decoration:none;
+  font-family:var(--font-body);font-size:15.5px;transition:border-color .18s ease,background .18s ease;
+}
+.apercu-reponses a:hover{border-color:#4FD1E8;background:#1B2A46}
+.apercu-reponses a:focus-visible{outline:3px solid #4FD1E8;outline-offset:2px}
+.apercu-note{margin:0;font-family:var(--font-body);font-size:13px;color:#94A3B8}
+
+.acces-detail{display:block;margin-top:2px;font-size:12.5px;font-weight:500;color:var(--ink-soft)}
+.appel-rapide{display:none}
+@media (max-width:1080px){
+  section.appel-rapide{display:block;padding:0 0 32px}
+  .appel-carte{
+    display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;
+    background:var(--ink-fixed);color:#F1F5F9;text-decoration:none;font-family:var(--font-body);
+    border:2px solid var(--trait);box-shadow:4px 4px 0 var(--trait);
+  }
+  .appel-carte b{display:block;font-size:16px}
+  .appel-carte b + span{display:block;font-size:13.5px;color:#CBD5E1}
+  .appel-rond{flex:none;width:46px;height:46px;border-radius:50%;background:#4FD1E8;color:#0F172A;display:flex;align-items:center;justify-content:center}
+  .appel-rond svg{width:22px;height:22px}
+  .appel-carte:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+}
+
+.section-intro{margin:14px 0 0;max-width:58ch;font-family:var(--font-body);color:var(--ink-soft)}
+
+.piliers{list-style:none;margin:32px 0 0;padding:0;border-top:1px solid var(--line)}
+.piliers > li{border-bottom:1px solid var(--line);padding:6px 0}
+.pilier{
+  display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,1.6fr);gap:12px 32px;align-items:baseline;
+  padding:22px 0 16px;color:var(--ink);text-decoration:none;
+}
+.pilier-num{font-family:var(--font-body);font-size:14px;font-weight:700;color:var(--svc)}
+.pilier h3{margin:0;font-size:clamp(21px,2.2vw,26px);letter-spacing:-.02em;transition:color .18s ease}
+.pilier p{margin:0;color:var(--ink-soft)}
+.pilier:hover h3{color:var(--accent)}
+.pilier:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:8px}
+.pilier-collab{margin:0 0 16px calc(56px + 32px)}
+@media (prefers-color-scheme: dark){.pilier-num{color:var(--svc-d)}}
+@media (max-width:760px){
+  .pilier{grid-template-columns:40px minmax(0,1fr);padding:18px 0 12px}
+  .pilier p{grid-column:2}
+  .pilier-collab{margin-left:52px}
+}
+
+.annonce.annonce-sombre{background:var(--ink-fixed);color:#F1F5F9;padding:clamp(24px,4vw,44px)}
+.annonce-sombre h2{color:#FFFFFF}
+.annonce-sombre p{color:#CBD5E1}
+.annonce-sombre .annonce-pastille{
+  display:inline-block;margin:0 0 12px;padding:5px 12px;border-radius:999px;
+  background:#4FD1E8;color:#0F172A;font-family:var(--font-body);font-size:13px;font-weight:700;
+}
+.annonce-sombre .btn-primary{background:#4FD1E8;color:#0F172A}
+.annonce-sombre .btn-primary:hover{background:#FFFFFF;color:#0F172A}
+
+.outils-accueil{background:var(--paper-alt)}
+.outils-accueil-tete{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px}
+.outils-tous{font-family:var(--font-body);font-weight:600}
+.outils-grille{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.outils-grille a{
+  display:flex;align-items:center;gap:14px;min-height:72px;height:100%;box-sizing:border-box;padding:14px 18px;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  color:var(--ink);text-decoration:none;font-family:var(--font-body);font-weight:600;font-size:15.5px;line-height:1.3;
+  transition:border-color .18s ease,transform .18s ease;
+}
+.outils-grille a:hover{border-color:var(--line-strong);transform:translateY(-2px)}
+.outils-grille a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.outil-icone{flex:none;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#CCFBF1;color:#0F766E}
+.outil-icone svg{width:20px;height:20px}
+@media (prefers-color-scheme: dark){.outil-icone{background:#0E2A29;color:#2DD4BF}}
+@media (prefers-reduced-motion: reduce){.outils-grille a{transition:none}.outils-grille a:hover{transform:none}}
+@media (max-width:760px){.hero-garanties{display:none}}
+
+/* ─── Diagnostic express : une question par écran ──────────────────────── */
+.diag-tete{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;font-family:var(--font-body);font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.diag-progression{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin-bottom:22px}
+.diag-progression span{height:6px;border-radius:3px;background:var(--line)}
+.diag-progression span.fait{background:var(--accent)}
+.diag-progression span.encours{background:#4FD1E8}
+.diag-question{font-size:clamp(20px,2.4vw,24px);line-height:1.3;margin:0 0 18px;outline:none}
+.diag-options{display:flex;flex-direction:column;gap:10px}
+.diag-option{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:56px;box-sizing:border-box;
+  padding:12px 16px;border:2px solid var(--line);border-radius:14px;background:var(--card);cursor:pointer;
+  font-family:var(--font-body);font-size:16px;font-weight:500;transition:border-color .15s ease,background .15s ease;
+}
+.diag-option:hover{border-color:var(--line-strong)}
+.diag-option input{flex:none;width:22px;height:22px;margin:0;accent-color:var(--accent);order:2}
+.diag-option:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.diag-option:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+.diag-alerte{margin:14px 0 0;min-height:1.4em;font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--danger)}
+.diag-actions{margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.diag-actions .btn-primary{flex:1 1 auto;max-width:320px}
+.diag-actions .btn-primary[aria-disabled="true"]{opacity:.6}
+.diag-confidentiel{display:flex;align-items:center;gap:8px;margin:16px 0 0;font-family:var(--font-body);font-size:13px;color:var(--ink-soft)}
+.diag-confidentiel svg{width:16px;height:16px;flex:none}
+@media (prefers-reduced-motion: reduce){.diag-option{transition:none}}
+
+/* ─── Rendez-vous en trois gestes (contact.html) ────────────────────────── */
+.rdv-carte [hidden]{display:none !important}
+.rdv-suivi{display:none}
+.rdv-pas-a-pas .rdv-suivi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:20px 0 8px}
+.rdv-suivi span{height:6px;border-radius:3px;background:var(--line)}
+.rdv-suivi span.fait{background:var(--accent)}
+.rdv-compteur{margin:0 0 6px;font-family:var(--font-body);font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.rdv-compteur:empty{display:none}
+.rdv-etapes{display:block;margin-top:12px}
+.rdv-etape{border:0;margin:0 0 18px;padding:0;min-width:0;display:flex;flex-direction:column;gap:8px}
+.rdv-etape legend{padding:0;margin:0 0 10px;font-family:var(--font-display);font-size:clamp(20px,2.2vw,24px);font-weight:700;letter-spacing:-.02em;color:var(--ink);outline:none}
+.rdv-choix{
+  display:flex;align-items:center;gap:12px;min-height:52px;box-sizing:border-box;padding:10px 14px;
+  border:2px solid var(--line);border-radius:14px;background:var(--card);cursor:pointer;
+  font-family:var(--font-body);font-size:16px;font-weight:500;color:var(--ink);transition:border-color .15s ease,background .15s ease;
+}
+.rdv-choix:hover{border-color:var(--line-strong)}
+.rdv-choix input{flex:none;width:20px;height:20px;margin:0;accent-color:var(--accent)}
+.rdv-choix:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.rdv-choix:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+.rdv-moments{display:flex;flex-wrap:wrap;gap:8px}
+.rdv-moments .rdv-choix{border-radius:999px;min-height:46px;padding:8px 16px}
+.rdv-apercu-titre{margin:14px 0 0;font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--ink)}
+.rdv-apercu{margin:0 0 6px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--paper-alt);font-family:var(--font-body);font-size:14.5px;line-height:1.55;white-space:pre-line;color:var(--ink)}
+.rdv-alerte{margin:0 0 10px;min-height:1.4em;font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--danger)}
+.rdv-actions{display:flex;flex-wrap:wrap;gap:10px}
+.rdv-actions .btn{width:auto}
+.rdv-actions .btn-primary{flex:1 1 auto}
+.rdv-email{margin:14px 0 0;font-family:var(--font-body);font-size:15px}
+.rdv-email a{display:inline-flex;align-items:center;min-height:44px;font-weight:600}
+@media (prefers-reduced-motion: reduce){.rdv-choix{transition:none}}
+.rdv-carte:not(.rdv-pas-a-pas) #rdv-retour,.rdv-carte:not(.rdv-pas-a-pas) #rdv-suite{display:none}

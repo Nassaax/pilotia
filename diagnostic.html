@@ -68,28 +68,24 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="entreprises.html">Entreprises</a></li>
-      <li><a href="independants.html">Devenir indépendant</a></li>
-      <li><a href="particuliers.html">Particuliers</a></li>
-      <li><a href="marketing-digital.html">Présence digitale</a></li>
-      <li><a href="offres.html">Offres</a></li>
       <li class="dropdown">
-        <button type="button" class="dropdown-trigger active" aria-expanded="false" aria-haspopup="true">Découvrir <span class="dropdown-caret" aria-hidden="true">▾</span></button>
+        <button type="button" class="dropdown-trigger" aria-expanded="false" aria-haspopup="true">Services <span class="dropdown-caret" aria-hidden="true">▾</span></button>
         <ul class="dropdown-menu">
           <li><a href="services.html">Tous les services</a></li>
-          <li><a href="facturation-electronique.html">Facture Peppol</a></li>
+          <li><a href="entreprises.html">Entreprises</a></li>
+          <li><a href="independants.html">Devenir indépendant</a></li>
+          <li><a href="particuliers.html">Particuliers</a></li>
           <li><a href="accompagnement-projet.html">Accompagnement de projet</a></li>
-          <li><a href="diagnostic.html" class="active">Diagnostic express</a></li>
+          <li><a href="marketing-digital.html">Présence digitale</a></li>
+          <li><a href="facturation-electronique.html">Facture Peppol</a></li>
           <li><a href="affacturage.html">Affacturage</a></li>
-          <li><a href="outils.html">Outils</a></li>
-          <li><a href="ressources.html">Ressources</a></li>
-          <li><a href="methode.html">Méthode</a></li>
-          <li><a href="statistiques.html">Statistiques</a></li>
-          <li><a href="conseils.html">Conseils</a></li>
-          <li><a href="a-propos.html">À propos</a></li>
-          <li><a href="mon-espace.html">Mon espace</a></li>
+          <li><a href="offres.html">Offres</a></li>
         </ul>
       </li>
+      <li><a href="outils.html" class="active">Outils gratuits</a></li>
+      <li><a href="methode.html">Méthode</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="mon-espace.html">Mon espace</a></li>
       <li><a href="contact.html" class="nav-cta">Appel gratuit →</a></li>
     </ul>
   </div>
@@ -117,14 +113,15 @@
 <section style="padding-top:0">
   <div class="wrap">
     <div id="quiz" class="card" style="max-width:720px">
+      <div class="diag-tete"><span id="progress" aria-live="polite"></span></div>
+      <div class="diag-progression" id="diag-progression" aria-hidden="true"></div>
       <div id="question-block"></div>
-      <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center">
-        <span id="progress" style="font-family:var(--font-body);font-size:13px;color:var(--ink-soft)"></span>
-        <div>
-          <button class="btn btn-secondary" id="btnPrev" onclick="prev()">← Précédent</button>
-          <button class="btn btn-primary" id="btnNext" onclick="next()">Suivant →</button>
-        </div>
+      <p class="diag-alerte" id="diag-alerte" role="alert"></p>
+      <div class="diag-actions">
+        <button class="btn btn-secondary" id="btnPrev" onclick="prev()">← Précédent</button>
+        <button class="btn btn-primary" id="btnNext" onclick="next()">Suivant →</button>
       </div>
+      <p class="diag-confidentiel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>Le résultat n'est visible que par vous.</p>
     </div>
 
     <div id="result" class="card" style="max-width:720px;display:none">
@@ -268,33 +265,54 @@ var answers = new Array(questions.length).fill(null);
 function render(){
   var q = questions[current];
   // h2 et non h3 : la question est le titre de premier niveau sous le h1 de la page,
-  // un h3 y creerait un saut de niveau pour les lecteurs d'ecran. La taille etant
-  // fixee en ligne, l'apparence ne change pas.
-  var html = '<div class="pill">' + q.theme + '</div><h2 style="font-size:20px;margin-bottom:16px">' + q.q + '</h2>';
+  // un h3 y creerait un saut de niveau pour les lecteurs d'ecran.
+  var html = '<div class="pill">' + q.theme + '</div><h2 class="diag-question" id="diag-question" tabindex="-1">' + q.q + '</h2>' +
+    '<div class="diag-options" role="radiogroup" aria-labelledby="diag-question">';
   q.options.forEach(function(opt, i){
     var checked = answers[current] === i ? 'checked' : '';
-    html += '<label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;font-family:var(--font-body);font-size:15px">' +
-      '<input type="radio" name="opt" value="' + i + '" ' + checked + ' onchange="chooseAnswer(' + i + ')"> ' + opt.label +
+    html += '<label class="diag-option">' +
+      '<input type="radio" name="opt" value="' + i + '" ' + checked + ' onchange="chooseAnswer(' + i + ')"><span>' + opt.label + '</span>' +
       '</label>';
   });
+  html += '</div>';
   document.getElementById('question-block').innerHTML = html;
-  document.getElementById('progress').textContent = 'Question ' + (current+1) + ' / ' + questions.length;
+  document.getElementById('progress').textContent = 'Question ' + (current+1) + ' sur ' + questions.length;
+  var barres = '';
+  for (var i = 0; i < questions.length; i++){
+    barres += '<span class="' + (i < current ? 'fait' : (i === current ? 'encours' : '')) + '"></span>';
+  }
+  document.getElementById('diag-progression').innerHTML = barres;
+  document.getElementById('diag-alerte').textContent = '';
   document.getElementById('btnPrev').style.visibility = current === 0 ? 'hidden' : 'visible';
-  document.getElementById('btnNext').textContent = current === questions.length - 1 ? 'Voir mon résultat →' : 'Suivant →';
+  var suivant = document.getElementById('btnNext');
+  suivant.textContent = current === questions.length - 1 ? 'Voir mon résultat →' : 'Suivant →';
+  suivant.setAttribute('aria-disabled', answers[current] === null ? 'true' : 'false');
+}
+
+// Une question par écran : le titre de la question reçoit le focus à chaque
+// changement, pour que le clavier et les lecteurs d'écran suivent.
+function focusQuestion(){
+  var h = document.getElementById('diag-question');
+  if (h) h.focus({preventScroll: true});
+  var quiz = document.getElementById('quiz');
+  if (quiz.getBoundingClientRect().top < 0) quiz.scrollIntoView({block: 'start'});
 }
 
 function chooseAnswer(i){
   answers[current] = i;
+  document.getElementById('diag-alerte').textContent = '';
+  document.getElementById('btnNext').setAttribute('aria-disabled', 'false');
 }
 
 function next(){
   if (answers[current] === null){
-    alert('Choisissez une réponse pour continuer.');
+    document.getElementById('diag-alerte').textContent = 'Choisissez une réponse pour continuer.';
     return;
   }
   if (current < questions.length - 1){
     current++;
     render();
+    focusQuestion();
   } else {
     showResult();
   }
@@ -304,6 +322,7 @@ function prev(){
   if (current > 0){
     current--;
     render();
+    focusQuestion();
   }
 }
 
@@ -313,6 +332,7 @@ function restart(){
   document.getElementById('quiz').style.display = 'block';
   document.getElementById('result').style.display = 'none';
   render();
+  focusQuestion();
 }
 
 function showResult(){
@@ -327,6 +347,9 @@ function showResult(){
   document.getElementById('quiz').style.display = 'none';
   var resultEl = document.getElementById('result');
   resultEl.style.display = 'block';
+  var titre = document.getElementById('result-title');
+  titre.setAttribute('tabindex', '-1');
+  setTimeout(function(){ titre.focus({preventScroll: true}); resultEl.scrollIntoView({block: 'start'}); }, 0);
 
   var title, text, pill;
   if (total >= 13){
@@ -373,6 +396,12 @@ function showResult(){
   document.getElementById('result-breakdown').innerHTML = breakdown;
 }
 
+// Réponse donnée depuis l'aperçu de l'accueil (diagnostic.html?reponse=0, 1 ou 2) :
+// elle est reprise pour la première question, et le diagnostic passe à la deuxième.
+(function(){
+  var r = /[?&]reponse=([012])(?:&|$)/.exec(location.search);
+  if (r){ answers[0] = Number(r[1]); current = 1; }
+})();
 render();
 </script>
 

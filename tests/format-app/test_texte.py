@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Le texte validé reste mot pour mot ; les ajouts n'inventent rien."""
+import html
 import re
 
 import pytest
@@ -129,6 +130,18 @@ for _nom, _passages in {
                               ' sur les données qu’ils collectent.'],
 }.items():
     REECRITS.setdefault(_nom, []).extend(_passages)
+
+
+# Avis clients retirés (novembre 2026) : Pilotia ouvre en janvier 2027 et aucun
+# client réel ne les a donnés. Ils restent dans l'historique Git ; seuls les avis
+# réels, publiés avec l'accord écrit du client, reviendront.
+for _nom in ('index.html', 'coaching-agent-immobilier.html', 'coaching-boulangerie.html',
+             'coaching-coiffeur.html', 'coaching-esthetique.html', 'coaching-restaurant.html'):
+    _ancien = source(_nom, REFERENCE) or ''
+    _avis = re.findall(r'<blockquote>(.*?)</blockquote>|<figcaption>(.*?)</figcaption>', _ancien, re.S)
+    REECRITS.setdefault(_nom, []).extend(
+        [html.unescape(b or f).strip() for b, f in _avis]
+        + ['Ce que nos clients en pensent', 'Témoignage'])
 
 
 def _sans_espaces(t):
