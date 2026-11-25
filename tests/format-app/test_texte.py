@@ -120,7 +120,10 @@ for _nom, _passages in {
                      'Décrivez votre situation en quelques mots : je vous réponds personnellement,'
                      ' et on fixe ensemble un appel de 15 minutes, gratuit.'],
     'index.html': ['Gestion administrative & Peppol →'],
-    'entreprises.html': ['2. Gestion administrative & Peppol →'],
+    'entreprises.html': ['2. Gestion administrative & Peppol →',
+                         # Cartes photo des métiers : le titre perd sa flèche, « Voir le détail → » la porte.
+                         'Restaurants →', 'Boulangeries-pâtisseries →', 'Salons de coiffure →',
+                         'Instituts de beauté →', 'Agents immobiliers indépendants →'],
     'cookies.html': ['Certains liens mènent vers des sites externes : l’outil de réservation Cal.com,'
                      ' le SPF Économie, l’INASTI. Une fois sur ces sites, leurs propres politiques'
                      ' de cookies s’appliquent, sur lesquelles nous n’avons aucune maîtrise.'],

@@ -18,7 +18,9 @@ CHANGEMENTS_PREVUS = {'contact.html', 'index.html', 'entreprises.html', 'cookies
                       # Planche « Pilotia améliorations » (novembre 2026) : diagnostic une
                       # question par écran, et témoignages d'exemple retirés des pages métier.
                       'diagnostic.html', 'coaching-agent-immobilier.html', 'coaching-boulangerie.html',
-                      'coaching-coiffeur.html', 'coaching-esthetique.html', 'coaching-restaurant.html'}
+                      'coaching-coiffeur.html', 'coaching-esthetique.html', 'coaching-restaurant.html',
+                      # Fusion de main : cartes photo des métiers.
+                      'entreprises.html'}
 
 
 @pytest.fixture(scope='module')

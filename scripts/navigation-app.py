@@ -26,6 +26,15 @@ ICONES = {
     'chevron': '<path d="m9 6 6 6-6 6"/>',
     'externe': '<path d="M7 17 17 7M9 7h8v8"/>',
     'fermer': '<path d="M6 6l12 12M18 6L6 18"/>',
+    # Menu « Services » (ordinateur)
+    'entreprise': '<path d="M4 10v10h16V10M3 10l2-6h14l2 6M3 10h18M9.5 20v-5h5v5"/>',
+    'pousse': '<path d="M12 20v-8M12 12c0-4 3-7 7-7 0 4-3 7-7 7zM12 14.5c0-3.2-2.6-5.8-6.5-5.8 0 3.6 2.7 5.8 6.5 5.8z"/>',
+    'projet': '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+    'presence': '<path d="M4 5.5h16v11H9.5L5 20.5V16.5H4z"/>',
+    'facture': '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 15.5h6M9.5 9h2.5"/>',
+    'affacturage': '<rect x="3" y="6" width="18" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 9.5v.01M17.5 14.5v.01"/>',
+    'offres': '<path d="M3.5 12.5V4.5h8l9 9-8 8z"/><circle cx="8" cy="9" r="1.5"/>',
+    'grille': '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>',
 }
 
 
@@ -142,12 +151,17 @@ def segment(nom):
 
 # Menu du haut (ordinateur), simplifié en novembre 2026 : les services sous un
 # seul menu déroulant, puis les quatre entrées les plus demandées et l'appel.
-MENU_SERVICES = [('services.html', 'Tous les services'), ('entreprises.html', 'Entreprises'),
-                 ('independants.html', 'Devenir indépendant'), ('particuliers.html', 'Particuliers'),
-                 ('accompagnement-projet.html', 'Accompagnement de projet'),
-                 ('marketing-digital.html', 'Présence digitale'),
-                 ('facturation-electronique.html', 'Facture Peppol'),
-                 ('affacturage.html', 'Affacturage'), ('offres.html', 'Offres')]
+# Menu « Services » : une icône par ligne, « Tous les services » en dernière
+# ligne, sous un filet.
+MENU_SERVICES = [('entreprises.html', 'Entreprises', 'entreprise'),
+                 ('independants.html', 'Devenir indépendant', 'pousse'),
+                 ('particuliers.html', 'Particuliers', 'accueil'),
+                 ('accompagnement-projet.html', 'Accompagnement de projet', 'projet'),
+                 ('marketing-digital.html', 'Présence digitale', 'presence'),
+                 ('facturation-electronique.html', 'Facture Peppol', 'facture'),
+                 ('affacturage.html', 'Affacturage', 'affacturage'),
+                 ('offres.html', 'Offres', 'offres')]
+TOUT_VOIR = ('services.html', 'Tous les services', 'grille')
 MENU_HAUT = [('outils.html', 'Outils gratuits'), ('methode.html', 'Méthode'),
              ('a-propos.html', 'À propos'), ('mon-espace.html', 'Mon espace')]
 
@@ -166,8 +180,11 @@ def menu(t, nom):
     def classe(actif):
         return ' class="active"' if actif else ''
     metier = 'entreprises.html' if nom.startswith('coaching-') else nom
-    services = ''.join(f'\n{r3}<li><a href="{h}"{classe(h == metier)}>{l}</a></li>'
-                       for h, l in MENU_SERVICES)
+    def ligne(h, l, icone, li=''):
+        return (f'\n{r3}<li{li}><a href="{h}"{classe(h == metier)}>'
+                f'<span class="dropdown-icone">{svg(icone)}</span>{l}</a></li>')
+    services = (''.join(ligne(*e) for e in MENU_SERVICES)
+                + ligne(*TOUT_VOIR, li=' class="dropdown-tout"'))
     declencheur = 'dropdown-trigger active' if onglet == 'services' else 'dropdown-trigger'
     lignes = [f'<li class="dropdown">',
               f'  <button type="button" class="{declencheur}" aria-expanded="false" '
