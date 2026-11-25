@@ -7,7 +7,7 @@ Toutes les photographies de `img/` proviennent de **Pexels**.
 - Usage **gratuit**, y compris **commercial**.
 - **Aucune attribution obligatoire** — elle est appréciée, pas exigée. C'est
   pourquoi le site n'affiche pas de crédit photo.
-- Modification libre : les trois images publiées ici sont des recadrages.
+- Modification libre : les images publiées ici sont des recadrages.
 
 ## Ce qu'elle n'autorise pas
 
@@ -32,7 +32,6 @@ suggérant un partenariat ou une certification par ces plateformes.
 
 | Fichier | Page | Recadrage appliqué |
 |---|---|---|
-| `accueil-*.webp` | `index.html` | 1,4:1, ancré haut — tableau de bord commenté |
 | `presence-digitale-*.webp` | `marketing-digital.html` | 2,4:1, ancré bas — écarte la mention « Soziale Netze » |
 | `diagnostic-*.webp` | `diagnostic.html` | 1,5:1, ancré bas — écarte les courbes boursières identifiables |
 | `secteur-coiffeur-*.webp` | `coaching-coiffeur.html` | 1,5:1, centré sur la tondeuse et la nuque |
