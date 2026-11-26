@@ -1546,3 +1546,57 @@ html.js .anneau-suite{transition:opacity .6s ease 1.3s}
 .cas-type-note{margin-top:16px;font-family:var(--font-body);font-size:13px;color:var(--ink-soft)}
 @media (max-width:860px){.cas-type{grid-template-columns:minmax(0,1fr)}}
 
+/* ── Accueil : signature « pile de questions » (méthode MotionSites) ─────────
+   Le titre monte ligne par ligne hors d'une fente. Sur ordinateur, deux cartes
+   de la charte (violet du diagnostic, jaune « pop ») dépassent derrière la vraie
+   première question : elles sont distribuées l'une après l'autre, puis la pile
+   s'ouvre en éventail au survol. Tout reste immobile en mouvement réduit, et
+   l'écran d'ouverture met ces animations en pause tant qu'il est affiché. */
+.titre-lignes .ligne{display:block;overflow:hidden;padding:0 .08em .12em 0;margin-bottom:-.12em}
+.titre-lignes .ligne > span{display:inline-block}
+.js .hero h1.titre-lignes{animation:none}
+.js .titre-lignes .ligne > span{animation:ligne-monte .95s cubic-bezier(.16,1,.3,1) both}
+.js .titre-lignes .ligne:nth-child(1) > span{animation-delay:.1s}
+.js .titre-lignes .ligne:nth-child(2) > span{animation-delay:.2s}
+.js .titre-lignes .ligne:nth-child(3) > span{animation-delay:.3s}
+@keyframes ligne-monte{from{transform:translateY(110%)}to{transform:none}}
+.js .hero-accueil .lead{animation:hero-fade-in .8s cubic-bezier(.16,1,.3,1) .45s both}
+.js .hero-accueil .btn-row{animation:hero-fade-in .8s cubic-bezier(.16,1,.3,1) .58s both}
+.js .hero-accueil .hero-garanties{animation:hero-fade-in .8s cubic-bezier(.16,1,.3,1) .7s both}
+@media (min-width:1081px){
+  /* clip et non hidden : les cartes qui arrivent de la droite ne créent jamais de défilement horizontal. */
+  .hero-accueil{padding-top:clamp(40px,4.5vw,64px);overflow-x:clip}
+  .hero-accueil .hero-duo{grid-template-columns:minmax(0,1.22fr) minmax(0,.78fr);gap:64px}
+  /* Une ligne de titre = une ligne à l'écran : jamais de « entreprise » seul. */
+  .hero-accueil h1{font-size:clamp(52px,4.9vw,70px);max-width:none}
+  .titre-lignes .ligne > span{white-space:nowrap}
+  .apercu-pile{position:relative;isolation:isolate;margin-right:40px}
+  .apercu-pile .apercu-question{font-size:19px}
+  .apercu-dos{position:absolute;inset:0;z-index:-1;border-radius:24px;border:2px solid var(--trait);box-shadow:6px 6px 0 var(--trait);
+    transition:transform .55s cubic-bezier(.16,1,.3,1)}
+  .apercu-dos-1{background:#7C3AED;transform:translate(16px,14px) rotate(3.5deg)}
+  .apercu-dos-2{background:#FACC15;transform:translate(32px,28px) rotate(7deg)}
+  .apercu-pile .apercu-diag{position:relative;transition:transform .55s cubic-bezier(.16,1,.3,1)}
+  .js .apercu-dos-2{animation:pile-donne .9s cubic-bezier(.16,1,.3,1) .35s both}
+  .js .apercu-dos-1{animation:pile-donne .9s cubic-bezier(.16,1,.3,1) .5s both}
+  .js .apercu-pile .apercu-diag{animation:pile-face .9s cubic-bezier(.16,1,.3,1) .65s both}
+  .js .apercu-progression span:first-child{background:#22304A linear-gradient(#4FD1E8,#4FD1E8) left / 0% 100% no-repeat;
+    animation:pile-remplit .6s cubic-bezier(.4,0,.2,1) 1.5s forwards}
+}
+@media (min-width:1081px) and (hover:hover) and (pointer:fine){
+  .apercu-pile:hover .apercu-dos-1{transform:translate(28px,8px) rotate(6.5deg)}
+  .apercu-pile:hover .apercu-dos-2{transform:translate(56px,16px) rotate(13deg)}
+  .apercu-pile:hover .apercu-diag{transform:translate(-4px,-6px) rotate(-1deg)}
+}
+@keyframes pile-donne{from{opacity:0;translate:90px 70px;rotate:14deg}to{opacity:1;translate:0 0;rotate:0deg}}
+@keyframes pile-face{from{opacity:0;translate:0 40px;rotate:-3deg}to{opacity:1;translate:0 0;rotate:0deg}}
+@keyframes pile-remplit{to{background-size:100% 100%}}
+@media (prefers-reduced-motion: reduce){
+  .js .titre-lignes .ligne > span,.js .hero-accueil .lead,.js .hero-accueil .btn-row,.js .hero-accueil .hero-garanties,
+  .js .apercu-pile .apercu-diag{animation:none;opacity:1;transform:none;translate:none;rotate:none}
+  /* Les cartes de fond gardent leur décalage : seule l'animation disparaît. */
+  .js .apercu-dos{animation:none;opacity:1;translate:none;rotate:none}
+  .apercu-dos,.apercu-pile .apercu-diag{transition:none}
+  .js .apercu-progression span:first-child{animation:none;background:#4FD1E8}
+}
+

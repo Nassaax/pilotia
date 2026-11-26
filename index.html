@@ -176,8 +176,8 @@
   <div class="wrap hero-duo">
     <div class="hero-texte">
       <div class="eyebrow">Accompagnement d'entreprise</div>
-      <h1>Des fondations <span class="surligne">solides</span> pour votre entreprise.</h1>
-      <p class="lead">Pilotia accompagne les petites entreprises, les futurs indépendants et les particuliers&nbsp;: trouver les points faibles, structurer la gestion, mener un projet à bien. Un regard extérieur clair, chiffré et sans jargon, pour moins de stress administratif.</p>
+      <h1 class="titre-lignes"><span class="ligne"><span>Des fondations</span></span> <span class="ligne"><span><span class="surligne">solides</span> pour</span></span> <span class="ligne"><span>votre entreprise.</span></span></h1>
+      <p class="lead">Petites entreprises, futurs indépendants, particuliers&nbsp;: Pilotia repère ce qui coince, structure votre gestion et vous aide à mener vos projets. Clair, chiffré, sans jargon.</p>
       <div class="btn-row">
         <a href="contact.html" class="btn btn-primary">Réserver un appel gratuit →</a>
         <a href="diagnostic.html" class="btn btn-secondary">Faire le diagnostic express (3 min)</a>
@@ -190,6 +190,11 @@
     </div>
     <!-- Aperçu du diagnostic express : la vraie première question. Une réponse
          ouvre le diagnostic à la question suivante (diagnostic.html?reponse=…). -->
+    <!-- Pile de questions : deux cartes décoratives dépassent derrière la vraie
+         question, comme un jeu de cartes (les huit questions du diagnostic). -->
+    <div class="apercu-pile">
+    <div class="apercu-dos apercu-dos-2" aria-hidden="true"></div>
+    <div class="apercu-dos apercu-dos-1" aria-hidden="true"></div>
     <aside class="apercu-diag" aria-labelledby="apercu-titre">
       <div class="apercu-tete">
         <h2 class="apercu-titre" id="apercu-titre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>Diagnostic express</h2>
@@ -205,6 +210,7 @@
       </ul>
       <p class="apercu-note">Le résultat n'est visible que par vous.</p>
     </aside>
+    </div>
   </div>
 </section>
 

@@ -183,3 +183,11 @@ def test_aucun_tiret_long_dans_les_ajouts(nom):
     if nom in ('services.html', 'mon-espace.html'):
         ajouts += morceaux(html, exclure=())
     assert '\u2014' not in ' '.join(ajouts)  # tiret long
+
+
+# Accueil (méthode MotionSites) : introduction raccourcie, titre découpé en lignes.
+REECRITS.setdefault('index.html', []).append(
+    'Pilotia accompagne les petites entreprises, les futurs indépendants et les particuliers : trouver les points'
+    ' faibles, structurer la gestion, mener un projet à bien. Un regard extérieur clair, chiffré et sans jargon,'
+    ' pour moins de stress administratif.')
+
